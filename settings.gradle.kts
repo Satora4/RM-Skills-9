@@ -10,3 +10,4 @@
 rootProject.name = "wm-tippspiel"
 
 include("backend")
+include("frontend")
