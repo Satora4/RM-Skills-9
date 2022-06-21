@@ -19,6 +19,7 @@ configurations {
 
 dependencies {
 	implementation(project("db-model"))
+	implementation(project(":frontend"))
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
