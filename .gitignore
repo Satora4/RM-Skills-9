@@ -6,3 +6,4 @@ build
 
 # Ignore IntelliJ directory
 .idea
+**/*.iml

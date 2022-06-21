@@ -1,7 +1,7 @@
 plugins {
+	`java-library`
 	id("org.springframework.boot") version "2.7.0"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	id("java")
 }
 
 group = "ch.ergon.lernende.wmtippspiel"
@@ -17,11 +17,8 @@ configurations {
 	}
 }
 
-repositories {
-	mavenCentral()
-}
-
 dependencies {
+	implementation(project("db-model"))
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
@@ -30,6 +27,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-tasks.named<Test>("test") {
-	useJUnitPlatform()
+tasks {
+	test {
+		useJUnitPlatform()
+	}
 }
