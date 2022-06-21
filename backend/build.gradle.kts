@@ -4,7 +4,7 @@ plugins {
 	id("java")
 }
 
-group = "ch.ergon.lehrnende.wmtippspiel"
+group = "ch.ergon.lernende.wmtippspiel"
 version = "0.0.1-SNAPSHOT"
 
 java {

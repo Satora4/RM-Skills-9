@@ -1,4 +1,4 @@
-package ch.ergon.lehrnende.wmtippspiel.backend;
+package ch.ergon.lernende.wmtippspiel.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
