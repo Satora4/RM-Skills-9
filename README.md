@@ -17,3 +17,11 @@ Hat man den Verdacht, dass die kompilierten Dateien kaputt sind, lässt sich das
 ```shell
 ./gradlew clean
 ```
+
+## Datenbank-Modell neu generieren
+
+Will man das Datenbank-Modell anpassen, muss man ein weiteres SQL-File im Ordner `backend/db-model/src/main/resources/db/migration` hinzufügen. Danach muss man folgenden Befehl ausführen, damit die jOOQ-Klassen neu generiert werden:
+
+```shell
+./gradlew backend:db-model:assemble
+```
