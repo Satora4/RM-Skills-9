@@ -6,3 +6,12 @@ build
 
 # Ignore IntelliJ directory
 .idea
+**/*.iml
+
+# Node
+node_modules
+dist
+.vscode
+
+# macOS
+.DS_Store

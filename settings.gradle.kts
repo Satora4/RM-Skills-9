@@ -10,4 +10,6 @@
 rootProject.name = "wm-tippspiel"
 
 include("backend")
+include("backend:db-model")
+include("backend:jooq-codegen-customization")
 include("frontend")

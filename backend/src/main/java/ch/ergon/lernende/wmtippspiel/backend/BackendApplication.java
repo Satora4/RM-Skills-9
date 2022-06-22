@@ -1,4 +1,4 @@
-package ch.ergon.lehrnende.wmtippspiel.backend;
+package ch.ergon.lernende.wmtippspiel.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
