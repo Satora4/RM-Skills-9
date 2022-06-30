@@ -6,9 +6,9 @@ CREATE TABLE IF NOT EXISTS GAME
     POINTS_TEAM1  INT  NOT NULL,
     POINTS_TEAM2  INT  NOT NULL,
 
-    TEAM_ID       INT  NOT NULL,
+    TEAM_ID1       INT  NOT NULL,
     TEAM_ID2      INT  NOT NULL,
-    foreign key (TEAM_ID) references TEAM (TEAM_ID),
+    foreign key (TEAM_ID1) references TEAM (TEAM_ID),
 
     foreign key (TEAM_ID2) references TEAM (TEAM_ID)
 );
