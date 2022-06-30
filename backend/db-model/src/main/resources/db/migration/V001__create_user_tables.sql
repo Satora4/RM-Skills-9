@@ -8,16 +8,3 @@ CREATE TABLE IF NOT EXISTS USER
     RANKING       INT         NOT NULL,
     ADMINISTRATOR BOOLEAN     NOT NULL
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
