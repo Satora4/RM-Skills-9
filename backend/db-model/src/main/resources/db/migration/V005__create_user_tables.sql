@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS TIPP
+(
+    TIP_ID    INT AUTO_INCREMENT PRIMARY KEY,
+    fk_User   INT NOT NULL,
+    TIP_TEAM1 INT NOT NULL,
+    TIP_TEAM2 INT NOT NULL,
+
+    foreign key (fk_User) references USER(USER_ID)
+
+);
