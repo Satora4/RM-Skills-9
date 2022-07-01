@@ -1,14 +1,16 @@
-package ch.ergon.lernende.wmtippspiel.backend.to;
+package ch.ergon.lernende.wmtippspiel.backend.game;
+
+import java.time.LocalDateTime;
 
 public class GameTO {
 
     private int id;
-    private String gameTime;
+    private LocalDateTime gameTime;
     private String gameLocation;
     private int pointsTeam1;
     private int pointsTeam2;
-    private int teamId1;
-    private int teamId2;
+    private String teamCountry1;
+    private String teamCountry2;
 
     public int getId() {
         return id;
@@ -18,11 +20,11 @@ public class GameTO {
         this.id = id;
     }
 
-    public String getGameTime() {
+    public LocalDateTime getGameTime() {
         return gameTime;
     }
 
-    public void setGameTime(String gameTime) {
+    public void setGameTime(LocalDateTime gameTime) {
         this.gameTime = gameTime;
     }
 
@@ -50,19 +52,19 @@ public class GameTO {
         this.pointsTeam2 = pointsTeam2;
     }
 
-    public int getTeamId1() {
-        return teamId1;
+    public String getTeamCountry1() {
+        return teamCountry1;
     }
 
-    public void setTeamId1(int teamId1) {
-        this.teamId1 = teamId1;
+    public void setTeamCountry1(String teamCountry1) {
+        this.teamCountry1 = teamCountry1;
     }
 
-    public int getTeamId2() {
-        return teamId2;
+    public String getTeamCountry2() {
+        return teamCountry2;
     }
 
-    public void setTeamId2(int teamId2) {
-        this.teamId2 = teamId2;
+    public void setTeamCountry2(String teamCountry2) {
+        this.teamCountry2 = teamCountry2;
     }
 }
