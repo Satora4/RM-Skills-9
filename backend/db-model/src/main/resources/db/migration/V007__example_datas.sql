@@ -11,21 +11,22 @@ VALUES ('Niculin', 'Steiner', 'steiner.niculin@mail.ch', 12, 2, true),
 
 
 
-INSERT INTO TEAM(COUNTRY,
+INSERT INTO TEAM(TEAM_ID,
+                 COUNTRY,
                  POINTS)
-VALUES ('Switzerland', 9),
-       ('Brazil', 9),
-       ('Cameroon', 9),
-       ('England', 9),
-       ('Netherlands', 9),
-       ('Germany', 9),
-       ('France', 9),
-       ('Austria', 9),
-       ('Argentinian', 9),
-       ('Denmark', 9),
-       ('Iran', 9),
-       ('USA', 9),
-       ('Japan', 9);
+VALUES (1, 'Switzerland', 9),
+       (2, 'Brazil', 9),
+       (3, 'Cameroon', 9),
+       (4, 'England', 9),
+       (5, 'Netherlands', 9),
+       (6, 'Germany', 9),
+       (7, 'France', 9),
+       (8, 'Austria', 9),
+       (9, 'Argentinian', 9),
+       (10, 'Denmark', 9),
+       (11, 'Iran', 9),
+       (12, 'USA', 9),
+       (13, 'Japan', 9);
 
 
 INSERT INTO GAME(GAME_TIME,
@@ -57,7 +58,7 @@ values (1, 2, 2, 8),
 
 
 
-INSERT INTO GROUP(NAME)
+INSERT INTO "GROUP"(NAME)
 values ('A'),
        ('B'),
        ('C'),
@@ -70,8 +71,8 @@ values ('A'),
 
 
 INSERT INTO TEAM_TO_GROUP(TEAM_ID,
-                          GROUP_ID)
-values (9, SELECT GROUP_ID from GROUP where NAME = 'C'),
-       (8, SELECT GROUP_ID from GROUP where NAME = 'B'),
-       (7, SELECT GROUP_ID from GROUP where NAME = 'D'),
-       (6, SELECT GROUP_ID from GROUP where NAME = 'A');
+                              GROUP_ID)
+values (9, 1),
+       (8, 2),
+       (7, 3),
+       (6, 4);
