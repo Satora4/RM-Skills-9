@@ -27,8 +27,12 @@ public class GameController {
     private GameTO convert(GameRecord gameRecord) {
         GameTO gameTO = new GameTO();
         gameTO.setId(gameRecord.getGameId());
+        gameTO.setGameTime(gameRecord.getGameTime());
+        gameTO.setGameLocation(gameRecord.getGameLocation());
         gameTO.setPointsTeam1(gameRecord.getPointsTeam1());
         gameTO.setPointsTeam2(gameRecord.getPointsTeam2());
+        gameTO.setTeamId1(gameRecord.getTeamId1());
+        gameTO.setTeamId2(gameRecord.getTeamId2());
         return gameTO;
     }
 }
