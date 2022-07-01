@@ -1,4 +1,4 @@
-INSERT INTO USER(FIRST_NAME,
+INSERT INTO "USER"(FIRST_NAME,
                  LAST_NAME,
                  EMAIL,
                  POINTS,
