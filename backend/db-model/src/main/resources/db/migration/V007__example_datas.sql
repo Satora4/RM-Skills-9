@@ -57,7 +57,7 @@ values (1, 2, 2, 8),
 
 
 
-INSERT INTO GROUPE(NAME)
+INSERT INTO GROUP(NAME)
 values ('A'),
        ('B'),
        ('C'),
@@ -71,7 +71,7 @@ values ('A'),
 
 INSERT INTO TEAM_TO_GROUP(TEAM_ID,
                           GROUP_ID)
-values (9, SELECT TEAM_ID from GROUPE where NAME = 'C'),
-       (8, SELECT TEAM_ID from GROUPE where NAME = 'B'),
-       (7, SELECT TEAM_ID from GROUPE where NAME = 'D'),
-       (6, SELECT TEAM_ID from GROUPE where NAME = 'A');
+values (9, SELECT GROUP_ID from GROUP where NAME = 'C'),
+       (8, SELECT GROUP_ID from GROUP where NAME = 'B'),
+       (7, SELECT GROUP_ID from GROUP where NAME = 'D'),
+       (6, SELECT GROUP_ID from GROUP where NAME = 'A');
