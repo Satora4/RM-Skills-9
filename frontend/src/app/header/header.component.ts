@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private r:Router) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
