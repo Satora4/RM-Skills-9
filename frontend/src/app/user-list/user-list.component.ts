@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../User";
-import {UserService} from "../user.service";
-import {users} from "../users";
+import {UserListModel} from "./user-list.model";
+import {UserListService} from "./user-list.service";
+
 
 
 @Component({
@@ -11,9 +11,9 @@ import {users} from "../users";
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private us: UserService) { }
+  constructor(private us: UserListService) { }
 
-  private userArray: User[] = [];
+  private userArray: UserListModel[] = [];
 
   ngOnInit(): void {
     this.loadUser();
@@ -25,7 +25,7 @@ export class UserListComponent implements OnInit {
     })
   }
 
-  getUsers(): User[]{
+  getUsers(): UserListModel[]{
     return this.userArray;
   }
 

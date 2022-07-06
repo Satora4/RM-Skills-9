@@ -1,4 +1,4 @@
-export interface User{
+export interface UserListModel {
   id: number | 1;
   first_name: string | null;
   last_name: string | null;
