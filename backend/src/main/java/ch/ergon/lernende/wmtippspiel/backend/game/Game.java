@@ -5,6 +5,7 @@ import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import java.time.LocalDateTime;
 
 public class Game {
+
     private int id;
     private LocalDateTime gameTime;
     private String gameLocation;
