@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 
 
-import {GameService} from "../game.service";
+import {PlayingScheduleService} from "./playing-schedule.service";
 
-import {Game} from "../Game";
+import {PlayingScheduleModel} from "./playing-schedule.model";
 
 @Component({
   selector: 'app-playing-schedule',
@@ -11,13 +11,11 @@ import {Game} from "../Game";
   styleUrls: ['./playing-schedule.component.css']
 })
 export class PlayingScheduleComponent implements OnInit {
-  panelOpenState = false;
-  date = "2022-11-12";
 
-  constructor(private gs: GameService) {
+  constructor(private gs: PlayingScheduleService) {
   }
 
-  private gameArray: Game[] = [];
+  private gameArray: PlayingScheduleModel[] = [];
 
   ngOnInit(): void {
     this.loadGames()
@@ -29,7 +27,7 @@ export class PlayingScheduleComponent implements OnInit {
     })
   }
 
-  getGame(): Game[] {
+  getGame(): PlayingScheduleModel[] {
     return this.gameArray;
   }
 

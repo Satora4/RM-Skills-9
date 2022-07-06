@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Game} from "./Game"
+import {PlayingScheduleModel} from "./playing-schedule.model"
 import { catchError, map, tap } from 'rxjs/operators';
 import {Observable, of} from "rxjs";
-import {Games} from "./games";
-import {User} from "./User";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private userUrl = 'http://localhost:8080/user'
-
+export class PlayingScheduleService {
+  private gameUrl = 'http://localhost:8080/game'
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -21,13 +18,15 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  getUser(): Observable<User[]>{
-    return this.http.get<User[]>(this.userUrl)
+
+  getGames(): Observable<PlayingScheduleModel[]>{
+    return this.http.get<PlayingScheduleModel[]>(this.gameUrl)
       .pipe(
-        tap(_ => console.log(('fetched Users')),
-          catchError(this.handleError<User[]>('getUser',[])))
+        tap(_ => console.log(('fetched Games')),
+        catchError(this.handleError<PlayingScheduleModel[]>('getGames',[])))
       );
   }
+
 
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -42,5 +41,4 @@ export class UserService {
       return of(result as T);
     };
   }
-
 }
