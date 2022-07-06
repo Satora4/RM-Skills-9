@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {HeaderComponent} from "./header/header.component";
 import {PlayingScheduleComponent} from "./playing-schedule/playing-schedule.component";
 import { HttpClientModule } from '@angular/common/http';
+import { UserListComponent } from './user-list/user-list.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     HeaderComponent,
     PlayingScheduleComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
