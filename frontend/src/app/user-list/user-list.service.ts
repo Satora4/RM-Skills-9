@@ -11,7 +11,7 @@ import {UserListModel} from "./user-list.model";
 export class UserListService {
   private userUrl = 'http://localhost:8080/user'
 
-  httpOptions = {
+ private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
@@ -28,16 +28,10 @@ export class UserListService {
       );
   }
 
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-
       console.error(error);
-
       console.log(`${operation} failed: ${error.message}`);
-
-
       return of(result as T);
     };
   }

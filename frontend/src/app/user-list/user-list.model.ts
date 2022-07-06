@@ -1,9 +1,9 @@
 export interface UserListModel {
-  id: number | 1;
-  first_name: string | null;
-  last_name: string | null;
-  email: string | null;
-  points: number | null;
-  ranking: number | null;
-  administrator: boolean | true;
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  points: number;
+  ranking: number;
+  administrator: boolean;
 }
