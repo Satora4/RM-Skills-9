@@ -1,4 +1,4 @@
-export interface Game{
+export interface PlayingScheduleModel {
   id:number | 1;
   gameTime: Date | null;
   gameLocation: string | null;
