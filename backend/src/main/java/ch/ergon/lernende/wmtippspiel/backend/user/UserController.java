@@ -25,8 +25,8 @@ public class UserController {
     private UserTO convert(UserRecord userRecord) {
         UserTO userTO = new UserTO();
         userTO.setId(userRecord.getUserId());
-        userTO.setFirst_name(userRecord.getFirstName());
-        userTO.setLast_name(userRecord.getLastName());
+        userTO.setFirstName(userRecord.getFirstName());
+        userTO.setLastName(userRecord.getLastName());
         userTO.setEmail(userRecord.getEmail());
         userTO.setPoints(userRecord.getPoints());
         userTO.setRanking(userRecord.getRanking());
