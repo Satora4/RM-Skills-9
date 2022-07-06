@@ -12,23 +12,23 @@ import {PlayingScheduleModel} from "./playing-schedule.model";
 })
 export class PlayingScheduleComponent implements OnInit {
 
-  constructor(private gs: PlayingScheduleService) {
+  constructor(private scheduleService: PlayingScheduleService) {
   }
 
-  private gameArray: PlayingScheduleModel[] = [];
+  private games: PlayingScheduleModel[] = [];
 
   ngOnInit(): void {
     this.loadGames()
   }
 
-  loadGames(): void {
-    this.gs.getGames().subscribe(games => {
-      this.gameArray = games;
+  private loadGames(): void {
+    this.scheduleService.getGames().subscribe(games => {
+      this.games = games;
     })
   }
 
-  getGame(): PlayingScheduleModel[] {
-    return this.gameArray;
+  getGames(): PlayingScheduleModel[] {
+    return this.games;
   }
 
 }

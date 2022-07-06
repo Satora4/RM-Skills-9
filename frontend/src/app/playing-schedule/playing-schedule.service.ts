@@ -10,34 +10,27 @@ import {Observable, of} from "rxjs";
 })
 export class PlayingScheduleService {
   private gameUrl = 'http://localhost:8080/game'
-  httpOptions = {
+
+  private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(
-    private http: HttpClient
+    private httpClient: HttpClient
   ) { }
 
-
   getGames(): Observable<PlayingScheduleModel[]>{
-    return this.http.get<PlayingScheduleModel[]>(this.gameUrl)
+    return this.httpClient.get<PlayingScheduleModel[]>(this.gameUrl)
       .pipe(
         tap(_ => console.log(('fetched Games')),
         catchError(this.handleError<PlayingScheduleModel[]>('getGames',[])))
       );
   }
 
-
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-
       console.error(error);
-
       console.log(`${operation} failed: ${error.message}`);
-
-
       return of(result as T);
     };
   }
