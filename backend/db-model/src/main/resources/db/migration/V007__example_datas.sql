@@ -1,12 +1,16 @@
 INSERT INTO "USER"(FIRST_NAME,
-                 LAST_NAME,
-                 EMAIL,
-                 POINTS,
-                 RANKING,
-                 ADMINISTRATOR)
+                   LAST_NAME,
+                   EMAIL,
+                   POINTS,
+                   RANKING,
+                   ADMINISTRATOR)
 VALUES ('Niculin', 'Steiner', 'steiner.niculin@mail.ch', 12, 2, true),
        ('Joel', 'Vontobel', 'joel.vontobel@ergon.ch', 11, 3, true),
        ('Hans', 'Ruedi', 'hans.ruedi@mail.com', 2, 4, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail2.com', 2, 6, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail3.com', 2, 5, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail4.com', 2, 8, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail5.com', 2, 7, false),
        ('Marc', 'Tremp', 'marc.tremp@mail.at', 15, 1, false);
 
 
@@ -71,7 +75,7 @@ values ('A'),
 
 
 INSERT INTO TEAM_TO_GROUP(TEAM_ID,
-                              GROUP_ID)
+                          GROUP_ID)
 values (9, 1),
        (8, 2),
        (7, 3),

@@ -1,10 +1,10 @@
-<p>
-  <tr *ngFor="let user of getUsers()">
-    <td>{{user.first_name}}</td>
-    <td>{{user.last_name}}</td>
+<div class="list">
+  <tr *ngFor="let user of getUsers(); index as i;">
+    <td>{{user.firstName}}</td>
+    <td>{{user.lastName}}</td>
     <td>{{user.email}}</td>
     <td>{{user.points}}</td>
-    <td>{{user.points}}</td>
-    <td>{{user.ranking}}</td>
+    <td>{{i + 1}}</td>
   </tr>
-</p>
+</div>
+

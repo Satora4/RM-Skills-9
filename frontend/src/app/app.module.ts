@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {HeaderComponent} from "./header/header.component";
 import {PlayingScheduleComponent} from "./playing-schedule/playing-schedule.component";
-import { HttpClientModule } from '@angular/common/http';
-import { UserListComponent } from './user-list/user-list.component';
+import {HttpClientModule} from '@angular/common/http';
+import {UserListComponent} from './user-list/user-list.component';
+import {GroupComponent} from './group/group.component';
 
 
 @NgModule({
@@ -15,6 +15,7 @@ import { UserListComponent } from './user-list/user-list.component';
     HeaderComponent,
     PlayingScheduleComponent,
     UserListComponent,
+    GroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,4 +26,5 @@ import { UserListComponent } from './user-list/user-list.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
