@@ -18,7 +18,15 @@ public class TeamRepository {
         this.dslContext = dslContext;
     }
 
-    public List<TeamRecord> getAllTeams() {
-        return dslContext.selectFrom(Tables.TEAM).fetch();
+    public List<Team> getAllTeams() {
+        return dslContext.selectFrom(Tables.TEAM).fetch(this::convert);
+    }
+
+    private Team convert(TeamRecord teamRecord) {
+        Team team = new Team();
+        team.setId(teamRecord.getTeamId());
+        team.setCountry(teamRecord.getCountry());
+        team.setPoints(teamRecord.getPoints());
+        return team;
     }
 }
