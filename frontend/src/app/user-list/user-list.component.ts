@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UserListModel} from "./user-list.model";
+import {User} from "./user-list.model";
 import {UserListService} from "./user-list.service";
+import {group} from "@angular/animations";
 
 @Component({
   selector: 'app-user-list',
@@ -9,9 +10,9 @@ import {UserListService} from "./user-list.service";
 })
 export class UserListComponent implements OnInit {
 
-  private users: UserListModel[] = [];
+  private users: User[] = [];
 
-  constructor(private us: UserListService) {
+  constructor(private UserService: UserListService) {
   }
 
   ngOnInit(): void {
@@ -19,12 +20,33 @@ export class UserListComponent implements OnInit {
   }
 
   private loadUser(): void {
-    this.us.getUser().subscribe(users => {
+    this.UserService.getUsers().subscribe(users => {
       this.users = users;
+      UserListComponent.getSortedUsers(this.users)
+      console.log(users)
     })
   }
 
-  getUsers(): UserListModel[] {
+  private static getSortedUsers(users: User[]) {
+    for (let i = 0; i < users.length; i++) {
+      for (let j = 0; j < (users.length - 1) - i; j++) {
+        if (users[j].points < users[j + 1].points) {
+          UserListComponent.change(users, j, j + 1);
+        }
+      }
+    }
+    return users;
+  }
+
+  private static change(users: User[], a: number, b: number) {
+    const tmp = users[a];
+    users[a] = users[b];
+    users[b] = tmp;
+  }
+
+
+  getUsers(): User[] {
+
     return this.users;
   }
 

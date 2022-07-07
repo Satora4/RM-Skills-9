@@ -1,7 +1,7 @@
-export interface UserListModel {
+export interface User {
   id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   points: number;
   ranking: number;
