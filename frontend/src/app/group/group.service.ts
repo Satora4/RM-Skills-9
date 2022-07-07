@@ -2,15 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, tap} from 'rxjs/operators';
 import {Observable, of} from "rxjs";
-import {User} from "./user-list.model";
-
+import {Group} from "./group.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserListService {
+export class GroupService {
 
-  private userUrl = 'http://localhost:8080/user'
+  private groupUrl = 'http://localhost:8080/group'
+
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -18,12 +18,13 @@ export class UserListService {
   constructor(private http: HttpClient) {
   }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.userUrl)
+  getGroups(): Observable<Group[]> {
+    return this.http.get<Group[]>(this.groupUrl)
       .pipe(
-        tap(_ => console.log(('fetched Users')),
-          catchError(this.handleError<User[]>('getUsers', [])))
-      );
+        tap(_ => console.log(('fetched Groups')),
+          catchError(this.handleError<Group[]>('getGroups', [])))
+      )
+
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -33,5 +34,4 @@ export class UserListService {
       return of(result as T);
     };
   }
-
 }

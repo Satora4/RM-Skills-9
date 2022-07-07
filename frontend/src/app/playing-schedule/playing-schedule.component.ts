@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-
-
 import {PlayingScheduleService} from "./playing-schedule.service";
-
-import {PlayingScheduleModel} from "./playing-schedule.model";
+import {Game} from "./playing-schedule.model";
 
 @Component({
   selector: 'app-playing-schedule',
@@ -15,7 +12,7 @@ export class PlayingScheduleComponent implements OnInit {
   constructor(private scheduleService: PlayingScheduleService) {
   }
 
-  private games: PlayingScheduleModel[] = [];
+  private games: Game[] = [];
 
   ngOnInit(): void {
     this.loadGames()
@@ -27,7 +24,7 @@ export class PlayingScheduleComponent implements OnInit {
     })
   }
 
-  getGames(): PlayingScheduleModel[] {
+  getGames(): Game[] {
     return this.games;
   }
 
