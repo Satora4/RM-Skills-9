@@ -1,5 +1,5 @@
-export interface PlayingScheduleModel {
-  id:number;
+export interface Game {
+  id: number;
   gameTime: Date;
   gameLocation: string;
   pointsTeam1: number;

@@ -1,11 +1,14 @@
-<p>
+<div class="list">
   <tr *ngFor="let game of getGames()">
     <td>{{game.gameTime}}</td>
     <td>{{game.gameLocation}}</td>
+    <td>{{game.teamCountry1}}</td>
     <td>{{game.pointsTeam1}}</td>
     <td>{{game.pointsTeam2}}</td>
-    <td>{{game.teamCountry1}}</td>
     <td>{{game.teamCountry2}}</td>
+    <td>
+      <button id="tippButton">Tipp</button>
+    </td>
   </tr>
-</p>
+</div>
 
