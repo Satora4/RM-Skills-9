@@ -1,12 +1,13 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
-import ch.ergon.lernenden.wmtippspiel.backend.db.Tables;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.records.UserRecord;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
 
 @Repository
 public class UserRepository {
@@ -19,6 +20,6 @@ public class UserRepository {
     }
 
     public List<UserRecord> getAllUser() {
-        return dslContext.selectFrom(Tables.USER).fetch();
+        return dslContext.selectFrom(USER).fetch();
     }
 }
