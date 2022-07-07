@@ -1,6 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
-import ch.ergon.lernenden.wmtippspiel.backend.db.tables.records.TeamRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +21,11 @@ public class TeamController {
         return teamRepository.getAllTeams().stream().map(this::convert).collect(Collectors.toList());
     }
 
-    private TeamTO convert(TeamRecord teamRecord) {
+    private TeamTO convert(Team team) {
         TeamTO teamTO = new TeamTO();
-        teamTO.setId(teamRecord.getTeamId());
-        teamTO.setCountry(teamRecord.getCountry());
-        teamTO.setPoints(teamRecord.getPoints());
+        teamTO.setId(team.getId());
+        teamTO.setCountry(team.getCountry());
+        teamTO.setPoints(team.getPoints());
         return teamTO;
     }
 }

@@ -18,7 +18,14 @@ public class GroupRepository {
         this.dslContext = dslContext;
     }
 
-    public List<GroupRecord> getAllGroups() {
-        return dslContext.selectFrom(Tables.GROUP).fetch();
+    public List<Group> getAllGroups() {
+        return dslContext.selectFrom(Tables.GROUP).fetch(this::convert);
+    }
+
+    private Group convert(GroupRecord groupRecord) {
+        Group group = new Group();
+        group.setId(groupRecord.getGroupId());
+        group.setName(groupRecord.getName());
+        return group;
     }
 }

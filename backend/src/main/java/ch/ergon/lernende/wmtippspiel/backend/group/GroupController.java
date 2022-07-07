@@ -1,6 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.group;
 
-import ch.ergon.lernenden.wmtippspiel.backend.db.tables.records.GroupRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,11 +8,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class GroupeController {
+public class GroupController {
     private GroupRepository groupRepository;
 
     @Autowired
-    public GroupeController(GroupRepository groupRepository) {
+    public GroupController(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
 
@@ -22,10 +21,10 @@ public class GroupeController {
         return groupRepository.getAllGroups().stream().map(this::convert).collect(Collectors.toList());
     }
 
-    private GroupTO convert(GroupRecord groupRecord) {
+    private GroupTO convert(Group group) {
         GroupTO groupTO = new GroupTO();
-        groupTO.setId(groupRecord.getGroupId());
-        groupTO.setName(groupRecord.getName());
+        groupTO.setId(group.getId());
+        groupTO.setName(group.getName());
         return groupTO;
     }
 }
