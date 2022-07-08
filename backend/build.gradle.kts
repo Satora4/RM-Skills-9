@@ -16,7 +16,7 @@ configurations {
 dependencies {
 	implementation(project("db-model"))
 	implementation(project(":frontend"))
-	implementation("org.springframework.boot:spring-boot-starter-jooq")
+	implementation("org.springframework.boot:spring-boot-starter-jooq:2.7.1")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.flywaydb:flyway-core:7.9.1")
 	compileOnly("org.projectlombok:lombok")
