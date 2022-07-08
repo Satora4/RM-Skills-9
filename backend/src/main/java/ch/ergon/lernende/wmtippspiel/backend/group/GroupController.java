@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @RestController
 public class GroupController {
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 
     @Autowired
     public GroupController(GroupRepository groupRepository) {
@@ -23,8 +23,9 @@ public class GroupController {
 
     private GroupTO convert(Group group) {
         GroupTO groupTO = new GroupTO();
-        groupTO.setId(group.getId());
         groupTO.setName(group.getName());
+        groupTO.setGroupMembers(group.getGroupMembers());
+        groupTO.setId(group.getId());
         return groupTO;
     }
 }

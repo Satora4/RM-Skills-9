@@ -1,7 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
 public class Team {
-    private int id;
+    private int teamId;
     private String country;
     private int points;
 
@@ -14,11 +14,11 @@ public class Team {
     }
 
     public int getId() {
-        return id;
+        return teamId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.teamId = id;
     }
 
     public String getCountry() {
