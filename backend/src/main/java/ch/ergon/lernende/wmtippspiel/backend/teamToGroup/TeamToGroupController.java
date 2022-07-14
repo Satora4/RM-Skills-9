@@ -1,5 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.teamToGroup;
 
+import ch.ergon.lernende.wmtippspiel.backend.group.Group;
+import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +24,18 @@ public class TeamToGroupController {
     }
 
     private TeamToGroupTO convert(TeamToGroup teamToGroup) {
+
+        Team team = teamToGroup.getTeam();
+        Group group = teamToGroup.getGroup();
+
         TeamToGroupTO teamToGroupTO = new TeamToGroupTO();
-        teamToGroupTO.setTeamName(teamToGroup.getTeamName().getCountry());
-        teamToGroupTO.setGroupName(teamToGroup.getGroupName().getName());
+        
+        teamToGroupTO.setGroupId(group.getId());
+        teamToGroupTO.setGroupName(group.getName());
+
+        teamToGroupTO.setTeamId(team.getId());
+        teamToGroupTO.setTeamCountry(team.getCountry());
+        teamToGroupTO.setTeamPoints(team.getPoints());
         return teamToGroupTO;
     }
 }

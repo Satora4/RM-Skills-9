@@ -2,22 +2,49 @@ package ch.ergon.lernende.wmtippspiel.backend.teamToGroup;
 
 public class TeamToGroupTO {
 
-    private String teamName;
-    private String GroupName;
+    private int teamId;
+    private String teamCountry;
+    private int teamPoints;
+    private int groupId;
+    private String groupName;
 
-    public String getTeamName() {
-        return teamName;
+    public int getTeamId() {
+        return teamId;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getTeamCountry() {
+        return teamCountry;
+    }
+
+    public void setTeamCountry(String teamCountry) {
+        this.teamCountry = teamCountry;
+    }
+
+    public int getTeamPoints() {
+        return teamPoints;
+    }
+
+    public void setTeamPoints(int teamPoints) {
+        this.teamPoints = teamPoints;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 
     public String getGroupName() {
-        return GroupName;
+        return groupName;
     }
 
     public void setGroupName(String groupName) {
-        GroupName = groupName;
+        this.groupName = groupName;
     }
 }
