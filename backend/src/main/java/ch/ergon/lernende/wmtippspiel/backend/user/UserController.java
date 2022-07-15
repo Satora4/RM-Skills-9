@@ -1,6 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
-import ch.ergon.lernenden.wmtippspiel.backend.db.tables.records.UserRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,15 +21,15 @@ public class UserController {
         return userRepository.getAllUser().stream().map(this::convert).collect(Collectors.toList());
     }
 
-    private UserTO convert(UserRecord userRecord) {
+    private UserTO convert(User user) {
         UserTO userTO = new UserTO();
-        userTO.setId(userRecord.getUserId());
-        userTO.setFirstName(userRecord.getFirstName());
-        userTO.setLastName(userRecord.getLastName());
-        userTO.setEmail(userRecord.getEmail());
-        userTO.setPoints(userRecord.getPoints());
-        userTO.setRanking(userRecord.getRanking());
-        userTO.setAdministrator(userRecord.getAdministrator());
+        userTO.setId(user.getId());
+        userTO.setFirstName(user.getFirstName());
+        userTO.setLastName(user.getLastName());
+        userTO.setEmail(user.getEmail());
+        userTO.setPoints(user.getPoints());
+        userTO.setRanking(user.getRanking());
+        userTO.setAdministrator(user.isAdministrator());
         return userTO;
     }
 }
