@@ -1,4 +1,4 @@
-package ch.ergon.lernende.wmtippspiel.backend.teamToGroup;
+package ch.ergon.lernende.wmtippspiel.backend.teamtogroup;
 
 public class TeamToGroupTO {
 
