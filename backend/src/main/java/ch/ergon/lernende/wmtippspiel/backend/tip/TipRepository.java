@@ -3,9 +3,7 @@ package ch.ergon.lernende.wmtippspiel.backend.tip;
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
-import ch.ergon.lernenden.wmtippspiel.backend.db.tables.GameTable;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
-import ch.ergon.lernenden.wmtippspiel.backend.db.tables.UserTable;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,6 @@ import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
 @Repository
 public class TipRepository {
 
-    private static final UserTable USER_ALIAS = USER.as("user");
-    private static final GameTable GAME_ALIAS = GAME.as("GAME");
     private static final TeamTable TEAM_ALIAS_1 = TEAM.as("t1");
     private static final TeamTable TEAM_ALIAS_2 = TEAM.as("t2");
 
@@ -34,24 +30,24 @@ public class TipRepository {
         return dslContext.select(TIP.TIP_ID,
                         TIP.TIP_TEAM1,
                         TIP.TIP_TEAM2,
-                        USER_ALIAS.USER_ID,
-                        USER_ALIAS.FIRST_NAME,
-                        USER_ALIAS.LAST_NAME,
-                        USER_ALIAS.EMAIL,
-                        GAME_ALIAS.GAME_ID,
-                        GAME_ALIAS.GAME_TIME,
-                        GAME_ALIAS.GAME_LOCATION,
-                        GAME_ALIAS.POINTS_TEAM1,
-                        GAME_ALIAS.POINTS_TEAM2,
+                        USER.USER_ID,
+                        USER.FIRST_NAME,
+                        USER.LAST_NAME,
+                        USER.EMAIL,
+                        GAME.GAME_ID,
+                        GAME.GAME_TIME,
+                        GAME.GAME_LOCATION,
+                        GAME.POINTS_TEAM1,
+                        GAME.POINTS_TEAM2,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_2.TEAM_ID,
                         TEAM_ALIAS_2.COUNTRY)
                 .from(TIP)
-                .join(USER_ALIAS).on(USER_ALIAS.USER_ID.eq(TIP.USER_ID))
-                .join(GAME_ALIAS).on(GAME_ALIAS.GAME_ID.eq(TIP.GAME_ID))
-                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME_ALIAS.TEAM_ID1))
-                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME_ALIAS.TEAM_ID2))
+                .join(USER).on(USER.USER_ID.eq(TIP.USER_ID))
+                .join(GAME).on(GAME.GAME_ID.eq(TIP.GAME_ID))
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
                 .fetch(this::convert);
     }
 
@@ -62,18 +58,18 @@ public class TipRepository {
         tip.setTipTeam2(record.get(TIP.TIP_TEAM2));
 
         User user = new User();
-        user.setId(record.get(USER_ALIAS.USER_ID));
-        user.setFirstName(record.get(USER_ALIAS.FIRST_NAME));
-        user.setLastName(record.get(USER_ALIAS.LAST_NAME));
-        user.setEmail(record.get(USER_ALIAS.EMAIL));
+        user.setId(record.get(USER.USER_ID));
+        user.setFirstName(record.get(USER.FIRST_NAME));
+        user.setLastName(record.get(USER.LAST_NAME));
+        user.setEmail(record.get(USER.EMAIL));
         tip.setUser(user);
 
         Game game = new Game();
-        game.setId(record.get(GAME_ALIAS.GAME_ID));
-        game.setGameTime(record.get(GAME_ALIAS.GAME_TIME));
-        game.setGameLocation((record.get(GAME_ALIAS.GAME_LOCATION)));
-        game.setPointsTeam1(record.get(GAME_ALIAS.POINTS_TEAM1));
-        game.setPointsTeam2(record.get(GAME_ALIAS.POINTS_TEAM2));
+        game.setId(record.get(GAME.GAME_ID));
+        game.setGameTime(record.get(GAME.GAME_TIME));
+        game.setGameLocation((record.get(GAME.GAME_LOCATION)));
+        game.setPointsTeam1(record.get(GAME.POINTS_TEAM1));
+        game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
 
         Team team1 = new Team();
         team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
