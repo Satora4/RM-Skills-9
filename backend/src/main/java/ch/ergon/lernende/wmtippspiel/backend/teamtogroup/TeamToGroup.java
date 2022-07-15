@@ -1,4 +1,4 @@
-package ch.ergon.lernende.wmtippspiel.backend.teamToGroup;
+package ch.ergon.lernende.wmtippspiel.backend.teamtogroup;
 
 import ch.ergon.lernende.wmtippspiel.backend.group.Group;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;

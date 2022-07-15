@@ -1,4 +1,4 @@
-package ch.ergon.lernende.wmtippspiel.backend.teamToGroup;
+package ch.ergon.lernende.wmtippspiel.backend.teamtogroup;
 
 import ch.ergon.lernende.wmtippspiel.backend.group.Group;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
@@ -29,7 +29,7 @@ public class TeamToGroupController {
         Group group = teamToGroup.getGroup();
 
         TeamToGroupTO teamToGroupTO = new TeamToGroupTO();
-        
+
         teamToGroupTO.setGroupId(group.getId());
         teamToGroupTO.setGroupName(group.getName());
 
