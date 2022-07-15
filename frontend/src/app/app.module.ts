@@ -7,6 +7,7 @@ import {PlayingScheduleComponent} from "./playing-schedule/playing-schedule.comp
 import {HttpClientModule} from '@angular/common/http';
 import {UserListComponent} from './user-list/user-list.component';
 import {GroupComponent} from './group/group.component';
+import { TeamComponent } from './team/team.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {GroupComponent} from './group/group.component';
     PlayingScheduleComponent,
     UserListComponent,
     GroupComponent,
+    TeamComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,14 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, tap} from 'rxjs/operators';
 import {Observable, of} from "rxjs";
-import {Group} from "./group.model";
+import {Team} from "./team.model";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class GroupService {
+export class TeamService {
 
-  private userUrl = 'http://localhost:8080/group'
+  private userUrl = 'http://localhost:8080/team'
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -17,11 +18,11 @@ export class GroupService {
   constructor(private http: HttpClient) {
   }
 
-  getGroups(): Observable<Group[]> {
-    return this.http.get<Group[]>(this.userUrl)
+  getTeams(): Observable<Team[]> {
+    return this.http.get<Team[]>(this.userUrl)
       .pipe(
-        tap(_ => console.log(('fetched Groups')),
-          catchError(this.handleError<Group[]>('getGroups', [])))
+        tap(_ => console.log(('fetched Teams')),
+          catchError(this.handleError<Team[]>('getTeams', [])))
       );
   }
 
