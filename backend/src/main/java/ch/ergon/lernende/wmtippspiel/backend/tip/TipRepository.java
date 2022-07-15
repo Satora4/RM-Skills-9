@@ -38,8 +38,6 @@ public class TipRepository {
                         USER_ALIAS.FIRST_NAME,
                         USER_ALIAS.LAST_NAME,
                         USER_ALIAS.EMAIL,
-                        USER_ALIAS.POINTS,
-                        USER_ALIAS.RANKING,
                         USER_ALIAS.ADMINISTRATOR,
                         GAME_ALIAS.GAME_ID,
                         GAME_ALIAS.GAME_TIME,
@@ -69,8 +67,6 @@ public class TipRepository {
         user.setFirstName(record.get(USER_ALIAS.FIRST_NAME));
         user.setLastName(record.get(USER_ALIAS.LAST_NAME));
         user.setEmail(record.get(USER_ALIAS.EMAIL));
-        user.setPoints(record.get(USER_ALIAS.POINTS));
-        user.setRanking(record.get(USER_ALIAS.RANKING));
         user.setAdministrator(record.get(USER_ALIAS.ADMINISTRATOR));
         tip.setUser(user);
 
