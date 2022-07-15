@@ -19,7 +19,21 @@ public class UserRepository {
         this.dslContext = dslContext;
     }
 
-    public List<UserRecord> getAllUser() {
-        return dslContext.selectFrom(USER).fetch();
+    public List<User> getAllUser() {
+        return dslContext.selectFrom(USER).fetch(this::convert);
+    }
+
+    private User convert(UserRecord userRecord) {
+        User user = new User();
+
+        user.setId(userRecord.getUserId());
+        user.setFirstName(userRecord.getFirstName());
+        user.setLastName(userRecord.getLastName());
+        user.setEmail(userRecord.getEmail());
+        user.setPoints(userRecord.getPoints());
+        user.setRanking(userRecord.getRanking());
+        user.setAdministrator(userRecord.getAdministrator());
+
+        return user;
     }
 }
