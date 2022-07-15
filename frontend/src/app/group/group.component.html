@@ -1,1 +1,16 @@
-<p>group works!</p>
+  <table *ngFor="let group of getGroups()">
+    <h2>{{group.name}}</h2>
+    <tr>
+      <th>Country</th>
+      <th>Points</th>
+    </tr>
+
+    <tr *ngFor="let team of group.groupMembers">
+      <td>{{team.country}}</td>
+      <td>{{team.points}}</td>
+    </tr>
+  </table>
+
+
+
+
