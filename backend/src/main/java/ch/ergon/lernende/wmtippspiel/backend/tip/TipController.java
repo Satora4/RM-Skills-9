@@ -38,7 +38,6 @@ public class TipController {
         tipTO.setFirstName(user.getFirstName());
         tipTO.setLastName(user.getLastName());
         tipTO.setEmail(user.getEmail());
-        tipTO.setAdministrator(user.isAdministrator());
 
         tipTO.setGameId(game.getId());
         tipTO.setGameTime(game.getGameTime());

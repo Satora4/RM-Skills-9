@@ -11,7 +11,6 @@ public class TipTO {
     private String firstName;
     private String lastName;
     private String email;
-    private boolean administrator;
     //game
     private int gameId;
     private LocalDateTime gameTime;
@@ -77,14 +76,6 @@ public class TipTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isAdministrator() {
-        return administrator;
-    }
-
-    public void setAdministrator(boolean administrator) {
-        this.administrator = administrator;
     }
 
     public int getGameId() {
