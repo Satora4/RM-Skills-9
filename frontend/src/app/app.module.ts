@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {UserListComponent} from './user-list/user-list.component';
 import {GroupComponent} from './group/group.component';
 import { TeamComponent } from './team/team.component';
+import { RulesComponent } from './rules/rules.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { TeamComponent } from './team/team.component';
     UserListComponent,
     GroupComponent,
     TeamComponent,
+    RulesComponent,
   ],
   imports: [
     BrowserModule,
