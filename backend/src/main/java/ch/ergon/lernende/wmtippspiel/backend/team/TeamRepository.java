@@ -1,6 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
-import ch.ergon.lernenden.wmtippspiel.backend.db.tables.records.TeamRecord;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,21 +12,15 @@ import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.TEAM;
 public class TeamRepository {
 
     private final DSLContext dslContext;
+    private final TeamMapper teamMapper;
 
     @Autowired
-    public TeamRepository(DSLContext dslContext) {
+    public TeamRepository(DSLContext dslContext, TeamMapper teamMapper) {
         this.dslContext = dslContext;
+        this.teamMapper = teamMapper;
     }
 
     public List<Team> getAllTeams() {
-        return dslContext.selectFrom(TEAM).fetch(this::convert);
-    }
-
-    private Team convert(TeamRecord teamRecord) {
-        Team team = new Team();
-        team.setId(teamRecord.getTeamId());
-        team.setCountry(teamRecord.getCountry());
-        team.setPoints(teamRecord.getPoints());
-        return team;
+        return dslContext.selectFrom(TEAM).fetch(teamMapper::map);
     }
 }
