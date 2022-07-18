@@ -1,4 +1,4 @@
-.textField{
+.textField {
   width: 40%;
   height: auto;
   text-align: left;
@@ -7,6 +7,7 @@
   margin-top: 4em;
   border-style: solid;
 }
+
 .textField p {
   padding: 2em;
 }
