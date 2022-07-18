@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Game} from "./playing-schedule.model"
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {Observable, of} from "rxjs";
 
 
@@ -23,7 +23,7 @@ export class PlayingScheduleService {
   getGames(): Observable<Game[]> {
     return this.httpClient.get<Game[]>(this.gameUrl)
       .pipe(
-        tap(_ => console.log(('fetched Games')),
+        tap(_ => console.log('fetched Games'),
           catchError(this.handleError<Game[]>('getGames', [])))
       );
   }
