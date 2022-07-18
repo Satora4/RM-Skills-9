@@ -1,14 +1,12 @@
 package ch.ergon.lernende.wmtippspiel.backend.group;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Objects;
 
 public class Group {
-
-    @JsonProperty("groupId")
+    
     private int id;
     private String name;
     private List<Team> groupMembers;
