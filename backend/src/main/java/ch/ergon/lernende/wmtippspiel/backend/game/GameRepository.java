@@ -12,7 +12,6 @@ import java.util.List;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.GAME;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.TEAM;
 
-
 @Repository
 public class GameRepository {
 
