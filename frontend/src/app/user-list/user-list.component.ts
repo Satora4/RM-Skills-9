@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "./user-list.model";
 import {UserListService} from "./user-list.service";
-import {group} from "@angular/animations";
 
 @Component({
   selector: 'app-user-list',
@@ -22,7 +21,7 @@ export class UserListComponent implements OnInit {
   private loadUser(): void {
     this.UserService.getUsers().subscribe(users => {
       this.users = users;
-      UserListComponent.getSortedUsers(this.users)
+      this.users.sort((u1, u2) => u2.points - u1.points);
       console.log(users)
     })
   }

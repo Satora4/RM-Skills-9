@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {Observable, of} from "rxjs";
 import {Group} from "./group.model";
 
@@ -21,7 +21,7 @@ export class GroupService {
   getGroups(): Observable<Group[]> {
     return this.http.get<Group[]>(this.groupUrl)
       .pipe(
-        tap(_ => console.log(('fetched Groups')),
+        tap(_ => console.log('fetched Groups'),
           catchError(this.handleError<Group[]>('getGroups', [])))
       )
 
