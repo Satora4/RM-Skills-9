@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Group {
-    
+
     private int id;
     private String name;
     private List<Team> groupMembers;
@@ -32,7 +32,7 @@ public class Group {
     }
 
     public void setGroupMembers(List<Team> groupMembers) {
-        this.groupMembers = groupMembers;
+        this.groupMembers = List.copyOf(groupMembers);
     }
 
     @Override

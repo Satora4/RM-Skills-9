@@ -33,6 +33,6 @@ public class GroupTO {
     }
 
     public void setGroupMembers(List<Team> groupMembers) {
-        this.groupMembers = groupMembers;
+        this.groupMembers = List.copyOf(groupMembers);
     }
 }
