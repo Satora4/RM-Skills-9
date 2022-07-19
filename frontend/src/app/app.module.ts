@@ -5,7 +5,7 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from "./header/header.component";
 import {GameComponent} from "./game/game.component";
 import {HttpClientModule} from '@angular/common/http';
-import {UserComponent} from './user-list/user.component';
+import {UserComponent} from './user/user.component';
 import {GroupComponent} from './group/group.component';
 import {TeamComponent} from './team/team.component';
 

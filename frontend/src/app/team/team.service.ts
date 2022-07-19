@@ -18,7 +18,7 @@ export class TeamService {
   getTeams(): Observable<Team[]> {
     return this.http.get<Team[]>(this.teamUrl)
       .pipe(
-        tap({complete: () => console.log(('fetched Teams'))}),
+        tap({complete: () => console.log('fetched Teams')}),
         catchError(handleError<Team[]>('getTeams', []))
       );
   }
