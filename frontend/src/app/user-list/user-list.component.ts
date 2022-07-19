@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "./user-list.model";
 import {UserListService} from "./user-list.service";
-import {group} from "@angular/animations";
 
 @Component({
   selector: 'app-user-list',
@@ -44,10 +43,8 @@ export class UserListComponent implements OnInit {
     users[b] = tmp;
   }
 
-
   getUsers(): User[] {
 
     return this.users;
   }
-
 }

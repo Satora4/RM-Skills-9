@@ -1,19 +1,16 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, map, tap} from 'rxjs/operators';
-import {Observable, of} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {catchError, tap} from 'rxjs/operators';
+import {Observable} from "rxjs";
 import {User} from "./user-list.model";
-
+import {handleError} from "../util/http.util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserListService {
 
-  private userUrl = 'http://localhost:8080/user'
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+  private userUrl = 'user'
 
   constructor(private http: HttpClient) {
   }
@@ -21,17 +18,8 @@ export class UserListService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.userUrl)
       .pipe(
-        tap(_ => console.log(('fetched Users')),
-          catchError(this.handleError<User[]>('getUsers', [])))
+        tap({complete: () => console.log(('fetched Users'))}),
+        catchError(handleError<User[]>('getUsers', []))
       );
   }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
 }

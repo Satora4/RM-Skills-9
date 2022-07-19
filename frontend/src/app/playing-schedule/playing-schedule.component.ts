@@ -9,10 +9,10 @@ import {Game} from "./playing-schedule.model";
 })
 export class PlayingScheduleComponent implements OnInit {
 
+  private games: Game[] = [];
+
   constructor(private scheduleService: PlayingScheduleService) {
   }
-
-  private games: Game[] = [];
 
   ngOnInit(): void {
     this.loadGames()

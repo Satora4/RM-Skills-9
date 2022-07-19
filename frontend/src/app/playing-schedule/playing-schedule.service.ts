@@ -1,38 +1,25 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Game} from "./playing-schedule.model"
-import {catchError, map, tap} from 'rxjs/operators';
-import {Observable, of} from "rxjs";
-
+import {catchError, tap} from 'rxjs/operators';
+import {Observable} from "rxjs";
+import {handleError} from "../util/http.util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayingScheduleService {
-  private gameUrl = 'http://localhost:8080/game'
 
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+  private gameUrl = 'game'
 
-  constructor(
-    private httpClient: HttpClient
-  ) {
+  constructor(private httpClient: HttpClient) {
   }
 
   getGames(): Observable<Game[]> {
     return this.httpClient.get<Game[]>(this.gameUrl)
       .pipe(
-        tap(_ => console.log(('fetched Games')),
-          catchError(this.handleError<Game[]>('getGames', [])))
+        tap({complete: () => console.log(('fetched Users'))}),
+        catchError(handleError<Game[]>('getGames', []))
       );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
   }
 }

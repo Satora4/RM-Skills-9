@@ -1,19 +1,16 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, map, tap} from 'rxjs/operators';
-import {Observable, of} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {catchError, tap} from 'rxjs/operators';
+import {Observable} from "rxjs";
 import {Team} from "./team.model";
-
+import {handleError} from "../util/http.util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
 
-  private userUrl = 'http://localhost:8080/team'
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+  private userUrl = 'team'
 
   constructor(private http: HttpClient) {
   }
@@ -21,17 +18,8 @@ export class TeamService {
   getTeams(): Observable<Team[]> {
     return this.http.get<Team[]>(this.userUrl)
       .pipe(
-        tap(_ => console.log(('fetched Teams')),
-          catchError(this.handleError<Team[]>('getTeams', [])))
+        tap({complete: () => console.log(('fetched Teams'))}),
+        catchError(handleError<Team[]>('getTeams', []))
       );
   }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
 }
