@@ -18,7 +18,7 @@ export class GroupService {
   getGroups(): Observable<Group[]> {
     return this.http.get<Group[]>(this.groupUrl)
       .pipe(
-        tap({complete: () => console.log(('fetched Users'))}),
+        tap({complete: () => console.log(('fetched Groups'))}),
         catchError(handleError<Group[]>('getGroups', []))
       );
   }

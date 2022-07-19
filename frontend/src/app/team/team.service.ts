@@ -10,13 +10,13 @@ import {handleError} from "../util/http.util";
 })
 export class TeamService {
 
-  private userUrl = 'team'
+  private teamUrl = 'team'
 
   constructor(private http: HttpClient) {
   }
 
   getTeams(): Observable<Team[]> {
-    return this.http.get<Team[]>(this.userUrl)
+    return this.http.get<Team[]>(this.teamUrl)
       .pipe(
         tap({complete: () => console.log(('fetched Teams'))}),
         catchError(handleError<Team[]>('getTeams', []))

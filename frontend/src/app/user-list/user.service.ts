@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, tap} from 'rxjs/operators';
 import {Observable} from "rxjs";
-import {User} from "./user-list.model";
+import {User} from "./user.model";
 import {handleError} from "../util/http.util";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserListService {
+export class UserService {
 
   private userUrl = 'user'
 
