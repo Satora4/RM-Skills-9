@@ -11,15 +11,14 @@ export class GroupComponent implements OnInit {
 
   private groups: Group[] = [];
 
-  constructor(private groupService: GroupService) {
-  }
+  constructor(private groupService: GroupService ) { }
 
   ngOnInit(): void {
-    this.loadGroups();
+    this.loadGroups()
   }
 
   private loadGroups(): void {
-    this.groupService.getGroups().subscribe(groups => {
+    this.groupService.getGroups().subscribe(groups =>{
       this.groups = groups;
     })
   }
