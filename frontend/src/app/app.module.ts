@@ -7,7 +7,8 @@ import {GameComponent} from "./game/game.component";
 import {HttpClientModule} from '@angular/common/http';
 import {UserComponent} from './user/user.component';
 import {GroupComponent} from './group/group.component';
-import {TeamComponent} from './team/team.component';
+import { TeamComponent } from './team/team.component';
+import { RulesComponent } from './rules/rules.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {TeamComponent} from './team/team.component';
     UserComponent,
     GroupComponent,
     TeamComponent,
+    RulesComponent,
   ],
   imports: [
     BrowserModule,
