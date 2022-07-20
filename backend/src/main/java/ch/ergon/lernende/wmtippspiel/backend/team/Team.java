@@ -1,6 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
 public class Team {
+
     private int id;
     private String country;
     private int points;

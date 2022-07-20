@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "./user-list.model";
-import {UserListService} from "./user-list.service";
+import {User} from "./user.model";
+import {UserService} from "./user.service";
 
 @Component({
   selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserComponent implements OnInit {
 
   private users: User[] = [];
 
-  constructor(private UserService: UserListService) {
+  constructor(private UserService: UserService) {
   }
 
   ngOnInit(): void {
@@ -21,7 +21,7 @@ export class UserListComponent implements OnInit {
   private loadUser(): void {
     this.UserService.getUsers().subscribe(users => {
       this.users = users;
-      this.users.sort((u1, u2) => u2.points - u1.points);
+      UserComponent.getSortedUsers(this.users)
       console.log(users)
     })
   }
@@ -30,7 +30,7 @@ export class UserListComponent implements OnInit {
     for (let i = 0; i < users.length; i++) {
       for (let j = 0; j < (users.length - 1) - i; j++) {
         if (users[j].points < users[j + 1].points) {
-          UserListComponent.change(users, j, j + 1);
+          UserComponent.change(users, j, j + 1);
         }
       }
     }
@@ -43,10 +43,8 @@ export class UserListComponent implements OnInit {
     users[b] = tmp;
   }
 
-
   getUsers(): User[] {
 
     return this.users;
   }
-
 }
