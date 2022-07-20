@@ -23,9 +23,10 @@ public class GroupController {
 
     private GroupTO convert(Group group) {
         GroupTO groupTO = new GroupTO();
+        
+        groupTO.setId(group.getId());
         groupTO.setName(group.getName());
         groupTO.setGroupMembers(group.getGroupMembers());
-        groupTO.setId(group.getId());
         return groupTO;
     }
 }

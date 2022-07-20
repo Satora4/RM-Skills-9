@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { GroupComponent } from './group.component';
 
 describe('GroupComponent', () => {

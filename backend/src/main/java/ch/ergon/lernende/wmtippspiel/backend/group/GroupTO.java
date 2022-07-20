@@ -1,11 +1,13 @@
 package ch.ergon.lernende.wmtippspiel.backend.group;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class GroupTO {
 
+    @JsonProperty("groupId")
     private int id;
     private String name;
     private List<Team> groupMembers;
@@ -31,6 +33,6 @@ public class GroupTO {
     }
 
     public void setGroupMembers(List<Team> groupMembers) {
-        this.groupMembers = groupMembers;
+        this.groupMembers = List.copyOf(groupMembers);
     }
 }

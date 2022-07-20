@@ -19,8 +19,8 @@ export class TeamComponent implements OnInit {
   }
 
   loadTeams(): void {
-    this.teamService.getTeams().subscribe(teamsFromService => {
-      this.teams = teamsFromService;
+    this.teamService.getTeams().subscribe(teams => {
+      this.teams = teams;
     })
   }
 

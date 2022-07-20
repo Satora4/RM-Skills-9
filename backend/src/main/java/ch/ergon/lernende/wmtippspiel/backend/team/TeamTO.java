@@ -1,7 +1,10 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TeamTO {
 
+    @JsonProperty("teamId")
     private int id;
     private String country;
     private int points;

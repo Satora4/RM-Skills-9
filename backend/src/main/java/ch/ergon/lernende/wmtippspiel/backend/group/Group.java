@@ -7,16 +7,16 @@ import java.util.Objects;
 
 public class Group {
 
-    private int groupId;
+    private int id;
     private String name;
     private List<Team> groupMembers;
 
     public int getId() {
-        return groupId;
+        return id;
     }
 
     public void setId(int id) {
-        this.groupId = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -32,7 +32,7 @@ public class Group {
     }
 
     public void setGroupMembers(List<Team> groupMembers) {
-        this.groupMembers = groupMembers;
+        this.groupMembers = List.copyOf(groupMembers);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Group {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
-        return groupId == group.groupId && Objects.equals(name, group.name) && Objects.equals(groupMembers, group.groupMembers);
+        return id == group.id && Objects.equals(name, group.name) && Objects.equals(groupMembers, group.groupMembers);
     }
 
     @Override
