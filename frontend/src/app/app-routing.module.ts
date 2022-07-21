@@ -7,11 +7,11 @@ import {RulesComponent} from "./rules/rules.component";
 
 const routes: Routes = [
 
-  {path: 'playing-schedule', component: GameComponent},
+  {path: 'game', component: GameComponent},
   {path: 'user-list', component: UserComponent},
   {path: 'groups', component: GroupComponent},
   {path: 'rules', component: RulesComponent},
-  {path: '', redirectTo: '/playing-schedule', pathMatch: 'full'}
+  {path: '', redirectTo: '/game', pathMatch: 'full'}
 ];
 
 @NgModule({
