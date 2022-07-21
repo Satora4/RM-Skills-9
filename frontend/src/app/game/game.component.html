@@ -1,8 +1,7 @@
-<h1>asdfghjkl</h1>
-
 <div class="list">
   <table mat-table [dataSource]="dataSource" matSort matSortDisableClear matSortActive="gameTime"
          matSortDirection="asc">
+
 
     <ng-container matColumnDef="gameTime">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum</th>
@@ -29,20 +28,47 @@
       <td mat-cell *matCellDef="let element">{{element.pointsTeam2}}</td>
     </ng-container>
 
-    <!--    <ng-container matColumnDef="teamCountry2">-->
-    <!--      <th mat-header-cell *matHeaderCellDef mat-sort-header>Team 2</th>-->
-    <!--      <td mat-cell *matCellDef="let element">{{element.teamCountry2}}</td>-->
-    <!--    </ng-container>-->
-    <ng-container>
-      <th mat-header-cell></th>
-      <td mat-cell *matCellDef>
-        <button mat-button id="tippButton">Tipp</button>
+    <ng-container matColumnDef="teamCountry2">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Team 2</th>
+      <td mat-cell *matCellDef="let element">{{element.teamCountry2}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="expand row"
+                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+        </button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+        <div
+          [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div>
+            <div> {{element.gameTime}} </div>
+            <div> {{element.gameLocation}} </div>
+            <div> {{element.teamCountry1}} </div>
+            <div> {{element.pointsTeam1}} </div>
+            <div> {{element.pointsTeam2}} </div>
+            <div> {{element.teamCountry2}} </div>
+          </div>
+          <div>
+            {{element.tip}}
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+        [class.expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
 
   </table>
 </div>
-

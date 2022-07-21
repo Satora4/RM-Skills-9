@@ -12,6 +12,9 @@ import {TeamComponent} from './team/team.component';
 import {RulesComponent} from './rules/rules.component';
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -24,12 +27,17 @@ import {MatTableModule} from "@angular/material/table";
     RulesComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MatNativeDateModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    ReactiveFormsModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
