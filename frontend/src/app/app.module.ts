@@ -7,6 +7,8 @@ import {GameComponent} from "./game/game.component";
 import {HttpClientModule} from '@angular/common/http';
 import {UserComponent} from './user/user.component';
 import {GroupComponent} from './group/group.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { TeamComponent } from './team/team.component';
 import { RulesComponent } from './rules/rules.component';
 
@@ -24,6 +26,7 @@ import { RulesComponent } from './rules/rules.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
 
   ],
   providers: [],
