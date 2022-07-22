@@ -1,3 +1,4 @@
+import com.github.gradle.node.npm.task.NpmTask
 import com.github.gradle.node.npm.task.NpxTask
 
 plugins {
@@ -25,6 +26,10 @@ tasks {
     inputs.dir("src")
     inputs.dir(fileTree("node_modules").exclude(".cache"))
     outputs.dir("dist")
+  }
+
+  val formatFrontend by creating(NpmTask::class) {
+    this.npmCommand.set(listOf("run", "format"))
   }
 
   val copyDistToResources by creating(Copy::class) {

@@ -1,0 +1,10 @@
+{
+  "singleQuote": true,
+  "bracketSpacing": true,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "printWidth": 160,
+  "tabWidth": 2,
+  "importOrder": ["^@angular/(.*)$", "^[./]"],
+  "importOrderSeparation": true
+}
