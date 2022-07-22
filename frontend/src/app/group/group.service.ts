@@ -1,25 +1,23 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, tap} from 'rxjs/operators';
-import {Observable} from "rxjs";
-import {Group} from "./group.model";
-import {handleError} from "../util/http.util";
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { handleError } from '../util/http.util';
+import { Group } from './group.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GroupService {
+  private groupUrl = 'group';
 
-  private groupUrl = 'group'
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getGroups(): Observable<Group[]> {
-    return this.http.get<Group[]>(this.groupUrl)
-      .pipe(
-        tap({complete: () => console.log('fetched Groups')}),
-        catchError(handleError<Group[]>('getGroups', []))
-      );
+    return this.http
+      .get<Group[]>(this.groupUrl)
+      .pipe(tap({ complete: () => console.log('fetched Groups') }), catchError(handleError<Group[]>('getGroups', [])));
   }
 }
