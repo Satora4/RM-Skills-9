@@ -7,10 +7,13 @@ import {GameComponent} from "./game/game.component";
 import {HttpClientModule} from '@angular/common/http';
 import {UserComponent} from './user/user.component';
 import {GroupComponent} from './group/group.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-import { TeamComponent } from './team/team.component';
-import { RulesComponent } from './rules/rules.component';
+import {TeamComponent} from './team/team.component';
+import {RulesComponent} from './rules/rules.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -27,7 +30,9 @@ import { RulesComponent } from './rules/rules.component';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
