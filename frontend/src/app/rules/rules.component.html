@@ -1,15 +1,331 @@
 <div class="textField">
-  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
-    magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-    gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-    elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-    eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-    dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-    Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  <h4>
+    <a mat-stroked-button class="redirectButton" href="/rules#top">WM Regeln</a>
+    <a mat-stroked-button class="redirectButton" href="/rules#middle">Fußball Regeln</a>
+    <a mat-stroked-button class="redirectButton" class="redirectButton" href="/rules#bottom">Fußballregeln für Fans </a>
+  </h4>
+  <br><br><br>
 
-    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat
-    nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue
-    duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,</p>
+  <h1>Spiel Regeln</h1><br>
+  <mat-card>
+    <h2>Tipp Spiel</h2>
+    <p>
+      Für jeden Tipp den man abgibt, kann man 0 bis 3 Punkte erhalten.
+    </p>
+    <h3>Sie werden folgendermaßen verteilt:</h3>
+    <ul>
+      <li>
+        Falls man das <b _ngcontent-c1="">exakte Resultat</b> (Tipp: 2:0, Resultat: 2:0) tippt, erhält man 3 Punkte.
+      </li>
+      <li>
+        Falls man die <b _ngcontent-c1="">richtige Tendenz und die richtige Tordifferenz</b> (Tipp: 2:0, Resultat 3:1,
+        Unterschied = 2) tippt,<br>so erhält man zwei Punkte. Dabei gibt es eine Ausnahme: bei Unentschieden erhält man
+        nur einen Punkt.
+      </li>
+      <li>
+        Falls man nur die <b _ngcontent-c1="">richtige Tendenz</b> (Tipp: 2:0, Resultat: 3:2) tippt, erhält man einen
+        Punkt.
+      </li>
+      <li>
+        Für einen <b _ngcontent-c1="">falschen Tipp</b> (Tipp: 1:0, Resultat: 0:0) gibt es keine Punkte.
+      </li>
+    </ul>
+    <p>
+      Getippt werden kann, bis zu Spielbeginn. Bereits getippte Spiele können ebenfalls bis Spielbeginn geändert werden.
+      Das heißt, dass das Startspiel Senegal gegen Niederlande (21.11, 11:00) bis 21.11, 10:59 getippt werden könnte.
+      <br><br> Falls ein Spiel in die Verlängerung oder ins Elfmeterschießen gehen sollte, zählt das Endresultat und
+      nicht der Spielstand nach 90 Minuten.
+    </p>
+  </mat-card>
+  <br>
+  <a mat-stroked-button href="https://de.wikipedia.org/wiki/Fu%C3%9Fball-Weltmeisterschaft#Regelwerk" target="_blank">Quelle</a>
+  <br><br><br>
+  <mat-divider></mat-divider>
+  <br><br>
+
+  <h1 id="top">WM Regeln</h1><br>
+  <mat-card>
+    <h2>Gruppenphase</h2>
+    <p>
+      In der ersten Turnierphase sind die Mannschaften nach dem Zufallsprinzip in mehrere Gruppen mit
+      jeweils vier Mannschaften unterteilt, wobei einige Mannschaften nach gewissen Kriterien (Gastgeber, Weltmeister,
+      FIFA-Rangliste) gesetzt und die anderen Mannschaften aus vorwiegend regional orientierten Lostöpfen gezogen
+      werden. Dadurch soll verhindert werden, dass in der Gruppenphase bereits die Turnierfavoriten aufeinandertreffen
+      oder eine Gruppe nur aus Nationalmannschaften eines Kontinents besteht.<br><br>
+      Jedes Team hat in der Gruppenphase drei Spiele gegen seine Gruppengegner zu bestreiten. Wie im Fußball weltweit
+      Standard, bringt ein Sieg drei Punkte, ein Unentschieden einen Punkt und eine Niederlage
+      keinen Punkt. Die beiden letztplatzierten Mannschaften jeder Gruppe scheiden nach den drei Spielen der
+      Gruppenphase aus. Bei Punktgleichheit von zwei oder mehr Mannschaften wird die Rangfolge in der Gruppe
+      folgendermaßen ermittelt: Erstes Kriterium ist die Tordifferenz aus allen Gruppenspielen. Sollte diese gleich
+      sein, zählt die höhere Zahl der in allen Gruppenspielen erzielten Tore. Sollten zwei oder mehr Mannschaften in
+      allen diesen Kriterien übereinstimmen, entscheidet der direkte Vergleich dieser Mannschaften (wieder in der
+      Reihenfolge Punkte, Tordifferenz und Anzahl der geschossenen Tore aus den Spielen dieser Mannschaften
+      untereinander) und letztlich das Los.
+    </p>
+  </mat-card>
+  <br>
+  <mat-card>
+    <h2>Endphase</h2>
+    <p>
+      In den kommenden Runden gilt das K.-o.-System, d. h. nur der Sieger kommt in die jeweils nächste Runde. Steht es
+      nach Ablauf der regulären 90-minütigen Spielzeit unentschieden, geht das Spiel in die Verlängerung. Nach einer
+      Pause von fünf Minuten wird ohne weitere Pause (nur mit Seitenwechsel) zwei Mal 15 Minuten gespielt. Die
+      Mannschaft, die in der Verlängerung mehr Tore erzielt, hat gewonnen. Sollte nach der Verlängerung immer noch kein
+      Sieger feststehen, entscheidet ein Elfmeterschießen.<br><br>Nachdem in der Gruppenphase die Hälfte der
+      Mannschaften ausgeschieden sind, verbleiben 16 Teams, die in den
+      Achtelfinalspielen um ein Weiterkommen kämpfen. Dabei spielt jeder Gruppenerste gegen den Gruppenzweiten einer
+      anderen Gruppe. Die Sieger der Achtelfinale bestreiten eines von vier Spielen, die als Viertelfinale bezeichnet
+      werden. Die vier Sieger dieser Partien dürfen in eines von zwei Halbfinalen einziehen.<br><br>
+      Die beiden Verlierer der Halbfinalspiele bestreiten das Spiel um den dritten Platz der WM, welches am Vorabend
+      des Finalspiels stattfindet und auch als „Kleines Finale“ bezeichnet wird. Das Siegerteam des Finalspiels bekommt
+      den Pokal und darf sich für vier Jahre Weltmeister nennen.
+    </p>
+  </mat-card>
+  <br>
+  <a mat-stroked-button href="https://de.wikipedia.org/wiki/Fu%C3%9Fball-Weltmeisterschaft#Regelwerk" target="_blank">Quelle</a>
+  <br><br><br>
+  <mat-divider></mat-divider>
+  <br><br>
+
+  <h1 id="middle">Fußball Regeln</h1>
+  <mat-card>
+    <h2>Spieler</h2>
+    <p>
+      Es dürfen maximal 11 und mindestens 7 Spieler auf dem Feld sein inklusiv Torwart.
+      Das Team kann durch eine Rote Karte Spieler verlieren, die nicht ersetzt werden dürfen.
+      Zusätzlich gibt es Auswechselspieler, die während des Spiels mit einem aktiven Spieler tauschen dürfen.
+    </p>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Spieldauer</h2>
+    <p>
+      Ein Fußballspiel besteht aus zwei Hälften, die jeweils 45 Minuten dauern. Dazwischen steht den Spielern eine
+      maximal 15-minütige Pause zu. Die Halbzeitpause gilt ab dem Abpfiff der ersten Halbzeit und dauert bis zum Anpfiff
+      der zweiten Halbzeit.
+    </p>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Handspiel</h2>
+    <p>
+      Absichtliches Handspiel, mit dem ein Tor oder die Chance darauf offensichtlich verhindert wird, wird mit einer
+      roten Karte bestraft. Auch unabsichtliches Handspiel kann bestraft werden und dadurch erzielte Tore werden nicht
+      mehr gezählt.
+    </p>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Abseitsregel</h2>
+    <p>
+      Stehen nicht mindestens zwei Gegenspieler näher am gegnerischen Tor als der Angreifer, befindet er sich in einer
+      Abseitsposition. Befindet sich der Spieler in der eigenen Spielhälfte, ist das kein Abseits. Abseits wird vom
+      Schiedsrichter dann gepfiffen, wenn dieser Spieler den Ball berührt oder aktiv am Spielgeschehen teilnimmt (zum
+      Beispiel sich vor den Gegner stellt, um ihn zu behindern). Bemerkt der Spieler rechtzeitig, dass er sich im
+      Abseits befindet und nimmt daraufhin den Ball nicht an, wird in der Regel kein Abseits gepfiffen.
+    </p>
+    <h3>Ausnahmen:</h3>
+    <ul>
+      <li>
+        Steht ein Spieler im Abseits und der Ball ist näher am Tor als er selbst und ihm wird der Ball zugespielt, dann
+        begeht er keinen Regelverstoß.
+      </li>
+      <li>
+        Das Gleiche gilt, wenn der Ball einem Spieler zugespielt wird und der Ball dabei nicht nach vorne gespielt wird,
+        sich also der gegnerischen Torlinie nicht nähert.
+      </li>
+    </ul>
+    <br>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Einwurf</h2>
+    <p>
+      Ein Einwurf wird erteilt, wenn der Ball vollständig die Seitenauslinie des Spielfelds überquert hat (am Boden oder
+      in der Luft). Einwurf hat die Mannschaft, die den Ball nicht zuletzt berührt hat.
+    </p>
+    <h3>Die Ausführung:</h3>
+    <ul>
+      <li>
+        Der Ball muss mit beiden Händen über den Kopf geworfen werden und der Ball darf dabei nicht nach unten
+        geworfen werden.
+      </li>
+      <li>
+        Der einwerfende Spieler darf nicht komplett im Feld stehen, sondern nur mit einem Teil beider Füße die
+        Seitenauslinie berühren.
+      </li>
+      <li>
+        Wenn der Ball die Hände des Spielers verlässt müssen beide Beine den Boden berühren.
+      </li>
+      <li>
+        Die Gegenspieler müssen mindestens zwei Meter vom einwerfenden Spieler entfernt stehen.
+      </li>
+      <li>
+        Der einwerfende Spieler darf den Ball erst wieder annehmen, wenn ihn zuvor ein anderer Spieler berührt hat.
+      </li>
+    </ul>
+    <br>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Strafstöße und Karten</h2>
+    <h3>Gelbe Karte:</h3>
+    <ul>
+      <li>
+        Erhält der Spieler als Verwarnung, wenn er zu häufig oder heftig gegen die Spielregeln verstößt.
+      </li>
+      <li>
+        Bei der zweiten Gelben Karte muss der Spieler das Feld verlassen und darf nicht ersetzt werden.
+      </li>
+    </ul>
+    <br>
+    <h3>Rote Karte:</h3>
+    <ul>
+      <li>
+        Der Spieler muss umgehend das Spielfeld verlassen und darf nicht durch einen anderen Spieler ersetzt werden.
+      </li>
+      <li>
+        Der Spieler wird mindestens für das nächste Spiel gesperrt.
+      </li>
+    </ul>
+    <br>
+    <h3>Strafstoß</h3>
+    <ul>
+      <li>
+        Wird bei einem Foul oder absichtlichem Handspiel des Verteidigers im Strafraum (Sechzehner) erteilt.
+      </li>
+      <li>
+        Die geschädigte Mannschaft darf aus elf Metern Entfernung auf das gegnerische Tor schießen.
+      </li>
+    </ul>
+    <br>
+    <h3>Freistoß</h3>
+    <ul>
+      <li>
+        Wird bei einem Foul oder Regelverstoß außerhalb des Strafraums erteilt.
+      </li>
+      <li>
+        Beim Freistoß muss zwischen indirektem und direktem Freistoß unterschieden werden.
+      </li>
+    </ul>
+    <br>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Eckstoß</h2>
+    <p>
+      Zu einem Eckstoß kommt es, wenn
+    </p>
+    <ul>
+      <li>
+        der Ball vollständig die Torlinie (also den Spielfeldrand hinter dem Tor) überquert.
+      </li>
+      <li>
+        zuvor kein Tor erzielt wurde.
+      </li>
+      <li>
+        der Ball zuletzt von der verteidigenden Mannschaft berührt wurde.
+      </li>
+    </ul>
+    <p>
+      Der Eckstoß wird an der Ecke ausgeführt, die näher zu dem Punkt liegt, an dem der Ball ins Aus gegangen ist. Durch
+      den Eckball darf außerdem direkt ein Tor erzielt werden.
+    </p>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Nachspielzeit</h2>
+    <p>
+      Nach jeder Halbzeit kann die Zeit nachgespielt werden, die während des Spiels verloren gegangen ist.
+    </p>
+    <h3>Zeiteinbußen entstehen zum Beispiel durch:</h3>
+    <ul>
+      <li>
+        Auswechslungen
+      </li>
+      <li>
+        Ausgeprägter Torjubel
+      </li>
+      <li>
+        Ansehen der Fernsehbilder beim Videobeweis
+      </li>
+      <li>
+        Verletzung von Spielern
+      </li>
+      <li>
+        Abtransport verletzter Spieler vom Spielfeld
+      </li>
+      <li>
+        Zeitschinden
+      </li>
+      <li>
+        Gewitter
+      </li>
+      <li>
+        jegliche anderen Verzögerungen
+      </li>
+    </ul>
+    <br>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Verlängerung</h2>
+    <p>
+      Verlängerungen gibt es nur bei Entscheidungs- oder Pokalspielen, bei denen es nach der regulären Spielzeit von 90
+      Minuten zu keiner Entscheidung kommt.<br><br>Verlängerung: 2 x 15 Minuten (mit Pause).<br><br>
+      Die Verlängerung muss komplett gespielt werden, auch wenn währenddessen eine Mannschaft ein Tor, also eine
+      Entscheidung, erzielen würde.
+    </p>
+  </mat-card>
+  <br><br>
+  <mat-card>
+    <h2>Elfmeterschießen</h2>
+    <p>
+      Gibt es bei Entscheidungs- oder Pokalspielen nach der Verlängerung immer noch kein Ergebnis, kommt es zum
+      Elfmeterschießen.<br><br>Es dürfen fünf Spieler von jeder Mannschaft nacheinander von der Strafstoßmarke
+      (11 Meter von der Torlinie entfernt) auf das Tor schießen, wobei sich die Mannschaften abwechseln.
+      Die Mannschaft mit den meisten Toren gewinnt.<br><br>Wenn es nach den fünf Torschüssen immer noch unentschieden
+      steht, schießen jeweils beide Mannschaften abwechselnd auf das Tor, bis eine Mannschaft erfolgreich trifft und
+      die andere nicht.
+    </p>
+  </mat-card>
+  <br>
+  <a mat-stroked-button href="https://www.owayo.ch/magazin/fussball-regeln-ch.htm" target="_blank">Quelle</a>
+  <br><br><br>
+  <mat-divider></mat-divider>
+  <br><br>
+
+  <h1 id="bottom">Fußballregeln für Fans</h1>
+  <mat-card>
+    <p>
+      Ein richtiges Regelwerk für Fans gibt es noch nicht. Trotzdem haben die meisten Stadien Vorschriften, an die sich
+      die Fans halten müssen.
+    </p>
+    <h3>Verboten sind zum Beispiel:</h3>
+    <ul>
+      <li>
+        Selbst mitgebrachter Alkohol und andere Drogen (außer Tabak)
+      </li>
+      <li>
+        Waffen oder gefährliche Substanzen
+      </li>
+      <li>
+        Rauchbomben, Rauchpulver und andere Pyrotechnik
+      </li>
+      <li>
+        Glasflaschen
+      </li>
+      <li>
+        Tiere (ausgenommen sind in der Regel Blinden- oder Servicehunde)
+      </li>
+    </ul>
+    <p>
+      Accessoires sind im Stadion nicht verboten. Große Hüte oder Handschuhe können manchen Stadiongästen die Sicht also
+      durchaus einmal versperren. Denken Sie deshalb auch an die anderen Fans, und entscheiden Sie sich für eine andere
+      Möglichkeit, ihre Mannschaft zu unterstützen.
+    </p>
+  </mat-card>
+  <br>
+  <a mat-stroked-button href="https://www.owayo.ch/magazin/fussball-regeln-ch.htm" target="_blank">Quelle</a>
+  <br><br><br><br><br><br><br>
 </div>
-

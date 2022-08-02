@@ -1,5 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -14,7 +17,7 @@ import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, GameComponent, UserComponent, GroupComponent, TeamComponent, RulesComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule, MatButtonModule, MatCardModule, MatDividerModule],
   providers: [],
   bootstrap: [AppComponent],
 })
