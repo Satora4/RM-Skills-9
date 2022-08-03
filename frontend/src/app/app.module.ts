@@ -14,9 +14,10 @@ import { HeaderComponent } from './header/header.component';
 import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
 import { UserComponent } from './user/user.component';
+import { TipComponent } from './tip/tip.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, GameComponent, UserComponent, GroupComponent, TeamComponent, RulesComponent],
+  declarations: [AppComponent, HeaderComponent, GameComponent, UserComponent, GroupComponent, TeamComponent, RulesComponent, TipComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule, MatButtonModule, MatCardModule, MatDividerModule],
   providers: [],
   bootstrap: [AppComponent],
