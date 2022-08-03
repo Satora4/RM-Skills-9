@@ -1,17 +1,16 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {GameService} from "./game.service";
-import {Game} from "./game.model";
-import {MatSort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { Game } from './game.model';
+import { GameService } from './game.service';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-
 export class GameComponent implements AfterViewInit, OnInit {
-
   dataSource = new MatTableDataSource();
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'pointsTeam2', 'teamCountry2'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
@@ -32,10 +31,10 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   private loadGames(): void {
-    this.gameService.getGames().subscribe(games => {
+    this.gameService.getGames().subscribe((games) => {
       this.games = games;
       this.dataSource.data = games;
-    })
+    });
   }
 
   getGames(): Game[] {
