@@ -13,8 +13,8 @@ import { GroupComponent } from './group/group.component';
 import { HeaderComponent } from './header/header.component';
 import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
-import { UserComponent } from './user/user.component';
 import { TipComponent } from './tip/tip.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, GameComponent, UserComponent, GroupComponent, TeamComponent, RulesComponent, TipComponent],

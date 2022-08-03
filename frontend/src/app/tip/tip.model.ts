@@ -1,5 +1,5 @@
-import {User} from "../user/user.model";
-import {Game} from "../game/game.model";
+import { Game } from '../game/game.model';
+import { User } from '../user/user.model';
 
 export interface Tip {
   id: number;
