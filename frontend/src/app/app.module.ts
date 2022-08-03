@@ -18,10 +18,11 @@ import { GroupComponent } from './group/group.component';
 import { HeaderComponent } from './header/header.component';
 import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
+import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
 
 @NgModule({
-  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, UserComponent],
+  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
