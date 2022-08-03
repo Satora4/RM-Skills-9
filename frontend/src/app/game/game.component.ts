@@ -4,7 +4,7 @@ import { Game } from './game.model';
 import { GameService } from './game.service';
 
 @Component({
-  selector: 'app-playing-schedule',
+  selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
