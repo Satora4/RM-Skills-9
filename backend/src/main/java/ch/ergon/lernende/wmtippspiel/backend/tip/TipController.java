@@ -4,8 +4,10 @@ import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +19,18 @@ public class TipController {
     public TipController(TipRepository tipRepository) {
         this.tipRepository = tipRepository;
     }
-
+    
     @GetMapping("tip")
-    public List<TipTO> getAllTip() {
-        return tipRepository.getAllTip().stream().map(this::convert).collect(Collectors.toList());
+    public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
+        if (userId != null) {
+            return convertAll(tipRepository.getTipsByUserId(userId));
+        } else {
+            return convertAll(tipRepository.getAllTip());
+        }
+    }
+
+    private List<TipTO> convertAll(Collection<Tip> tips) {
+        return tips.stream().map(this::convert).collect(Collectors.toList());
     }
 
     private TipTO convert(Tip tip) {

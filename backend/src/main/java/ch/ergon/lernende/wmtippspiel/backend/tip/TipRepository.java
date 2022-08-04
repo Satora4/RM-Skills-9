@@ -6,6 +6,7 @@ import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -48,6 +49,33 @@ public class TipRepository {
                 .join(GAME).on(GAME.GAME_ID.eq(TIP.GAME_ID))
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
+                .where(DSL.noCondition())
+                .fetch(this::convert);
+    }
+
+    public List<Tip> getTipsByUserId(int userId) {
+        return dslContext.select(TIP.TIP_ID,
+                        TIP.TIP_TEAM1,
+                        TIP.TIP_TEAM2,
+                        USER.USER_ID,
+                        USER.FIRST_NAME,
+                        USER.LAST_NAME,
+                        USER.EMAIL,
+                        GAME.GAME_ID,
+                        GAME.GAME_TIME,
+                        GAME.GAME_LOCATION,
+                        GAME.POINTS_TEAM1,
+                        GAME.POINTS_TEAM2,
+                        TEAM_ALIAS_1.TEAM_ID,
+                        TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_2.TEAM_ID,
+                        TEAM_ALIAS_2.COUNTRY)
+                .from(TIP)
+                .join(USER).on(USER.USER_ID.eq(TIP.USER_ID))
+                .join(GAME).on(GAME.GAME_ID.eq(TIP.GAME_ID))
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
+                .where(USER.USER_ID.eq(userId))
                 .fetch(this::convert);
     }
 
