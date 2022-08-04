@@ -5,12 +5,14 @@ import { GameComponent } from './game/game.component';
 import { GroupComponent } from './group/group.component';
 import { RulesComponent } from './rules/rules.component';
 import { UserComponent } from './user/user.component';
+import {TipComponent} from "./tip/tip.component";
 
 const routes: Routes = [
   { path: 'games', component: GameComponent },
   { path: 'users', component: UserComponent },
   { path: 'groups', component: GroupComponent },
   { path: 'rules', component: RulesComponent },
+  { path: 'tips', component: TipComponent},
   { path: '', redirectTo: '/games', pathMatch: 'full' },
 ];
 

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {TipService} from "./tip.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {GameService} from "../game/game.service";
 
 @Component({
   selector: 'app-tip',
@@ -6,7 +9,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tip.component.css'],
 })
 export class TipComponent implements OnInit {
-  constructor() {}
+  tipDataSource = new MatTableDataSource();
+  gameDataSource = new MatTableDataSource();
+  displayedColumns: string[] = ['gameTime', 'gameLocation', 'teamCountry1', 'tipTeam1', 'tipTeam2', 'teamCountry2'];
 
-  ngOnInit(): void {}
+  constructor(private tipService: TipService, private gameService: GameService) {}
+
+  ngOnInit(): void {
+    this.loadTips();
+    this.loadGames();
+  }
+
+  private loadTips(): void{
+    this.tipService.getTips().subscribe(tips => {
+      this.tipDataSource.data = tips;
+    });
+  }
+
+  private loadGames(): void{
+    this.gameService.getGames().subscribe(games => {
+      this.gameDataSource.data = games;
+    })
+  }
 }

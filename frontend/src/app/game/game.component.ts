@@ -16,8 +16,6 @@ export class GameComponent implements AfterViewInit, OnInit {
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: Game | null | undefined;
 
-  private games: Game[] = [];
-
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private gameService: GameService) {}
@@ -31,13 +29,8 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   private loadGames(): void {
-    this.gameService.getGames().subscribe((games) => {
-      this.games = games;
+    this.gameService.getGames().subscribe(games => {
       this.dataSource.data = games;
     });
-  }
-
-  getGames(): Game[] {
-    return this.games;
   }
 }
