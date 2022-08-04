@@ -29,19 +29,16 @@ public class TipRepository {
     }
 
     public List<Tip> getAllTip() {
-        return condition(null);
+
+        return getTips(null);
     }
 
     public List<Tip> getTipsByUserId(int userId) {
-        return condition(userId);
+        return getTips(USER.USER_ID.eq(userId));
     }
 
-    private List<Tip> condition(Integer userId) {
-        Condition condition;
-
-        if (userId != null) {
-            condition = USER.USER_ID.eq(userId);
-        } else {
+    private List<Tip> getTips(Condition condition) {
+        if (condition == null) {
             condition = DSL.noCondition();
         }
 

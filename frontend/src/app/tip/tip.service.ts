@@ -11,7 +11,8 @@ import { Tip } from './tip.model';
   providedIn: 'root',
 })
 export class TipService {
-  private tipUrl = 'tip';
+  //ToDo ändern mit Login
+  private tipUrl = 'tip?userId=1';
 
   constructor(private httpClient: HttpClient) {}
 

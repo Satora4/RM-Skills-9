@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {TipService} from "./tip.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {GameService} from "../game/game.service";
+import { MatTableDataSource } from '@angular/material/table';
+
+import { GameService } from '../game/game.service';
+import { TipService } from './tip.service';
 
 @Component({
   selector: 'app-tip',
@@ -20,15 +21,15 @@ export class TipComponent implements OnInit {
     this.loadGames();
   }
 
-  private loadTips(): void{
-    this.tipService.getTips().subscribe(tips => {
+  private loadTips(): void {
+    this.tipService.getTips().subscribe((tips) => {
       this.tipDataSource.data = tips;
     });
   }
 
-  private loadGames(): void{
-    this.gameService.getGames().subscribe(games => {
+  private loadGames(): void {
+    this.gameService.getGames().subscribe((games) => {
       this.gameDataSource.data = games;
-    })
+    });
   }
 }

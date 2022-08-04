@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 public class TipController {
@@ -19,7 +20,7 @@ public class TipController {
     public TipController(TipRepository tipRepository) {
         this.tipRepository = tipRepository;
     }
-    
+
     @GetMapping("tip")
     public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
         if (userId != null) {
@@ -30,7 +31,7 @@ public class TipController {
     }
 
     private List<TipTO> convertAll(Collection<Tip> tips) {
-        return tips.stream().map(this::convert).collect(Collectors.toList());
+        return tips.stream().map(this::convert).collect(toList());
     }
 
     private TipTO convert(Tip tip) {
