@@ -30,7 +30,7 @@ public class TipRepository {
 
     public List<Tip> getAllTip() {
 
-        return getTips(null);
+        return getTips(DSL.noCondition());
     }
 
     public List<Tip> getTipsByUserId(int userId) {
@@ -38,10 +38,6 @@ public class TipRepository {
     }
 
     private List<Tip> getTips(Condition condition) {
-        if (condition == null) {
-            condition = DSL.noCondition();
-        }
-
         return dslContext.select(TIP.TIP_ID,
                         TIP.TIP_TEAM1,
                         TIP.TIP_TEAM2,
