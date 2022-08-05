@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -32,6 +33,7 @@ import { UserComponent } from './user/user.component';
     MatButtonModule,
     MatCardModule,
     MatDividerModule,
+    MatFormFieldModule,
     MatIconModule,
     MatNativeDateModule,
     MatSortModule,

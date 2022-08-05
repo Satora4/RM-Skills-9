@@ -4,8 +4,10 @@ import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +29,15 @@ public class TipRepository {
     }
 
     public List<Tip> getAllTip() {
+
+        return getTips(DSL.noCondition());
+    }
+
+    public List<Tip> getTipsByUserId(int userId) {
+        return getTips(USER.USER_ID.eq(userId));
+    }
+
+    private List<Tip> getTips(Condition condition) {
         return dslContext.select(TIP.TIP_ID,
                         TIP.TIP_TEAM1,
                         TIP.TIP_TEAM2,
@@ -48,6 +59,7 @@ public class TipRepository {
                 .join(GAME).on(GAME.GAME_ID.eq(TIP.GAME_ID))
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
+                .where(condition)
                 .fetch(this::convert);
     }
 
