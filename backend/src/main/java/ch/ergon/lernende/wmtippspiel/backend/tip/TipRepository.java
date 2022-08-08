@@ -62,7 +62,7 @@ public class TipRepository {
                 .fetch(this::convert);
     }
 
-    public void addNewTip(TipTO tipTO) {
+    public void addTip(TipTO tipTO) {
         dslContext.insertInto(TIP)
                 .set(TIP.USER_ID, tipTO.getUserId())
                 .set(TIP.TIP_TEAM1, tipTO.getTipTeam1())

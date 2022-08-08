@@ -3,6 +3,7 @@ package ch.ergon.lernende.wmtippspiel.backend.tip;
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -30,8 +31,9 @@ public class TipController {
     }
 
     @PostMapping
-    public void saveTipFromUser(@RequestBody TipTO tipTO) {
-        tipRepository.addNewTip(tipTO);
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void addTip(@RequestBody TipTO tipTO) {
+        tipRepository.addTip(tipTO);
     }
 
     private List<TipTO> convertAll(Collection<Tip> tips) {
