@@ -25,9 +25,9 @@ public class TipController {
     @GetMapping
     public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
         if (userId != null) {
-            return convertAllToTipTO(tipRepository.getTipsByUserId(userId));
+            return convert(tipRepository.getTipsByUserId(userId));
         } else {
-            return convertAllToTipTO(tipRepository.getAllTip());
+            return convert(tipRepository.getAllTip());
         }
     }
 
@@ -37,7 +37,7 @@ public class TipController {
         tipRepository.addTip(convert(tipTO));
     }
 
-    private List<TipTO> convertAllToTipTO(Collection<Tip> tips) {
+    private List<TipTO> convert(Collection<Tip> tips) {
         return tips.stream().map(this::convert).collect(toList());
     }
 
