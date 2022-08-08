@@ -34,14 +34,14 @@ public class TipController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addTip(@RequestBody TipTO tipTO) {
-        tipRepository.addTip(convertToTip(tipTO));
+        tipRepository.addTip(convert(tipTO));
     }
 
     private List<TipTO> convertAllToTipTO(Collection<Tip> tips) {
-        return tips.stream().map(this::convertToTipTO).collect(toList());
+        return tips.stream().map(this::convert).collect(toList());
     }
 
-    private TipTO convertToTipTO(Tip tip) {
+    private TipTO convert(Tip tip) {
 
         User user = tip.getUser();
         Game game = tip.getGame();
@@ -70,7 +70,7 @@ public class TipController {
         return tipTO;
     }
 
-    private Tip convertToTip(TipTO tipTO) {
+    private Tip convert(TipTO tipTO) {
 
         Tip tip = new Tip();
 
