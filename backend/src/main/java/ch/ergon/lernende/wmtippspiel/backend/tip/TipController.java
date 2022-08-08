@@ -1,6 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
+import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,23 +25,23 @@ public class TipController {
     @GetMapping
     public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
         if (userId != null) {
-            return convertAll(tipRepository.getTipsByUserId(userId));
+            return convertAllToTipTO(tipRepository.getTipsByUserId(userId));
         } else {
-            return convertAll(tipRepository.getAllTip());
+            return convertAllToTipTO(tipRepository.getAllTip());
         }
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addTip(@RequestBody TipTO tipTO) {
-        tipRepository.addTip(tipTO);
+        tipRepository.addTip(convertToTip(tipTO));
     }
 
-    private List<TipTO> convertAll(Collection<Tip> tips) {
-        return tips.stream().map(this::convert).collect(toList());
+    private List<TipTO> convertAllToTipTO(Collection<Tip> tips) {
+        return tips.stream().map(this::convertToTipTO).collect(toList());
     }
 
-    private TipTO convert(Tip tip) {
+    private TipTO convertToTipTO(Tip tip) {
 
         User user = tip.getUser();
         Game game = tip.getGame();
@@ -67,5 +68,44 @@ public class TipController {
         tipTO.setPointsTeam2(game.getPointsTeam2());
 
         return tipTO;
+    }
+
+    private Tip convertToTip(TipTO tipTO) {
+
+        Tip tip = new Tip();
+
+        tip.setId(tipTO.getId());
+        tip.setTipTeam1(tipTO.getTipTeam1());
+        tip.setTipTeam2(tipTO.getTipTeam2());
+
+        Game game = new Game();
+
+        Team team1 = new Team();
+        team1.setId(tipTO.getTeamId1());
+        team1.setCountry(tipTO.getTeamCountry1());
+        team1.setPoints(tipTO.getPointsTeam1());
+        game.setTeam1(team1);
+
+        Team team2 = new Team();
+        team2.setId(tipTO.getTeamId2());
+        team2.setCountry(tipTO.getTeamCountry2());
+        team2.setPoints(tipTO.getPointsTeam2());
+        game.setTeam2(team2);
+
+        game.setId(tipTO.getGameId());
+        game.setGameTime(tipTO.getGameTime());
+        game.setGameLocation(tipTO.getGameLocation());
+        game.setPointsTeam1(tipTO.getPointsTeam1());
+        game.setPointsTeam2(tipTO.getPointsTeam2());
+        tip.setGame(game);
+
+        User user = new User();
+        user.setId(tipTO.getId());
+        user.setFirstName(tipTO.getFirstName());
+        user.setLastName(tipTO.getLastName());
+        user.setEmail(tipTO.getEmail());
+        tip.setUser(user);
+
+        return tip;
     }
 }
