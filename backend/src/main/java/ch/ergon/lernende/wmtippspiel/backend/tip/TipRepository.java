@@ -29,7 +29,6 @@ public class TipRepository {
     }
 
     public List<Tip> getAllTip() {
-
         return getTips(DSL.noCondition());
     }
 
@@ -61,6 +60,15 @@ public class TipRepository {
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
                 .where(condition)
                 .fetch(this::convert);
+    }
+
+    public void addNewTip(TipTO tipTO) {
+        dslContext.insertInto(TIP)
+                .set(TIP.USER_ID, tipTO.getUserId())
+                .set(TIP.TIP_TEAM1, tipTO.getTipTeam1())
+                .set(TIP.TIP_TEAM2, tipTO.getTipTeam2())
+                .set(TIP.GAME_ID, tipTO.getGameId())
+                .execute();
     }
 
     private Tip convert(Record record) {
