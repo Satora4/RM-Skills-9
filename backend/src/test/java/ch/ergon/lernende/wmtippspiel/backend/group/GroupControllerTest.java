@@ -1,4 +1,4 @@
-package ch.ergon.lernende.wmtippspiel.backend.game;
+package ch.ergon.lernende.wmtippspiel.backend.group;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +13,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class GameControllerTest {
+class GroupControllerTest {
 
     @LocalServerPort
     private int port;
@@ -29,19 +29,15 @@ class GameControllerTest {
     }
 
     @Test
-    public void testIfGameLoads() throws JSONException {
-        String gamesJson = this.restTemplate.getForObject(baseUrl + "game", String.class);
-        JSONArray games = new JSONArray(gamesJson);
-        JSONObject game = games.getJSONObject(0);
+    void testIfGroupLoads() throws JSONException {
+        String groupsJson = this.restTemplate.getForObject(baseUrl + "group", String.class);
+        JSONArray groups = new JSONArray(groupsJson);
+        JSONObject group = groups.getJSONObject(0);
 
-        assertEquals(1, game.getInt("id"));
-        assertEquals("2022-11-10T20:00:00", game.getString("gameTime"));
-        assertEquals("Katar", game.getString("gameLocation"));
-        assertEquals(2, game.getInt("pointsTeam1"));
-        assertEquals(3, game.getInt("pointsTeam2"));
-        assertEquals("Argentinian", game.getString("teamCountry1"));
-        assertEquals("Switzerland", game.getString("teamCountry2"));
+        assertEquals(1, group.getInt("groupId"));
+        assertEquals("A", group.getString("name"));
+        assertEquals("[{\"country\":\"Argentinian\",\"id\":9,\"points\":9}]", group.getJSONArray("groupMembers").toString());
 
-        System.out.println(game);
+        System.out.println(group);
     }
 }
