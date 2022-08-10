@@ -68,6 +68,23 @@ class TipControllerTest {
         JSONArray tips = new JSONArray(tipsJson);
         JSONObject tip = tips.getJSONObject(tips.length() - 1);
 
-        System.out.println(tips);
+        assertEquals(5, tip.getInt("id"));
+        assertEquals(50, tip.getInt("tipTeam1"));
+        assertEquals(60, tip.getInt("tipTeam2"));
+        assertEquals(2, tip.getInt("userId"));
+        assertEquals("Joel", tip.getString("firstName"));
+        assertEquals("Vontobel", tip.getString("lastName"));
+        assertEquals("joel.vontobel@ergon.ch", tip.getString("email"));
+        assertEquals(1, tip.getInt("gameId"));
+        assertEquals("2022-11-10T20:00:00", tip.getString("gameTime"));
+        assertEquals("Katar", tip.getString("gameLocation"));
+        assertEquals(9, tip.getInt("teamId1"));
+        assertEquals(1, tip.getInt("teamId2"));
+        assertEquals(2, tip.getInt("pointsTeam1"));
+        assertEquals(3, tip.getInt("pointsTeam2"));
+        assertEquals("Argentinian", tip.getString("teamCountry1"));
+        assertEquals("Switzerland", tip.getString("teamCountry2"));
+
+        System.out.println(tip);
     }
 }
