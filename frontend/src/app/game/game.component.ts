@@ -1,9 +1,7 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-
-import { Game } from './game.model';
-import { GameService } from './game.service';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {GameService} from './game.service';
 import {tipToSave} from "../tip/tip.model";
 
 @Component({
@@ -19,7 +17,8 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(private gameService: GameService) {}
+  constructor(private gameService: GameService) {
+  }
 
   ngOnInit(): void {
     this.loadGames();

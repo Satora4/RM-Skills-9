@@ -1,11 +1,9 @@
 import {Observable, of} from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-import { handleError } from '../util/http.util';
-import { Game } from './game.model';
+import {catchError, tap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {handleError} from '../util/http.util';
+import {Game} from './game.model';
 import {Tip, tipToSave} from "../tip/tip.model";
 
 @Injectable({
@@ -15,8 +13,8 @@ export class GameService {
   private gameUrl = 'game';
   private tipUrl = 'tip';
 
-  constructor(private httpClient: HttpClient) {}
-
+  constructor(private httpClient: HttpClient) {
+  }
 
   addTip(tip: tipToSave): Observable<tipToSave> {
     return this.httpClient.post<tipToSave>(this.tipUrl, tip).pipe(
@@ -28,7 +26,7 @@ export class GameService {
   getGames(): Observable<Game[]> {
     return this.httpClient
       .get<Game[]>(this.gameUrl)
-      .pipe(tap({ complete: () => console.log('fetched Games') }), catchError(handleError<Game[]>('getGames', [])));
+      .pipe(tap({complete: () => console.log('fetched Games')}), catchError(handleError<Game[]>('getGames', [])));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

@@ -1,9 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Tip} from "./tip.model";
 import {TipService} from "./tip.service";
 import {MatTableDataSource} from "@angular/material/table";
-import {tipToSave} from "./tip.model";
-import {UserComponent} from "../user/user.component";
 import {MatSort} from '@angular/material/sort';
 
 @Component({
@@ -28,13 +25,9 @@ export class TipComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  private loadTipByUser(userId:number): void{
+  private loadTipByUser(userId: number): void {
     this.tipService.getTips(userId).subscribe((tips) => {
       this.dataSource.data = tips;
     });
   }
-
-
-
-
 }

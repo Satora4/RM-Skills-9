@@ -1,4 +1,4 @@
-export interface Tip{
+export interface Tip {
   userId: number;
   gameId: number
   tipTeam1: number;
@@ -10,8 +10,7 @@ export interface Tip{
   gameTime: Date;
 }
 
-
-export interface tipToSave{
+export interface tipToSave {
   userId: number;
   gameId: number;
   tipTeam1: number;
