@@ -73,7 +73,6 @@ public class TipController {
     private Tip convert(TipTO tipTO) {
 
         Tip tip = new Tip();
-
         tip.setId(tipTO.getId());
         tip.setTipTeam1(tipTO.getTipTeam1());
         tip.setTipTeam2(tipTO.getTipTeam2());
@@ -100,7 +99,7 @@ public class TipController {
         tip.setGame(game);
 
         User user = new User();
-        user.setId(tipTO.getId());
+        user.setId(tipTO.getUserId());
         user.setFirstName(tipTO.getFirstName());
         user.setLastName(tipTO.getLastName());
         user.setEmail(tipTO.getEmail());
