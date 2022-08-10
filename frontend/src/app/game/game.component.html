@@ -32,42 +32,32 @@
       <td mat-cell *matCellDef="let element">{{element.teamCountry2}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="expand">
-      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <ng-container matColumnDef="tipTeam1">
+      <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button aria-label="expand row"
-                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
-          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
-        </button>
+        <mat-label>Tipp Team 1: </mat-label>
+        <input matInput max="15" min="0" type="number" [(ngModel)]="tipTeam1[element.id]" >
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
-        <div
-          [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-          <div>
-            <div> {{element.gameTime}} </div>
-            <div> {{element.gameLocation}} </div>
-            <div> {{element.teamCountry1}} </div>
-            <div> {{element.pointsTeam1}} </div>
-            <div> {{element.pointsTeam2}} </div>
-            <div> {{element.teamCountry2}} </div>
-          </div>
-          <div>
-            {{element.tip}}
-          </div>
-        </div>
+    <ng-container matColumnDef="tipTeam2">
+      <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-label>Tipp Team 2: </mat-label>
+        <input matInput max="15" min="0" type="number" [(ngModel)]="tipTeam2[element.id]" >
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
-        [class.expanded-row]="expandedElement === element"
-        (click)="expandedElement = expandedElement === element ? null : element">
-    </tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+    <ng-container matColumnDef="button">
+      <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
+      <td mat-cell *matCellDef="let element">
+            <button (click)="saveTip(1,tipTeam1[element.id], tipTeam2[element.id], 3)">save</button>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 
   </table>
 </div>

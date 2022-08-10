@@ -34,22 +34,7 @@ export class TipComponent implements AfterViewInit, OnInit {
     });
   }
 
-  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, gameId: number) {
 
-    let tip: tipToSave = {
-      userId: userId,
-      tipTeam1: tipTeam1,
-      tipTeam2: tipTeam2,
-      gameId: gameId
-    }
-    this.addTip(tip)
-  }
-
-  private addTip(tip: tipToSave): void {
-    this.tipService.addTip(tip).subscribe(tip => {
-      console.log(tip)
-    })
-  }
 
 
 }

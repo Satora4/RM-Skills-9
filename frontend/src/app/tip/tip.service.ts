@@ -22,18 +22,6 @@ export class TipService {
         tap({complete: () => console.log('fetched Groups')}), catchError(handleError<Tip[]>('getGroups', [])));
   }
 
-  addTip(tip: tipToSave): Observable<tipToSave> {
-    return this.http.post<tipToSave>(this.tipUrl, tip).pipe(
-      tap((newTip: tipToSave) => console.log(`added tip w/ id=${newTip.gameId}`)),
-      catchError(this.handleError<Tip>('addedTip'))
-    );
-  }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
+
 }
