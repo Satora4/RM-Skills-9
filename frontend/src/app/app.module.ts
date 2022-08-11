@@ -21,6 +21,7 @@ import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
+import {MatTreeModule} from "@angular/material/tree";
 
 @NgModule({
   declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent],
@@ -39,6 +40,7 @@ import { UserComponent } from './user/user.component';
     MatSortModule,
     MatTableModule,
     ReactiveFormsModule,
+    MatTreeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
