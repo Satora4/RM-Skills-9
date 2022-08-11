@@ -6,9 +6,11 @@ import { GroupComponent } from './group/group.component';
 import { RulesComponent } from './rules/rules.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
+import {GroupPhaseComponent} from "./group-phase/group-phase.component";
 
 const routes: Routes = [
   { path: 'games', component: GameComponent },
+  { path: 'groupPhase', component: GroupPhaseComponent},
   { path: 'users', component: UserComponent },
   { path: 'groups', component: GroupComponent },
   { path: 'rules', component: RulesComponent },
