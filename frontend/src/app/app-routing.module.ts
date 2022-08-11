@@ -9,13 +9,13 @@ import { UserComponent } from './user/user.component';
 import {GroupPhaseComponent} from "./group-phase/group-phase.component";
 
 const routes: Routes = [
-  { path: 'games', component: GameComponent },
   { path: 'groupPhase', component: GroupPhaseComponent},
+  { path: 'games', component: GameComponent },
   { path: 'users', component: UserComponent },
   { path: 'groups', component: GroupComponent },
   { path: 'rules', component: RulesComponent },
   { path: 'tips', component: TipComponent },
-  { path: '', redirectTo: '/games', pathMatch: 'full' },
+  { path: '', redirectTo: '/groupPhase', pathMatch: 'full' },
 ];
 
 @NgModule({
