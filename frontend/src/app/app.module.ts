@@ -7,6 +7,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,6 +36,7 @@ import { UserComponent } from './user/user.component';
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,
+    MatMenuModule,
     MatNativeDateModule,
     MatSortModule,
     MatTableModule,

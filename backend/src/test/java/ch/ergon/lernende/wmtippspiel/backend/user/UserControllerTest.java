@@ -1,9 +1,9 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
+import ch.ergon.lernende.wmtippspiel.backend.util.CreateBaseUrl;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,17 +22,9 @@ class UserControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private String baseUrl;
-
-
-    @BeforeEach
-    void setUp() {
-        baseUrl = "http://localhost:" + port + "/";
-    }
-
     @Test
-    void testIfUserLoads() throws JSONException {
-        String usersJson = this.restTemplate.getForObject(baseUrl + "user", String.class);
+    void testUserDataResponse() throws JSONException {
+        String usersJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "user", String.class);
         JSONArray users = new JSONArray(usersJson);
         JSONObject user = users.getJSONObject(0);
 
@@ -43,7 +35,5 @@ class UserControllerTest {
         assertEquals(12, user.getInt("points"));
         assertEquals(2, user.getInt("ranking"));
         assertTrue(user.getBoolean("administrator"));
-
-        System.out.println(user);
     }
 }

@@ -1,9 +1,9 @@
 package ch.ergon.lernende.wmtippspiel.backend.teamtogroup;
 
+import ch.ergon.lernende.wmtippspiel.backend.util.CreateBaseUrl;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,16 +21,9 @@ class TeamToGroupControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private String baseUrl;
-
-    @BeforeEach
-    void setUp() {
-        baseUrl = "http://localhost:" + port + "/";
-    }
-
     @Test
-    void testIfTeamToGroupLoads() throws JSONException {
-        String teamToGroupJson = this.restTemplate.getForObject(baseUrl + "teamToGroup", String.class);
+    void testTeamToGroupDataResponse() throws JSONException {
+        String teamToGroupJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "teamToGroup", String.class);
         JSONArray teamToGroups = new JSONArray(teamToGroupJson);
         JSONObject teamToGroup = teamToGroups.getJSONObject(0);
 
@@ -39,7 +32,5 @@ class TeamToGroupControllerTest {
         assertEquals(9, teamToGroup.getInt("teamPoints"));
         assertEquals(1, teamToGroup.getInt("groupId"));
         assertEquals("A", teamToGroup.getString("groupName"));
-
-        System.out.println(teamToGroup);
     }
 }

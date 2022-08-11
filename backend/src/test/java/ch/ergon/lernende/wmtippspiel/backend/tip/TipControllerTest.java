@@ -1,9 +1,9 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
+import ch.ergon.lernende.wmtippspiel.backend.util.CreateBaseUrl;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,16 +21,9 @@ class TipControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private String baseUrl;
-
-    @BeforeEach
-    void setUp() {
-        baseUrl = "http://localhost:" + port + "/";
-    }
-
     @Test
-    void testIfTipLoads() throws JSONException {
-        String tipsJson = this.restTemplate.getForObject(baseUrl + "tip", String.class);
+    void testTipDataResponse() throws JSONException {
+        String tipsJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "tip", String.class);
         JSONArray tips = new JSONArray(tipsJson);
         JSONObject tip = tips.getJSONObject(0);
 
@@ -50,8 +43,6 @@ class TipControllerTest {
         assertEquals(4, tip.getInt("pointsTeam2"));
         assertEquals("Germany", tip.getString("teamCountry1"));
         assertEquals("England", tip.getString("teamCountry2"));
-
-        System.out.println(tip);
     }
 
     @Test
@@ -62,9 +53,9 @@ class TipControllerTest {
         newTip.setTipTeam2(60);
         newTip.setGameId(1);
 
-        this.restTemplate.postForEntity(baseUrl + "tip", newTip, TipTO.class);
+        restTemplate.postForEntity(CreateBaseUrl.createBaseUrl(port) + "tip", newTip, TipTO.class);
 
-        String tipsJson = this.restTemplate.getForObject(baseUrl + "tip", String.class);
+        String tipsJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "tip", String.class);
         JSONArray tips = new JSONArray(tipsJson);
         JSONObject tip = tips.getJSONObject(tips.length() - 1);
 
@@ -84,7 +75,5 @@ class TipControllerTest {
         assertEquals(3, tip.getInt("pointsTeam2"));
         assertEquals("Argentinian", tip.getString("teamCountry1"));
         assertEquals("Switzerland", tip.getString("teamCountry2"));
-
-        System.out.println(tip);
     }
 }
