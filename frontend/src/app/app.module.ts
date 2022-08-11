@@ -21,9 +21,11 @@ import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
+import { GroupPhaseComponent } from "./group-phase/group-phase.component";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
-  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent],
+  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, GroupPhaseComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -35,6 +37,7 @@ import { UserComponent } from './user/user.component';
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,
+    MatMenuModule,
     MatNativeDateModule,
     MatSortModule,
     MatTableModule,
