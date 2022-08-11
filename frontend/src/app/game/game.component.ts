@@ -2,7 +2,9 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {GameService} from './game.service';
-import {tipToSave} from "../tip/tip.model";
+
+import {Tip} from "../tip/tip.model";
+
 
 @Component({
   selector: 'app-game',
@@ -28,18 +30,23 @@ export class GameComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, gameId: number) {
+  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, gameId: number, teamCountry1: string, teamCountry2: string, pointsTeam1: number, pointsTeam2: number, gameTime: Date) {
 
-    let tip: tipToSave = {
+    let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,
       tipTeam2: tipTeam2,
-      gameId: gameId
+      gameId: gameId,
+      teamCountry1: teamCountry1,
+      teamCountry2: teamCountry2,
+      pointsTeam1: pointsTeam1,
+      pointsTeam2: pointsTeam2,
+      gameTime: gameTime
     }
     this.addTip(tip)
   }
 
-  private addTip(tip: tipToSave): void {
+  private addTip(tip: Tip): void {
     this.gameService.addTip(tip).subscribe(tip => {
       console.log(tip)
     })

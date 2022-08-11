@@ -18,14 +18,14 @@ export class TipComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.loadTipByUser(1);
+    this.loadTipsByUser(1);
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
 
-  private loadTipByUser(userId: number): void {
+  private loadTipsByUser(userId: number): void {
     this.tipService.getTips(userId).subscribe((tips) => {
       this.dataSource.data = tips;
     });

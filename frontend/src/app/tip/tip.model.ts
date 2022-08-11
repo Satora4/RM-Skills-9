@@ -10,10 +10,4 @@ export interface Tip {
   gameTime: Date;
 }
 
-export interface tipToSave {
-  userId: number;
-  gameId: number;
-  tipTeam1: number;
-  tipTeam2: number;
-}
 

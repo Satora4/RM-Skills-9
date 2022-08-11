@@ -9,13 +9,13 @@ import {Tip} from "./tip.model";
   providedIn: 'root'
 })
 export class TipService {
-  private tipUrl = ' http://localhost:8080/tip?userId=';
+  private tipUrl = 'tip';
 
   constructor(private http: HttpClient) {
   }
 
   getTips(userId: number): Observable<Tip[]> {
-    return this.http.get<Tip[]>(this.tipUrl + userId).pipe(
+    return this.http.get<Tip[]>(this.tipUrl + "?userId=" + userId).pipe(
       tap({complete: () => console.log('fetched Groups')}), catchError(handleError<Tip[]>('getGroups', [])));
   }
 }
