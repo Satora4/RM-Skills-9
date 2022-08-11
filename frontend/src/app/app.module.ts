@@ -22,6 +22,7 @@ import { TeamComponent } from './team/team.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
 import {MatTreeModule} from "@angular/material/tree";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent],

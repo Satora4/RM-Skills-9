@@ -1,119 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Group } from './group.model';
-import { GroupService } from './group.service';
-import {FlatTreeControl} from "@angular/cdk/tree";
-import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
+import {Component, OnInit} from '@angular/core';
 
 
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
-}
+import {GroupService} from './group.service';
+
+import {Group} from './group.model';
+import {MatTableDataSource} from "@angular/material/table";
+import {Team} from "../team/team.model";
 
 
-
-
-/** Flat node with expandable and level information */
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.css'],
 })
 export class GroupComponent implements OnInit {
-  private groups: Group[] = [];
-  private group0:Group = this.groups[0];
-  private group1:Group = this.groups[1];
-  private group2:Group = this.groups[2];
-  private group3:Group = this.groups[3];
-  private group4:Group = this.groups[4];
-  private group5:Group = this.groups[5];
-  private group6:Group = this.groups[6];
-  private group7:Group = this.groups[7];
+  groupDataSourceGroup1 = new MatTableDataSource<any>([]);
+  groupDataSourceGroup2 = new MatTableDataSource<any>([]);
+  groupDataSourceGroup3 = new MatTableDataSource<any>([]);
+  groupDataSourceGroup4 = new MatTableDataSource<any>([]);
+  groupDataSourceGroup5 = new MatTableDataSource<any>([]);
+  groupDataSourceGroup6 = new MatTableDataSource<any>([]);
+  groupDataSourceGroup7 = new MatTableDataSource<any>([]);
+  groupDataSourceGroup8 = new MatTableDataSource<any>([]);
+
+  teamsGroup1: Team[] = [];
+  teamsGroup2: Team[] = [];
+  teamsGroup3: Team[] = [];
+  teamsGroup4: Team[] = [];
+  teamsGroup5: Team[] = [];
+  teamsGroup6: Team[] = [];
+  teamsGroup7: Team[] = [];
+  teamsGroup8: Team[] = [];
+
+  nameGroup1: string = '';
+  nameGroup2: string = '';
+  nameGroup3: string = '';
+  nameGroup4: string = '';
+  nameGroup5: string = '';
+  nameGroup6: string = '';
+  nameGroup7: string = '';
+  nameGroup8: string = '';
 
 
+  displayedColumns: string[] = ['Rang', 'Name', 'Punkte'];
 
-
-  TREE_DATA: FoodNode[] = [
-    {
-      name: this.group0.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: this.group1.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: this.group2.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: this.group3.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: this.group4.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: this.group5.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: this.group6.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: this.group7.name,
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-
-  ];
-
-  constructor(private groupService: GroupService) { this.dataSource.data = this.TREE_DATA;}
-
-
-  private _transformer = (node: FoodNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
-
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-
-
-
-
-
-
-
-
-
-
-
-
-
+  constructor(private groupService: GroupService) {
+  }
 
   ngOnInit(): void {
     this.loadGroups();
@@ -121,11 +53,54 @@ export class GroupComponent implements OnInit {
 
   private loadGroups(): void {
     this.groupService.getGroups().subscribe((groups) => {
-      this.groups = groups;
-    });
-  }
+      console.log(groups)
 
-  getGroups(): Group[] {
-    return this.groups;
+      for (let j = 0; j < groups[0].groupMembers.length; j++) {
+        this.teamsGroup1.push(groups[0].groupMembers[j]);
+      }
+      for (let j = 0; j < groups[1].groupMembers.length; j++) {
+        this.teamsGroup2.push(groups[1].groupMembers[j]);
+      }
+      for (let j = 0; j < groups[2].groupMembers.length; j++) {
+        this.teamsGroup3.push(groups[2].groupMembers[j]);
+      }
+      for (let j = 0; j < groups[3].groupMembers.length; j++) {
+        this.teamsGroup4.push(groups[3].groupMembers[j]);
+      }
+
+      for (let j = 0; j < groups[4].groupMembers.length; j++) {
+        this.teamsGroup5.push(groups[4].groupMembers[j]);
+      }
+      for (let j = 0; j < groups[5].groupMembers.length; j++) {
+        this.teamsGroup6.push(groups[5].groupMembers[j]);
+      }
+      for (let j = 0; j < groups[6].groupMembers.length; j++) {
+        this.teamsGroup7.push(groups[6].groupMembers[j]);
+      }
+      for (let j = 0; j < groups[7].groupMembers.length; j++) {
+        this.teamsGroup8.push(groups[7].groupMembers[j]);
+      }
+
+
+      this.nameGroup1 = (groups[0].name)
+      this.nameGroup2 = (groups[1].name)
+      this.nameGroup3 = (groups[2].name)
+      this.nameGroup4 = (groups[3].name)
+      this.nameGroup5 = (groups[4].name)
+      this.nameGroup6 = (groups[5].name)
+      this.nameGroup7 = (groups[6].name)
+      this.nameGroup8 = (groups[7].name)
+
+
+      this.groupDataSourceGroup1.data = this.teamsGroup1;
+      this.groupDataSourceGroup2.data = this.teamsGroup2;
+      this.groupDataSourceGroup3.data = this.teamsGroup3;
+      this.groupDataSourceGroup4.data = this.teamsGroup4;
+      this.groupDataSourceGroup5.data = this.teamsGroup5;
+      this.groupDataSourceGroup6.data = this.teamsGroup6;
+      this.groupDataSourceGroup7.data = this.teamsGroup7;
+      this.groupDataSourceGroup8.data = this.teamsGroup8;
+
+    });
   }
 }

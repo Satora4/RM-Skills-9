@@ -2,3 +2,30 @@ table.center {
   margin-left: auto;
   margin-right: auto;
 }
+
+.list {
+  margin-left: 10%;
+  width: 80%;
+  margin-right: 10%;
+  margin-top: 2em;
+}
+
+.list tr td {
+  padding-right: 2em;
+  margin-top: 1em;
+}
+
+table {
+  width: 100%;
+  height: auto;
+  border:solid rgba(0,0,0, 7%);
+}
+
+h2 {
+  text-align: center;
+  margin-top: 5em
+}
+
+#bottom{
+  margin-bottom: 5em;
+}

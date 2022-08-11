@@ -5,3 +5,4 @@ export interface Group {
   name: string;
   groupMembers: Team[];
 }
+
