@@ -7,7 +7,7 @@ export interface Group {
   groupMembers: Team[];
 }
 
-export interface MyObject {
+export interface GroupDataObject {
   dataSource: MatTableDataSource<any>;
   name: string;
 }

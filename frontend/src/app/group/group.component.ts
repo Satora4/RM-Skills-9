@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {GroupService} from './group.service';
 import {MatTableDataSource} from "@angular/material/table";
-import {MyObject} from './group.model';
+import {GroupDataObject} from './group.model';
 
 @Component({
   selector: 'app-group',
@@ -10,7 +10,7 @@ import {MyObject} from './group.model';
   styleUrls: ['./group.component.css'],
 })
 export class GroupComponent implements OnInit {
-  objects: MyObject[] = [];
+  groupDataObjects: GroupDataObject[] = [];
 
   displayedColumns: string[] = ['Rang', 'Name', 'Punkte'];
 
@@ -30,11 +30,11 @@ export class GroupComponent implements OnInit {
         let dataSource = new MatTableDataSource<any>()
         let name = groups[i].name;
         dataSource.data = this.groupService.getSortedTeams(groups[i].groupMembers);
-        let object: MyObject = {
+        let object: GroupDataObject = {
           dataSource: dataSource,
           name: name,
         }
-        this.objects.push(object);
+        this.groupDataObjects.push(object);
       }
     });
   }
