@@ -22,6 +22,11 @@ public class GameController {
         return gameRepository.getAllGames().stream().map(this::convert).collect(toList());
     }
 
+    @GetMapping("/gamesForGroups")
+    public List<GameTO> getGamesForGroups() {
+        return gameRepository.getGamesForGroups().stream().map(this::convert).collect(toList());
+    }
+
     private GameTO convert(Game game) {
         GameTO gameTO = new GameTO();
         gameTO.setId(game.getId());
