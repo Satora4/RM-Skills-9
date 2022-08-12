@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { User } from './user.model';
-import { UserService } from './user.service';
+import {User} from './user.model';
+import {UserService} from './user.service';
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-user-list',
@@ -10,8 +11,11 @@ import { UserService } from './user.service';
 })
 export class UserComponent implements OnInit {
   private users: User[] = [];
+  userDataSource = new MatTableDataSource();
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'points', 'ranking'];
 
-  constructor(private UserService: UserService) {}
+  constructor(private UserService: UserService) {
+  }
 
   ngOnInit(): void {
     this.loadUser();
@@ -20,7 +24,7 @@ export class UserComponent implements OnInit {
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
-      UserComponent.getSortedUsers(this.users);
+      this.userDataSource.data = UserComponent.getSortedUsers(this.users);
       console.log(users);
     });
   }
