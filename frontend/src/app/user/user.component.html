@@ -1,13 +1,13 @@
 <div class="list">
-  <table mat-table [dataSource]="userDataSource">
-
+  <table mat-table [dataSource]="userDataSource" matSort matSortDisableClear matSortActive="gameTime"
+         matSortDirection="asc">
     <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef>Vorname</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Vorname</th>
       <td mat-cell *matCellDef="let element">{{element.firstName}}</td>
     </ng-container>
 
     <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef>Nachname</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nachname</th>
       <td mat-cell *matCellDef="let element">{{element.lastName}}</td>
     </ng-container>
 
@@ -17,12 +17,12 @@
     </ng-container>
 
     <ng-container matColumnDef="points">
-      <th mat-header-cell *matHeaderCellDef>Punkte</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte</th>
       <td mat-cell *matCellDef="let element">{{element.points}}</td>
     </ng-container>
 
     <ng-container matColumnDef="ranking">
-      <th mat-header-cell *matHeaderCellDef>Rang</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rang</th>
       <td mat-cell *matCellDef="let element">{{userDataSource.data.indexOf(element) + 1}}</td>
     </ng-container>
 
