@@ -6,6 +6,7 @@ import {GroupService} from './group.service';
 import {Group} from './group.model';
 import {MatTableDataSource} from "@angular/material/table";
 import {Team} from "../team/team.model";
+import {User} from "../user/user.model";
 
 
 @Component({
@@ -92,15 +93,33 @@ export class GroupComponent implements OnInit {
       this.nameGroup8 = (groups[7].name)
 
 
-      this.groupDataSourceGroup1.data = this.teamsGroup1;
-      this.groupDataSourceGroup2.data = this.teamsGroup2;
-      this.groupDataSourceGroup3.data = this.teamsGroup3;
-      this.groupDataSourceGroup4.data = this.teamsGroup4;
-      this.groupDataSourceGroup5.data = this.teamsGroup5;
-      this.groupDataSourceGroup6.data = this.teamsGroup6;
-      this.groupDataSourceGroup7.data = this.teamsGroup7;
-      this.groupDataSourceGroup8.data = this.teamsGroup8;
+
+      this.groupDataSourceGroup1.data = this.getSortedTeams(this.teamsGroup1);
+      this.groupDataSourceGroup2.data = this.getSortedTeams(this.teamsGroup2);
+      this.groupDataSourceGroup3.data = this.getSortedTeams(this.teamsGroup3);
+      this.groupDataSourceGroup4.data = this.getSortedTeams(this.teamsGroup4);
+      this.groupDataSourceGroup5.data = this.getSortedTeams(this.teamsGroup5);
+      this.groupDataSourceGroup6.data = this.getSortedTeams(this.teamsGroup6);
+      this.groupDataSourceGroup7.data = this.getSortedTeams(this.teamsGroup7);
+      this.groupDataSourceGroup8.data = this.getSortedTeams(this.teamsGroup8);
 
     });
+  }
+
+  private getSortedTeams(teams: Team[]) {
+    for (let i = 0; i < teams.length; i++) {
+      for (let j = 0; j < teams.length - 1 - i; j++) {
+        if (teams[j].points < teams[j + 1].points) {
+          this.change(teams, j, j + 1);
+        }
+      }
+    }
+    return teams;
+  }
+
+  private change(users: Team[], a: number, b: number) {
+    const tmp = users[a];
+    users[a] = users[b];
+    users[b] = tmp;
   }
 }
