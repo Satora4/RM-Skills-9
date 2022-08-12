@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import {Component, OnInit} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
 
-import { GameService } from '../game/game.service';
-import { TipService } from './tip.service';
+import {GameService} from '../game/game.service';
+import {TipService} from './tip.service';
 
 @Component({
   selector: 'app-tip',
@@ -14,7 +14,8 @@ export class TipComponent implements OnInit {
   gameDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['gameTime', 'gameLocation', 'teamCountry1', 'tipTeam1', 'tipTeam2', 'teamCountry2'];
 
-  constructor(private tipService: TipService, private gameService: GameService) {}
+  constructor(private tipService: TipService, private gameService: GameService) {
+  }
 
   ngOnInit(): void {
     this.loadTips();

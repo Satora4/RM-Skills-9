@@ -1,12 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
-
 import {GroupService} from './group.service';
-
-import {Group} from './group.model';
 import {MatTableDataSource} from "@angular/material/table";
 import {Team} from "../team/team.model";
-import {User} from "../user/user.model";
 
 
 @Component({
@@ -41,7 +37,6 @@ export class GroupComponent implements OnInit {
   nameGroup6: string = '';
   nameGroup7: string = '';
   nameGroup8: string = '';
-
 
   displayedColumns: string[] = ['Rang', 'Name', 'Punkte'];
 
@@ -93,7 +88,6 @@ export class GroupComponent implements OnInit {
       this.nameGroup8 = (groups[7].name)
 
 
-
       this.groupDataSourceGroup1.data = this.getSortedTeams(this.teamsGroup1);
       this.groupDataSourceGroup2.data = this.getSortedTeams(this.teamsGroup2);
       this.groupDataSourceGroup3.data = this.getSortedTeams(this.teamsGroup3);
@@ -102,7 +96,6 @@ export class GroupComponent implements OnInit {
       this.groupDataSourceGroup6.data = this.getSortedTeams(this.teamsGroup6);
       this.groupDataSourceGroup7.data = this.getSortedTeams(this.teamsGroup7);
       this.groupDataSourceGroup8.data = this.getSortedTeams(this.teamsGroup8);
-
     });
   }
 

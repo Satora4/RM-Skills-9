@@ -18,7 +18,7 @@ table.center {
 table {
   width: 100%;
   height: auto;
-  border:solid rgba(0,0,0, 7%);
+  border: solid rgba(0, 0, 0, 7%);
 }
 
 h2 {
@@ -26,6 +26,6 @@ h2 {
   margin-top: 5em
 }
 
-#bottom{
+#bottom {
   margin-bottom: 5em;
 }
