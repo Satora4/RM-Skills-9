@@ -1,11 +1,13 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.TeamPhase;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamToGroupTable;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Record4;
 import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -43,6 +45,24 @@ public class GameRepository {
                         .from(TEAM_TO_GROUP_ALIAS_2)
                         .where(TEAM_ALIAS_2.TEAM_ID.eq(TEAM_TO_GROUP_ALIAS_2.TEAM_ID))
                 ));
+    }
+
+    public List<Team> getGamesForKoPhase() {
+        return dslContext
+                .select(TEAM.COUNTRY, TEAM.TEAM_ID, TEAM.POINTS, TEAM.PHASE)
+                .from(TEAM)
+                .where(TEAM.PHASE.eq(TeamPhase.GROUP_PHASE))
+                .fetch(this::convert);
+    }
+
+    private Team convert(Record4<String, Integer, Integer, TeamPhase> record4) {
+        var team = new Team();
+
+        team.setId(record4.get(TEAM.TEAM_ID));
+        team.setCountry(record4.get(TEAM.COUNTRY));
+        team.setPoints(record4.get(TEAM.POINTS));
+        team.setPhase(record4.get(TEAM.PHASE));
+        return team;
     }
 
     private List<Game> condition(Condition condition) {
