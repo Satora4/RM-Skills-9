@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {GameService} from './game.service';
 
 import {Tip} from "../tip/tip.model";
+import {TipService} from "../tip/tip.service";
 
 
 @Component({
@@ -19,7 +20,7 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private tipService: TipService) {
   }
 
   ngOnInit(): void {
@@ -47,7 +48,7 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   private addTip(tip: Tip): void {
-    this.gameService.addTip(tip).subscribe(tip => {
+    this.tipService.addTip(tip).subscribe(tip => {
       console.log(tip)
     })
   }

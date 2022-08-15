@@ -11,11 +11,17 @@ import {Tip} from "./tip.model";
 export class TipService {
   private tipUrl = 'tip';
 
-  constructor(private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {
   }
 
   getTips(userId: number): Observable<Tip[]> {
-    return this.http.get<Tip[]>(this.tipUrl + "?userId=" + userId).pipe(
-      tap({complete: () => console.log('fetched Groups')}), catchError(handleError<Tip[]>('getGroups', [])));
+    return this.httpClient.get<Tip[]>(this.tipUrl + "?userId=" + userId).pipe(
+      tap({complete: () => console.log('fetched Tips')}), catchError(handleError<Tip[]>('getTips', [])));
+  }
+
+  addTip(tip: Tip): Observable<Tip> {
+    return this.httpClient.post<Tip>(this.tipUrl, tip)
+      .pipe(tap((newTip: Tip) => console.log(`added tip w/ id=${newTip.gameId}`)), catchError(handleError<Tip>('addedTip'))
+      );
   }
 }
