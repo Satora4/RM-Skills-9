@@ -1,6 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
-import ch.ergon.lernende.wmtippspiel.backend.util.CreateBaseUrl;
+import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +24,7 @@ class UserControllerTest {
 
     @Test
     void testUserDataResponse() throws JSONException {
-        String usersJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "user", String.class);
+        String usersJson = restTemplate.getForObject(TestSetup.testSetup(port) + "user", String.class);
         JSONArray users = new JSONArray(usersJson);
         JSONObject user = users.getJSONObject(0);
 

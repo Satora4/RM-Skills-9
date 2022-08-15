@@ -1,6 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.group;
 
-import ch.ergon.lernende.wmtippspiel.backend.util.CreateBaseUrl;
+import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GroupControllerTest {
@@ -23,12 +24,15 @@ class GroupControllerTest {
 
     @Test
     void testGroupDataResponse() throws JSONException {
-        String groupsJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "group", String.class);
+        String groupsJson = restTemplate.getForObject(TestSetup.testSetup(port) + "group", String.class);
         JSONArray groups = new JSONArray(groupsJson);
         JSONObject group = groups.getJSONObject(0);
 
         assertEquals(1, group.getInt("groupId"));
         assertEquals("A", group.getString("name"));
-        assertEquals("[{\"country\":\"Argentinian\",\"id\":9,\"points\":9}]", group.getJSONArray("groupMembers").toString());
+        assertNotNull(group.getJSONArray("groupMembers"));
+        assertEquals("Argentinian", group.getJSONArray("groupMembers").getJSONObject(0).getString("country"));
+        assertEquals(9, group.getJSONArray("groupMembers").getJSONObject(0).getInt("id"));
+        assertEquals(9, group.getJSONArray("groupMembers").getJSONObject(0).getInt("points"));
     }
 }

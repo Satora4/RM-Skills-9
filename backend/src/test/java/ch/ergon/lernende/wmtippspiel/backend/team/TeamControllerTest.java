@@ -1,6 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
-import ch.ergon.lernende.wmtippspiel.backend.util.CreateBaseUrl;
+import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +23,7 @@ class TeamControllerTest {
 
     @Test
     void testTeamDataResponse() throws JSONException {
-        String teamsJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "team", String.class);
+        String teamsJson = restTemplate.getForObject(TestSetup.testSetup(port) + "team", String.class);
         JSONArray teams = new JSONArray(teamsJson);
         JSONObject team = teams.getJSONObject(0);
 

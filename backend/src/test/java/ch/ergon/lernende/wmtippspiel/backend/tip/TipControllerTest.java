@@ -1,6 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
-import ch.ergon.lernende.wmtippspiel.backend.util.CreateBaseUrl;
+import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +23,7 @@ class TipControllerTest {
 
     @Test
     void testTipDataResponse() throws JSONException {
-        String tipsJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "tip", String.class);
+        String tipsJson = restTemplate.getForObject(TestSetup.testSetup(port) + "tip", String.class);
         JSONArray tips = new JSONArray(tipsJson);
         JSONObject tip = tips.getJSONObject(0);
 
@@ -53,9 +53,9 @@ class TipControllerTest {
         newTip.setTipTeam2(60);
         newTip.setGameId(1);
 
-        restTemplate.postForEntity(CreateBaseUrl.createBaseUrl(port) + "tip", newTip, TipTO.class);
+        restTemplate.postForEntity(TestSetup.testSetup(port) + "tip", newTip, TipTO.class);
 
-        String tipsJson = restTemplate.getForObject(CreateBaseUrl.createBaseUrl(port) + "tip", String.class);
+        String tipsJson = restTemplate.getForObject(TestSetup.testSetup(port) + "tip", String.class);
         JSONArray tips = new JSONArray(tipsJson);
         JSONObject tip = tips.getJSONObject(tips.length() - 1);
 
