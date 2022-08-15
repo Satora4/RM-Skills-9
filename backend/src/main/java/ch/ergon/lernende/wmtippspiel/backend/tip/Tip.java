@@ -9,6 +9,7 @@ public class Tip {
     private int tipTeam1;
     private int tipTeam2;
     private Game game;
+    private int points;
 
     public int getId() {
         return id;
@@ -48,5 +49,13 @@ public class Tip {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

@@ -63,11 +63,12 @@ values ('2022-11-10T20:00:00', 'Katar', 2, 3, 9, 1),
 INSERT INTO TIP(USER_ID,
                 TIP_TEAM1,
                 TIP_TEAM2,
-                GAME_ID)
-values (1, 2, 2, 8),
-       (2, 2, 0, 6),
-       (1, 0, 4, 1),
-       (4, 3, 4, 4);
+                GAME_ID,
+                POINTS)
+values (1, 2, 2, 8, 1),
+       (2, 2, 0, 6, 2),
+       (1, 0, 4, 1, 3),
+       (4, 3, 4, 4, 2);
 
 
 
