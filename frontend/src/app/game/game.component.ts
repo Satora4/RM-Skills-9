@@ -5,6 +5,7 @@ import {GameService} from './game.service';
 
 import {Tip} from "../tip/tip.model";
 import {TipService} from "../tip/tip.service";
+import {Game} from "./game.model";
 
 
 @Component({
@@ -31,19 +32,20 @@ export class GameComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, gameId: number, teamCountry1: string, teamCountry2: string, pointsTeam1: number, pointsTeam2: number, gameTime: Date) {
+  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game, gameId: number) {
 
     let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,
       tipTeam2: tipTeam2,
       gameId: gameId,
-      teamCountry1: teamCountry1,
-      teamCountry2: teamCountry2,
-      pointsTeam1: pointsTeam1,
-      pointsTeam2: pointsTeam2,
-      gameTime: gameTime
+      teamCountry1: game.teamCountry1,
+      teamCountry2: game.teamCountry2,
+      pointsTeam1: game.pointsTeam1,
+      pointsTeam2: game.pointsTeam2,
+      gameTime: game.gameTime
     }
+    console.log(tip)
     this.addTip(tip)
   }
 
