@@ -10,7 +10,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TipComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource();
-  columnsToDisplay = ['teamCountry1', 'tipTeam1', 'pointsTeam1', 'pointsTeam2', 'tipTeam2', 'teamCountry2', 'gameTime'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'tipTeam1', 'pointsTeam1', 'pointsTeam2', 'tipTeam2', 'teamCountry2'];
 
   @ViewChild(MatSort) sort = new MatSort()
 

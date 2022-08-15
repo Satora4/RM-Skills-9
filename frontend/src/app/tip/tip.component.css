@@ -3,5 +3,9 @@ table {
   margin-right: 10%;
   margin-left: 10%;
   margin-top: 6em;
-  border: 2px solid black;
+  border: solid rgba(0, 0, 0, 7%);
+}
+
+.tip {
+  font-weight: bold;
 }
