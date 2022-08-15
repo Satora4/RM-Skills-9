@@ -1,7 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
-import ch.ergon.lernende.wmtippspiel.backend.team.Team;
-import ch.ergon.lernende.wmtippspiel.backend.team.TeamTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,18 +28,8 @@ public class GameController {
     }
 
     @GetMapping("/gamesForKoPhase")
-    public List<TeamTO> getGamesForKoPhase() {
+    public List<GameTO> getGamesForKoPhase() {
         return gameRepository.getGamesForKoPhase().stream().map(this::convert).collect(toList());
-    }
-
-    private TeamTO convert(Team team) {
-        var teamTO = new TeamTO();
-
-        teamTO.setId(team.getId());
-        teamTO.setCountry(team.getCountry());
-        teamTO.setPoints(team.getPoints());
-        teamTO.setPhase(team.getPhase());
-        return teamTO;
     }
 
     private GameTO convert(Game game) {
