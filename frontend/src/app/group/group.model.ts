@@ -1,5 +1,6 @@
-import {Team} from '../team/team.model';
-import {MatTableDataSource} from "@angular/material/table";
+import { MatTableDataSource } from '@angular/material/table';
+
+import { Team } from '../team/team.model';
 
 export interface Group {
   id: number;
@@ -11,4 +12,3 @@ export interface GroupDataObject {
   dataSource: MatTableDataSource<any>;
   name: string;
 }
-

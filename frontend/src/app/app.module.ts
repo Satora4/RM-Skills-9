@@ -9,8 +9,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,8 +23,6 @@ import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
-import {MatTreeModule} from "@angular/material/tree";
-import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent],

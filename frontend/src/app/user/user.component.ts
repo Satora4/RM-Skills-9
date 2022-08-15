@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
-import {User} from './user.model';
-import {UserService} from './user.service';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
+import { User } from './user.model';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -15,8 +15,7 @@ export class UserComponent implements OnInit {
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'points', 'ranking'];
 
-  constructor(private UserService: UserService) {
-  }
+  constructor(private UserService: UserService) {}
   @ViewChild(MatSort) sort = new MatSort();
 
   ngAfterViewInit() {
