@@ -2,6 +2,8 @@ package ch.ergon.lernende.wmtippspiel.backend.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@RequestMapping("game")
 public class GameController {
     private final GameRepository gameRepository;
 
@@ -17,19 +20,16 @@ public class GameController {
         this.gameRepository = gameRepository;
     }
 
-    @GetMapping("/game")
-    public List<GameTO> getAllGames() {
-        return gameRepository.getAllGames().stream().map(this::convert).collect(toList());
-    }
-
-    @GetMapping("/gamesForGroupPhase")
-    public List<GameTO> getGamesForGroups() {
-        return gameRepository.getGamesForGroups().stream().map(this::convert).collect(toList());
-    }
-
-    @GetMapping("/gamesForKoPhase")
-    public List<GameTO> getGamesForKoPhase() {
-        return gameRepository.getGamesForKoPhase().stream().map(this::convert).collect(toList());
+    @GetMapping
+    public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase) {
+        if (phase == null) {
+            return gameRepository.getAllGames().stream().map(this::convert).collect(toList());
+        } else if (phase.equals("group")) {
+            return gameRepository.getGamesForGroups().stream().map(this::convert).collect(toList());
+        } else if (phase.equals("ko")) {
+            return gameRepository.getGamesForKoPhase().stream().map(this::convert).collect(toList());
+        }
+        return null;
     }
 
     private GameTO convert(Game game) {

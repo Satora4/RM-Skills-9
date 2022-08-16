@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
+import static org.jooq.impl.DSL.select;
 
 @Repository
 public class GameRepository {
@@ -31,26 +32,24 @@ public class GameRepository {
     }
 
     public List<Game> getAllGames() {
-        return condition(DSL.noCondition());
+        return getGamesWithCondition(DSL.noCondition());
     }
 
     public List<Game> getGamesForGroups() {
-        return condition(dslContext
-                .select(TEAM_TO_GROUP_ALIAS_1.GROUP_ID)
+        return getGamesWithCondition(select(TEAM_TO_GROUP_ALIAS_1.GROUP_ID)
                 .from(TEAM_TO_GROUP_ALIAS_1)
                 .where(TEAM_ALIAS_1.TEAM_ID.eq(TEAM_TO_GROUP_ALIAS_1.TEAM_ID))
-                .eq(dslContext
-                        .select(TEAM_TO_GROUP_ALIAS_2.GROUP_ID)
+                .eq(select(TEAM_TO_GROUP_ALIAS_2.GROUP_ID)
                         .from(TEAM_TO_GROUP_ALIAS_2)
                         .where(TEAM_ALIAS_2.TEAM_ID.eq(TEAM_TO_GROUP_ALIAS_2.TEAM_ID))
                 ));
     }
 
     public List<Game> getGamesForKoPhase() {
-        return condition(TEAM_ALIAS_1.PHASE.notEqual(TeamPhase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(TeamPhase.GROUP_PHASE)));
+        return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(TeamPhase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(TeamPhase.GROUP_PHASE)));
     }
 
-    private List<Game> condition(Condition condition) {
+    private List<Game> getGamesWithCondition(Condition condition) {
         return dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
