@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -23,13 +24,17 @@ public class GameController {
     @GetMapping
     public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase) {
         if (phase == null) {
-            return gameRepository.getAllGames().stream().map(this::convert).collect(toList());
+            return convert(gameRepository.getAllGames());
         } else if (phase.equals("group")) {
-            return gameRepository.getGamesForGroups().stream().map(this::convert).collect(toList());
+            return convert(gameRepository.getGamesForGroups());
         } else if (phase.equals("ko")) {
-            return gameRepository.getGamesForKoPhase().stream().map(this::convert).collect(toList());
+            return convert(gameRepository.getGamesForKoPhase());
         }
         return null;
+    }
+
+    private List<GameTO> convert(Collection<Game> games) {
+        return games.stream().map(this::convert).collect(toList());
     }
 
     private GameTO convert(Game game) {
