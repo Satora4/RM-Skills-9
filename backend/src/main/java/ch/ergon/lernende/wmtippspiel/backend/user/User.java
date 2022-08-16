@@ -6,7 +6,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private int points;
     private int ranking;
     private boolean administrator;
 
@@ -42,13 +41,6 @@ public class User {
         this.email = email;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
 
     public int getRanking() {
         return ranking;
