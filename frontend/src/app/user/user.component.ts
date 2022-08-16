@@ -14,9 +14,9 @@ export class UserComponent implements OnInit {
   private users: User[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'points', 'ranking'];
+  @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private UserService: UserService) {}
-  @ViewChild(MatSort) sort = new MatSort();
 
   ngAfterViewInit() {
     this.userDataSource.sort = this.sort;
@@ -29,12 +29,12 @@ export class UserComponent implements OnInit {
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
-      this.userDataSource.data = UserComponent.getSortedUsers(this.users);
+      this.userDataSource.data = UserComponent.sortUsers(this.users);
       console.log(users);
     });
   }
 
-  private static getSortedUsers(users: User[]) {
+  private static sortUsers(users: User[]) {
     for (let i = 0; i < users.length; i++) {
       for (let j = 0; j < users.length - 1 - i; j++) {
         if (users[j].points < users[j + 1].points) {

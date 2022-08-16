@@ -1,8 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import {Component, OnInit} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
 
-import { GroupDataObject } from './group.model';
-import { GroupService } from './group.service';
+import {GroupService} from './group.service';
+import {Team} from "../team/team.model";
+
+
+interface GroupDataObject {
+  dataSource: MatTableDataSource<any>;
+  groupName: string;
+}
 
 @Component({
   selector: 'app-group',
@@ -14,7 +20,8 @@ export class GroupComponent implements OnInit {
 
   displayedColumns: string[] = ['Rang', 'Name', 'Punkte'];
 
-  constructor(private groupService: GroupService) {}
+  constructor(private groupService: GroupService) {
+  }
 
   ngOnInit(): void {
     this.loadGroups();
@@ -27,13 +34,30 @@ export class GroupComponent implements OnInit {
       for (let i = 0; i < groups.length; i++) {
         let dataSource = new MatTableDataSource<any>();
         let name = groups[i].name;
-        dataSource.data = this.groupService.getSortedTeams(groups[i].groupMembers);
+        dataSource.data = this.sortTeams(groups[i].groupMembers);
         let object: GroupDataObject = {
           dataSource: dataSource,
-          name: name,
+          groupName: name,
         };
         this.groupDataObjects.push(object);
       }
     });
+  }
+
+  public sortTeams(teams: Team[]) {
+    for (let i = 0; i < teams.length; i++) {
+      for (let j = 0; j < teams.length - 1 - i; j++) {
+        if (teams[j].points < teams[j + 1].points) {
+          this.change(teams, j, j + 1);
+        }
+      }
+    }
+    return teams;
+  }
+
+  private change(users: Team[], a: number, b: number) {
+    const tmp = users[a];
+    users[a] = users[b];
+    users[b] = tmp;
   }
 }

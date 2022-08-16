@@ -4,10 +4,8 @@ table.center {
 }
 
 .list {
-  margin-left: 10%;
   width: 80%;
-  margin-right: 10%;
-  margin-top: 2em;
+  margin: 2em 10%;
 }
 
 .list tr td {
@@ -26,6 +24,3 @@ h2 {
   margin-top: 5em
 }
 
-#bottom {
-  margin-bottom: 5em;
-}
