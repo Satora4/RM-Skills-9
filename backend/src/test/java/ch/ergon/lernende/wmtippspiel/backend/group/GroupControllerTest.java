@@ -1,17 +1,20 @@
 package ch.ergon.lernende.wmtippspiel.backend.group;
 
+import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GroupControllerTest {
@@ -24,15 +27,19 @@ class GroupControllerTest {
 
     @Test
     void testGroupDataResponse() throws JSONException {
-        String groupsJson = restTemplate.getForObject(TestSetup.testSetup(port) + "group", String.class);
-        JSONArray groups = new JSONArray(groupsJson);
-        JSONObject group = groups.getJSONObject(0);
+        ResponseEntity<GroupTO[]> groups = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "group", GroupTO[].class);
+        List<GroupTO> groupData = List.of(Objects.requireNonNull(groups.getBody()));
 
-        assertEquals(1, group.getInt("groupId"));
-        assertEquals("A", group.getString("name"));
-        assertNotNull(group.getJSONArray("groupMembers"));
-        assertEquals("Argentinian", group.getJSONArray("groupMembers").getJSONObject(0).getString("country"));
-        assertEquals(9, group.getJSONArray("groupMembers").getJSONObject(0).getInt("id"));
-        assertEquals(9, group.getJSONArray("groupMembers").getJSONObject(0).getInt("points"));
+        assertTrue(groupData.size() >= 1);
+
+        GroupTO group = groupData.get(0);
+        assertEquals(1, group.getId());
+        assertEquals("A", group.getName());
+
+        Team groupMember = group.getGroupMembers().get(0);
+        assertEquals(1, group.getGroupMembers().size());
+        assertEquals("Argentinian", groupMember.getCountry());
+        assertEquals(9, groupMember.getId());
+        assertEquals(9, groupMember.getPoints());
     }
 }

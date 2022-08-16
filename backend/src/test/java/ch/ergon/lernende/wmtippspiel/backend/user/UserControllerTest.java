@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,7 +25,7 @@ class UserControllerTest {
 
     @Test
     void testUserDataResponse() throws JSONException {
-        String usersJson = restTemplate.getForObject(TestSetup.testSetup(port) + "user", String.class);
+        ResponseEntity<UserTO> usersJson = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "user", UserTO.class);
         JSONArray users = new JSONArray(usersJson);
         JSONObject user = users.getJSONObject(0);
 

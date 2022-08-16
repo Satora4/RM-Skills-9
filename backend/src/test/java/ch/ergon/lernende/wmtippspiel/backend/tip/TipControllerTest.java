@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +24,7 @@ class TipControllerTest {
 
     @Test
     void testTipDataResponse() throws JSONException {
-        String tipsJson = restTemplate.getForObject(TestSetup.testSetup(port) + "tip", String.class);
+        ResponseEntity<TipTO> tipsJson = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO.class);
         JSONArray tips = new JSONArray(tipsJson);
         JSONObject tip = tips.getJSONObject(0);
 
@@ -53,9 +54,9 @@ class TipControllerTest {
         newTip.setTipTeam2(60);
         newTip.setGameId(1);
 
-        restTemplate.postForEntity(TestSetup.testSetup(port) + "tip", newTip, TipTO.class);
+        restTemplate.postForEntity(TestSetup.createBaseUrl(port) + "tip", newTip, TipTO.class);
 
-        String tipsJson = restTemplate.getForObject(TestSetup.testSetup(port) + "tip", String.class);
+        ResponseEntity<TipTO> tipsJson = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO.class);
         JSONArray tips = new JSONArray(tipsJson);
         JSONObject tip = tips.getJSONObject(tips.length() - 1);
 

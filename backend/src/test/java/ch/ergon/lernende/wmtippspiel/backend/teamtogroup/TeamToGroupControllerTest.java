@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +24,7 @@ class TeamToGroupControllerTest {
 
     @Test
     void testTeamToGroupDataResponse() throws JSONException {
-        String teamToGroupJson = restTemplate.getForObject(TestSetup.testSetup(port) + "teamToGroup", String.class);
+        ResponseEntity<TeamToGroupTO> teamToGroupJson = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "teamToGroup", TeamToGroupTO.class);
         JSONArray teamToGroups = new JSONArray(teamToGroupJson);
         JSONObject teamToGroup = teamToGroups.getJSONObject(0);
 
