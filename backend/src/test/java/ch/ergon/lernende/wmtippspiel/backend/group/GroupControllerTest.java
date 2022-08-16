@@ -2,7 +2,6 @@ package ch.ergon.lernende.wmtippspiel.backend.group;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +25,7 @@ class GroupControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void testGroupDataResponse() throws JSONException {
+    void testGroupDataResponse() {
         ResponseEntity<GroupTO[]> groups = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "group", GroupTO[].class);
         List<GroupTO> groupData = List.of(Objects.requireNonNull(groups.getBody()));
 

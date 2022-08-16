@@ -1,9 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +8,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TipControllerTest {
@@ -23,31 +25,33 @@ class TipControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void testTipDataResponse() throws JSONException {
-        ResponseEntity<TipTO> tipsJson = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO.class);
-        JSONArray tips = new JSONArray(tipsJson);
-        JSONObject tip = tips.getJSONObject(0);
+    void testTipDataResponse() {
+        ResponseEntity<TipTO[]> tips = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO[].class);
+        List<TipTO> tipData = List.of(Objects.requireNonNull(tips.getBody()));
 
-        assertEquals(1, tip.getInt("id"));
-        assertEquals(2, tip.getInt("tipTeam1"));
-        assertEquals(2, tip.getInt("tipTeam2"));
-        assertEquals(1, tip.getInt("userId"));
-        assertEquals("Niculin", tip.getString("firstName"));
-        assertEquals("Steiner", tip.getString("lastName"));
-        assertEquals("steiner.niculin@mail.ch", tip.getString("email"));
-        assertEquals(8, tip.getInt("gameId"));
-        assertEquals("2022-11-13T22:00:00", tip.getString("gameTime"));
-        assertEquals("Katar", tip.getString("gameLocation"));
-        assertEquals(6, tip.getInt("teamId1"));
-        assertEquals(4, tip.getInt("teamId2"));
-        assertEquals(3, tip.getInt("pointsTeam1"));
-        assertEquals(4, tip.getInt("pointsTeam2"));
-        assertEquals("Germany", tip.getString("teamCountry1"));
-        assertEquals("England", tip.getString("teamCountry2"));
+        assertTrue(tipData.size() >= 1);
+
+        TipTO tip = tipData.get(0);
+        assertEquals(1, tip.getId());
+        assertEquals(2, tip.getTipTeam1());
+        assertEquals(2, tip.getTipTeam2());
+        assertEquals(1, tip.getUserId());
+        assertEquals("Niculin", tip.getFirstName());
+        assertEquals("Steiner", tip.getLastName());
+        assertEquals("steiner.niculin@mail.ch", tip.getEmail());
+        assertEquals(8, tip.getGameId());
+        assertEquals(LocalDateTime.of(2022, 11, 13, 22, 00), tip.getGameTime());
+        assertEquals("Katar", tip.getGameLocation());
+        assertEquals(6, tip.getTeamId1());
+        assertEquals(4, tip.getTeamId2());
+        assertEquals(3, tip.getPointsTeam1());
+        assertEquals(4, tip.getPointsTeam2());
+        assertEquals("Germany", tip.getTeamCountry1());
+        assertEquals("England", tip.getTeamCountry2());
     }
 
     @Test
-    void testAddTip() throws JSONException {
+    void testAddTip() {
         TipTO newTip = new TipTO();
         newTip.setUserId(2);
         newTip.setTipTeam1(50);
@@ -56,25 +60,27 @@ class TipControllerTest {
 
         restTemplate.postForEntity(TestSetup.createBaseUrl(port) + "tip", newTip, TipTO.class);
 
-        ResponseEntity<TipTO> tipsJson = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO.class);
-        JSONArray tips = new JSONArray(tipsJson);
-        JSONObject tip = tips.getJSONObject(tips.length() - 1);
+        ResponseEntity<TipTO[]> tips = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO[].class);
+        List<TipTO> tipData = List.of(Objects.requireNonNull(tips.getBody()));
 
-        assertEquals(5, tip.getInt("id"));
-        assertEquals(50, tip.getInt("tipTeam1"));
-        assertEquals(60, tip.getInt("tipTeam2"));
-        assertEquals(2, tip.getInt("userId"));
-        assertEquals("Joel", tip.getString("firstName"));
-        assertEquals("Vontobel", tip.getString("lastName"));
-        assertEquals("joel.vontobel@ergon.ch", tip.getString("email"));
-        assertEquals(1, tip.getInt("gameId"));
-        assertEquals("2022-11-10T20:00:00", tip.getString("gameTime"));
-        assertEquals("Katar", tip.getString("gameLocation"));
-        assertEquals(9, tip.getInt("teamId1"));
-        assertEquals(1, tip.getInt("teamId2"));
-        assertEquals(2, tip.getInt("pointsTeam1"));
-        assertEquals(3, tip.getInt("pointsTeam2"));
-        assertEquals("Argentinian", tip.getString("teamCountry1"));
-        assertEquals("Switzerland", tip.getString("teamCountry2"));
+        assertTrue(tipData.size() >= 1);
+
+        TipTO tip = tipData.get(tipData.size() - 1);
+        assertEquals(5, tip.getId());
+        assertEquals(50, tip.getTipTeam1());
+        assertEquals(60, tip.getTipTeam2());
+        assertEquals(2, tip.getUserId());
+        assertEquals("Joel", tip.getFirstName());
+        assertEquals("Vontobel", tip.getLastName());
+        assertEquals("joel.vontobel@ergon.ch", tip.getEmail());
+        assertEquals(1, tip.getGameId());
+        assertEquals(LocalDateTime.of(2022, 11, 10, 20, 00), tip.getGameTime());
+        assertEquals("Katar", tip.getGameLocation());
+        assertEquals(9, tip.getTeamId1());
+        assertEquals(1, tip.getTeamId2());
+        assertEquals(2, tip.getPointsTeam1());
+        assertEquals(3, tip.getPointsTeam2());
+        assertEquals("Argentinian", tip.getTeamCountry1());
+        assertEquals("Switzerland", tip.getTeamCountry2());
     }
 }
