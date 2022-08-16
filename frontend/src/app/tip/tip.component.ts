@@ -12,7 +12,7 @@ export class TipComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource();
   columnsToDisplay = ['gameTime', 'teamCountry1', 'tipTeam1', 'pointsTeam1', 'pointsTeam2', 'tipTeam2', 'teamCountry2'];
 
-  @ViewChild(MatSort) sort = new MatSort()
+  @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private tipService: TipService) {
   }
@@ -31,3 +31,4 @@ export class TipComponent implements AfterViewInit, OnInit {
     });
   }
 }
+

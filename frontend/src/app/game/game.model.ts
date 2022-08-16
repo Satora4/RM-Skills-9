@@ -1,5 +1,5 @@
 export interface Game {
-  gameId: number;
+  id: number;
   gameTime: Date;
   gameLocation: string;
   pointsTeam1: number;

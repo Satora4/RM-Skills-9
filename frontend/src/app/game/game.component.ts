@@ -21,7 +21,8 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(private gameService: GameService, private tipService: TipService) {
+  constructor(private gameService: GameService,
+              private tipService: TipService) {
   }
 
   ngOnInit(): void {
@@ -32,26 +33,26 @@ export class GameComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game, gameId: number) {
+  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
 
     let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,
       tipTeam2: tipTeam2,
-      gameId: gameId,
+      gameId: game.id,
       teamCountry1: game.teamCountry1,
       teamCountry2: game.teamCountry2,
       pointsTeam1: game.pointsTeam1,
       pointsTeam2: game.pointsTeam2,
       gameTime: game.gameTime
     }
-    console.log(tip)
-    this.addTip(tip)
+    console.log(tip);
+    this.addTip(tip);
   }
 
   private addTip(tip: Tip): void {
     this.tipService.addTip(tip).subscribe(tip => {
-      console.log(tip)
+      console.log(tip);
     })
   }
 
