@@ -1,5 +1,16 @@
+<div class="sidenav">
+  <a href="/groups#A">Gruppe A</a>
+  <a href="/groups#B">Gruppe B</a>
+  <a href="/groups#C">Gruppe C</a>
+  <a href="/groups#D">Gruppe D</a>
+  <a href="/groups#E">Gruppe E</a>
+  <a href="/groups#F">Gruppe F</a>
+  <a href="/groups#G">Gruppe G</a>
+  <a href="/groups#H">Gruppe H</a>
+</div>
+
 <div *ngFor="let dataObject of groupDataObjects;">
-  <h2>Gruppe {{dataObject.groupName}}</h2>
+  <h2 id="{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</h2>
   <div class="list">
 
     <table mat-table [dataSource]="dataObject.dataSource">
