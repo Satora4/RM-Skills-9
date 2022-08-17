@@ -23,7 +23,7 @@
 
     <ng-container matColumnDef="ranking">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Rang</th>
-      <td mat-cell *matCellDef="let user">{{userDataSource.data.indexOf(user) + 1}}</td>
+      <td mat-cell *matCellDef="let user;">{{userDataSource.data.indexOf(user) + 1}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

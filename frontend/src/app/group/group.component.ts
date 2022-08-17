@@ -55,9 +55,9 @@ export class GroupComponent implements OnInit {
     return teams;
   }
 
-  private change(users: Team[], a: number, b: number) {
-    const tmp = users[a];
-    users[a] = users[b];
-    users[b] = tmp;
+  private change(teams: Team[], a: number, b: number) {
+    const tmp = teams[a];
+    teams[a] = teams[b];
+    teams[b] = tmp;
   }
 }
