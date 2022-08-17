@@ -40,6 +40,7 @@ public class TipRepository {
         return dslContext.select(TIP.TIP_ID,
                         TIP.TIP_TEAM1,
                         TIP.TIP_TEAM2,
+                        TIP.POINTS,
                         USER.USER_ID,
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
@@ -68,6 +69,7 @@ public class TipRepository {
                 .set(TIP.TIP_TEAM1, tip.getTipTeam1())
                 .set(TIP.TIP_TEAM2, tip.getTipTeam2())
                 .set(TIP.GAME_ID, tip.getGame().getId())
+                .set(TIP.POINTS, tip.getPoints())
                 .execute();
     }
 
@@ -76,6 +78,7 @@ public class TipRepository {
         tip.setId(record.get(TIP.TIP_ID));
         tip.setTipTeam1(record.get(TIP.TIP_TEAM1));
         tip.setTipTeam2(record.get(TIP.TIP_TEAM2));
+        tip.setPoints(record.get(TIP.POINTS));
 
         User user = new User();
         user.setId(record.get(USER.USER_ID));

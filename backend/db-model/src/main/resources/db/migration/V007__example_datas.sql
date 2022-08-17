@@ -1,17 +1,16 @@
 INSERT INTO "USER"(FIRST_NAME,
                    LAST_NAME,
                    EMAIL,
-                   POINTS,
                    RANKING,
                    ADMINISTRATOR)
-VALUES ('Niculin', 'Steiner', 'steiner.niculin@mail.ch', 12, 2, true),
-       ('Joel', 'Vontobel', 'joel.vontobel@ergon.ch', 11, 3, true),
-       ('Hans', 'Ruedi', 'hans.ruedi@mail.com', 2, 4, false),
-       ('Hans', 'Ruedi', 'hans.ruedi@mail2.com', 2, 6, false),
-       ('Hans', 'Ruedi', 'hans.ruedi@mail3.com', 2, 5, false),
-       ('Hans', 'Ruedi', 'hans.ruedi@mail4.com', 2, 8, false),
-       ('Hans', 'Ruedi', 'hans.ruedi@mail5.com', 2, 7, false),
-       ('Marc', 'Tremp', 'marc.tremp@mail.at', 15, 1, false);
+VALUES ('Niculin', 'Steiner', 'steiner.niculin@mail.ch', 2, true),
+       ('Joel', 'Vontobel', 'joel.vontobel@ergon.ch', 3, true),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail.com', 2, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail2.com', 2, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail3.com', 2, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail4.com', 2, false),
+       ('Hans', 'Ruedi', 'hans.ruedi@mail5.com', 2, false),
+       ('Marc', 'Tremp', 'marc.tremp@mail.at', 15, false);
 
 
 
@@ -63,11 +62,12 @@ values ('2022-11-10T20:00:00', 'Katar', 2, 3, 9, 1),
 INSERT INTO TIP(USER_ID,
                 TIP_TEAM1,
                 TIP_TEAM2,
-                GAME_ID)
-values (1, 2, 2, 8),
-       (2, 2, 0, 6),
-       (1, 0, 4, 1),
-       (4, 3, 4, 4);
+                GAME_ID,
+                POINTS)
+values (1, 2, 2, 8, 1),
+       (2, 2, 0, 6, 2),
+       (1, 0, 4, 1, 3),
+       (4, 3, 4, 4, 2);
 
 
 

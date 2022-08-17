@@ -51,6 +51,7 @@ public class TipController {
         tipTO.setId(tip.getId());
         tipTO.setTipTeam1(tip.getTipTeam1());
         tipTO.setTipTeam2(tip.getTipTeam2());
+        tipTO.setPoints(tip.getPoints());
 
         tipTO.setUserId(user.getId());
         tipTO.setFirstName(user.getFirstName());
@@ -76,6 +77,7 @@ public class TipController {
         tip.setId(tipTO.getId());
         tip.setTipTeam1(tipTO.getTipTeam1());
         tip.setTipTeam2(tipTO.getTipTeam2());
+        tip.setPoints(tipTO.getPoints());
 
         Game game = new Game();
 

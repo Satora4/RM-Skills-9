@@ -6,6 +6,7 @@ public class TipTO {
     private int id;
     private int tipTeam1;
     private int tipTeam2;
+    private int points;
     //user
     private int userId;
     private String firstName;
@@ -148,5 +149,13 @@ public class TipTO {
 
     public void setTeamCountry2(String teamCountry2) {
         this.teamCountry2 = teamCountry2;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

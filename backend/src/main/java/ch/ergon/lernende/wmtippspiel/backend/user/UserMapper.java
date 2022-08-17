@@ -13,7 +13,6 @@ public class UserMapper {
         user.setFirstName(userRecord.getFirstName());
         user.setLastName(userRecord.getLastName());
         user.setEmail(userRecord.getEmail());
-        user.setPoints(userRecord.getPoints());
         user.setRanking(userRecord.getRanking());
         user.setAdministrator(userRecord.getAdministrator());
 
