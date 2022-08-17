@@ -1,22 +1,27 @@
-import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-import { handleError } from '../util/http.util';
-import { Tip } from './tip.model';
+import {Observable} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {handleError} from '../util/http.util';
+import {Tip} from "./tip.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TipService {
-  //ToDo ändern mit Login
-  private tipUrl = 'tip?userId=1';
+  private tipUrl = 'tip';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+  }
 
-  getTips(): Observable<Tip[]> {
-    return this.httpClient.get<Tip[]>(this.tipUrl).pipe(tap({ complete: () => console.log('fetched Tips') }), catchError(handleError<Tip[]>('getTips', [])));
+  getTips(userId: number): Observable<Tip[]> {
+    return this.httpClient.get<Tip[]>(this.tipUrl + "?userId=" + userId).pipe(
+      tap({complete: () => console.log('fetched Tips')}), catchError(handleError<Tip[]>('getTips', [])));
+  }
+
+  addTip(tip: Tip): Observable<Tip> {
+    return this.httpClient.post<Tip>(this.tipUrl, tip)
+      .pipe(tap((newTip: Tip) => console.log(`added tip w/ id=${newTip.gameId}`)), catchError(handleError<Tip>('addedTip'))
+      );
   }
 }

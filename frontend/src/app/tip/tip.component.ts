@@ -1,35 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-
-import { GameService } from '../game/game.service';
-import { TipService } from './tip.service';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {TipService} from "./tip.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-tip',
   templateUrl: './tip.component.html',
-  styleUrls: ['./tip.component.css'],
+  styleUrls: ['./tip.component.css']
 })
-export class TipComponent implements OnInit {
-  tipDataSource = new MatTableDataSource();
-  gameDataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['gameTime', 'gameLocation', 'teamCountry1', 'tipTeam1', 'tipTeam2', 'teamCountry2'];
+export class TipComponent implements AfterViewInit, OnInit {
+  dataSource = new MatTableDataSource();
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'tipTeam1', 'pointsTeam1', 'pointsTeam2', 'tipTeam2', 'teamCountry2'];
 
-  constructor(private tipService: TipService, private gameService: GameService) {}
+  @ViewChild(MatSort) sort = new MatSort();
+
+  constructor(private tipService: TipService) {
+  }
 
   ngOnInit(): void {
-    this.loadTips();
-    this.loadGames();
+    this.loadTipsByUser(1);
   }
 
-  private loadTips(): void {
-    this.tipService.getTips().subscribe((tips) => {
-      this.tipDataSource.data = tips;
-    });
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
-  private loadGames(): void {
-    this.gameService.getGames().subscribe((games) => {
-      this.gameDataSource.data = games;
+  private loadTipsByUser(userId: number): void {
+    this.tipService.getTips(userId).subscribe((tips) => {
+      this.dataSource.data = tips;
     });
   }
 }
+
