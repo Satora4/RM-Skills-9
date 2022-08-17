@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { User } from './user.model';
 import { UserService } from './user.service';
@@ -10,8 +12,15 @@ import { UserService } from './user.service';
 })
 export class UserComponent implements OnInit {
   private users: User[] = [];
+  userDataSource = new MatTableDataSource();
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'points', 'ranking'];
+  @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private UserService: UserService) {}
+
+  ngAfterViewInit() {
+    this.userDataSource.sort = this.sort;
+  }
 
   ngOnInit(): void {
     this.loadUser();
@@ -20,12 +29,12 @@ export class UserComponent implements OnInit {
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
-      UserComponent.getSortedUsers(this.users);
+      this.userDataSource.data = UserComponent.sortUsers(this.users);
       console.log(users);
     });
   }
 
-  private static getSortedUsers(users: User[]) {
+  private static sortUsers(users: User[]) {
     for (let i = 0; i < users.length; i++) {
       for (let j = 0; j < users.length - 1 - i; j++) {
         if (users[j].points < users[j + 1].points) {
