@@ -28,6 +28,8 @@ public class UserRepository {
                         USER.USER_ID.as("id"),
                         USER.FIRST_NAME.as("firstName"),
                         USER.LAST_NAME.as("lastName"),
+                        USER.EMAIL.as("email"),
+                        USER.RANKING.as("ranking"),
                         sum(TIP.POINTS).as("points"))
                 .from(USER)
                 .leftJoin(TIP)
