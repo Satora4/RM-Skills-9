@@ -27,7 +27,6 @@ public class CalculatorService {
      */
     public void calculateScore() {
 
-
         List<Game> gamesToCalculate = gameRepository.getGamesWithPoints();
 
         List<Tip> tips = tipRepository.getAllTip();
@@ -39,10 +38,15 @@ public class CalculatorService {
             }
         }
 
-
         for (Tip tip : tipsToCalculate) {
-            CalculateObject calculateObject = new CalculateObject(tip.getTipTeam1(), tip.getTipTeam2(), gamesToCalculate.get(tip.getGame().getId()).getPointsTeam1(), gamesToCalculate.get(tip.getGame().getId()).getPointsTeam2());
-            int points = ruleService.calculate(calculateObject);
+            int tipTeam1 = tip.getTipTeam1();
+            int tipTeam2 = tip.getTipTeam2();
+            int gameId = tip.getGame().getId();
+            Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
+            int pointsTeam1 = currentGame.getPointsTeam1();
+            int pointsTeam2 = currentGame.getPointsTeam2();
+            TipAndGameResult tipAndGameResult = new TipAndGameResult(tipTeam1, tipTeam2, pointsTeam1, pointsTeam2);
+            int points = ruleService.calculate(tipAndGameResult);
             tip.setPoints(points);
             tipRepository.updateTip(tip);
         }

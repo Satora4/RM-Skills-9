@@ -8,19 +8,19 @@ public class RuleService {
 
     /**
      * calculates the score for each tip, on the basis of the ruleset
-     * @param calculateObject
+     * @param tipAndGameResult
      * @return int
      */
-    public int calculate(CalculateObject calculateObject) {
-        if (calculateObject.getTipTeam1() == calculateObject.getPointsTeam1() && calculateObject.getTipTeam2() == calculateObject.getPointsTeam2()) {
+    public int calculate(TipAndGameResult tipAndGameResult) {
+        if (tipAndGameResult.getTipTeam1() == tipAndGameResult.getPointsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.getPointsTeam2()) {
             return 3;
-        } else if (calculateObject.getTipTeam1() - calculateObject.getPointsTeam1() == -calculateObject.getPointsTeam2()) {
-            if (calculateObject.getTipTeam1() - calculateObject.getTipTeam2() == 0) {
+        } else if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getPointsTeam1() == -tipAndGameResult.getPointsTeam2()) {
+            if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getTipTeam2() == 0) {
                 return 1;
             } else {
                 return 2;
             }
-        } else if (calculateObject.getTipTeam1() > calculateObject.getTipTeam2() && calculateObject.getPointsTeam1() > calculateObject.getPointsTeam2() || calculateObject.getTipTeam1() < calculateObject.getTipTeam2() && calculateObject.getPointsTeam1() < calculateObject.getPointsTeam2()) {
+        } else if (tipAndGameResult.getTipTeam1() > tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() > tipAndGameResult.getPointsTeam2() || tipAndGameResult.getTipTeam1() < tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() < tipAndGameResult.getPointsTeam2()) {
             return 1;
         } else {
             return 0;

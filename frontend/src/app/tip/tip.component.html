@@ -4,37 +4,42 @@
 
     <ng-container matColumnDef="gameTime" style="margin-right: 7em">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum</th>
-      <td mat-cell *matCellDef="let element">{{element.gameTime | date:'d MMM y | HH:mm'}}</td>
+      <td mat-cell *matCellDef="let tip">{{tip.gameTime | date:'d MMM y | HH:mm'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="teamCountry1">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Team 1</th>
-      <td mat-cell *matCellDef="let element">{{element.teamCountry1}}</td>
+      <td mat-cell *matCellDef="let tip">{{tip.teamCountry1}}</td>
     </ng-container>
 
     <ng-container matColumnDef="tipTeam1">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="tip">Tipp Team 1</th>
-      <td mat-cell *matCellDef="let element" class="tip">{{element.tipTeam1}}</td>
+      <td mat-cell *matCellDef="let tip" class="tip">{{tip.tipTeam1}}</td>
     </ng-container>
 
     <ng-container matColumnDef="pointsTeam1">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Goals Team 1</th>
-      <td mat-cell *matCellDef="let element">{{element.pointsTeam1}}</td>
+      <td mat-cell *matCellDef="let tip">{{tip.pointsTeam1}}</td>
     </ng-container>
 
     <ng-container matColumnDef="pointsTeam2">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Goals Team 2</th>
-      <td mat-cell *matCellDef="let element">{{element.pointsTeam2}}</td>
+      <td mat-cell *matCellDef="let tip">{{tip.pointsTeam2}}</td>
     </ng-container>
 
     <ng-container matColumnDef="tipTeam2">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="tip">Tipp Team 2</th>
-      <td mat-cell *matCellDef="let element" class="tip">{{element.tipTeam2}}</td>
+      <td mat-cell *matCellDef="let tip" class="tip">{{tip.tipTeam2}}</td>
     </ng-container>
 
     <ng-container matColumnDef="teamCountry2">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Team 2</th>
-      <td mat-cell *matCellDef="let element">{{element.teamCountry2}}</td>
+      <td mat-cell *matCellDef="let tip">{{tip.teamCountry2}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="earnings">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Gewonnene Punkte</th>
+      <td mat-cell *matCellDef="let tip">{{tip.points}}</td>
     </ng-container>
 
 

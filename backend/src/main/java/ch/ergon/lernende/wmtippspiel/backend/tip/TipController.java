@@ -84,20 +84,27 @@ public class TipController {
         Team team1 = new Team();
         team1.setId(tipTO.getTeamId1());
         team1.setCountry(tipTO.getTeamCountry1());
-        team1.setPoints(tipTO.getPointsTeam1());
+        if (tipTO.getPointsTeam1() != null) {
+            team1.setPoints(tipTO.getPointsTeam1());
+        }
         game.setTeam1(team1);
 
         Team team2 = new Team();
         team2.setId(tipTO.getTeamId2());
         team2.setCountry(tipTO.getTeamCountry2());
-        team2.setPoints(tipTO.getPointsTeam2());
+        if (tipTO.getPointsTeam2() != null) {
+            team2.setPoints(tipTO.getPointsTeam2());
+        }
         game.setTeam2(team2);
 
         game.setId(tipTO.getGameId());
         game.setGameTime(tipTO.getGameTime());
         game.setGameLocation(tipTO.getGameLocation());
-        game.setPointsTeam1(tipTO.getPointsTeam1());
-        game.setPointsTeam2(tipTO.getPointsTeam2());
+        if (tipTO.getPointsTeam1() != null && tipTO.getPointsTeam2() != null) {
+            game.setPointsTeam1(tipTO.getPointsTeam1());
+            game.setPointsTeam2(tipTO.getPointsTeam2());
+        }
+
         tip.setGame(game);
 
         User user = new User();

@@ -1,13 +1,13 @@
 package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 
-public class CalculateObject {
+public class TipAndGameResult {
+
     private final int tipTeam1;
     private final int tipTeam2;
     private final int pointsTeam1;
     private final int pointsTeam2;
 
-
-    public CalculateObject(int tipTeam1, int tipTeam2, int pointsTeam1, int pointsTeam2){
+    public TipAndGameResult(int tipTeam1, int tipTeam2, int pointsTeam1, int pointsTeam2) {
         this.tipTeam1 = tipTeam1;
         this.tipTeam2 = tipTeam2;
         this.pointsTeam1 = pointsTeam1;
