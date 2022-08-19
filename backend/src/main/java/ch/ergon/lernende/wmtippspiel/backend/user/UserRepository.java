@@ -8,6 +8,7 @@ import java.util.List;
 
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.TIP;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
+import static org.jooq.impl.DSL.nvl;
 import static org.jooq.impl.DSL.sum;
 
 @Repository
@@ -30,7 +31,7 @@ public class UserRepository {
                         USER.LAST_NAME.as("lastName"),
                         USER.EMAIL.as("email"),
                         USER.RANKING.as("ranking"),
-                        sum(TIP.POINTS).as("points"))
+                        nvl(sum(TIP.POINTS),0).as("points"))
                 .from(USER)
                 .leftJoin(TIP)
                 .on(USER.USER_ID.eq(TIP.USER_ID))
