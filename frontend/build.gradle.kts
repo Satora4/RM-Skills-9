@@ -25,4 +25,9 @@ tasks {
     dependsOn(formatFrontend)
   }
 
+  val npmStart by creating(NpmTask::class) {
+    dependsOn(build)
+    this.npmCommand.set(listOf("run", "start"))
+  }
+
 }
