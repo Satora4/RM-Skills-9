@@ -11,7 +11,7 @@ import { Team } from './team.model';
   providedIn: 'root',
 })
 export class TeamService {
-  private teamUrl = 'team';
+  private teamUrl = 'api/team';
 
   constructor(private http: HttpClient) {}
 

@@ -12,7 +12,7 @@ import { Group } from './group.model';
   providedIn: 'root',
 })
 export class GroupService {
-  private groupUrl = 'group';
+  private groupUrl = 'api/group';
 
   constructor(private http: HttpClient) {}
 
