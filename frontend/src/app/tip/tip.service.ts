@@ -9,7 +9,7 @@ import {Tip} from "./tip.model";
   providedIn: 'root'
 })
 export class TipService {
-  private tipUrl = 'tip';
+  private tipUrl = 'api/tip';
 
   constructor(private httpClient: HttpClient) {
   }

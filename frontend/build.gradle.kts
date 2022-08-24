@@ -1,5 +1,4 @@
 import com.github.gradle.node.npm.task.NpmTask
-import com.github.gradle.node.npm.task.NpxTask
 
 plugins {
   `java-library`
@@ -18,35 +17,17 @@ tasks {
     }
   }
 
-  val buildAngularApp by creating(NpxTask::class) {
-    dependsOn(npmInstall)
-    command.set("ng")
-    args.set(listOf("build"))
-    inputs.files("package.json", "package-lock.json", "angular.json", "tsconfig.json", "tsconfig.app.json")
-    inputs.dir("src")
-    inputs.dir(fileTree("node_modules").exclude(".cache"))
-    outputs.dir("dist")
-  }
-
   val formatFrontend by creating(NpmTask::class) {
     this.npmCommand.set(listOf("run", "format"))
   }
 
-  val copyDistToResources by creating(Copy::class) {
-    dependsOn(buildAngularApp)
-    from("dist/wm-tippspiel-frontend")
-    into(buildDir.resolve("angular-app/public"))
+  build {
+    dependsOn(formatFrontend)
   }
 
-  processResources {
-    dependsOn(copyDistToResources)
+  val npmStart by creating(NpmTask::class) {
+    dependsOn(build)
+    this.npmCommand.set(listOf("run", "start"))
   }
-}
 
-sourceSets {
-  main {
-    resources {
-      srcDir(buildDir.resolve("angular-app"))
-    }
-  }
 }
