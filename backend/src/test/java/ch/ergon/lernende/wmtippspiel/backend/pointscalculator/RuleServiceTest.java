@@ -3,12 +3,16 @@ package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RuleServiceTest {
 
+    private static final int USER_TIP_VALUE_2 = 2;
+    private static final int USER_TIP_VALUE_3 = 3;
+    private static final int GAME_RESULT_VALUE_4 = 4;
+    private static final int GAME_RESULT_VALUE_1 = 1;
+    public static final int GAME_RESULT_VALUE_2 = 2;
+    public static final int GAME_RESULT_VALUE_3 = 3;
     private RuleService ruleService;
 
     @BeforeEach
@@ -17,51 +21,37 @@ class RuleServiceTest {
     }
 
     @Test
-    void testTipFalse() {
-        int points = ruleService.calculate(new TipAndGameResult(2, 3, 4, 1));
-        boolean condition = points == 0;
-        assertTrue(condition);
+    void testWrongTipCalculatesZeroPoints() {
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_1);
+        int points = ruleService.calculate(tipAndGameResult);
+        assertEquals(0, points);
     }
 
     @Test
-    void testTipTrue() {
-        int points = ruleService.calculate(new TipAndGameResult(2, 3, 2, 3));
-        boolean condition = points == 3;
-        assertTrue(condition);
+    void testCorrectTipCalculatesThreePoints() {
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_2, GAME_RESULT_VALUE_3);
+        int points = ruleService.calculate(tipAndGameResult);
+        assertEquals(3, points);
     }
 
     @Test
-    void testTipHasCorrectGoalDeviation() {
-        int points = ruleService.calculate(new TipAndGameResult(2, 3, 3, 4));
-        boolean condition = points == 2;
-        assertTrue(condition);
+    void testTipHasCorrectGoalDeviationCalculatesTwoPoints() {
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_3, GAME_RESULT_VALUE_4);
+        int points = ruleService.calculate(tipAndGameResult);
+        assertEquals(2, points);
     }
 
     @Test
-    void testNotCorrectTie() {
-        int points = ruleService.calculate(new TipAndGameResult(2, 2, 3, 3));
-        boolean condition = points == 1;
-        assertTrue(condition);
+    void testNotCorrectTieCalculatesOnePoint() {
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_2, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_4);
+        int points = ruleService.calculate(tipAndGameResult);
+        assertEquals(1, points);
     }
 
     @Test
-    void testCorrectWinner() {
-        int points = ruleService.calculate(new TipAndGameResult(2, 3, 1, 3));
-        boolean condition = points == 1;
-        assertTrue(condition);
-    }
-
-    @Test
-    void testReturnValue() {
-        int points = ruleService.calculate(new TipAndGameResult(getRandomNumber(), getRandomNumber(), getRandomNumber(), getRandomNumber()));
-        boolean condition = points <= 3 && points >= 0;
-        assertTrue(condition);
-    }
-
-    private static int getRandomNumber() {
-        int min = 0;
-        int max = 15;
-        Random random = new Random();
-        return random.nextInt(max + min) + min;
+    void testCorrectWinnerCalculatesOnePoint() {
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_1, GAME_RESULT_VALUE_4);
+        int points = ruleService.calculate(tipAndGameResult);
+        assertEquals(1, points);
     }
 }
