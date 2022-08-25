@@ -2,6 +2,8 @@ plugins {
     `java-library`
     id("org.springframework.boot") version "2.7.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("com.github.node-gradle.node") version "3.3.0"
+    id("com.google.cloud.tools.jib") version "3.2.1"
 }
 
 group = "ch.ergon.lernende.wmtippspiel"
@@ -27,5 +29,14 @@ dependencies {
 tasks {
     test {
         useJUnitPlatform()
+    }
+}
+
+jib {
+    from {
+        image = "docker-mirror.ergon.ch/library/eclipse-temurin:17-jre"
+    }
+    to {
+        image = "${rootProject.extra["dockerRepoPrefix"]}/${project.name}"
     }
 }
