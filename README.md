@@ -31,7 +31,7 @@ Will man das Datenbank-Modell anpassen, muss man ein weiteres SQL-File im Ordner
 
 ## Datenbank-Setup
 
-Es wird eine lokale Postges 14 Instanz benötigt.
+Es wird eine lokale Postgres 14 Instanz benötigt.
 Falls man Postgres nicht lokal installieren möchte, kann man auch die Datenbank als Container mit docker-compose starten:
 ```shell
 docker-compose -f ./devops/docker-compose.yml start wm-tippspiel-db
