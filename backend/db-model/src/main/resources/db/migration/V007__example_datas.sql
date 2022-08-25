@@ -1,4 +1,4 @@
-INSERT INTO "USER"(FIRST_NAME,
+INSERT INTO "user"(FIRST_NAME,
                    LAST_NAME,
                    EMAIL,
                    RANKING,
@@ -71,7 +71,7 @@ values (1, 2, 2, 8, 1),
 
 
 
-INSERT INTO "GROUP"(NAME)
+INSERT INTO "group"(NAME)
 values ('A'),
        ('B'),
        ('C'),

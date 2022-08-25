@@ -6,13 +6,13 @@ import org.jooq.util.jaxb.tools.XMLAppendable
 
 plugins {
     `java-library`
-    id("nu.studer.jooq") version "6.0.1"
-    id("org.flywaydb.flyway") version "7.9.1"
+    id("nu.studer.jooq") version "7.1.1"
+    id("org.flywaydb.flyway") version "9.1.3"
 }
 
 buildscript {
     dependencies {
-        classpath(group = "com.h2database", name = "h2", version = "1.4.200")
+        classpath(group = "org.postgresql", name = "postgresql", version = "42.4.2")
     }
 }
 
@@ -20,21 +20,22 @@ dependencies {
     api(group = "org.jooq", name = "jooq", version = "3.15.4")
 
     jooqGenerator(project(":backend:jooq-codegen-customization"))
-    jooqGenerator(group = "com.h2database", name = "h2", version = "1.4.200")
+    jooqGenerator(group = "org.postgresql", name = "postgresql", version = "42.4.2")
 }
 
+val dbUsername by extra("wm-tippspiel")
+val dbPassword by extra("TcZvs3AfLKhKJtbkTp")
 val codegenDirectory = buildDir.resolve("jooqCodeGen")
-
 val dbDirectory = codegenDirectory.resolve("db")
-
-val jdbcUrl = "jdbc:h2:file:${dbDirectory.resolve("migration")}"
+val jdbcUrl = "jdbc:postgresql://localhost:5432/wm-tippspiel"
 
 flyway {
-    val scriptPath = projectDir.resolve("scripts").resolve("init.sql").toString().replace("\\", "\\\\")
     // allows insertions via migration scripts
     mixed = true
-    url = "$jdbcUrl;INIT=RUNSCRIPT FROM '$scriptPath'"
-    user = "sa"
+    url = jdbcUrl
+    user = dbUsername
+    password = dbPassword
+    cleanDisabled = false
 }
 
 tasks {
@@ -49,7 +50,7 @@ tasks {
 }
 
 jooq {
-    version.set("3.15.4")
+    version.set("3.16.7")
     edition.set(JooqEdition.OSS)
 
     configurations {
@@ -57,18 +58,18 @@ jooq {
             jooqConfiguration {
                 logging = Logging.WARN
                 jdbc {
-                    driver = "org.h2.Driver"
+                    driver = "org.postgresql.Driver"
                     url = jdbcUrl
-                    user = "sa"
-                    password = ""
+                    user = dbUsername
+                    password = dbPassword
                     properties.add(Property().withKey("PAGE_SIZE").withValue("2048"))
                 }
                 generator {
                     name = "org.jooq.codegen.JavaGenerator"
                     database {
-                        name = "org.jooq.meta.h2.H2Database"
-                        inputSchema = "WM_TIPPSPIEL"
+                        name = "org.jooq.meta.postgres.PostgresDatabase"
                         excludes = "(?i)flyway_schema_history"
+                        inputSchema = "public"
                     }
                     generate {
                         isDeprecated = false
