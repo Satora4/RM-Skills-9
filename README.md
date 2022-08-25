@@ -28,3 +28,34 @@ Will man das Datenbank-Modell anpassen, muss man ein weiteres SQL-File im Ordner
 ```shell
 ./gradlew backend:db-model:assemble
 ```
+
+## Datenbank-Setup
+
+Es wird eine lokale Postges 14 Instanz benötigt.
+Falls man Postgres nicht lokal installieren möchte, kann man auch die Datenbank als Container mit docker-compose starten:
+```shell
+docker-compose -f ./devops/docker-compose.yml start wm-tippspiel-db
+```
+Dabei muss beachtet werden, dass im `./devops`-Verzeichnis ein Ordner `postgres-data` exisiteren muss.
+
+## Docker Images erstellen
+
+```shell
+./gradlew pushDockerImages
+```
+Dabei wird basierend auf dem aktuellen Stand für das Frontend und Backend jeweils ein Image in die Ergon Docker Registry gepushed.
+
+## Deployment
+
+Auf dem Test-System muss folgendes ausgeführt werden:
+
+```shell
+cd /opt/wm-tippspiel-22
+docker-compose down
+docker-compose rm -f
+docker-compose pull
+docker-compose up --build -d
+```
+
+Es kann vorkommen, dass das Backend versucht auf die DB zu verbinden, bevor diese Verbindungen akzeptiert.
+In diesem Fall reicht es den Backend-Container separat zu starten.
