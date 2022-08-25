@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  wm-tippspiel-backend:
+    image: docker.ergon.ch/berufsbildung/wm-tippspiel/backend:latest
+    depends_on:
+      - wm-tippspiel-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://wm-tippspiel-db:5432/wm-tippspiel
+      - SPRING_DATASOURCE_USERNAME=wm-tippspiel
+      - SPRING_DATASOURCE_PASSWORD=TcZvs3AfLKhKJtbkTp
+      - SPRING_FLYWAY_URL=jdbc:postgresql://wm-tippspiel-db:5432/wm-tippspiel
+      - SPRING_FLYWAY_USER=wm-tippspiel
+      - SPRING_FLYWAY_PASSWORD=TcZvs3AfLKhKJtbkTp
+    ports:
+      - "8000:8080"
+    networks:
+      - wm-tippspiel-network
+
+  wm-tippspiel-frontend:
+    image: docker.ergon.ch/berufsbildung/wm-tippspiel/frontend:latest
+    depends_on:
+      - wm-tippspiel-backend
+    ports:
+      - "8080:80"
+    networks:
+      - wm-tippspiel-network
+
+  wm-tippspiel-db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: wm-tippspiel
+      POSTGRES_PASSWORD: TcZvs3AfLKhKJtbkTp
+      POSTGRES_DB: wm-tippspiel
+    restart: always
+    volumes:
+      - ./postgres-data/:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    networks:
+      - wm-tippspiel-network
+
+networks:
+  wm-tippspiel-network:
