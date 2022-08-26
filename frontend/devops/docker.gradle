@@ -1,0 +1,45 @@
+buildscript {
+  repositories {
+    gradlePluginPortal()
+  }
+  dependencies {
+    classpath 'com.bmuschko:gradle-docker-plugin:6.7.0'
+  }
+}
+
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+
+task copyProject(type: Copy) {
+  from "${projectDir}/dist/wm-tippspiel-frontend"
+  into "${projectDir}/dist/docker/bundle"
+}
+
+task copyNginxConfigFile(type: Copy) {
+  from "${projectDir}/devops/nginx.conf"
+  into "${projectDir}/dist/docker"
+}
+
+task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
+  group "docker"
+  dependsOn build
+  dependsOn copyProject
+  dependsOn copyNginxConfigFile
+
+  from "nginx:alpine"
+  copyFile("nginx.conf", "/etc/nginx/templates/default.conf.template")
+  copyFile("bundle", "/etc/nginx/html")
+  destFile.set(project.file("${projectDir}/dist/docker/Dockerfile"))
+}
+
+task buildDockerImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
+  group "docker"
+  dependsOn createDockerfile
+  inputDir.set(project.file("${projectDir}/dist/docker"))
+  images.add("${dockerRepoPrefix}/${project.name}")
+}
+
+task pushDockerImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
+  group "docker"
+  dependsOn buildDockerImage
+  images.add("${dockerRepoPrefix}/${project.name}")
+}

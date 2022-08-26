@@ -4,6 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Team } from '../team/team.model';
 import { handleError } from '../util/http.util';
 import { Group } from './group.model';
 
@@ -11,7 +12,7 @@ import { Group } from './group.model';
   providedIn: 'root',
 })
 export class GroupService {
-  private groupUrl = 'group';
+  private groupUrl = 'api/group';
 
   constructor(private http: HttpClient) {}
 

@@ -27,8 +27,8 @@ public class UserController {
         userTO.setFirstName(user.getFirstName());
         userTO.setLastName(user.getLastName());
         userTO.setEmail(user.getEmail());
-        userTO.setPoints(user.getPoints());
         userTO.setRanking(user.getRanking());
+        userTO.setPoints(user.getPoints());
         userTO.setAdministrator(user.isAdministrator());
         return userTO;
     }

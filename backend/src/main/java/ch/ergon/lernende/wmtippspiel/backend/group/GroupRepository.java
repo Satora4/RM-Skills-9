@@ -31,7 +31,6 @@ public class GroupRepository {
                 .on(GROUP.GROUP_ID.eq(TEAM_TO_GROUP.GROUP_ID))
                 .join(TEAM)
                 .on(TEAM.TEAM_ID.eq(TEAM_TO_GROUP.TEAM_ID))
-                .groupBy(GROUP.NAME, TEAM.COUNTRY)
                 .collect(groupingBy(this::convertToGroup, mapping(this::convertToTeam, toList())));
         return convert(result);
     }

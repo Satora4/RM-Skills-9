@@ -3,6 +3,7 @@
   width: max-content;
   margin-right: auto;
   margin-top: 2em;
+  border: solid rgba(0, 0, 0, 7%);
 }
 
 .list tr td {

@@ -42,13 +42,6 @@ public class User {
         this.email = email;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
 
     public int getRanking() {
         return ranking;
@@ -64,5 +57,13 @@ public class User {
 
     public void setAdministrator(boolean administrator) {
         this.administrator = administrator;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

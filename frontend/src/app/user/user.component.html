@@ -1,10 +1,33 @@
 <div class="list">
-  <tr *ngFor="let user of getUsers(); index as i;">
-    <td>{{user.firstName}}</td>
-    <td>{{user.lastName}}</td>
-    <td>{{user.email}}</td>
-    <td>{{user.points}}</td>
-    <td>{{i + 1}}</td>
-  </tr>
+  <table mat-table [dataSource]="userDataSource" matSort matSortDisableClear matSortActive="gameTime"
+         matSortDirection="asc">
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Vorname</th>
+      <td mat-cell *matCellDef="let user">{{user.firstName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nachname</th>
+      <td mat-cell *matCellDef="let user">{{user.lastName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Mail</th>
+      <td mat-cell *matCellDef="let user">{{user.email}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte</th>
+      <td mat-cell *matCellDef="let user">{{user.points}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ranking">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rang</th>
+      <td mat-cell *matCellDef="let user;">{{userDataSource.data.indexOf(user) + 1}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>
 
