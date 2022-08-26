@@ -16,3 +16,13 @@ allprojects {
         }
     }
 }
+
+val dockerRepoPrefix by extra {"docker.ergon.ch/berufsbildung/wm-tippspiel"}
+
+tasks {
+    val pushDockerImages by creating() {
+        group = "docker"
+        dependsOn(":backend:jib")
+        dependsOn(":frontend:pushDockerImage")
+    }
+}

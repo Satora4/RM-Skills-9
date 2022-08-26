@@ -1,7 +1,9 @@
 plugins {
     `java-library`
-    id("org.springframework.boot") version "2.7.0"
+    id("org.springframework.boot") version "2.7.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("com.github.node-gradle.node") version "3.3.0"
+    id("com.google.cloud.tools.jib") version "3.2.1"
 }
 
 group = "ch.ergon.lernende.wmtippspiel"
@@ -17,9 +19,9 @@ dependencies {
     implementation(project("db-model"))
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.flywaydb:flyway-core:7.9.1")
+    implementation("org.flywaydb:flyway-core:9.1.6")
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2:1.4.200")
+    runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -27,5 +29,14 @@ dependencies {
 tasks {
     test {
         useJUnitPlatform()
+    }
+}
+
+jib {
+    from {
+        image = "docker-mirror.ergon.ch/library/eclipse-temurin:17-jre"
+    }
+    to {
+        image = "${rootProject.extra["dockerRepoPrefix"]}/${project.name}"
     }
 }
