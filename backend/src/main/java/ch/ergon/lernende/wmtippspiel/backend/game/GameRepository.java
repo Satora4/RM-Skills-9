@@ -1,22 +1,28 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.TeamPhase;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
+import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamToGroupTable;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.GAME;
-import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.TEAM;
+import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
+import static org.jooq.impl.DSL.select;
 
 @Repository
 public class GameRepository {
 
     private static final TeamTable TEAM_ALIAS_1 = TEAM.as("t1");
     private static final TeamTable TEAM_ALIAS_2 = TEAM.as("t2");
+    private static final TeamToGroupTable TEAM_TO_GROUP_ALIAS_1 = TEAM_TO_GROUP.as("ttg1");
+    private static final TeamToGroupTable TEAM_TO_GROUP_ALIAS_2 = TEAM_TO_GROUP.as("ttg2");
 
     private final DSLContext dslContext;
 
@@ -26,8 +32,25 @@ public class GameRepository {
     }
 
     public List<Game> getAllGames() {
-        return dslContext
-                .select(GAME.GAME_ID,
+        return getGamesWithCondition(DSL.noCondition());
+    }
+
+    public List<Game> getGamesForGroups() {
+        return getGamesWithCondition(select(TEAM_TO_GROUP_ALIAS_1.GROUP_ID)
+                .from(TEAM_TO_GROUP_ALIAS_1)
+                .where(TEAM_ALIAS_1.TEAM_ID.eq(TEAM_TO_GROUP_ALIAS_1.TEAM_ID))
+                .eq(select(TEAM_TO_GROUP_ALIAS_2.GROUP_ID)
+                        .from(TEAM_TO_GROUP_ALIAS_2)
+                        .where(TEAM_ALIAS_2.TEAM_ID.eq(TEAM_TO_GROUP_ALIAS_2.TEAM_ID))
+                ));
+    }
+
+    public List<Game> getGamesForKoPhase() {
+        return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(TeamPhase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(TeamPhase.GROUP_PHASE)));
+    }
+
+    private List<Game> getGamesWithCondition(Condition condition) {
+        return dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
                         GAME.POINTS_TEAM1,
@@ -39,6 +62,7 @@ public class GameRepository {
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
+                .where(condition)
                 .fetch(this::convert);
     }
 
