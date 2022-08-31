@@ -1,7 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
-import ch.ergon.lernenden.wmtippspiel.backend.db.enums.TeamPhase;
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamToGroupTable;
 import org.jooq.Condition;
@@ -46,7 +46,7 @@ public class GameRepository {
     }
 
     public List<Game> getGamesForKoPhase() {
-        return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(TeamPhase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(TeamPhase.GROUP_PHASE)));
+        return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(Phase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(Phase.GROUP_PHASE)));
     }
 
     private List<Game> getGamesWithCondition(Condition condition) {
