@@ -15,9 +15,12 @@ import {Game} from "./game.model";
 })
 export class GameComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource();
-  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+
+  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
+  public tips: Tip[] = [];
+
 
   @ViewChild(MatSort) sort = new MatSort();
 
@@ -25,9 +28,40 @@ export class GameComponent implements AfterViewInit, OnInit {
               private tipService: TipService) {
   }
 
+
+
   ngOnInit(): void {
     this.loadGames();
+    this.loadTipsByUser(1)
+
   }
+
+  public getTipTeam1ByGameId(gameId: number): string {
+    let tip: string = "-";
+    for (let i = 0; i < this.tips.length; i++) {
+      if (this.tips[i].gameId == gameId) {
+        tip = this.tips[i].tipTeam1.toString();
+      }
+    }
+    return tip;
+  }
+
+  public getTipTeam2ByGameId(gameId: number): string {
+    let tip: string = "-";
+    for (let i = 0; i < this.tips.length; i++) {
+      if (this.tips[i].gameId == gameId) {
+        tip = this.tips[i].tipTeam2.toString();
+      }
+    }
+    return tip;
+  }
+
+  private loadTipsByUser(userId: number): void {
+    this.tipService.getTips(userId).subscribe((tips) => {
+      this.tips = tips;
+    });
+  }
+
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
