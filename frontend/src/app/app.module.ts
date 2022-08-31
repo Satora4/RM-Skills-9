@@ -9,7 +9,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
-import {MatTreeModule} from '@angular/material/tree';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -22,12 +21,12 @@ import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
-import {MatInputModule} from "@angular/material/input";
+import { MatInputModule } from "@angular/material/input";
 import { GroupPhaseComponent } from "./group-phase/group-phase.component";
-import {MatMenuModule} from "@angular/material/menu";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
-  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent],
+  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, GroupPhaseComponent],
     imports: [
       AppRoutingModule,
       BrowserAnimationsModule,
@@ -40,29 +39,12 @@ import {MatMenuModule} from "@angular/material/menu";
       MatFormFieldModule,
       MatIconModule,
       MatInputModule,
+      MatMenuModule,
       MatNativeDateModule,
       MatSortModule,
       MatTableModule,
       ReactiveFormsModule,
     ],
-  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, GroupPhaseComponent],
-  imports: [
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatSortModule,
-    MatTableModule,
-    ReactiveFormsModule,
-  ],
   providers: [],
   bootstrap: [AppComponent],
 })
