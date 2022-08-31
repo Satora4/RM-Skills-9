@@ -3,15 +3,16 @@ INSERT INTO GAME (GAME_TIME,
                   POINTS_TEAM1,
                   POINTS_TEAM2,
                   TEAM_ID1,
-                  TEAM_ID2)
-values ('2022-11-10T22:00:00', 'Katar', 0, 0, 12, 13),
-       ('2022-11-10T22:00:00', 'Katar', 0, 0, 5, 8),
-       ('2022-11-10T22:00:00', 'Katar', 0, 0, 11, 10);
+                  TEAM_ID2,
+                  PHASE)
+values ('2022-11-10T22:00:00', 'Katar', 0, 0, 12, 13, 'FINAL'),
+       ('2022-11-10T22:00:00', 'Katar', 0, 0, 5, 8, 'SEMI_FINAL'),
+       ('2022-11-10T22:00:00', 'Katar', 0, 0, 11, 10, 'QUARTER_FINAL');
 
-UPDATE TEAM
+UPDATE GAME
 SET PHASE = 'ROUND_OF_16'
-WHERE TEAM_ID IN (8, 5, 12, 13);
+WHERE GAME_ID IN (8, 5, 12, 13);
 
-UPDATE TEAM
+UPDATE GAME
 SET PHASE = 'QUARTER_FINAL'
-WHERE TEAM_ID IN (10, 11);
+WHERE GAME_ID IN (10, 11);
