@@ -49,6 +49,13 @@ public class GameRepository {
         return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(Phase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(Phase.GROUP_PHASE)));
     }
 
+    /**
+     * returns all games they're already done, means where the points aren't NULL
+     */
+    public List<Game> getGamesWithPoints() {
+        return getGamesWithCondition(GAME.POINTS_TEAM1.isNotNull().and(GAME.POINTS_TEAM2.isNotNull()));
+    }
+
     private List<Game> getGamesWithCondition(Condition condition) {
         return dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
@@ -67,20 +74,25 @@ public class GameRepository {
     }
 
     private Game convert(Record record) {
-        var game = new Game();
+        Game game = new Game();
 
         game.setId(record.get(GAME.GAME_ID));
         game.setGameTime(record.get(GAME.GAME_TIME));
         game.setGameLocation(record.get(GAME.GAME_LOCATION));
-        game.setPointsTeam1(record.get(GAME.POINTS_TEAM1));
-        game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
+        if (record.get(GAME.POINTS_TEAM1) != null) {
+            game.setPointsTeam1(record.get(GAME.POINTS_TEAM1));
+        }
 
-        var team1 = new Team();
+        if (record.get(GAME.POINTS_TEAM2) != null) {
+            game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
+        }
+
+        Team team1 = new Team();
         team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
         team1.setCountry(record.get(TEAM_ALIAS_1.COUNTRY));
         game.setTeam1(team1);
 
-        var team2 = new Team();
+        Team team2 = new Team();
         team2.setId(record.get(TEAM_ALIAS_2.TEAM_ID));
         team2.setCountry(record.get(TEAM_ALIAS_2.COUNTRY));
         game.setTeam2(team2);

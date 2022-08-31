@@ -6,7 +6,7 @@ public class TipTO {
     private int id;
     private int tipTeam1;
     private int tipTeam2;
-    private int points;
+    private Integer points;
     //user
     private int userId;
     private String firstName;
@@ -18,8 +18,8 @@ public class TipTO {
     private String gameLocation;
     private int teamId1;
     private int teamId2;
-    private int pointsTeam1;
-    private int pointsTeam2;
+    private Integer pointsTeam1;
+    private Integer pointsTeam2;
     private String teamCountry1;
     private String teamCountry2;
 
@@ -119,19 +119,19 @@ public class TipTO {
         this.teamId2 = teamId2;
     }
 
-    public int getPointsTeam1() {
+    public Integer getPointsTeam1() {
         return pointsTeam1;
     }
 
-    public void setPointsTeam1(int pointsTeam1) {
+    public void setPointsTeam1(Integer pointsTeam1) {
         this.pointsTeam1 = pointsTeam1;
     }
 
-    public int getPointsTeam2() {
+    public Integer getPointsTeam2() {
         return pointsTeam2;
     }
 
-    public void setPointsTeam2(int pointsTeam2) {
+    public void setPointsTeam2(Integer pointsTeam2) {
         this.pointsTeam2 = pointsTeam2;
     }
 
@@ -151,11 +151,11 @@ public class TipTO {
         this.teamCountry2 = teamCountry2;
     }
 
-    public int getPoints() {
+    public Integer getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(Integer points) {
         this.points = points;
     }
 }

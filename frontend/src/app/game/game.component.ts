@@ -39,6 +39,7 @@ export class GameComponent implements AfterViewInit, OnInit {
       userId: userId,
       tipTeam1: tipTeam1,
       tipTeam2: tipTeam2,
+      points: 0,
       gameId: game.id,
       teamCountry1: game.teamCountry1,
       teamCountry2: game.teamCountry2,

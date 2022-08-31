@@ -37,7 +37,11 @@ public class TipRepository {
     }
 
     private List<Tip> getTips(Condition condition) {
-        return dslContext.select(TIP.TIP_ID,
+        return getTipsFromDB(condition);
+    }
+
+    private List<Tip> getTipsFromDB(Condition condition) {
+        List<Tip> tips = dslContext.select(TIP.TIP_ID,
                         TIP.TIP_TEAM1,
                         TIP.TIP_TEAM2,
                         TIP.POINTS,
@@ -61,6 +65,7 @@ public class TipRepository {
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
                 .where(condition)
                 .fetch(this::convert);
+        return tips;
     }
 
     public void addTip(Tip tip) {
@@ -69,7 +74,13 @@ public class TipRepository {
                 .set(TIP.TIP_TEAM1, tip.getTipTeam1())
                 .set(TIP.TIP_TEAM2, tip.getTipTeam2())
                 .set(TIP.GAME_ID, tip.getGame().getId())
+                .execute();
+    }
+
+    public void updateTip(Tip tip) {
+        dslContext.update(TIP)
                 .set(TIP.POINTS, tip.getPoints())
+                .where(TIP.TIP_ID.eq(tip.getId()))
                 .execute();
     }
 
@@ -91,8 +102,14 @@ public class TipRepository {
         game.setId(record.get(GAME.GAME_ID));
         game.setGameTime(record.get(GAME.GAME_TIME));
         game.setGameLocation((record.get(GAME.GAME_LOCATION)));
-        game.setPointsTeam1(record.get(GAME.POINTS_TEAM1));
-        game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
+
+        if (record.get(GAME.POINTS_TEAM1) != null) {
+            game.setPointsTeam1(record.get(GAME.POINTS_TEAM1));
+        }
+
+        if (record.get(GAME.POINTS_TEAM2) != null) {
+            game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
+        }
 
         Team team1 = new Team();
         team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
@@ -107,6 +124,5 @@ public class TipRepository {
         tip.setGame(game);
 
         return tip;
-
     }
 }
