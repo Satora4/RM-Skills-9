@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start WM-Tippspiel" type="CompoundRunConfigurationType">
+    <toRun name="WM-Tippspiel Frontend" type="js.build_tools.npm" />
+    <toRun name="WM-Tippspiel Backend" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
