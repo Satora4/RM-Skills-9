@@ -21,7 +21,6 @@ export class GameComponent implements AfterViewInit, OnInit {
   public tipTeam2: any = {};
   public tips: Tip[] = [];
 
-
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private gameService: GameService,
@@ -29,9 +28,12 @@ export class GameComponent implements AfterViewInit, OnInit {
     this.loadTipsByUser(1)
   }
 
-
   ngOnInit(): void {
     this.loadGames();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
 
@@ -55,18 +57,13 @@ export class GameComponent implements AfterViewInit, OnInit {
     return tip;
   }
 
-  public loadTipsByUser(userId: number){
+  public loadTipsByUser(userId: number) {
 
     this.tipService.getTips(userId).subscribe((tips) => {
-      this.tips =tips;
+      this.tips = tips;
       console.log(this.tips);
     });
 
-  }
-
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
@@ -84,15 +81,15 @@ export class GameComponent implements AfterViewInit, OnInit {
       gameTime: game.gameTime
     }
     console.log(tip);
-    let bool: boolean = false;
+    let requestToggle: boolean = false;
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == tip.gameId) {
-        bool = true;
+        requestToggle = true;
         break;
       }
     }
 
-    if (bool) {
+    if (requestToggle) {
       this.updateTip(tip);
     } else {
       this.addTip(tip);
