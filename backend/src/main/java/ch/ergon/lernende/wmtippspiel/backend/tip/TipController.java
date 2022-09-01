@@ -22,6 +22,11 @@ public class TipController {
         this.tipRepository = tipRepository;
     }
 
+    @PutMapping()
+    public void updateTip(@RequestBody TipTO tipTO) {
+        tipRepository.putTip(convert(tipTO));
+    }
+
     @GetMapping
     public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
         if (userId != null) {
@@ -113,7 +118,7 @@ public class TipController {
         user.setLastName(tipTO.getLastName());
         user.setEmail(tipTO.getEmail());
         tip.setUser(user);
-
+        System.out.println(tip);
         return tip;
     }
 }

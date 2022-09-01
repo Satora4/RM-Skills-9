@@ -26,15 +26,14 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   constructor(private gameService: GameService,
               private tipService: TipService) {
+    this.loadTipsByUser(1)
   }
-
 
 
   ngOnInit(): void {
     this.loadGames();
-    this.loadTipsByUser(1)
-
   }
+
 
   public getTipTeam1ByGameId(gameId: number): string {
     let tip: string = "-";
@@ -56,10 +55,13 @@ export class GameComponent implements AfterViewInit, OnInit {
     return tip;
   }
 
-  private loadTipsByUser(userId: number): void {
+  public loadTipsByUser(userId: number){
+
     this.tipService.getTips(userId).subscribe((tips) => {
-      this.tips = tips;
+      this.tips =tips;
+      console.log(this.tips);
     });
+
   }
 
 
@@ -82,7 +84,26 @@ export class GameComponent implements AfterViewInit, OnInit {
       gameTime: game.gameTime
     }
     console.log(tip);
-    this.addTip(tip);
+    let bool: boolean = false;
+    for (let i = 0; i < this.tips.length; i++) {
+      if (this.tips[i].gameId == tip.gameId) {
+        bool = true;
+        break;
+      }
+    }
+
+    if (bool) {
+      this.updateTip(tip);
+    } else {
+      this.addTip(tip);
+    }
+
+  }
+
+  private updateTip(tip: Tip): void {
+    this.tipService.updateTip(tip).subscribe(tip => {
+      console.log(tip);
+    })
   }
 
   private addTip(tip: Tip): void {
@@ -96,4 +117,5 @@ export class GameComponent implements AfterViewInit, OnInit {
       this.dataSource.data = games;
     });
   }
+
 }

@@ -77,6 +77,14 @@ public class TipRepository {
                 .execute();
     }
 
+    public void putTip(Tip tip) {
+        dslContext.update(TIP)
+                .set(TIP.TIP_TEAM1, tip.getTipTeam1())
+                .set(TIP.TIP_TEAM2, tip.getTipTeam2())
+                .where(TIP.GAME_ID.eq(tip.getGame().getId()).and(TIP.USER_ID.eq(tip.getUser().getId())))
+                .execute();
+    }
+
     public void updateTip(Tip tip) {
         dslContext.update(TIP)
                 .set(TIP.POINTS, tip.getPoints())
