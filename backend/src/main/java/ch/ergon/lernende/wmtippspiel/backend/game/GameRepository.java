@@ -46,7 +46,7 @@ public class GameRepository {
     }
 
     public List<Game> getGamesForKoPhase() {
-        return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(Phase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(Phase.GROUP_PHASE)));
+        return getGamesWithCondition(GAME.PHASE.notEqual(Phase.GROUP_PHASE));
     }
 
     /**
@@ -62,6 +62,7 @@ public class GameRepository {
                         GAME.GAME_LOCATION,
                         GAME.POINTS_TEAM1,
                         GAME.POINTS_TEAM2,
+                        GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_2.TEAM_ID,
@@ -86,6 +87,7 @@ public class GameRepository {
         if (record.get(GAME.POINTS_TEAM2) != null) {
             game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
         }
+        game.setPhase(record.get(GAME.PHASE));
 
         Team team1 = new Team();
         team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
