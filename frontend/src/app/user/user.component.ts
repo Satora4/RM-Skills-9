@@ -15,7 +15,7 @@ export class UserComponent implements OnInit {
   private users: User[] = [];
   private tips: Tip[] = [];
   userDataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'points', 'ranking'];
+  displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private UserService: UserService) {
