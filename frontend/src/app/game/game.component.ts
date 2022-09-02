@@ -38,7 +38,7 @@ export class GameComponent implements AfterViewInit, OnInit {
 
 
   public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = "-";
+    let tip: string = "—";
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
         tip = this.tips[i].tipTeam1.toString();
@@ -48,7 +48,7 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = "-";
+    let tip: string = "—";
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
         tip = this.tips[i].tipTeam2.toString();

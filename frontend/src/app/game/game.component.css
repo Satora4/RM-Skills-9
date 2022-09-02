@@ -12,6 +12,6 @@
 }
 
 ::-moz-placeholder {
+  font-family: Verdana, sans-serif;
   color: black;
-  font-weight: bold;
 }
