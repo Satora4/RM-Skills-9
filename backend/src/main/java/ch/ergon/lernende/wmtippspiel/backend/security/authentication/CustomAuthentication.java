@@ -51,6 +51,6 @@ public final class CustomAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return user.getUser();
+        return user.user();
     }
 }

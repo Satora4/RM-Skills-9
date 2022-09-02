@@ -20,15 +20,23 @@ import java.io.IOException;
 @Component
 public final class CustomAuthenticationFilter extends OncePerRequestFilter {
 
-    @Lazy
-    @Autowired
-    private AuthenticationManager manager;
+    private final AuthenticationManager manager;
+
+    public CustomAuthenticationFilter(@Lazy AuthenticationManager manager) {
+        this.manager = manager;
+    }
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String username = request.getHeader("X-Forwarded-User");
         String email = request.getHeader("X-Forwarded-Mail");
-        User user = new User(username, email);
+
+        User user;
+        if (username == null || username.equals("") || email == null || email.equals("")) {
+            user = User.UNKNOWN_USER;
+        } else {
+            user = new User(username.trim(), email.trim());
+        }
 
         CustomAuthentication customAuthentication = new CustomAuthentication(user);
         try {

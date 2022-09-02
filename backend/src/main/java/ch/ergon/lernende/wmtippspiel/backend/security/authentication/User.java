@@ -1,28 +1,11 @@
 package ch.ergon.lernende.wmtippspiel.backend.security.authentication;
 
-public final class User {
+public record User(String user, String mail) {
 
-    private final String user;
-    private final String mail;
-
-    public User(String user, String mail) {
-        this.user = user;
-        this.mail = mail;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public String getMail() {
-        return mail;
-    }
+    public static final User UNKNOWN_USER = new User("unknown", "unknown");
 
     @Override
     public String toString() {
-        return "User{" +
-                "user='" + user + '\'' +
-                ", mail='" + mail + '\'' +
-                '}';
+        return "User{user='" + user + '\'' + ", mail='" + mail + '\'' + '}';
     }
 }
