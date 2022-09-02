@@ -46,7 +46,7 @@ public class GameRepository {
     }
 
     public List<Game> getGamesForKoPhase() {
-        return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(Phase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(Phase.GROUP_PHASE)));
+        return getGamesWithCondition(GAME.PHASE.notEqual(Phase.GROUP_PHASE));
     }
 
     /**
