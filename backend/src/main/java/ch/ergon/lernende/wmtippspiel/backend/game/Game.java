@@ -1,6 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,6 +15,7 @@ public class Game {
     private Integer pointsTeam2;
     private Team team1;
     private Team team2;
+    private Phase phase;
 
     public int getId() {
         return id;
@@ -43,7 +45,7 @@ public class Game {
         return pointsTeam1;
     }
 
-    public void setPointsTeam1(int pointsTeam1) {
+    public void setPointsTeam1(Integer pointsTeam1) {
         this.pointsTeam1 = pointsTeam1;
     }
 
@@ -51,7 +53,7 @@ public class Game {
         return pointsTeam2;
     }
 
-    public void setPointsTeam2(int pointsTeam2) {
+    public void setPointsTeam2(Integer pointsTeam2) {
         this.pointsTeam2 = pointsTeam2;
     }
 
@@ -71,6 +73,14 @@ public class Game {
         this.team2 = team2;
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public void setPhase(Phase phase) {
+        this.phase = phase;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,22 +90,24 @@ public class Game {
 
         if (id != game.id) return false;
         if (!Objects.equals(gameTime, game.gameTime)) return false;
-        if (!Objects.equals(gameLocation, game.gameLocation)) return false;
-        if (!Objects.equals(pointsTeam1, game.pointsTeam1)) return false;
-        if (!Objects.equals(pointsTeam2, game.pointsTeam2)) return false;
+        if (!gameLocation.equals(game.gameLocation)) return false;
+        if (!pointsTeam1.equals(game.pointsTeam1)) return false;
+        if (!pointsTeam2.equals(game.pointsTeam2)) return false;
         if (!Objects.equals(team1, game.team1)) return false;
-        return Objects.equals(team2, game.team2);
+        if (!Objects.equals(team2, game.team2)) return false;
+        return phase == game.phase;
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (gameTime != null ? gameTime.hashCode() : 0);
-        result = 31 * result + (gameLocation != null ? gameLocation.hashCode() : 0);
-        result = 31 * result + (pointsTeam1 != null ? pointsTeam1.hashCode() : 0);
-        result = 31 * result + (pointsTeam2 != null ? pointsTeam2.hashCode() : 0);
+        result = 31 * result + gameLocation.hashCode();
+        result = 31 * result + pointsTeam1.hashCode();
+        result = 31 * result + pointsTeam2.hashCode();
         result = 31 * result + (team1 != null ? team1.hashCode() : 0);
         result = 31 * result + (team2 != null ? team2.hashCode() : 0);
+        result = 31 * result + (phase != null ? phase.hashCode() : 0);
         return result;
     }
 
@@ -109,6 +121,7 @@ public class Game {
                 ", pointsTeam2=" + pointsTeam2 +
                 ", team1=" + team1 +
                 ", team2=" + team2 +
+                ", phase=" + phase +
                 '}';
     }
 }

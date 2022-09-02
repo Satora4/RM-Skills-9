@@ -1,6 +1,6 @@
 CREATE TABLE TEAM_TO_GROUP
 (
-    TEAM_ID  INT NOT NULL,
+    TEAM_ID UNIQUE INT NOT NULL,
     GROUP_ID INT NOT NULL,
     foreign key (TEAM_ID) references TEAM (TEAM_ID),
     foreign key (GROUP_ID) references "GROUP" (GROUP_ID)
