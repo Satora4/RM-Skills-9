@@ -1,12 +1,21 @@
+CREATE TYPE PHASE AS ENUM (
+    'GROUP_PHASE',
+    'ROUND_OF_16',
+    'QUARTER_FINAL',
+    'SEMI_FINAL',
+    'FINAL'
+    );
+
 CREATE TABLE GAME
 (
     GAME_ID       SERIAL PRIMARY KEY,
     GAME_TIME     TIMESTAMP NOT NULL,
     GAME_LOCATION VARCHAR(50),
-    TEAM_ID1      INT  NOT NULL,
-    TEAM_ID2      INT  NOT NULL,
+    TEAM_ID1      INT       NOT NULL,
+    TEAM_ID2      INT       NOT NULL,
     POINTS_TEAM1  INT,
     POINTS_TEAM2  INT,
+    PHASE         PHASE DEFAULT 'GROUP_PHASE',
     foreign key (TEAM_ID1) references TEAM (TEAM_ID),
     foreign key (TEAM_ID2) references TEAM (TEAM_ID)
 );

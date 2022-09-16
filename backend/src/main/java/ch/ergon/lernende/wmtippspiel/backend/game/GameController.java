@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -29,16 +31,32 @@ public class GameController {
     public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase) {
         if (phase == null) {
             return convert(gameRepository.getAllGames());
+        } else if (phase.equals(KO_PHASE)) {
+            return convert(gameRepository.getGamesForKoPhase());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
         }
-        switch (phase) {
-            case GROUP_PHASE -> {
-                return convert(gameRepository.getGamesForGroups());
-            }
-            case KO_PHASE -> {
-                return convert(gameRepository.getGamesForKoPhase());
-            }
-            default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
+    }
+
+    @GetMapping("phase")
+    public List<GamesWithGroupTO> getGamesForGroups(@RequestParam(name = "phase") String phase) {
+        if (Objects.equals(phase, GROUP_PHASE)) {
+            return convertToGamesWithGroups(gameRepository.getGamesForGroups());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
         }
+    }
+
+    private GamesWithGroupTO convert(GamesWithGroup gamesWithGroup) {
+        GamesWithGroupTO gamesWithGroupTO = new GamesWithGroupTO();
+
+        gamesWithGroupTO.setGroupName(gamesWithGroup.getGroupName());
+        gamesWithGroupTO.setGames(gamesWithGroup.getGames());
+        return gamesWithGroupTO;
+    }
+
+    private List<GamesWithGroupTO> convertToGamesWithGroups(Collection<GamesWithGroup> gamesWithGroups) {
+        return gamesWithGroups.stream().map(this::convert).collect(Collectors.toList());
     }
 
     private List<GameTO> convert(Collection<Game> games) {
@@ -54,6 +72,7 @@ public class GameController {
         gameTO.setPointsTeam2(game.getPointsTeam2());
         gameTO.setTeamCountry1(game.getTeam1().getCountry());
         gameTO.setTeamCountry2(game.getTeam2().getCountry());
+        gameTO.setPhase(game.getPhase());
         return gameTO;
     }
 }

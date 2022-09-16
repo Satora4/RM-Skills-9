@@ -1,5 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
+
 import java.time.LocalDateTime;
 
 public class GameTO {
@@ -11,6 +13,7 @@ public class GameTO {
     private Integer pointsTeam2;
     private String teamCountry1;
     private String teamCountry2;
+    private Phase phase;
 
     public int getId() {
         return id;
@@ -66,5 +69,13 @@ public class GameTO {
 
     public void setTeamCountry2(String teamCountry2) {
         this.teamCountry2 = teamCountry2;
+    }
+
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public void setPhase(Phase phase) {
+        this.phase = phase;
     }
 }
