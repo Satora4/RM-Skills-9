@@ -38,8 +38,8 @@ public class GameRepository {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
-                        GAME.POINTS_TEAM1,
-                        GAME.POINTS_TEAM2,
+                        GAME.GOALS_TEAM1,
+                        GAME.GOALS_TEAM2,
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
@@ -48,9 +48,9 @@ public class GameRepository {
                         GROUP.NAME,
                         GROUP.GROUP_ID)
                 .from(GAME)
-                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
-                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
-                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM_ID1))
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
+                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(GROUP).on(GROUP.GROUP_ID.eq(TEAM_TO_GROUP.GROUP_ID))
                 .where(GAME.PHASE.eq(Phase.GROUP_PHASE))
                 .collect(groupingBy(this::convertToGroup, mapping(this::convertToGames, toList())));
@@ -87,23 +87,23 @@ public class GameRepository {
      * returns all games they're already done, means where the points aren't NULL
      */
     public List<Game> getGamesWithPoints() {
-        return getGamesWithCondition(GAME.POINTS_TEAM1.isNotNull().and(GAME.POINTS_TEAM2.isNotNull()));
+        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
     }
 
     private List<Game> getGamesWithCondition(Condition condition) {
         return dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
-                        GAME.POINTS_TEAM1,
-                        GAME.POINTS_TEAM2,
+                        GAME.GOALS_TEAM1,
+                        GAME.GOALS_TEAM2,
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_2.TEAM_ID,
                         TEAM_ALIAS_2.COUNTRY)
                 .from(GAME)
-                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
-                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
                 .where(condition)
                 .fetch(this::convert);
     }
@@ -114,12 +114,12 @@ public class GameRepository {
         game.setId(record.get(GAME.GAME_ID));
         game.setGameTime(record.get(GAME.GAME_TIME));
         game.setGameLocation(record.get(GAME.GAME_LOCATION));
-        if (record.get(GAME.POINTS_TEAM1) != null) {
-            game.setPointsTeam1(record.get(GAME.POINTS_TEAM1));
+        if (record.get(GAME.GOALS_TEAM1) != null) {
+            game.setPointsTeam1(record.get(GAME.GOALS_TEAM1));
         }
 
-        if (record.get(GAME.POINTS_TEAM2) != null) {
-            game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
+        if (record.get(GAME.GOALS_TEAM2) != null) {
+            game.setPointsTeam2(record.get(GAME.GOALS_TEAM2));
         }
         game.setPhase(record.get(GAME.PHASE));
 
