@@ -1,6 +1,6 @@
-package ch.ergon.lernende.wmtippspiel.backend.team;
+package ch.ergon.lernende.wmtippspiel.backend.game;
 
-public enum TeamPhaseTO {
+public enum PhaseTO {
     GROUP_PHASE,
     ROUND_OF_16,
     QUARTER_FINAL,

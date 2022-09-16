@@ -3,7 +3,6 @@ package ch.ergon.lernende.wmtippspiel.backend.game;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
-import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamToGroupTable;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -11,18 +10,18 @@ import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
-import static org.jooq.impl.DSL.select;
+import static java.util.stream.Collectors.*;
 
 @Repository
 public class GameRepository {
 
     private static final TeamTable TEAM_ALIAS_1 = TEAM.as("t1");
     private static final TeamTable TEAM_ALIAS_2 = TEAM.as("t2");
-    private static final TeamToGroupTable TEAM_TO_GROUP_ALIAS_1 = TEAM_TO_GROUP.as("ttg1");
-    private static final TeamToGroupTable TEAM_TO_GROUP_ALIAS_2 = TEAM_TO_GROUP.as("ttg2");
 
     private final DSLContext dslContext;
 
@@ -35,18 +34,53 @@ public class GameRepository {
         return getGamesWithCondition(DSL.noCondition());
     }
 
-    public List<Game> getGamesForGroups() {
-        return getGamesWithCondition(select(TEAM_TO_GROUP_ALIAS_1.GROUP_ID)
-                .from(TEAM_TO_GROUP_ALIAS_1)
-                .where(TEAM_ALIAS_1.TEAM_ID.eq(TEAM_TO_GROUP_ALIAS_1.TEAM_ID))
-                .eq(select(TEAM_TO_GROUP_ALIAS_2.GROUP_ID)
-                        .from(TEAM_TO_GROUP_ALIAS_2)
-                        .where(TEAM_ALIAS_2.TEAM_ID.eq(TEAM_TO_GROUP_ALIAS_2.TEAM_ID))
-                ));
+    public List<GamesWithGroup> getGamesForGroups() {
+        var result = dslContext.select(GAME.GAME_ID,
+                        GAME.GAME_TIME,
+                        GAME.GAME_LOCATION,
+                        GAME.POINTS_TEAM1,
+                        GAME.POINTS_TEAM2,
+                        GAME.PHASE,
+                        TEAM_ALIAS_1.TEAM_ID,
+                        TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_2.TEAM_ID,
+                        TEAM_ALIAS_2.COUNTRY,
+                        GROUP.NAME,
+                        GROUP.GROUP_ID)
+                .from(GAME)
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM_ID1))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM_ID2))
+                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM_ID1))
+                .join(GROUP).on(GROUP.GROUP_ID.eq(TEAM_TO_GROUP.GROUP_ID))
+                .where(GAME.PHASE.eq(Phase.GROUP_PHASE))
+                .collect(groupingBy(this::convertToGroup, mapping(this::convertToGames, toList())));
+
+        return convert(result);
+    }
+
+    private GamesWithGroup convertToGroup(Record record) {
+        GamesWithGroup gamesWithGroup = new GamesWithGroup();
+
+        gamesWithGroup.setGroupName(record.get(GROUP.NAME));
+        return gamesWithGroup;
+    }
+
+    private Game convertToGames(Record record) {
+        return convert(record);
+    }
+
+    private List<GamesWithGroup> convert(Map<GamesWithGroup, List<Game>> result) {
+        List<GamesWithGroup> gamesWithGroups = new ArrayList<>();
+        for (var record : result.entrySet()) {
+            GamesWithGroup gamesWithGroup = record.getKey();
+            gamesWithGroup.setGames(record.getValue());
+            gamesWithGroups.add(gamesWithGroup);
+        }
+        return gamesWithGroups;
     }
 
     public List<Game> getGamesForKoPhase() {
-        return getGamesWithCondition(TEAM_ALIAS_1.PHASE.notEqual(Phase.GROUP_PHASE).and(TEAM_ALIAS_2.PHASE.notEqual(Phase.GROUP_PHASE)));
+        return getGamesWithCondition(GAME.PHASE.notEqual(Phase.GROUP_PHASE));
     }
 
     /**
@@ -62,6 +96,7 @@ public class GameRepository {
                         GAME.GAME_LOCATION,
                         GAME.POINTS_TEAM1,
                         GAME.POINTS_TEAM2,
+                        GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_2.TEAM_ID,
@@ -86,6 +121,7 @@ public class GameRepository {
         if (record.get(GAME.POINTS_TEAM2) != null) {
             game.setPointsTeam2(record.get(GAME.POINTS_TEAM2));
         }
+        game.setPhase(record.get(GAME.PHASE));
 
         Team team1 = new Team();
         team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
