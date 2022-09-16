@@ -127,11 +127,17 @@ export class GameComponent implements AfterViewInit, OnInit {
     }
 
     if (requestToggle) {
-      this.updateTip(tip);
+      this.updateTip(tip)
     } else {
       this.addTip(tip);
     }
 
+  }
+
+  private addTip(tip: Tip){
+    this.tipService.addTip(tip).subscribe(tip => {
+      location.reload()
+    })
   }
 
   private updateTip(tip: Tip): void {
@@ -139,12 +145,8 @@ export class GameComponent implements AfterViewInit, OnInit {
     })
   }
 
-  private addTip(tip: Tip): void {
-    this.tipService.addTip(tip).subscribe(tip => {
-    })
-  }
 
-  private loadGames(): void {
+  loadGames(): void {
     this.gameService.getGames().subscribe((games) => {
       this.dataSource.data = games;
     });

@@ -10,6 +10,3 @@ export interface Tip {
   pointsTeam2: number;
   gameTime: Date;
 }
-
-
-
