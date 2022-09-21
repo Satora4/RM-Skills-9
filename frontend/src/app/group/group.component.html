@@ -1,9 +1,13 @@
 <h1 style="text-align: center; margin-top: 3em">Gruppen</h1>
 
-<div class="sidenav">
-  <a *ngFor="let dataObject of groupDataObjects;"
-     href="/groups#{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</a>
-</div>
+
+<nav>
+  <ul>
+    <li><a *ngFor="let dataObject of groupDataObjects;"
+           href="/groups#{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</a></li>
+  </ul>
+</nav>
+
 
 <div *ngFor="let dataObject of groupDataObjects;">
   <h2 id="{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</h2>
