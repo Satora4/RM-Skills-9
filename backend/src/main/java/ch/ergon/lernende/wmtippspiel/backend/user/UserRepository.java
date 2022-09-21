@@ -6,21 +6,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.TIP;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
-import static org.jooq.impl.DSL.nvl;
-import static org.jooq.impl.DSL.sum;
 
 @Repository
 public class UserRepository {
 
     private final DSLContext dslContext;
-    private final UserMapper userMapper;
 
     @Autowired
-    public UserRepository(DSLContext dslContext, UserMapper userMapper) {
+    public UserRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
-        this.userMapper = userMapper;
     }
 
     public List<User> getAllUser() {
@@ -30,12 +25,10 @@ public class UserRepository {
                         USER.FIRST_NAME.as("firstName"),
                         USER.LAST_NAME.as("lastName"),
                         USER.EMAIL.as("email"),
-                        USER.RANKING.as("ranking"),
-                        nvl(sum(TIP.POINTS),0).as("points"))
+                        USER.POINTS.as("points"))
                 .from(USER)
-                .leftJoin(TIP)
-                .on(USER.USER_ID.eq(TIP.USER_ID))
                 .groupBy(USER.USER_ID)
+                .orderBy(USER.POINTS.desc())
                 .fetchInto(User.class);
     }
 }

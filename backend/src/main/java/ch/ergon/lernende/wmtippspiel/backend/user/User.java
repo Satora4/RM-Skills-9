@@ -7,7 +7,6 @@ public class User {
     private String lastName;
     private String email;
     private int points;
-    private int ranking;
     private boolean administrator;
 
     public int getId() {
@@ -40,15 +39,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-
-    public int getRanking() {
-        return ranking;
-    }
-
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
     }
 
     public boolean isAdministrator() {
