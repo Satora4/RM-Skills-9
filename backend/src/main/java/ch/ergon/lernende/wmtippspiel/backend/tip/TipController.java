@@ -22,7 +22,7 @@ public class TipController {
         this.tipRepository = tipRepository;
     }
 
-    @PutMapping()
+    @PatchMapping()
     public void updateTip(@RequestBody TipTO tipTO) {
         if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
             tipRepository.putTip(convert(tipTO));

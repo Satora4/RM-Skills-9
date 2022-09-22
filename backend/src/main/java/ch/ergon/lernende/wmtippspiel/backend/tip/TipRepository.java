@@ -85,7 +85,7 @@ public class TipRepository {
                 .execute();
     }
 
-    public void updateTip(Tip tip) {
+    public void updateTipForPointscalculation(Tip tip) {
         dslContext.update(TIP)
                 .set(TIP.POINTS, tip.getPoints())
                 .where(TIP.TIP_ID.eq(tip.getId()))
