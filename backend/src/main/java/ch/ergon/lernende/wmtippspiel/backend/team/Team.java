@@ -1,13 +1,12 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
-import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
+import java.util.Objects;
 
 public class Team {
 
     private int id;
     private String country;
     private int points;
-    private Phase phase;
 
     public int getId() {
         return id;
@@ -33,11 +32,32 @@ public class Team {
         this.points = points;
     }
 
-    public Phase getPhase() {
-        return phase;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Team team = (Team) o;
+
+        if (id != team.id) return false;
+        if (points != team.points) return false;
+        return Objects.equals(country, team.country);
     }
 
-    public void setPhase(Phase phase) {
-        this.phase = phase;
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + points;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", country='" + country + '\'' +
+                ", points=" + points +
+                '}';
     }
 }

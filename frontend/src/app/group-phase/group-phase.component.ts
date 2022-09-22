@@ -37,6 +37,7 @@ export class GroupPhaseComponent implements OnInit {
       tipTeam1: tipTeam1,
       tipTeam2: tipTeam2,
       gameId: game.id,
+      points: 0,
       teamCountry1: game.teamCountry1,
       teamCountry2: game.teamCountry2,
       pointsTeam1: game.pointsTeam1,

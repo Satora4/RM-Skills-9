@@ -6,10 +6,10 @@ import ch.ergon.lernende.wmtippspiel.backend.user.User;
 public class Tip {
     private int id;
     private User user;
-    private int tipTeam1;
-    private int tipTeam2;
+    private Integer tipTeam1;
+    private Integer tipTeam2;
     private Game game;
-    private int points;
+    private Integer points;
 
     public int getId() {
         return id;
@@ -27,19 +27,19 @@ public class Tip {
         this.user = user;
     }
 
-    public int getTipTeam1() {
+    public Integer getTipTeam1() {
         return tipTeam1;
     }
 
-    public void setTipTeam1(int tipTeam1) {
+    public void setTipTeam1(Integer tipTeam1) {
         this.tipTeam1 = tipTeam1;
     }
 
-    public int getTipTeam2() {
+    public Integer getTipTeam2() {
         return tipTeam2;
     }
 
-    public void setTipTeam2(int tipTeam2) {
+    public void setTipTeam2(Integer tipTeam2) {
         this.tipTeam2 = tipTeam2;
     }
 
@@ -51,11 +51,11 @@ public class Tip {
         this.game = game;
     }
 
-    public int getPoints() {
+    public Integer getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(Integer points) {
         this.points = points;
     }
 }
