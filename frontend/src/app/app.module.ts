@@ -21,29 +21,29 @@ import { RulesComponent } from './rules/rules.component';
 import { TeamComponent } from './team/team.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
-import { MatInputModule } from "@angular/material/input";
-import { GroupPhaseComponent } from "./group-phase/group-phase.component";
-import { MatMenuModule } from "@angular/material/menu";
+import {MatInputModule} from "@angular/material/input";
+import { PopUpComponent } from './pop-up/pop-up.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
-  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, GroupPhaseComponent],
+  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, PopUpComponent],
     imports: [
-      AppRoutingModule,
-      BrowserAnimationsModule,
-      BrowserModule,
-      FormsModule,
-      HttpClientModule,
-      MatButtonModule,
-      MatCardModule,
-      MatDividerModule,
-      MatFormFieldModule,
-      MatIconModule,
-      MatInputModule,
-      MatMenuModule,
-      MatNativeDateModule,
-      MatSortModule,
-      MatTableModule,
-      ReactiveFormsModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatNativeDateModule,
+        MatSortModule,
+        MatTableModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatDialogModule,
     ],
   providers: [],
   bootstrap: [AppComponent],
