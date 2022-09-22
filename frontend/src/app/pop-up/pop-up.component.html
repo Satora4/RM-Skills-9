@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Edit tip</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <label>{{data.country1}}</label>
+    <input matInput [(ngModel)]="data.tip1" type="number" min="0" max="15">
+  </mat-form-field>
+  <mat-form-field>
+    <label>{{data.country2}}</label>
+    <input matInput [(ngModel)]="data.tip2" type="number" min="0" max="15">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
