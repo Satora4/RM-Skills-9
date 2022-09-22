@@ -48,7 +48,7 @@ public class CalculatorService {
             TipAndGameResult tipAndGameResult = new TipAndGameResult(tipTeam1, tipTeam2, pointsTeam1, pointsTeam2);
             int points = ruleService.calculate(tipAndGameResult);
             tip.setPoints(points);
-            tipRepository.updateTip(tip);
+            tipRepository.updateTipForPointscalculation(tip);
         }
     }
 }
