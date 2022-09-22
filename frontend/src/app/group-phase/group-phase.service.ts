@@ -4,6 +4,7 @@ import {Observable, tap} from "rxjs";
 import {Game} from "../game/game.model";
 import {catchError} from "rxjs/operators";
 import {handleError} from "../util/http.util";
+import {GroupPhaseModel} from "./group-phase.model";
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,9 @@ export class GroupPhaseService {
 
   }
 
-  getGroupPhases(): Observable<Game[]> {
+  getGroupPhases(): Observable<GroupPhaseModel[]> {
     return this.http
-      .get<Game[]>(this.groupPhaseUrl)
-      .pipe(tap({complete: () => console.log('fetched GroupPhases')}), catchError(handleError<Game[]>('getGroupPhases', [])));
+      .get<GroupPhaseModel[]>(this.groupPhaseUrl)
+      .pipe(tap({complete: () => console.log('fetched GroupPhases')}), catchError(handleError<GroupPhaseModel[]>('getGroupPhases', [])));
   }
 }

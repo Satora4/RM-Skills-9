@@ -31,7 +31,7 @@ public class GameController {
     }
 
     @GetMapping
-    public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase, Authentication authentication) {
+    public List<?> getAllGames(@RequestParam(required = false, name = "phase") String phase, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         List<String> roles = authentication.getAuthorities().stream().map(Object::toString).toList();
         System.out.printf("Hello, %s / %s%n", user, roles);
@@ -39,6 +39,8 @@ public class GameController {
             return convert(gameRepository.getAllGames());
         } else if (phase.equals(KO_PHASE)) {
             return convert(gameRepository.getGamesForKoPhase());
+        } else if (phase.equals(GROUP_PHASE)) {
+            return convertToGamesWithGroups(gameRepository.getGamesForGroups());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
         }

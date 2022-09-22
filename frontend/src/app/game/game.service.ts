@@ -9,7 +9,7 @@ import {Game} from './game.model';
   providedIn: 'root',
 })
 export class GameService {
-  private gameUrl = 'api/game';
+  private gameUrl = 'api/game?phase=ko';
 
   constructor(private httpClient: HttpClient) {
   }
