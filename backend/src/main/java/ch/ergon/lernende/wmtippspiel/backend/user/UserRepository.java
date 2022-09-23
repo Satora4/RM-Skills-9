@@ -21,14 +21,21 @@ public class UserRepository {
     public List<User> getAllUser() {
 
         return dslContext.select(
-                        USER.USER_ID.as("id"),
-                        USER.FIRST_NAME.as("firstName"),
-                        USER.LAST_NAME.as("lastName"),
-                        USER.EMAIL.as("email"),
-                        USER.POINTS.as("points"))
+                        USER.USER_ID,
+                        USER.FIRST_NAME,
+                        USER.LAST_NAME,
+                        USER.EMAIL,
+                        USER.POINTS)
                 .from(USER)
                 .groupBy(USER.USER_ID)
                 .orderBy(USER.POINTS.desc())
                 .fetchInto(User.class);
+    }
+
+    public void updateUser(User user) {
+        dslContext.update(USER)
+                .set(USER.POINTS, user.getPoints())
+                .where(USER.USER_ID.eq(user.getId()))
+                .execute();
     }
 }

@@ -57,6 +57,7 @@ public class TipController {
         tipTO.setFirstName(user.getFirstName());
         tipTO.setLastName(user.getLastName());
         tipTO.setEmail(user.getEmail());
+        tipTO.setUserPoints(user.getPoints());
 
         tipTO.setGameId(game.getId());
         tipTO.setGameTime(game.getGameTime());
@@ -67,6 +68,7 @@ public class TipController {
         tipTO.setTeamId2(game.getTeam2().getId());
         tipTO.setTeamCountry2(game.getTeam2().getCountry());
         tipTO.setPointsTeam2(game.getPointsTeam2());
+        tipTO.setPhase(game.getPhase());
 
         return tipTO;
     }

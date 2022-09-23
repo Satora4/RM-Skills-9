@@ -9,7 +9,9 @@ import ch.ergon.lernende.wmtippspiel.backend.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CalculatorService {
@@ -32,7 +34,6 @@ public class CalculatorService {
     public void calculateScore() {
 
         List<Game> gamesToCalculate = gameRepository.getGamesWithPoints();
-        List<User> users = userRepository.getAllUser();
 
         List<Tip> tips = tipRepository.getAllTip();
         List<Tip> tipsToCalculate = new ArrayList<>();
@@ -43,22 +44,54 @@ public class CalculatorService {
             }
         }
 
-        for (Tip tip : tipsToCalculate) {
-            int tipTeam1 = tip.getTipTeam1();
-            int tipTeam2 = tip.getTipTeam2();
-            int gameId = tip.getGame().getId();
+        Map<User, List<Tip>> usersWithTips = groupTipsByUser(tipsToCalculate);
 
-            Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
-            int pointsTeam1 = currentGame.getPointsTeam1();
-            int pointsTeam2 = currentGame.getPointsTeam2();
+        for (var user : usersWithTips.keySet()) {
+            int userPoints = user.getPoints();
 
-            TipAndGameResult tipAndGameResult = new TipAndGameResult(tipTeam1, tipTeam2, pointsTeam1, pointsTeam2);
-            int points = ruleService.calculate(tipAndGameResult);
-            tip.setPoints(points);
-            
-            users.get(tip.getUser().getId()).setPoints(points);
+            for (Tip tip : usersWithTips.get(user)) {
+                int tipTeam1 = tip.getTipTeam1();
+                int tipTeam2 = tip.getTipTeam2();
+                int gameId = tip.getGame().getId();
 
-            tipRepository.updateTip(tip);
+                Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
+                int pointsTeam1 = currentGame.getPointsTeam1();
+                int pointsTeam2 = currentGame.getPointsTeam2();
+
+                TipAndGameResult tipAndGameResult = new TipAndGameResult(tipTeam1, tipTeam2, pointsTeam1, pointsTeam2);
+                int points = ruleService.calculate(tipAndGameResult);
+                tip.setPoints(points);
+
+                userPoints += points;
+
+                tipRepository.updateTip(tip);
+            }
+
+            user.setPoints(userPoints);
+            userRepository.updateUser(user);
         }
+    }
+
+    private Map<User, List<Tip>> groupTipsByUser(List<Tip> tipsToCalculate) {
+        Map<User, List<Tip>> usersWithTips = new HashMap<>();
+
+        List<User> users = new ArrayList<>();
+        for (Tip tip : tipsToCalculate) {
+            if (!users.contains(tip.getUser())) {
+                users.add(tip.getUser());
+            }
+        }
+        for (User user : users) {
+            List<Tip> tips = new ArrayList<>();
+            for (Tip tip : tipsToCalculate) {
+                if (tip.getUser().getId() == user.getId()) {
+                    tips.add(tip);
+                }
+            }
+            tips.forEach(tipsToCalculate::remove);
+            usersWithTips.put(user, tips);
+        }
+
+        return usersWithTips;
     }
 }

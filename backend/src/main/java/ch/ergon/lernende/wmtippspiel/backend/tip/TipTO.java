@@ -1,5 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
+
 import java.time.LocalDateTime;
 
 public class TipTO {
@@ -12,6 +14,7 @@ public class TipTO {
     private String firstName;
     private String lastName;
     private String email;
+    private int userPoints;
     //game
     private int gameId;
     private LocalDateTime gameTime;
@@ -22,6 +25,7 @@ public class TipTO {
     private Integer pointsTeam2;
     private String teamCountry1;
     private String teamCountry2;
+    private Phase phase;
 
     public int getId() {
         return id;
@@ -157,5 +161,22 @@ public class TipTO {
 
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public void setPhase(Phase phase) {
+        this.phase = phase;
+
+    }
+
+    public int getUserPoints() {
+        return userPoints;
+    }
+
+    public void setUserPoints(int userPoints) {
+        this.userPoints = userPoints;
     }
 }
