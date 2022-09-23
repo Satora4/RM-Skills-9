@@ -30,13 +30,13 @@ export class UserComponent implements OnInit {
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
-      this.setRank(this.users);
+      this.computeRanks(this.users);
       this.userDataSource.data = this.users;
       console.log(users);
     });
   }
 
-  private setRank(users: User[]) {
+  private computeRanks(users: User[]) {
     if (users.length === 0) {
       return;
     }
