@@ -10,3 +10,8 @@
   padding-right: 2em;
   margin-top: 1em;
 }
+
+::-moz-placeholder {
+  font-family: Verdana, sans-serif;
+  color: black;
+}

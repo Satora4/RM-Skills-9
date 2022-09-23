@@ -1,10 +1,18 @@
+
+<h1 style="text-align: center; margin-top: 3em">Rangliste</h1>
+
 <div class="list">
   <table mat-table [dataSource]="userDataSource" matSort matSortDisableClear matSortActive="gameTime"
          matSortDirection="asc">
 
     <ng-container matColumnDef="ranking">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Rang</th>
-      <td mat-cell *matCellDef="let user;">{{userDataSource.data.indexOf(user) + 1}}</td>
+      <td mat-cell *matCellDef="let user;">{{userDataSource.data.indexOf(user) + 1}}.</td>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte</th>
+      <td mat-cell *matCellDef="let user">{{user.points}}</td>
     </ng-container>
 
     <ng-container matColumnDef="firstName">
@@ -15,11 +23,6 @@
     <ng-container matColumnDef="lastName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nachname</th>
       <td mat-cell *matCellDef="let user">{{user.lastName}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="points">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte</th>
-      <td mat-cell *matCellDef="let user">{{user.points}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

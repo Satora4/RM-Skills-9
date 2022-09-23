@@ -22,6 +22,15 @@ public class TipController {
         this.tipRepository = tipRepository;
     }
 
+    @PatchMapping()
+    public void updateTip(@RequestBody TipTO tipTO) {
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
+            tipRepository.putTip(convert(tipTO));
+        } else {
+            throw new IllegalArgumentException("the game has already been played");
+        }
+    }
+
     @GetMapping
     public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
         if (userId != null) {
@@ -34,7 +43,11 @@ public class TipController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addTip(@RequestBody TipTO tipTO) {
-        tipRepository.addTip(convert(tipTO));
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
+            tipRepository.addTip(convert(tipTO));
+        } else {
+            throw new IllegalArgumentException("the game has already been played");
+        }
     }
 
     private List<TipTO> convert(Collection<Tip> tips) {
@@ -113,7 +126,7 @@ public class TipController {
         user.setLastName(tipTO.getLastName());
         user.setEmail(tipTO.getEmail());
         tip.setUser(user);
-
+        System.out.println(tip);
         return tip;
     }
 }

@@ -1,3 +1,5 @@
+<h1 style="text-align: center; margin-top: 3em">Spielplan</h1>
+
 <div class="list">
   <table mat-table [dataSource]="dataSource" matSort matSortDisableClear matSortActive="gameTime"
          matSortDirection="asc">
@@ -19,12 +21,17 @@
 
     <ng-container matColumnDef="pointsTeam1">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte von Team 1</th>
-      <td mat-cell *matCellDef="let game">{{game.pointsTeam1}}</td>
+      <td mat-cell *matCellDef="let game" style="text-align: center">{{game.pointsTeam1}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="colon">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let game">:</td>
     </ng-container>
 
     <ng-container matColumnDef="pointsTeam2">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte von Team 2</th>
-      <td mat-cell *matCellDef="let game">{{game.pointsTeam2}}</td>
+      <td mat-cell *matCellDef="let game" style="text-align: center">{{game.pointsTeam2}}</td>
     </ng-container>
 
     <ng-container matColumnDef="teamCountry2">
@@ -35,21 +42,40 @@
     <ng-container matColumnDef="tipTeam1">
       <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
       <td mat-cell *matCellDef="let game">
-        <input matInput max="15" min="0" type="number" [(ngModel)]="tipTeam1[game.id]">
+        <input  matInput *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash; else showTipTeam1"
+               max="15" min="0" type="number"
+               [placeholder]="dash" [(ngModel)]="tipTeam1[game.id]">
+        <ng-template #showTipTeam1>
+          {{getTipTeam1ByGameId(game.id)}}
+        </ng-template>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="tipTeam2">
       <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
       <td mat-cell *matCellDef="let game">
-        <input matInput max="15" min="0" type="number" [(ngModel)]="tipTeam2[game.id]">
+        <input matInput *ngIf="game.pointsTeam2 == null && getTipTeam2ByGameId(game.id) == dash; else showTipTeam2"
+               max="15" min="0" type="number"
+               [placeholder]="dash" [(ngModel)]="tipTeam2[game.id]">
+        <ng-template #showTipTeam2>
+          {{getTipTeam2ByGameId(game.id)}}
+        </ng-template>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let game">
-        <button mat-stroked-button (click)="saveTip(1, tipTeam1[game.id], tipTeam2[game.id], game)">save</button>
+        <button *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash; else showEditButton"
+                mat-stroked-button
+                (click)="saveTip(1, tipTeam1[game.id], tipTeam2[game.id], game)">save
+        </button>
+
+        <ng-template #showEditButton>
+          <button *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) != dash;" mat-stroked-button
+                  (click)="openTipWindow(game)">edit
+          </button>
+        </ng-template>
       </td>
     </ng-container>
 
