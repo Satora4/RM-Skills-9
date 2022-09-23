@@ -64,7 +64,7 @@ public class CalculatorService {
 
                 userPoints += points;
 
-                tipRepository.updateTipForPointsCalculation(tip);
+                tipRepository.updateTipPoints(tip);
             }
 
             user.setPoints(userPoints);
