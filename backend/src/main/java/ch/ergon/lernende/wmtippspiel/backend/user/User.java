@@ -7,7 +7,6 @@ public class User {
     private String lastName;
     private String email;
     private int points;
-    private int ranking;
     private boolean administrator;
 
     public int getId() {
@@ -42,15 +41,6 @@ public class User {
         this.email = email;
     }
 
-
-    public int getRanking() {
-        return ranking;
-    }
-
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
-    }
-
     public boolean isAdministrator() {
         return administrator;
     }
@@ -65,5 +55,43 @@ public class User {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (points != user.points) return false;
+        if (administrator != user.administrator) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        return email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + points;
+        result = 31 * result + (administrator ? 1 : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", points=" + points +
+                ", administrator=" + administrator +
+                '}';
     }
 }

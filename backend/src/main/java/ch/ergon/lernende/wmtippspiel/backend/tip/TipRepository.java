@@ -49,11 +49,13 @@ public class TipRepository {
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
                         USER.EMAIL,
+                        USER.POINTS,
                         GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
                         GAME.GOALS_TEAM1,
                         GAME.GOALS_TEAM2,
+                        GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_2.TEAM_ID,
@@ -85,7 +87,7 @@ public class TipRepository {
                 .execute();
     }
 
-    public void updateTipForPointscalculation(Tip tip) {
+    public void updateTipPoints(Tip tip) {
         dslContext.update(TIP)
                 .set(TIP.POINTS, tip.getPoints())
                 .where(TIP.TIP_ID.eq(tip.getId()))
@@ -104,12 +106,14 @@ public class TipRepository {
         user.setFirstName(record.get(USER.FIRST_NAME));
         user.setLastName(record.get(USER.LAST_NAME));
         user.setEmail(record.get(USER.EMAIL));
+        user.setPoints(record.get(USER.POINTS));
         tip.setUser(user);
 
         Game game = new Game();
         game.setId(record.get(GAME.GAME_ID));
         game.setGameTime(record.get(GAME.GAME_TIME));
-        game.setGameLocation((record.get(GAME.GAME_LOCATION)));
+        game.setGameLocation(record.get(GAME.GAME_LOCATION));
+        game.setPhase(record.get(GAME.PHASE));
 
         if (record.get(GAME.GOALS_TEAM1) != null) {
             game.setPointsTeam1(record.get(GAME.GOALS_TEAM1));
