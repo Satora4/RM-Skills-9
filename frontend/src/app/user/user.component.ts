@@ -13,7 +13,7 @@ import { UserService } from './user.service';
 export class UserComponent implements OnInit {
   private users: User[] = [];
   userDataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['ranking', 'firstName', 'lastName', 'points'];
+  displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private UserService: UserService) {

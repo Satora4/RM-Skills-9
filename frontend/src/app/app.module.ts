@@ -23,9 +23,11 @@ import { TeamComponent } from './team/team.component';
 import { TipComponent } from './tip/tip.component';
 import { UserComponent } from './user/user.component';
 import {MatInputModule} from "@angular/material/input";
+import { PopUpComponent } from './pop-up/pop-up.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
-  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent],
+  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, PopUpComponent],
     imports: [
         AppRoutingModule,
         BrowserAnimationsModule,
@@ -42,6 +44,7 @@ import {MatInputModule} from "@angular/material/input";
         MatTableModule,
         ReactiveFormsModule,
         MatInputModule,
+        MatDialogModule,
     ],
   providers: [],
   bootstrap: [AppComponent],
