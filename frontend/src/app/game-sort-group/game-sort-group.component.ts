@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {GameService} from './game.service';
-
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Tip} from "../tip/tip.model";
+import {MatSort} from "@angular/material/sort";
+import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
-import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
+import {GroupPhaseService} from "../group-phase/group-phase.service";
+import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {MatTableDataSource} from "@angular/material/table";
 
 
 export interface DialogData {
@@ -18,13 +18,12 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css'],
+  selector: 'app-game-sort-group',
+  templateUrl: './game-sort-group.component.html',
+  styleUrls: ['./game-sort-group.component.css']
 })
-export class GameComponent implements AfterViewInit, OnInit {
+export class GameSortGroupComponent implements OnInit {
   dataSource = new MatTableDataSource();
-
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
@@ -35,7 +34,8 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   constructor(private gameService: GameService,
               private tipService: TipService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private groupPhaseService: GroupPhaseService) {
     this.loadTipsByUser(1)
   }
 
@@ -46,6 +46,8 @@ export class GameComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+
+
 
   public openTipWindow(game: Game): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
@@ -147,10 +149,14 @@ export class GameComponent implements AfterViewInit, OnInit {
 
 
   loadGames(): void {
-    this.gameService.getKoGames().subscribe((games) => {
-      this.dataSource.data = games;
+    let allgames: Game[] = [];
+    this.groupPhaseService.getGroupPhases().subscribe((games) => {
+      for (let i = 0; i < games.length; i++){
+        for (let j = 0;j < games[i].games.length; j++){
+          allgames.push(games[i].games[j]);
+        }
+      }
+      this.dataSource.data = allgames;
     });
   }
 }
-
-

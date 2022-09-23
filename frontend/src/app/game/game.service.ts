@@ -9,15 +9,23 @@ import {Game} from './game.model';
   providedIn: 'root',
 })
 export class GameService {
-  private gameUrl = 'api/game?phase=ko';
+  private koGameUrl = 'api/game?phase=ko';
+  private allGamesUrl = 'api/game';
+
 
   constructor(private httpClient: HttpClient) {
   }
 
 
+  getKoGames(): Observable<Game[]> {
+    return this.httpClient
+      .get<Game[]>(this.koGameUrl)
+      .pipe(tap({complete: () => console.log('fetched Games')}), catchError(handleError<Game[]>('getGames', [])));
+  }
+
   getGames(): Observable<Game[]> {
     return this.httpClient
-      .get<Game[]>(this.gameUrl)
+      .get<Game[]>(this.allGamesUrl)
       .pipe(tap({complete: () => console.log('fetched Games')}), catchError(handleError<Game[]>('getGames', [])));
   }
 }
