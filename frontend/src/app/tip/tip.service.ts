@@ -1,9 +1,11 @@
-import {Observable} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {handleError} from '../util/http.util';
-import {Tip} from "./tip.model";
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { handleError } from '../util/http.util';
+import { Tip } from "./tip.model";
 
 @Injectable({
   providedIn: 'root'
