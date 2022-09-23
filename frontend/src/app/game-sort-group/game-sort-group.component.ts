@@ -8,6 +8,8 @@ import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 import {MatTableDataSource} from "@angular/material/table";
+import {GroupPhaseModel} from "../group-phase/group-phase.model";
+import {Group} from "../group/group.model";
 
 
 export interface DialogData {
@@ -17,13 +19,18 @@ export interface DialogData {
   country2: string;
 }
 
+export interface DataObjekt {
+  dataSource: MatTableDataSource<any>;
+  group: string;
+}
+
 @Component({
   selector: 'app-game-sort-group',
   templateUrl: './game-sort-group.component.html',
   styleUrls: ['./game-sort-group.component.css']
 })
 export class GameSortGroupComponent implements OnInit {
-  dataSource = new MatTableDataSource();
+  dataObjects: DataObjekt[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
@@ -44,9 +51,7 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
   }
-
 
 
   public openTipWindow(game: Game): void {
@@ -136,7 +141,7 @@ export class GameSortGroupComponent implements OnInit {
 
   }
 
-  private addTip(tip: Tip){
+  private addTip(tip: Tip) {
     this.tipService.addTip(tip).subscribe(tip => {
       location.reload()
     })
@@ -149,14 +154,20 @@ export class GameSortGroupComponent implements OnInit {
 
 
   loadGames(): void {
-    let allgames: Game[] = [];
-    this.groupPhaseService.getGroupPhases().subscribe((games) => {
-      for (let i = 0; i < games.length; i++){
-        for (let j = 0;j < games[i].games.length; j++){
-          allgames.push(games[i].games[j]);
+    this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
+      for (let groupsGame of groupsWithGamesObjects) {
+        let dataSource = new MatTableDataSource();
+        dataSource.data.push(groupsGame.games);
+        let dataObject: DataObjekt = {
+          dataSource: dataSource,
+          group: groupsGame.groupName
         }
+        this.dataObjects.push(dataObject);
+        this.dataObjects.sort(    (firstObject: DataObjekt , secondObject:DataObjekt ) =>
+          (firstObject.group > secondObject.group) ? 1 : -1
+        );
       }
-      this.dataSource.data = allgames;
+
     });
   }
 }
