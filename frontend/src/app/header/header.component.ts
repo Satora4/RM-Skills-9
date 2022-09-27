@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {HeaderService} from "./header.service";
 import {User} from "../user/user.model";
+import {UserService} from "../user/user.service";
 
 @Component({
   selector: 'app-header',
@@ -10,14 +10,14 @@ import {User} from "../user/user.model";
 export class HeaderComponent implements OnInit {
   public user: User | any;
 
-  constructor(private headerService: HeaderService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.loadUser();
   }
 
   loadUser(): void {
-    this.headerService.getUserData().subscribe( (user) => {
+    this.userService.getUserData().subscribe( (user) => {
       this.user = user;
       console.log(this.user);
     })

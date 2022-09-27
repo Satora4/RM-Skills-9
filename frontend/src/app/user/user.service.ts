@@ -11,11 +11,16 @@ import { User } from './user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private userUrl = 'api/user';
+  private userUrl = 'api/allUser';
+  private userDataUrl = 'api/user';
 
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.userUrl).pipe(tap({ complete: () => console.log('fetched Users') }), catchError(handleError<User[]>('getUsers', [])));
+  }
+
+  getUserData(): Observable<User> {
+    return this.http.get<User>(this.userDataUrl).pipe(tap({ complete: () => console.log('fetched userdata') }), catchError(handleError<User>('getUserData')));
   }
 }
