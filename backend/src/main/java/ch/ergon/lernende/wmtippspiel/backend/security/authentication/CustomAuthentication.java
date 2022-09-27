@@ -8,14 +8,14 @@ import java.util.Collection;
 
 public final class CustomAuthentication implements Authentication {
 
-    private final User user;
+    private final IamUser user;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomAuthentication(User user) {
+    public CustomAuthentication(IamUser user) {
         this(user, new ArrayList<>());
     }
 
-    public CustomAuthentication(User user, Collection<? extends GrantedAuthority> authorities) {
+    public CustomAuthentication(IamUser user, Collection<? extends GrantedAuthority> authorities) {
         this.user = user;
         this.authorities = authorities;
     }
