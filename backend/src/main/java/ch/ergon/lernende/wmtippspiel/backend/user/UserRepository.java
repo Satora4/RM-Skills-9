@@ -35,7 +35,7 @@ public class UserRepository {
     public void updateUser(User user) {
         dslContext.update(USER)
                 .set(USER.POINTS, user.getPoints())
-                .where(USER.USER_ID.eq(user.getId()))
+                .where(USER.USER_ID.eq(user.getUserId()))
                 .execute();
     }
 }
