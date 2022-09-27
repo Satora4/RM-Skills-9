@@ -8,6 +8,7 @@ import {TipService} from "../tip/tip.service";
 import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {HeaderService} from "../header/header.service";
 
 
 export interface DialogData {
@@ -29,18 +30,20 @@ export class GameComponent implements AfterViewInit, OnInit {
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
+  public userId: number | any;
   public readonly dash = '—';
 
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private gameService: GameService,
               private tipService: TipService,
+              private headerService: HeaderService,
               public dialog: MatDialog) {
-    this.loadTipsByUser(1)
   }
 
   ngOnInit(): void {
     this.loadGames();
+    this.loadUser();
   }
 
   ngAfterViewInit() {
@@ -61,7 +64,7 @@ export class GameComponent implements AfterViewInit, OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       console.log(result)
-      this.saveTip(this.getTipByGameId(game.id).userId, result.tip1, result.tip2, game)
+      this.saveTip(result.tip1, result.tip2, game)
       window.location.reload();
     });
   }
@@ -104,10 +107,10 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   }
 
-  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
+  public saveTip(tipTeam1: number, tipTeam2: number, game: Game) {
 
     let tip: Tip = {
-      userId: userId,
+      userId: this.userId,
       tipTeam1: tipTeam1,
       tipTeam2: tipTeam2,
       points: 0,
@@ -136,7 +139,8 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   private addTip(tip: Tip){
     this.tipService.addTip(tip).subscribe(tip => {
-      location.reload()
+      location.reload();
+      console.log(tip);
     })
   }
 
@@ -145,11 +149,19 @@ export class GameComponent implements AfterViewInit, OnInit {
     })
   }
 
-
   loadGames(): void {
     this.gameService.getGames().subscribe((games) => {
       this.dataSource.data = games;
     });
+  }
+
+  loadUser(): void {
+    this.headerService.getUserData().subscribe( (user) => {
+      this.userId = user.userId;
+      console.log(user);
+      console.log(this.userId);
+      this.loadTipsByUser(this.userId);
+    })
   }
 }
 

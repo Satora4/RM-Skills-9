@@ -33,6 +33,7 @@ public class UserController {
             if (Objects.equals(user.getEmail(), userData.mail())) {
                 loggedInUser.setFirstName(user.getFirstName());
                 loggedInUser.setLastName(user.getLastName());
+                loggedInUser.setUserId(user.getId());
             }
         });
         return loggedInUser;
