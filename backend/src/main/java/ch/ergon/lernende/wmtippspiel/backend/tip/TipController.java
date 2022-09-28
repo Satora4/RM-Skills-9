@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class TipController {
 
     @PatchMapping()
     public void updateTip(@RequestBody TipTO tipTO) {
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && tipTO.getGameTime().isAfter(LocalDateTime.now())) {
             tipRepository.putTip(convert(tipTO));
         } else {
             throw new IllegalArgumentException("the game has already been played");
@@ -43,7 +44,7 @@ public class TipController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addTip(@RequestBody TipTO tipTO) {
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && tipTO.getGameTime().isAfter(LocalDateTime.now())) {
             tipRepository.addTip(convert(tipTO));
         } else {
             throw new IllegalArgumentException("the game has already been played");
