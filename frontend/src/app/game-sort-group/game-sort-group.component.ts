@@ -5,7 +5,7 @@ import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {GroupPhaseService} from "../group-phase/group-phase.service";
-import {Game} from "../game/game.model";
+import {Game, GameObject} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {GroupPhaseModel} from "../group-phase/group-phase.model";
@@ -157,7 +157,9 @@ export class GameSortGroupComponent implements OnInit {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
       for (let groupsGame of groupsWithGamesObjects) {
         let dataSource = new MatTableDataSource();
-        dataSource.data.push(groupsGame.games);
+        let games: Game[] = groupsGame.games;
+
+        dataSource.data = games;
         let dataObject: DataObjekt = {
           dataSource: dataSource,
           group: groupsGame.groupName
@@ -167,6 +169,7 @@ export class GameSortGroupComponent implements OnInit {
           (firstObject.group > secondObject.group) ? 1 : -1
         );
       }
+      console.log(this.dataObjects)
 
     });
   }

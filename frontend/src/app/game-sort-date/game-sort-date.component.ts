@@ -6,7 +6,7 @@ import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {GroupPhaseService} from "../group-phase/group-phase.service";
-import {Game} from "../game/game.model";
+import {Game, GameObject} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 
 
