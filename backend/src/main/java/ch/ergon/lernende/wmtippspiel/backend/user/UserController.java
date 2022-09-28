@@ -18,7 +18,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/allUser")
+    @GetMapping("/users")
     public List<UserTO> getAllUser() {
         return userRepository.getAllUser().stream().map(this::convert).collect(Collectors.toList());
     }
@@ -27,7 +27,7 @@ public class UserController {
     public UserTO getUser(Authentication authentication) {
         IamUser userData = (IamUser) authentication.getPrincipal();
 
-        return convert(userRepository.getUser(userData));
+        return convert(userRepository.getForMail(userData.mail()));
     }
 
     private UserTO convert(User user) {

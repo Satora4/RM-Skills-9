@@ -1,6 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
-import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +33,19 @@ public class UserRepository {
                 .fetchInto(User.class);
     }
 
-    public User getUser(IamUser user) {
+    public User getForMail(String mail) {
 
         return dslContext.select(
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
                         USER.USER_ID)
                 .from(USER)
-                .where(USER.EMAIL.eq(user.mail()))
+                .where(USER.EMAIL.eq(mail))
                 .fetchOne(this::convert);
     }
 
     public void updateUser(User user) {
+        
         dslContext.update(USER)
                 .set(USER.POINTS, user.getPoints())
                 .where(USER.USER_ID.eq(user.getId()))
