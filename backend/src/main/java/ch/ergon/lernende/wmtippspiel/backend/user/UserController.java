@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,24 +18,16 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/allUser")
     public List<UserTO> getAllUser() {
         return userRepository.getAllUser().stream().map(this::convert).collect(Collectors.toList());
     }
 
-    @GetMapping("/username")
-    public ch.ergon.lernende.wmtippspiel.backend.user.User getUsername(Authentication authentication) {
+    @GetMapping("/user")
+    public UserTO getUser(Authentication authentication) {
         IamUser userData = (IamUser) authentication.getPrincipal();
-        List<UserTO> users = getAllUser();
-        User loggedInUser = new User();
-        users.forEach(user -> {
-            if (Objects.equals(user.getEmail(), userData.mail())) {
-                loggedInUser.setFirstName(user.getFirstName());
-                loggedInUser.setLastName(user.getLastName());
-                loggedInUser.setUserId(user.getId());
-            }
-        });
-        return loggedInUser;
+
+        return convert(userRepository.getUser(userData));
     }
 
     private UserTO convert(User user) {
