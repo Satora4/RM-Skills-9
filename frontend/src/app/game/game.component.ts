@@ -8,7 +8,7 @@ import {TipService} from "../tip/tip.service";
 import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {HeaderService} from "../header/header.service";
+import {UserService} from "../user/user.service";
 
 
 export interface DialogData {
@@ -37,7 +37,7 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   constructor(private gameService: GameService,
               private tipService: TipService,
-              private headerService: HeaderService,
+              private userService: UserService,
               public dialog: MatDialog) {
   }
 
@@ -156,7 +156,7 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   loadUser(): void {
-    this.headerService.getUserData().subscribe( (user) => {
+    this.userService.getUserData().subscribe( (user) => {
       this.userId = user.userId;
       console.log(user);
       console.log(this.userId);
