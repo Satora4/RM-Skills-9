@@ -8,6 +8,7 @@ import {TipService} from "../tip/tip.service";
 import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {KoPhaseModel} from "./Ko-Phase.model";
 
 
 export interface DialogData {
@@ -17,13 +18,19 @@ export interface DialogData {
   country2: string;
 }
 
+export interface DataObject {
+  dataSource: MatTableDataSource<any>;
+  phase: string
+}
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements AfterViewInit, OnInit {
-  dataSource = new MatTableDataSource();
+export class GameComponent implements OnInit {
+  dataObjects: DataObject[] = [];
+
 
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
@@ -41,10 +48,6 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.loadGames();
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
   }
 
   public openTipWindow(game: Game): void {
@@ -147,8 +150,19 @@ export class GameComponent implements AfterViewInit, OnInit {
 
 
   loadGames(): void {
-    this.gameService.getKoGames().subscribe((games) => {
-      this.dataSource.data = games;
+    this.gameService.getKoGames().subscribe((koPhaseModels) => {
+      let sortedKoPhaseModel = koPhaseModels.sort((a,b) =>  b.games.length -a.games.length);
+      for (let sortedKoPhaseModel of koPhaseModels) {
+        let dataSource = new MatTableDataSource();
+        dataSource.data = sortedKoPhaseModel.games;
+        console.log(sortedKoPhaseModel)
+        let dataObject: DataObject = {
+          dataSource: dataSource,
+          phase: sortedKoPhaseModel.phaseOfGames.toString()
+        }
+        this.dataObjects.push(dataObject);
+
+      }
     });
   }
 }

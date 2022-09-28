@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {handleError} from '../util/http.util';
 import {Game} from './game.model';
+import {KoPhaseModel} from "./Ko-Phase.model";
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,10 @@ export class GameService {
   }
 
 
-  getKoGames(): Observable<Game[]> {
+  getKoGames(): Observable<KoPhaseModel[]> {
     return this.httpClient
-      .get<Game[]>(this.koGameUrl)
-      .pipe(tap({complete: () => console.log('fetched Games')}), catchError(handleError<Game[]>('getGames', [])));
+      .get<KoPhaseModel[]>(this.koGameUrl)
+      .pipe(tap({complete: () => console.log('fetched Games')}), catchError(handleError<KoPhaseModel[]>('getGames', [])));
   }
 
   getGames(): Observable<Game[]> {

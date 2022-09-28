@@ -1,7 +1,11 @@
+table{
+  width: 100%;
+}
+
 .list {
   margin-left: auto;
-  width: max-content;
-  margin-right: auto;
+  width: 60%;
+  margin-right: 20%;
   margin-top: 2em;
   border: solid rgba(0, 0, 0, 7%);
 }
@@ -10,8 +14,15 @@
   padding-right: 2em;
   margin-top: 1em;
 }
+.example-selected-value {
+  margin: 15px 0;
+}
 
-::-moz-placeholder {
-  font-family: Verdana, sans-serif;
-  color: black;
+h2{
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+}
+
+.groups{
+  margin-bottom: 3em;
 }

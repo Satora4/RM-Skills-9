@@ -72,6 +72,15 @@ public class GameRepository {
         return gamesWithDate;
     }
 
+    private GamesWithKoRounds convertToPhase(Record record) {
+        GamesWithKoRounds gamesWithKoRounds = new GamesWithKoRounds();
+
+        gamesWithKoRounds.setPhase(record.get(GAME.PHASE));
+        return gamesWithKoRounds;
+    }
+
+
+
 
     private Game convertToGames(Record record) {
         return convert(record);
@@ -97,8 +106,36 @@ public class GameRepository {
         return gamesWithDates;
     }
 
-    public List<Game> getGamesForKoPhase() {
-        return getGamesWithCondition(GAME.PHASE.notEqual(Phase.GROUP_PHASE));
+    private List<GamesWithKoRounds> convertWithPhase(Map<GamesWithKoRounds, List<Game>> result) {
+        List<GamesWithKoRounds> gamesWithKoRounds = new ArrayList<>();
+        for (var record : result.entrySet()) {
+            GamesWithKoRounds gamesWithKoRound = record.getKey();
+            gamesWithKoRound.setGames(record.getValue());
+            gamesWithKoRounds.add(gamesWithKoRound);
+        }
+        return gamesWithKoRounds;
+    }
+
+
+    public List<GamesWithKoRounds> getGamesForKoPhase() {
+        var result = dslContext.select(GAME.GAME_ID,
+                        GAME.GAME_TIME,
+                        GAME.GAME_LOCATION,
+                        GAME.GOALS_TEAM1,
+                        GAME.GOALS_TEAM2,
+                        GAME.PHASE,
+                        TEAM_ALIAS_1.TEAM_ID,
+                        TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_2.TEAM_ID,
+                        TEAM_ALIAS_2.COUNTRY)
+                .from(GAME)
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
+                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
+                .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
+                .collect(groupingBy(this::convertToPhase, mapping(this::convertToGames, toList())));
+
+        return convertWithPhase(result);
     }
 
     /**

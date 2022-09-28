@@ -10,7 +10,7 @@ import {GroupPhaseComponent} from "./group-phase/group-phase.component";
 
 const routes: Routes = [
   { path: 'groupPhase', component: GroupPhaseComponent},
-  { path: 'games', component: GameComponent },
+  { path: 'ko', component: GameComponent },
   { path: 'users', component: UserComponent },
   { path: 'groups', component: GroupComponent },
   { path: 'rules', component: RulesComponent },

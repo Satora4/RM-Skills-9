@@ -40,7 +40,7 @@ public class GameController {
         if (phase == null) {
             return convert(gameRepository.getAllGames());
         } else if (phase.equals(KO_PHASE)) {
-            return convert(gameRepository.getGamesForKoPhase());
+            return convertToGamesWithPhase(gameRepository.getGamesForKoPhase());
         } else if (phase.equals(GROUP_PHASE)) {
             return convertToGamesWithGroups(gameRepository.getGamesForGroups());
         } else if (phase.equals(GROUP_PHASE_ORDER_DATE)) {
@@ -78,6 +78,12 @@ public class GameController {
                 .collect(Collectors.toList());
     }
 
+    private List<GamesWithKoRoundsTO> convertToGamesWithPhase(Collection<GamesWithKoRounds> gamesWithKoRounds) {
+        return gamesWithKoRounds.stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
+    }
+
     private GamesWithDateTO convert(GamesWithDate gamesWithDate) {
         GamesWithDateTO gamesWithGroupTO = new GamesWithDateTO();
 
@@ -86,10 +92,17 @@ public class GameController {
         return gamesWithGroupTO;
     }
 
+    private GamesWithKoRoundsTO convert(GamesWithKoRounds gamesWithKoRounds) {
+        GamesWithKoRoundsTO gamesWithKoRoundsTO = new GamesWithKoRoundsTO();
+
+        gamesWithKoRoundsTO.setPhase(gamesWithKoRounds.getPhaseOfGames());
+        gamesWithKoRoundsTO.setGames(gamesWithKoRounds.getGames().stream().sorted(Comparator.comparing(Game::getGameTime)).toList());
+        return gamesWithKoRoundsTO;
+    }
+
     private List<GameTO> convert(Collection<Game> games) {
         return games.stream().map(this::convert).collect(toList());
     }
-
 
 
     private GameTO convert(Game game) {
