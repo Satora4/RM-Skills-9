@@ -1,9 +1,8 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
-import ch.ergon.lernende.wmtippspiel.backend.security.authentication.User;
+import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +31,7 @@ public class GameController {
 
     @GetMapping
     public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        IamUser user = (IamUser) authentication.getPrincipal();
         List<String> roles = authentication.getAuthorities().stream().map(Object::toString).toList();
         System.out.printf("Hello, %s / %s%n", user, roles);
         if (phase == null) {
