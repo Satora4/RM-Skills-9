@@ -131,8 +131,16 @@ export class GameComponent implements AfterViewInit, OnInit {
     }
   }
 
+  public tipsAllowed(gameTime: any): boolean {
+    if (Date.parse(gameTime.toString()) > Date.now()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private addTip(tip: Tip){
-    if (Date.parse(tip.gameTime.toString()) > Date.now()) {
+    if (this.tipsAllowed(tip.gameTime)) {
       this.tipService.addTip(tip).subscribe(tip => {
         location.reload()
       })
@@ -142,19 +150,11 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   private updateTip(tip: Tip): void {
-    if (Date.parse(tip.gameTime.toString()) > Date.now()) {
+    if (this.tipsAllowed(tip.gameTime)) {
       this.tipService.updateTip(tip).subscribe(tip => {
       })
     } else {
       alert("Spiel wird oder wurde bereits gespielt.");
-    }
-  }
-
-  public tipsAllowed(game: Game): boolean {
-    if (Date.parse(game.gameTime.toString()) > Date.now()) {
-      return true;
-    } else {
-      return false;
     }
   }
 

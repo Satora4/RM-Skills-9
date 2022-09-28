@@ -43,7 +43,7 @@
       <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
       <td mat-cell *matCellDef="let game">
         <input matInput
-               *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash && tipsAllowed(game); else showTipTeam1"
+               *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash && tipsAllowed(game.gameTime); else showTipTeam1"
                max="15" min="0" type="number"
                [placeholder]="dash" [(ngModel)]="tipTeam1[game.id]">
         <ng-template #showTipTeam1>
@@ -56,7 +56,7 @@
       <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
       <td mat-cell *matCellDef="let game">
         <input matInput
-               *ngIf="game.pointsTeam2 == null && getTipTeam2ByGameId(game.id) == dash && tipsAllowed(game); else showTipTeam2"
+               *ngIf="game.pointsTeam2 == null && getTipTeam2ByGameId(game.id) == dash && tipsAllowed(game.gameTime); else showTipTeam2"
                max="15" min="0" type="number"
                [placeholder]="dash" [(ngModel)]="tipTeam2[game.id]">
         <ng-template #showTipTeam2>
@@ -69,15 +69,16 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let game">
         <button
-          *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash && tipsAllowed(game); else showEditButton"
+          *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash && tipsAllowed(game.gameTime); else showEditButton"
           mat-stroked-button
           (click)="saveTip(1, tipTeam1[game.id], tipTeam2[game.id], game)">save
         </button>
 
         <ng-template #showEditButton>
-          <button *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) != dash && tipsAllowed(game);"
-                  mat-stroked-button
-                  (click)="openTipWindow(game)">edit
+          <button
+            *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) != dash && tipsAllowed(game.gameTime);"
+            mat-stroked-button
+            (click)="openTipWindow(game)">edit
           </button>
         </ng-template>
       </td>
