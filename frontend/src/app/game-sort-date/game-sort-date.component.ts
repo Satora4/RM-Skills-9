@@ -6,7 +6,7 @@ import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {GroupPhaseService} from "../group-phase/group-phase.service";
-import {Game, GameObject} from "../game/game.model";
+import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 
 
@@ -17,14 +17,19 @@ export interface DialogData {
   country2: string;
 }
 
+export interface DataObject {
+  dataSource: MatTableDataSource<any>;
+  groupDate: Date;
+}
+
+
 @Component({
   selector: 'app-game-sort-date',
   templateUrl: './game-sort-date.component.html',
   styleUrls: ['./game-sort-date.component.css']
 })
 export class GameSortDateComponent implements OnInit {
-
-  dataSource = new MatTableDataSource();
+  dataObjects: DataObject[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
@@ -43,11 +48,6 @@ export class GameSortDateComponent implements OnInit {
   ngOnInit(): void {
     this.loadGames();
   }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-
 
   public openTipWindow(game: Game): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
@@ -149,14 +149,19 @@ export class GameSortDateComponent implements OnInit {
 
 
   loadGames(): void {
-    let allgames: Game[] = [];
-    this.groupPhaseService.getGroupPhases().subscribe((games) => {
-      for (let i = 0; i < games.length; i++) {
-        for (let j = 0; j < games[i].games.length; j++) {
-          allgames.push(games[i].games[j]);
+    this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
+      console.log(groupPhaseModelsForDate)
+      for (let groupPhaseModel of groupPhaseModelsForDate) {
+        let dataSource = new MatTableDataSource();
+        dataSource.data = groupPhaseModel.games;
+        console.log(groupPhaseModel)
+        let dataObject: DataObject = {
+          dataSource: dataSource,
+          groupDate: groupPhaseModel.groupDate
         }
+        this.dataObjects.push(dataObject);
       }
-      this.dataSource.data = allgames;
+      console.log(this.dataObjects);
     });
   }
 }

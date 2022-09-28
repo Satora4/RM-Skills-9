@@ -1,7 +1,11 @@
+table{
+  width: 100%;
+}
+
 .list {
   margin-left: auto;
-  width: max-content;
-  margin-right: auto;
+  width: 60%;
+  margin-right: 20%;
   margin-top: 2em;
   border: solid rgba(0, 0, 0, 7%);
 }

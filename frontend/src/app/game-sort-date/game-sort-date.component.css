@@ -1,7 +1,11 @@
+table{
+  width: 100%;
+}
+
 .list {
   margin-left: auto;
-  width: max-content;
-  margin-right: auto;
+  width: 60%;
+  margin-right: 20%;
   margin-top: 2em;
   border: solid rgba(0, 0, 0, 7%);
 }
@@ -12,4 +16,13 @@
 }
 .example-selected-value {
   margin: 15px 0;
+}
+
+h2{
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+}
+
+.groups{
+  margin-bottom: 3em;
 }
