@@ -97,11 +97,9 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   public loadTipsByUser(userId: number) {
-
     this.tipService.getTips(userId).subscribe((tips) => {
       this.tips = tips;
     });
-
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
@@ -131,20 +129,34 @@ export class GameComponent implements AfterViewInit, OnInit {
     } else {
       this.addTip(tip);
     }
-
   }
 
   private addTip(tip: Tip){
-    this.tipService.addTip(tip).subscribe(tip => {
-      location.reload()
-    })
+    if (Date.parse(tip.gameTime.toString()) > Date.now()) {
+      this.tipService.addTip(tip).subscribe(tip => {
+        location.reload()
+      })
+    } else {
+      alert("Spiel wird oder wurde bereits gespielt.");
+    }
   }
 
   private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(tip => {
-    })
+    if (Date.parse(tip.gameTime.toString()) > Date.now()) {
+      this.tipService.updateTip(tip).subscribe(tip => {
+      })
+    } else {
+      alert("Spiel wird oder wurde bereits gespielt.");
+    }
   }
 
+  public tipsAllowed(game: Game): boolean {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   loadGames(): void {
     this.gameService.getGames().subscribe((games) => {
