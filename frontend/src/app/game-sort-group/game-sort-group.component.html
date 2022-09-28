@@ -1,7 +1,8 @@
-<div *ngFor="let dataObject of dataObjects">
+<div class="groups" *ngFor="let dataObject of dataObjects">
 
   <div class="list">
     <h2>Gruppe: {{dataObject.group}}</h2>
+
     <table mat-table [dataSource]="dataObject.dataSource" matSort matSortDisableClear matSortActive="gameTime"
            matSortDirection="asc">
 
