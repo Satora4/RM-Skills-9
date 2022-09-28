@@ -11,7 +11,7 @@ import { User } from './user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private userUrl = 'api/allUser';
+  private userUrl = 'api/users';
   private userDataUrl = 'api/user';
 
   constructor(private http: HttpClient) {}
