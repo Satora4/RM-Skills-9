@@ -1,6 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
+import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,18 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("tip")
 public class TipController {
     private final TipRepository tipRepository;
+    private final GameRepository gameRepository;
 
     @Autowired
-    public TipController(TipRepository tipRepository) {
+    public TipController(TipRepository tipRepository, GameRepository gameRepository) {
         this.tipRepository = tipRepository;
+        this.gameRepository = gameRepository;
     }
 
-    @PatchMapping()
+    @PatchMapping
     public void updateTip(@RequestBody TipTO tipTO) {
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && tipTO.getGameTime().isAfter(LocalDateTime.now())) {
+        LocalDateTime gameTime = gameRepository.getGameTime(tipTO);
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && gameTime.isAfter(LocalDateTime.now())) {
             tipRepository.putTip(convert(tipTO));
         } else {
             throw new IllegalArgumentException("the game has already been played");
@@ -44,7 +48,8 @@ public class TipController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addTip(@RequestBody TipTO tipTO) {
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && tipTO.getGameTime().isAfter(LocalDateTime.now())) {
+        LocalDateTime gameTime = gameRepository.getGameTime(tipTO);
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && gameTime.isAfter(LocalDateTime.now())) {
             tipRepository.addTip(convert(tipTO));
         } else {
             throw new IllegalArgumentException("the game has already been played");
