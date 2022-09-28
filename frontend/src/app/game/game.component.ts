@@ -151,8 +151,8 @@ export class GameComponent implements OnInit {
 
   loadGames(): void {
     this.gameService.getKoGames().subscribe((koPhaseModels) => {
-      let sortedKoPhaseModel = koPhaseModels.sort((a,b) =>  b.games.length -a.games.length);
-      for (let sortedKoPhaseModel of koPhaseModels) {
+      let sortedKoPhaseModels = koPhaseModels.sort((a,b) =>  b.games.length - a.games.length);
+      for (let sortedKoPhaseModel of sortedKoPhaseModels) {
         let dataSource = new MatTableDataSource();
         dataSource.data = sortedKoPhaseModel.games;
         console.log(sortedKoPhaseModel)
@@ -161,7 +161,6 @@ export class GameComponent implements OnInit {
           phase: sortedKoPhaseModel.phaseOfGames.toString()
         }
         this.dataObjects.push(dataObject);
-
       }
     });
   }
