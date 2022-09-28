@@ -1,41 +1,63 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.TIP;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
-import static org.jooq.impl.DSL.nvl;
-import static org.jooq.impl.DSL.sum;
 
 @Repository
 public class UserRepository {
 
     private final DSLContext dslContext;
-    private final UserMapper userMapper;
 
     @Autowired
-    public UserRepository(DSLContext dslContext, UserMapper userMapper) {
+    public UserRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
-        this.userMapper = userMapper;
     }
 
     public List<User> getAllUser() {
 
         return dslContext.select(
-                        USER.USER_ID.as("id"),
-                        USER.FIRST_NAME.as("firstName"),
-                        USER.LAST_NAME.as("lastName"),
-                        USER.EMAIL.as("email"),
-                        USER.RANKING.as("ranking"),
-                        nvl(sum(TIP.POINTS),0).as("points"))
+                        USER.USER_ID,
+                        USER.FIRST_NAME,
+                        USER.LAST_NAME,
+                        USER.EMAIL,
+                        USER.POINTS)
                 .from(USER)
-                .leftJoin(TIP)
-                .on(USER.USER_ID.eq(TIP.USER_ID))
                 .groupBy(USER.USER_ID)
+                .orderBy(USER.POINTS.desc())
                 .fetchInto(User.class);
+    }
+
+    public User getForMail(String mail) {
+
+        return dslContext.select(
+                        USER.FIRST_NAME,
+                        USER.LAST_NAME,
+                        USER.USER_ID)
+                .from(USER)
+                .where(USER.EMAIL.eq(mail))
+                .fetchOne(this::convert);
+    }
+
+    public void updateUser(User user) {
+        
+        dslContext.update(USER)
+                .set(USER.POINTS, user.getPoints())
+                .where(USER.USER_ID.eq(user.getId()))
+                .execute();
+    }
+
+    private User convert(Record record) {
+        User user = new User();
+        user.setId(record.get(USER.USER_ID));
+        user.setFirstName(record.get(USER.FIRST_NAME));
+        user.setLastName(record.get(USER.LAST_NAME));
+
+        return user;
     }
 }

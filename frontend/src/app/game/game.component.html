@@ -1,5 +1,6 @@
-<div class="groups" *ngFor="let dataObject of dataObjects">
+<h1 style="text-align: center; margin-top: 3em">Spielplan</h1>
 
+<div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
     <h2>{{dataObject.phase}}</h2>
     <table mat-table [dataSource]="dataObject.dataSource" matSort matSortDisableClear matSortActive="gameTime"

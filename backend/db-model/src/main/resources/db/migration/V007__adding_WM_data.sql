@@ -155,9 +155,10 @@ INSERT INTO "USER"(USER_ID,
                    FIRST_NAME,
                    LAST_NAME,
                    EMAIL,
-                   RANKING,
+                   POINTS,
                    ADMINISTRATOR)
-VALUES (1, 'Joel', 'Vontobel', 'joel.vontobel@ergon.ch', 1, TRUE);
+VALUES (1, 'Joel', 'Vontobel', 'joel.vontobel@ergon.ch', 780, TRUE),
+       (2, 'Niculin', 'Steiner', 'niculin.steiner@ergon.ch', 34, TRUE);
 
 INSERT INTO TIP(USER_ID,
                 TIP_TEAM1,

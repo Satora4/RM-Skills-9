@@ -11,8 +11,11 @@
       <li><a routerLink="/users" routerLinkActive="active" ariaCurrentWhenActive="page">Rangliste</a></li>
       <li><a routerLink="/groups" routerLinkActive="active" ariaCurrentWhenActive="page">WM-Gruppen Rangliste</a></li>
       <li><a routerLink="/rules" routerLinkActive="active" ariaCurrentWhenActive="page">Regeln</a></li>
-      <li><a routerLink="/tips" routerLinkActive="active" ariaCurrentWhenActive="page">Meine Tipps</a></li>
-      <li class="right"><a href="about.asp">Login</a></li>
+      <li class="right" *ngIf="user"><a
+        href="https://www.ergon.ch/de/wir/mitarbeitende/{{this.user.firstName.toLowerCase()}}-{{this.user.lastName.toLowerCase()}}"
+        target="_blank">
+        {{this.user.firstName}} {{this.user.lastName}}
+      </a></li>
     </ul>
   </nav>
   <router-outlet></router-outlet>

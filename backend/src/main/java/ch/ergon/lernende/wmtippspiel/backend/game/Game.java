@@ -90,9 +90,9 @@ public class Game implements Comparable<LocalDateTime> {
 
         if (id != game.id) return false;
         if (!Objects.equals(gameTime, game.gameTime)) return false;
-        if (!gameLocation.equals(game.gameLocation)) return false;
-        if (!pointsTeam1.equals(game.pointsTeam1)) return false;
-        if (!pointsTeam2.equals(game.pointsTeam2)) return false;
+        if (!Objects.equals(gameLocation, game.gameLocation)) return false;
+        if (!Objects.equals(pointsTeam1, game.pointsTeam1)) return false;
+        if (!Objects.equals(pointsTeam2, game.pointsTeam2)) return false;
         if (!Objects.equals(team1, game.team1)) return false;
         if (!Objects.equals(team2, game.team2)) return false;
         return phase == game.phase;
@@ -102,9 +102,9 @@ public class Game implements Comparable<LocalDateTime> {
     public int hashCode() {
         int result = id;
         result = 31 * result + (gameTime != null ? gameTime.hashCode() : 0);
-        result = 31 * result + gameLocation.hashCode();
-        result = 31 * result + pointsTeam1.hashCode();
-        result = 31 * result + pointsTeam2.hashCode();
+        result = 31 * result + (gameLocation != null ? gameLocation.hashCode() : 0);
+        result = 31 * result + (pointsTeam1 != null ? pointsTeam1.hashCode() : 0);
+        result = 31 * result + (pointsTeam2 != null ? pointsTeam2.hashCode() : 0);
         result = 31 * result + (team1 != null ? team1.hashCode() : 0);
         result = 31 * result + (team2 != null ? team2.hashCode() : 0);
         result = 31 * result + (phase != null ? phase.hashCode() : 0);
