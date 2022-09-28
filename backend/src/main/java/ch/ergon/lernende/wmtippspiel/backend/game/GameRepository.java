@@ -1,7 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
-import ch.ergon.lernende.wmtippspiel.backend.tip.TipTO;
 import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
 import org.jooq.Condition;
@@ -11,7 +10,6 @@ import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -110,12 +108,12 @@ public class GameRepository {
                 .fetch(this::convert);
     }
 
-    public LocalDateTime getGameTime(TipTO tipTO) {
+    public Game getGame(int gameId) {
         return dslContext.select(GAME.GAME_TIME)
                 .from(GAME)
                 .join(TIP).on(TIP.GAME_ID.eq(GAME.GAME_ID))
-                .where(GAME.GAME_ID.eq(tipTO.getGameId()))
-                .fetchOne(this::convertGameTime);
+                .where(GAME.GAME_ID.eq(gameId))
+                .fetchOne(this::convertGame);
     }
 
     private Game convert(Record record) {
@@ -145,10 +143,10 @@ public class GameRepository {
         return game;
     }
 
-    private LocalDateTime convertGameTime(Record record) {
-        LocalDateTime gameTime;
-        gameTime = record.get(GAME.GAME_TIME);
+    private Game convertGame(Record record) {
+        Game game = new Game();
+        game.setGameTime(record.get(GAME.GAME_TIME));
 
-        return gameTime;
+        return game;
     }
 }

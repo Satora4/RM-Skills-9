@@ -26,16 +26,6 @@ public class TipController {
         this.gameRepository = gameRepository;
     }
 
-    @PatchMapping
-    public void updateTip(@RequestBody TipTO tipTO) {
-        LocalDateTime gameTime = gameRepository.getGameTime(tipTO);
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && gameTime.isAfter(LocalDateTime.now())) {
-            tipRepository.putTip(convert(tipTO));
-        } else {
-            throw new IllegalArgumentException("the game has already been played");
-        }
-    }
-
     @GetMapping
     public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
         if (userId != null) {
@@ -45,12 +35,28 @@ public class TipController {
         }
     }
 
+    @PatchMapping
+    public void updateTip(@RequestBody TipTO tipTO) {
+        checkTip(tipTO, "updateTip");
+    }
+
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addTip(@RequestBody TipTO tipTO) {
-        LocalDateTime gameTime = gameRepository.getGameTime(tipTO);
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && gameTime.isAfter(LocalDateTime.now())) {
-            tipRepository.addTip(convert(tipTO));
+        checkTip(tipTO, "addTip");
+
+    }
+
+    private void checkTip(TipTO tipTO, String tipType) {
+        Game game = gameRepository.getGame(tipTO.getGameId());
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now())) {
+            if (tipType.equals("addTip")) {
+                tipRepository.addTip(convert(tipTO));
+            } else if (tipType.equals("updateTip")) {
+                tipRepository.putTip(convert(tipTO));
+            } else {
+                throw new IllegalArgumentException(tipType + ": invalid tipType");
+            }
         } else {
             throw new IllegalArgumentException("the game has already been played");
         }
