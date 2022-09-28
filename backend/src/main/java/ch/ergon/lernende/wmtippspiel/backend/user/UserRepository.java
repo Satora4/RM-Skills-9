@@ -54,7 +54,7 @@ public class UserRepository {
 
     private User convert(Record record) {
         User user = new User();
-        user.setId(record.get(USER.USER_ID));
+        user.setUserId(record.get(USER.USER_ID));
         user.setFirstName(record.get(USER.FIRST_NAME));
         user.setLastName(record.get(USER.LAST_NAME));
 

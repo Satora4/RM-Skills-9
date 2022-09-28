@@ -32,7 +32,7 @@ public class UserController {
 
     private UserTO convert(User user) {
         UserTO userTO = new UserTO();
-        userTO.setId(user.getUserId());
+        userTO.setUserId(user.getUserId());
         userTO.setFirstName(user.getFirstName());
         userTO.setLastName(user.getLastName());
         userTO.setEmail(user.getEmail());
