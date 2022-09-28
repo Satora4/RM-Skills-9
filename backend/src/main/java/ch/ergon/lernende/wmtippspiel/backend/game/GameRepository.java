@@ -65,6 +65,14 @@ public class GameRepository {
         return gamesWithGroup;
     }
 
+    private GamesWithDate convertToDate(Record record) {
+        GamesWithDate gamesWithDate = new GamesWithDate();
+
+        gamesWithDate.setGroupDate(record.get(GAME.GAME_TIME).toLocalDate());
+        return gamesWithDate;
+    }
+
+
     private Game convertToGames(Record record) {
         return convert(record);
     }
@@ -79,6 +87,16 @@ public class GameRepository {
         return gamesWithGroups;
     }
 
+    private List<GamesWithDate> convertWithDate(Map<GamesWithDate, List<Game>> result) {
+        List<GamesWithDate> gamesWithDates = new ArrayList<>();
+        for (var record : result.entrySet()) {
+            GamesWithDate gamesWithDate = record.getKey();
+            gamesWithDate.setGames(record.getValue());
+            gamesWithDates.add(gamesWithDate);
+        }
+        return gamesWithDates;
+    }
+
     public List<Game> getGamesForKoPhase() {
         return getGamesWithCondition(GAME.PHASE.notEqual(Phase.GROUP_PHASE));
     }
@@ -88,6 +106,27 @@ public class GameRepository {
      */
     public List<Game> getGamesWithPoints() {
         return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
+    }
+
+    public List<GamesWithDate> getGamesInGroupPhaseWithOutGroupName() {
+        var result = dslContext.select(GAME.GAME_ID,
+                        GAME.GAME_TIME,
+                        GAME.GAME_LOCATION,
+                        GAME.GOALS_TEAM1,
+                        GAME.GOALS_TEAM2,
+                        GAME.PHASE,
+                        TEAM_ALIAS_1.TEAM_ID,
+                        TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_2.TEAM_ID,
+                        TEAM_ALIAS_2.COUNTRY)
+                .from(GAME)
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
+                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
+                .where(GAME.PHASE.eq(Phase.GROUP_PHASE))
+                .collect(groupingBy(this::convertToDate, mapping(this::convertToGames, toList())));
+
+        return convertWithDate(result);
     }
 
     private List<Game> getGamesWithCondition(Condition condition) {

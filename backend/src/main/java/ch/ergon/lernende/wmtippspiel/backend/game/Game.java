@@ -6,7 +6,7 @@ import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Game {
+public class Game implements Comparable<LocalDateTime> {
 
     private int id;
     private LocalDateTime gameTime;
@@ -123,5 +123,10 @@ public class Game {
                 ", team2=" + team2 +
                 ", phase=" + phase +
                 '}';
+    }
+
+    @Override
+    public int compareTo(LocalDateTime o) {
+        return this.gameTime.compareTo(o);
     }
 }
