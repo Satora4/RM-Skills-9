@@ -7,6 +7,15 @@ public class Team {
     private int id;
     private String country;
     private int points;
+    private String flag;
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 
     public int getId() {
         return id;
@@ -41,7 +50,8 @@ public class Team {
 
         if (id != team.id) return false;
         if (points != team.points) return false;
-        return Objects.equals(country, team.country);
+        if (!Objects.equals(country, team.country)) return false;
+        return Objects.equals(flag, team.flag);
     }
 
     @Override
@@ -49,6 +59,7 @@ public class Team {
         int result = id;
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + points;
+        result = 31 * result + (flag != null ? flag.hashCode() : 0);
         return result;
     }
 

@@ -77,6 +77,8 @@ public class GameController {
         gameTO.setPointsTeam2(game.getPointsTeam2());
         gameTO.setTeamCountry1(game.getTeam1().getCountry());
         gameTO.setTeamCountry2(game.getTeam2().getCountry());
+        gameTO.setFlagTeam1(game.getTeam1().getFlag());
+        gameTO.setFlagTeam2(game.getTeam2().getFlag());
         gameTO.setPhase(game.getPhase());
         return gameTO;
     }

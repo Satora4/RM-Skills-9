@@ -25,7 +25,7 @@ export interface DialogData {
 export class GameComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource();
 
-  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
@@ -149,6 +149,7 @@ export class GameComponent implements AfterViewInit, OnInit {
   loadGames(): void {
     this.gameService.getGames().subscribe((games) => {
       this.dataSource.data = games;
+      console.log(games);
     });
   }
 }

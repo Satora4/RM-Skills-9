@@ -43,8 +43,10 @@ public class GameRepository {
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_1.FLAG,
                         TEAM_ALIAS_2.TEAM_ID,
                         TEAM_ALIAS_2.COUNTRY,
+                        TEAM_ALIAS_2.FLAG,
                         GROUP.NAME,
                         GROUP.GROUP_ID)
                 .from(GAME)
@@ -99,8 +101,10 @@ public class GameRepository {
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_1.FLAG,
                         TEAM_ALIAS_2.TEAM_ID,
-                        TEAM_ALIAS_2.COUNTRY)
+                        TEAM_ALIAS_2.COUNTRY,
+                        TEAM_ALIAS_2.FLAG)
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
@@ -126,11 +130,13 @@ public class GameRepository {
         Team team1 = new Team();
         team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
         team1.setCountry(record.get(TEAM_ALIAS_1.COUNTRY));
+        team1.setFlag(record.get(TEAM_ALIAS_1.FLAG));
         game.setTeam1(team1);
 
         Team team2 = new Team();
         team2.setId(record.get(TEAM_ALIAS_2.TEAM_ID));
         team2.setCountry(record.get(TEAM_ALIAS_2.COUNTRY));
+        team2.setFlag(record.get(TEAM_ALIAS_2.FLAG));
         game.setTeam2(team2);
         return game;
     }

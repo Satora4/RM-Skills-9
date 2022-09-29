@@ -13,6 +13,8 @@ public class GameTO {
     private Integer pointsTeam2;
     private String teamCountry1;
     private String teamCountry2;
+    private String flagTeam1;
+    private String flagTeam2;
     private Phase phase;
 
     public int getId() {
@@ -77,5 +79,21 @@ public class GameTO {
 
     public void setPhase(Phase phase) {
         this.phase = phase;
+    }
+
+    public String getFlagTeam1() {
+        return flagTeam1;
+    }
+
+    public void setFlagTeam1(String flagTeam1) {
+        this.flagTeam1 = flagTeam1;
+    }
+
+    public String getFlagTeam2() {
+        return flagTeam2;
+    }
+
+    public void setFlagTeam2(String flagTeam2) {
+        this.flagTeam2 = flagTeam2;
     }
 }
