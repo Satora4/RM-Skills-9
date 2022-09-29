@@ -25,28 +25,30 @@ import {MatInputModule} from "@angular/material/input";
 import { PopUpComponent } from './pop-up/pop-up.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, PopUpComponent],
-    imports: [
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        MatButtonModule,
-        MatCardModule,
-        MatDividerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatNativeDateModule,
-        MatSortModule,
-        MatTableModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatDialogModule,
-        MatPaginatorModule,
-    ],
+  imports: [
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatNativeDateModule,
+    MatSortModule,
+    MatTableModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    MatGridListModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
