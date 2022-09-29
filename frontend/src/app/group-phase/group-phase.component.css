@@ -1,5 +1,9 @@
-mat-button-toggle-group{
-  margin-left: 5em;
-  margin-top: 3em;
+.toggle{
+  margin-right: 45%;
+  margin-left: 45%;
+}
 
+h1{
+  text-align: center;
+  margin-top: 2em;
 }
