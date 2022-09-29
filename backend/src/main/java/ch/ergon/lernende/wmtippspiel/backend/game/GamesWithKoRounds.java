@@ -9,41 +9,19 @@ import java.util.Objects;
 
 public class GamesWithKoRounds {
 
-
-    private String phase;
+    private Phase phase;
     private List<Game> games;
 
     public GamesWithKoRounds() {
         games = new ArrayList<>();
     }
 
-    public String getPhaseOfGames() {
+    public Phase getPhaseOfGames() {
         return phase;
     }
 
     public void setPhase(Phase phase) {
-        this.phase = setPhaseToString(phase);
-    }
-
-
-    public String setPhaseToString(Phase phase) {
-        switch (phase) {
-            case FINAL -> {
-                return "Final";
-            }
-            case SEMI_FINAL -> {
-                return "Halbfinal";
-            }
-            case ROUND_OF_16 -> {
-                return "Achtelfinal";
-            }
-            case QUARTER_FINAL -> {
-                return "Viertelfinal";
-            }
-            default -> {
-                return "phase";
-            }
-        }
+        this.phase = phase;
     }
 
     public List<Game> getGames() {
