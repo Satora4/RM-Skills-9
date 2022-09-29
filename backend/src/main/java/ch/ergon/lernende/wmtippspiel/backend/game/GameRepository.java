@@ -79,9 +79,6 @@ public class GameRepository {
         return gamesWithKoRounds;
     }
 
-
-
-
     private Game convertToGames(Record record) {
         return convert(record);
     }
@@ -115,8 +112,7 @@ public class GameRepository {
         }
         return gamesWithKoRounds;
     }
-
-
+    
     public List<GamesWithKoRounds> getGamesForKoPhase() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
