@@ -1,5 +1,14 @@
 <h1 style="text-align: center; margin-top: 3em">Rangliste</h1>
 
+
+
+
+
+<mat-form-field appearance="standard" class="list">
+  <mat-label style="color: black">Suchen</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Niculin"  #input>
+</mat-form-field>
+
 <div class="list">
   <table mat-table [dataSource]="userDataSource" matSort matSortDisableClear matSortActive="gameTime"
          matSortDirection="asc">
@@ -26,6 +35,11 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
   </table>
+
 </div>
 
