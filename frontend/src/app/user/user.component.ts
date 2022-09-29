@@ -64,7 +64,6 @@ export class UserComponent implements OnInit, AfterViewInit {
   private getUser(){
     this.UserService.getUserData().subscribe( (user) => {
       this.user = user;
-      console.log(this.user);
     })
   }
 }

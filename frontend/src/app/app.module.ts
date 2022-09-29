@@ -25,6 +25,7 @@ import {MatInputModule} from "@angular/material/input";
 import { PopUpComponent } from './pop-up/pop-up.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatGridListModule} from "@angular/material/grid-list";
 import {GroupPhaseComponent} from "./group-phase/group-phase.component";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
@@ -54,6 +55,8 @@ import { GameSortDateComponent } from './game-sort-date/game-sort-date.component
         MatMenuModule,
         MatButtonToggleModule,
         MatPaginatorModule,
+      MatGridListModule,
+
     ],
   providers: [],
   bootstrap: [AppComponent],
