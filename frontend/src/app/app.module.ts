@@ -24,6 +24,7 @@ import { UserComponent } from './user/user.component';
 import {MatInputModule} from "@angular/material/input";
 import { PopUpComponent } from './pop-up/pop-up.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, PopUpComponent],
@@ -44,6 +45,7 @@ import {MatDialogModule} from "@angular/material/dialog";
         ReactiveFormsModule,
         MatInputModule,
         MatDialogModule,
+        MatPaginatorModule,
     ],
   providers: [],
   bootstrap: [AppComponent],

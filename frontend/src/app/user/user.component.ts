@@ -1,19 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
-import { User } from './user.model';
-import { UserService } from './user.service';
+import {User} from './user.model';
+import {UserService} from './user.service';
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterViewInit {
   private users: User[] = [];
+  public user: User | any;
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
+
+
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private UserService: UserService) {
@@ -24,6 +28,7 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.loadUser();
   }
 
@@ -42,12 +47,25 @@ export class UserComponent implements OnInit {
     }
     users[0].ranking = 1;
     for (let i = 1; i < users.length; i++) {
-        if (users[i].points === users[i - 1].points) {
-          users[i].ranking = users[i - 1].ranking;
-        } else {
-          users[i].ranking = i + 1;
-        }
+      if (users[i].points === users[i - 1].points) {
+        users[i].ranking = users[i - 1].ranking;
+      } else {
+        users[i].ranking = i + 1;
+      }
     }
     return users;
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.userDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  private getUser() {
+    this.UserService.getUserData().subscribe((user) => {
+      this.user = user;
+      console.log(this.user);
+    })
+  }
+
 }
