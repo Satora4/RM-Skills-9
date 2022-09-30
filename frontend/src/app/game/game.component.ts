@@ -16,7 +16,6 @@ import {
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
-import {Event} from "@angular/router";
 
 
 export interface DialogData {
