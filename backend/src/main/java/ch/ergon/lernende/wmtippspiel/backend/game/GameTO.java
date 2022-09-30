@@ -3,54 +3,48 @@ package ch.ergon.lernende.wmtippspiel.backend.game;
 import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class GameTO {
 
-    private int id;
-    private String groupName;
-    private Phase phase;
-    private LocalDate groupDate;
-    private List<Game> games;
+    private final List<Game> games;
+    private final LocalDate groupDate;
+    private final Phase phase;
+    private final String groupName;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
+    private GameTO(List<Game> games, LocalDate groupDate, Phase phase, String groupName) {
+        this.games = games;
+        this.groupDate = groupDate;
+        this.phase = phase;
         this.groupName = groupName;
     }
 
-    public Phase getPhase() {
-        return phase;
+    public static GameTO gamesWithDate(List<Game> games, LocalDate playDate) {
+        return new GameTO(games, playDate, null, null);
     }
 
-    public void setPhase(Phase phase) {
-        this.phase = phase;
+    public static GameTO gamesWithKoPhases(List<Game> games, Phase phase) {
+        return new GameTO(games, null, phase, null);
     }
 
-    public LocalDate getGroupDate() {
-        return groupDate;
-    }
 
-    public void setGroupDate(LocalDate groupDate) {
-        this.groupDate = groupDate;
+    public static GameTO gamesWithGroup(List<Game> games, String groupName){
+        return new GameTO(games, null,null,groupName);
     }
 
     public List<Game> getGames() {
         return games;
     }
 
-    public void setGames(List<Game> games) {
-        this.games = games;
+    public LocalDate getGroupDate() {
+        return groupDate;
+    }
+
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public String getGroupName() {
+        return groupName;
     }
 }

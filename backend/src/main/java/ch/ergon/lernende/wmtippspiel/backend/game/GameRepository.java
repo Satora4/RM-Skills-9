@@ -6,15 +6,19 @@ import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.text.Collator;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import static ch.ergon.lernende.wmtippspiel.backend.game.Games.*;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 
 @Repository
@@ -30,11 +34,7 @@ public class GameRepository {
         this.dslContext = dslContext;
     }
 
-    public List<Game> getAllGames() {
-        return getGamesWithCondition(DSL.noCondition());
-    }
-
-    public List<GamesWithGroup> getGamesForGroups() {
+    public List<Games> getGamesForGroups() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
@@ -53,95 +53,12 @@ public class GameRepository {
                 .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(GROUP).on(GROUP.GROUP_ID.eq(TEAM_TO_GROUP.GROUP_ID))
                 .where(GAME.PHASE.eq(Phase.GROUP_PHASE))
-                .collect(groupingBy(this::convertToGroup, mapping(this::convertToGames, toList())));
+                .collect(groupingBy(record -> record.get(GROUP.NAME), mapping(this::convert, toList())));
 
-        return convert(result);
+        return convertGroup(result);
     }
 
-    private GamesWithGroup convertToGroup(Record record) {
-        GamesWithGroup gamesWithGroup = new GamesWithGroup();
-
-        gamesWithGroup.setGroupName(record.get(GROUP.NAME));
-        return gamesWithGroup;
-    }
-
-    private GamesWithDate convertToDate(Record record) {
-        GamesWithDate gamesWithDate = new GamesWithDate();
-
-        gamesWithDate.setGroupDate(record.get(GAME.GAME_TIME).toLocalDate());
-        return gamesWithDate;
-    }
-
-    private GamesWithKoRounds convertToPhase(Record record) {
-        GamesWithKoRounds gamesWithKoRounds = new GamesWithKoRounds();
-
-        gamesWithKoRounds.setPhase(record.get(GAME.PHASE));
-        return gamesWithKoRounds;
-    }
-
-    private Game convertToGames(Record record) {
-        return convert(record);
-    }
-
-    private List<GamesWithGroup> convert(Map<GamesWithGroup, List<Game>> result) {
-        List<GamesWithGroup> gamesWithGroups = new ArrayList<>();
-        for (var record : result.entrySet()) {
-            GamesWithGroup gamesWithGroup = record.getKey();
-            gamesWithGroup.setGames(record.getValue());
-            gamesWithGroups.add(gamesWithGroup);
-        }
-        return gamesWithGroups;
-    }
-
-    private List<GamesWithDate> convertWithDate(Map<GamesWithDate, List<Game>> result) {
-        List<GamesWithDate> gamesWithDates = new ArrayList<>();
-        for (var record : result.entrySet()) {
-            GamesWithDate gamesWithDate = record.getKey();
-            gamesWithDate.setGames(record.getValue());
-            gamesWithDates.add(gamesWithDate);
-        }
-        return gamesWithDates;
-    }
-
-    private List<GamesWithKoRounds> convertWithPhase(Map<GamesWithKoRounds, List<Game>> result) {
-        List<GamesWithKoRounds> gamesWithKoRounds = new ArrayList<>();
-        for (var record : result.entrySet()) {
-            GamesWithKoRounds gamesWithKoRound = record.getKey();
-            gamesWithKoRound.setGames(record.getValue());
-            gamesWithKoRounds.add(gamesWithKoRound);
-        }
-        return gamesWithKoRounds;
-    }
-    
-    public List<GamesWithKoRounds> getGamesForKoPhase() {
-        var result = dslContext.select(GAME.GAME_ID,
-                        GAME.GAME_TIME,
-                        GAME.GAME_LOCATION,
-                        GAME.GOALS_TEAM1,
-                        GAME.GOALS_TEAM2,
-                        GAME.PHASE,
-                        TEAM_ALIAS_1.TEAM_ID,
-                        TEAM_ALIAS_1.COUNTRY,
-                        TEAM_ALIAS_2.TEAM_ID,
-                        TEAM_ALIAS_2.COUNTRY)
-                .from(GAME)
-                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
-                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
-                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
-                .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
-                .collect(groupingBy(this::convertToPhase, mapping(this::convertToGames, toList())));
-
-        return convertWithPhase(result);
-    }
-
-    /**
-     * returns all games they're already done, means where the points aren't NULL
-     */
-    public List<Game> getGamesWithPoints() {
-        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
-    }
-
-    public List<GamesWithDate> getGamesInGroupPhaseWithOutGroupName() {
+    public List<Games> getGamesInGroupPhaseWithOutGroupName() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
@@ -157,9 +74,9 @@ public class GameRepository {
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
                 .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
                 .where(GAME.PHASE.eq(Phase.GROUP_PHASE))
-                .collect(groupingBy(this::convertToDate, mapping(this::convertToGames, toList())));
+                .collect(groupingBy(record -> record.get(GAME.GAME_TIME).toLocalDate(), mapping(this::convert, toList())));
 
-        return convertWithDate(result);
+        return convertDate(result);
     }
 
     private List<Game> getGamesWithCondition(Condition condition) {
@@ -180,6 +97,34 @@ public class GameRepository {
                 .fetch(this::convert);
     }
 
+    public List<Games> getGamesForKoPhase() {
+        var result = dslContext.select(GAME.GAME_ID,
+                        GAME.GAME_TIME,
+                        GAME.GAME_LOCATION,
+                        GAME.GOALS_TEAM1,
+                        GAME.GOALS_TEAM2,
+                        GAME.PHASE,
+                        TEAM_ALIAS_1.TEAM_ID,
+                        TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_2.TEAM_ID,
+                        TEAM_ALIAS_2.COUNTRY)
+                .from(GAME)
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
+                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
+                .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
+                .collect(groupingBy(record -> record.get(GAME.PHASE), mapping(this::convert, toList())));
+
+        return convertPhase(result);
+    }
+
+    /**
+     * returns all games they're already done, means where the points aren't NULL
+     */
+    public List<Game> getGamesWithPoints() {
+        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
+    }
+
     private Game convert(Record record) {
         Game game = new Game();
 
@@ -194,16 +139,37 @@ public class GameRepository {
             game.setPointsTeam2(record.get(GAME.GOALS_TEAM2));
         }
         game.setPhase(record.get(GAME.PHASE));
-
-        Team team1 = new Team();
-        team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
-        team1.setCountry(record.get(TEAM_ALIAS_1.COUNTRY));
-        game.setTeam1(team1);
-
-        Team team2 = new Team();
-        team2.setId(record.get(TEAM_ALIAS_2.TEAM_ID));
-        team2.setCountry(record.get(TEAM_ALIAS_2.COUNTRY));
-        game.setTeam2(team2);
+        game.setTeam1(createTeam(record, TEAM_ALIAS_1));
+        game.setTeam2(createTeam(record, TEAM_ALIAS_2));
         return game;
+    }
+
+    private static Team createTeam(Record record, TeamTable teamAlias) {
+        Team team1 = new Team();
+        team1.setId(record.get(teamAlias.TEAM_ID));
+        team1.setCountry(record.get(teamAlias.COUNTRY));
+        return team1;
+    }
+
+    private static List<Games> convertGroup(Map<String, List<Game>> result) {
+        return result.entrySet().stream()
+                .map(record -> gamesWithGroup(sortedGames(record.getValue()), record.getKey()))
+                .toList();
+    }
+
+    private static List<Games> convertDate(Map<LocalDate, List<Game>> result) {
+        return result.entrySet().stream()
+                .map(record -> gamesWithDate(sortedGames(record.getValue()), record.getKey()))
+                .toList();
+    }
+
+    private static List<Games> convertPhase(Map<Phase, List<Game>> result) {
+        return result.entrySet().stream()
+                .map(record -> gamesWithKoPhases(sortedGames(record.getValue()), record.getKey()))
+                .toList();
+    }
+
+    private static List<Game> sortedGames(List<Game> record) {
+        return record.stream().sorted(comparing(Game::getGameTime)).toList();
     }
 }

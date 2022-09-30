@@ -11,7 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static ch.ergon.lernende.wmtippspiel.backend.game.GameTO.*;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.*;
 
 @RestController
 @RequestMapping("game")
@@ -29,52 +32,30 @@ public class GameController {
     @GetMapping
     public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase) {
         return switch (phase) {
-            case KO_PHASE -> convertToGamesWithKoPhase(gameRepository.getGamesForKoPhase());
-            case GROUP_PHASE -> convertToGamesWithGroups(gameRepository.getGamesForGroups());
-            case GROUP_PHASE_ORDER_DATE ->
-                    convertToGamesWithDate(gameRepository.getGamesInGroupPhaseWithOutGroupName());
+            case GROUP_PHASE -> convertToGroupTo(gameRepository.getGamesForGroups());
+            case GROUP_PHASE_ORDER_DATE -> convertToDateTo(gameRepository.getGamesInGroupPhaseWithOutGroupName());
+            case KO_PHASE -> convertToKoTo(gameRepository.getGamesForKoPhase());
             default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
         };
     }
 
-    private List<GameTO> convertToGamesWithGroups(Collection<GamesWithGroup> gamesWithGroups) {
-        return gamesWithGroups.stream().map(this::convert).collect(Collectors.toList());
+    private static List<GameTO> convertToGroupTo(Collection<Games> gamesWithGroups) {
+        return gamesWithGroups.stream()
+                .map(gamesWithGroup -> gamesWithGroup(gamesWithGroup.getGames(), gamesWithGroup.getGroupName().orElseThrow()))
+                .sorted(comparing(GameTO::getGroupName))
+                .collect(toList());
     }
 
-    private List<GameTO> convertToGamesWithDate(Collection<GamesWithDate> gamesWithDates) {
+    private static List<GameTO> convertToDateTo(Collection<Games> gamesWithDates) {
         return gamesWithDates.stream()
-                .sorted(Comparator.comparing(GamesWithDate::getGroupDate))
-                .map(this::convert)
-                .collect(Collectors.toList());
+                .map(gamesWithGroup -> gamesWithDate(gamesWithGroup.getGames(), gamesWithGroup.getDate().orElseThrow()))
+                .sorted(comparing(GameTO::getGroupDate))
+                .collect(toList());
     }
 
-    private List<GameTO> convertToGamesWithKoPhase(Collection<GamesWithKoRounds> gamesWithKoRounds) {
+    private static List<GameTO> convertToKoTo(Collection<Games> gamesWithKoRounds) {
         return gamesWithKoRounds.stream()
-                .map(this::convert)
-                .collect(Collectors.toList());
-    }
-
-    private GameTO convert(GamesWithGroup gamesWithGroup) {
-        GameTO gamesWithGroupTO = new GameTO();
-
-        gamesWithGroupTO.setGroupName(gamesWithGroup.getGroupName());
-        gamesWithGroupTO.setGames(gamesWithGroup.getGames());
-        return gamesWithGroupTO;
-    }
-
-    private GameTO convert(GamesWithDate gamesWithDate) {
-        GameTO gamesWithGroupTO = new GameTO();
-
-        gamesWithGroupTO.setGroupDate(gamesWithDate.getGroupDate());
-        gamesWithGroupTO.setGames(gamesWithDate.getGames().stream().sorted(Comparator.comparing(Game::getGameTime)).toList());
-        return gamesWithGroupTO;
-    }
-
-    private GameTO convert(GamesWithKoRounds gamesWithKoRounds) {
-        GameTO gamesWithKoRoundsTO = new GameTO();
-
-        gamesWithKoRoundsTO.setPhase(gamesWithKoRounds.getPhaseOfGames());
-        gamesWithKoRoundsTO.setGames(gamesWithKoRounds.getGames().stream().sorted(Comparator.comparing(Game::getGameTime)).toList());
-        return gamesWithKoRoundsTO;
+                .map(gamesWithGroup -> gamesWithKoPhases(gamesWithGroup.getGames(), gamesWithGroup.getPhase().orElseThrow()))
+                .collect(toList());
     }
 }
