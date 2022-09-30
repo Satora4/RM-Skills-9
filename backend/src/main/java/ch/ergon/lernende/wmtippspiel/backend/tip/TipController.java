@@ -37,7 +37,7 @@ public class TipController {
 
     @PatchMapping
     public HttpStatus updateTip(@RequestBody TipTO tipTO) {
-        if (isValidTip(tipTO, "updateTip")) {
+        if (isValidTip(tipTO)) {
             tipRepository.putTip(convert(tipTO));
             return HttpStatus.OK;
         } else {
@@ -47,7 +47,7 @@ public class TipController {
 
     @PostMapping
     public HttpStatus addTip(@RequestBody TipTO tipTO) {
-        if (isValidTip(tipTO, "addTip")) {
+        if (isValidTip(tipTO)) {
             tipRepository.addTip(convert(tipTO));
             return HttpStatus.CREATED;
         } else {
@@ -55,12 +55,10 @@ public class TipController {
         }
     }
 
-    private boolean isValidTip(TipTO tipTO, String tipType) {
+    private boolean isValidTip(TipTO tipTO) {
         Game game = gameRepository.getGame(tipTO.getGameId());
         if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now())) {
-            if (tipType.equals("addTip")) {
-                return true;
-            } else return tipType.equals("updateTip");
+            return true;
         } else {
             throw new IllegalArgumentException("the game has already been played");
         }
