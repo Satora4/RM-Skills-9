@@ -1,9 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.game;
 
-import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,10 +10,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
+import static ch.ergon.lernende.wmtippspiel.backend.game.GamesTO.*;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.*;
 
 @RestController
 @RequestMapping("game")
@@ -23,6 +21,7 @@ public class GameController {
     private final GameRepository gameRepository;
     private static final String GROUP_PHASE = "group";
     private static final String KO_PHASE = "ko";
+    private static final String GROUP_PHASE_ORDER_DATE = "group_order_date";
 
     @Autowired
     public GameController(GameRepository gameRepository) {
@@ -30,56 +29,32 @@ public class GameController {
     }
 
     @GetMapping
-    public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase, Authentication authentication) {
-        IamUser user = (IamUser) authentication.getPrincipal();
-        List<String> roles = authentication.getAuthorities().stream().map(Object::toString).toList();
-        System.out.printf("Hello, %s / %s%n", user, roles);
-        if (phase == null) {
-            return convert(gameRepository.getAllGames());
-        } else if (phase.equals(KO_PHASE)) {
-            return convert(gameRepository.getGamesForKoPhase());
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
-        }
+    public List<GamesTO> getAllGames(@RequestParam(required = false, name = "phase") String phase) {
+        return switch (phase) {
+            case GROUP_PHASE -> convertToGroupTo(gameRepository.getGamesForGroups());
+            case GROUP_PHASE_ORDER_DATE -> convertToDateTo(gameRepository.getGamesInGroupPhaseWithOutGroupName());
+            case KO_PHASE -> convertToKoTo(gameRepository.getGamesForKoPhase());
+            default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
+        };
     }
 
-    @GetMapping("phase")
-    public List<GamesWithGroupTO> getGamesForGroups(@RequestParam(name = "phase") String phase) {
-        if (Objects.equals(phase, GROUP_PHASE)) {
-            return convertToGamesWithGroups(gameRepository.getGamesForGroups());
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
-        }
+    private static List<GamesTO> convertToGroupTo(Collection<Games> gamesWithGroups) {
+        return gamesWithGroups.stream()
+                .map(gamesWithGroup -> gamesWithGroup(gamesWithGroup.getGames(), gamesWithGroup.getGroupName().orElseThrow()))
+                .sorted(comparing(GamesTO::getGroupName))
+                .collect(toList());
     }
 
-    private GamesWithGroupTO convert(GamesWithGroup gamesWithGroup) {
-        GamesWithGroupTO gamesWithGroupTO = new GamesWithGroupTO();
-
-        gamesWithGroupTO.setGroupName(gamesWithGroup.getGroupName());
-        gamesWithGroupTO.setGames(gamesWithGroup.getGames());
-        return gamesWithGroupTO;
+    private static List<GamesTO> convertToDateTo(Collection<Games> gamesWithDates) {
+        return gamesWithDates.stream()
+                .map(gamesWithGroup -> gamesWithDate(gamesWithGroup.getGames(), gamesWithGroup.getDate().orElseThrow()))
+                .sorted(comparing(GamesTO::getGroupDate))
+                .collect(toList());
     }
 
-    private List<GamesWithGroupTO> convertToGamesWithGroups(Collection<GamesWithGroup> gamesWithGroups) {
-        return gamesWithGroups.stream().map(this::convert).collect(Collectors.toList());
-    }
-
-    private List<GameTO> convert(Collection<Game> games) {
-        return games.stream().map(this::convert).collect(toList());
-    }
-
-    private GameTO convert(Game game) {
-        GameTO gameTO = new GameTO();
-        gameTO.setId(game.getId());
-        gameTO.setGameTime(game.getGameTime());
-        gameTO.setGameLocation(game.getGameLocation());
-        gameTO.setPointsTeam1(game.getPointsTeam1());
-        gameTO.setPointsTeam2(game.getPointsTeam2());
-        gameTO.setTeamCountry1(game.getTeam1().getCountry());
-        gameTO.setTeamCountry2(game.getTeam2().getCountry());
-        gameTO.setFlagTeam1(game.getTeam1().getFlag());
-        gameTO.setFlagTeam2(game.getTeam2().getFlag());
-        gameTO.setPhase(game.getPhase());
-        return gameTO;
+    private static List<GamesTO> convertToKoTo(Collection<Games> gamesWithKoRounds) {
+        return gamesWithKoRounds.stream()
+                .map(gamesWithGroup -> gamesWithKoPhases(gamesWithGroup.getGames(), gamesWithGroup.getPhase().orElseThrow()))
+                .collect(toList());
     }
 }
