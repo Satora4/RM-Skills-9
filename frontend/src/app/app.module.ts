@@ -38,6 +38,7 @@ import {MatDialogModule} from "@angular/material/dialog";
         MatDividerModule,
         MatFormFieldModule,
         MatIconModule,
+        MatInputModule,
         MatNativeDateModule,
         MatSortModule,
         MatTableModule,

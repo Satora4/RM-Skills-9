@@ -8,6 +8,15 @@ import {TipService} from "../tip/tip.service";
 import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators
+} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {GameTableModel} from "./game.table.model";
+import {Event} from "@angular/router";
 
 
 export interface DialogData {
@@ -15,6 +24,13 @@ export interface DialogData {
   tip2: number;
   country1: string;
   country2: string;
+}
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
 }
 
 @Component({
@@ -30,6 +46,9 @@ export class GameComponent implements AfterViewInit, OnInit {
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public readonly dash = '—';
+  public formControlsTip1: FormControl[] = [];
+  public formControlsTip2: FormControl[] = [];
+  matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
 
@@ -148,8 +167,27 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   loadGames(): void {
     this.gameService.getGames().subscribe((games) => {
-      this.dataSource.data = games;
+      this.dataSource.data = this.loadGameTableModel(games);
     });
+  }
+
+  private loadGameTableModel(games: Game[]): GameTableModel[] {
+    const gameTableModel: GameTableModel[] = [];
+    games.forEach(game => {
+      this.formControlsTip1.push(this.initFormControl());
+      this.formControlsTip2.push(this.initFormControl());
+
+      gameTableModel.push({
+        game: game,
+        formControlTip1: this.initFormControl(),
+        formControlTip2: this.initFormControl()
+      });
+    })
+    return gameTableModel;
+  }
+
+  private initFormControl(): FormControl {
+    return new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]);
   }
 }
 
