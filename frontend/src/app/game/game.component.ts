@@ -121,15 +121,15 @@ export class GameComponent implements AfterViewInit, OnInit {
       pointsTeam2: game.pointsTeam2,
       gameTime: game.gameTime
     }
-    let requestToggle: boolean = false;
+    let tipExists: boolean = false;
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == tip.gameId) {
-        requestToggle = true;
+        tipExists = true;
         break;
       }
     }
 
-    if (requestToggle) {
+    if (tipExists) {
       this.updateTip(tip)
     } else {
       this.addTip(tip);
