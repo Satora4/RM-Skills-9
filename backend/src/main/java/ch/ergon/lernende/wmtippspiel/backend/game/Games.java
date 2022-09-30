@@ -32,7 +32,6 @@ public class Games {
         return new Games(games, null, null, groupName);
     }
 
-
     public List<Game> getGames() {
         return games;
     }

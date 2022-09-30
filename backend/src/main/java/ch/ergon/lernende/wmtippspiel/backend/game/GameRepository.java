@@ -33,7 +33,6 @@ public class GameRepository {
     public GameRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }
-
     public List<Games> getGamesForGroups() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,

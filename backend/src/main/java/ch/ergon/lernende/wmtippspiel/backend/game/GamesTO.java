@@ -5,31 +5,31 @@ import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import java.time.LocalDate;
 import java.util.List;
 
-public class GameTO {
+public class GamesTO {
 
     private final List<Game> games;
     private final LocalDate groupDate;
     private final Phase phase;
     private final String groupName;
 
-    private GameTO(List<Game> games, LocalDate groupDate, Phase phase, String groupName) {
+    private GamesTO(List<Game> games, LocalDate groupDate, Phase phase, String groupName) {
         this.games = games;
         this.groupDate = groupDate;
         this.phase = phase;
         this.groupName = groupName;
     }
 
-    public static GameTO gamesWithDate(List<Game> games, LocalDate playDate) {
-        return new GameTO(games, playDate, null, null);
+    public static GamesTO gamesWithDate(List<Game> games, LocalDate playDate) {
+        return new GamesTO(games, playDate, null, null);
     }
 
-    public static GameTO gamesWithKoPhases(List<Game> games, Phase phase) {
-        return new GameTO(games, null, phase, null);
+    public static GamesTO gamesWithKoPhases(List<Game> games, Phase phase) {
+        return new GamesTO(games, null, phase, null);
     }
 
 
-    public static GameTO gamesWithGroup(List<Game> games, String groupName){
-        return new GameTO(games, null,null,groupName);
+    public static GamesTO gamesWithGroup(List<Game> games, String groupName){
+        return new GamesTO(games, null,null,groupName);
     }
 
     public List<Game> getGames() {

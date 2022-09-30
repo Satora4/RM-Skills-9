@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 
-import static ch.ergon.lernende.wmtippspiel.backend.game.GameTO.*;
+import static ch.ergon.lernende.wmtippspiel.backend.game.GamesTO.*;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 
@@ -30,7 +29,7 @@ public class GameController {
     }
 
     @GetMapping
-    public List<GameTO> getAllGames(@RequestParam(required = false, name = "phase") String phase) {
+    public List<GamesTO> getAllGames(@RequestParam(required = false, name = "phase") String phase) {
         return switch (phase) {
             case GROUP_PHASE -> convertToGroupTo(gameRepository.getGamesForGroups());
             case GROUP_PHASE_ORDER_DATE -> convertToDateTo(gameRepository.getGamesInGroupPhaseWithOutGroupName());
@@ -39,21 +38,21 @@ public class GameController {
         };
     }
 
-    private static List<GameTO> convertToGroupTo(Collection<Games> gamesWithGroups) {
+    private static List<GamesTO> convertToGroupTo(Collection<Games> gamesWithGroups) {
         return gamesWithGroups.stream()
                 .map(gamesWithGroup -> gamesWithGroup(gamesWithGroup.getGames(), gamesWithGroup.getGroupName().orElseThrow()))
-                .sorted(comparing(GameTO::getGroupName))
+                .sorted(comparing(GamesTO::getGroupName))
                 .collect(toList());
     }
 
-    private static List<GameTO> convertToDateTo(Collection<Games> gamesWithDates) {
+    private static List<GamesTO> convertToDateTo(Collection<Games> gamesWithDates) {
         return gamesWithDates.stream()
                 .map(gamesWithGroup -> gamesWithDate(gamesWithGroup.getGames(), gamesWithGroup.getDate().orElseThrow()))
-                .sorted(comparing(GameTO::getGroupDate))
+                .sorted(comparing(GamesTO::getGroupDate))
                 .collect(toList());
     }
 
-    private static List<GameTO> convertToKoTo(Collection<Games> gamesWithKoRounds) {
+    private static List<GamesTO> convertToKoTo(Collection<Games> gamesWithKoRounds) {
         return gamesWithKoRounds.stream()
                 .map(gamesWithGroup -> gamesWithKoPhases(gamesWithGroup.getGames(), gamesWithGroup.getPhase().orElseThrow()))
                 .collect(toList());

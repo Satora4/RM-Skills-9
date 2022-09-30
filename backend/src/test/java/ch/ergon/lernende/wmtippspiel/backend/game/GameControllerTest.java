@@ -8,7 +8,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +25,8 @@ class GameControllerTest {
 
     @Test
     void testGameDataResponse() {
-        ResponseEntity<GameTO[]> games = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "game", GameTO[].class);
-        List<GameTO> gameData = List.of(Objects.requireNonNull(games.getBody()));
+        ResponseEntity<GamesTO[]> games = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "game", GamesTO[].class);
+        List<GamesTO> gameData = List.of(Objects.requireNonNull(games.getBody()));
 
         assertTrue(gameData.size() >= 1);
     }
