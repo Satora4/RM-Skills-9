@@ -125,22 +125,23 @@ export class GameComponent implements AfterViewInit, OnInit {
     }
 
     if (requestToggle) {
-      this.updateTip(tip)
+      this.updateTip(tip, game)
     } else {
-      this.addTip(tip);
+      this.addTip(tip, game);
     }
   }
 
-  public tipsAllowed(gameTime: any): boolean {
-    if (Date.parse(gameTime.toString()) > Date.now()) {
+  public isTipAllowed(game: Game): boolean {
+    if (Date.parse(game.gameTime.toString()) > Date.now() ||
+        (game.pointsTeam1 && game.pointsTeam2) === null) {
       return true;
     } else {
       return false;
     }
   }
 
-  private addTip(tip: Tip){
-    if (this.tipsAllowed(tip.gameTime)) {
+  private addTip(tip: Tip, game: Game){
+    if (this.isTipAllowed(game)) {
       this.tipService.addTip(tip).subscribe(tip => {
         location.reload()
       })
@@ -149,8 +150,8 @@ export class GameComponent implements AfterViewInit, OnInit {
     }
   }
 
-  private updateTip(tip: Tip): void {
-    if (this.tipsAllowed(tip.gameTime)) {
+  private updateTip(tip: Tip, game: Game): void {
+    if (this.isTipAllowed(game)) {
       this.tipService.updateTip(tip).subscribe(tip => {
       })
     } else {
