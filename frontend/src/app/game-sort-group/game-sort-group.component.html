@@ -1,8 +1,8 @@
-<h1 style="text-align: center; margin-top: 3em">Spielplan K.O.-Phase</h1>
-
 <div class="groups" *ngFor="let dataObject of dataObjects">
+
   <div class="list">
-    <h2>{{dataObject.phase}}</h2>
+    <h2>Gruppe: {{dataObject.group}}</h2>
+
     <table mat-table [dataSource]="dataObject.dataSource" matSort matSortDisableClear matSortActive="gameTime"
            matSortDirection="asc">
 
@@ -83,7 +83,6 @@
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-
     </table>
   </div>
 </div>
