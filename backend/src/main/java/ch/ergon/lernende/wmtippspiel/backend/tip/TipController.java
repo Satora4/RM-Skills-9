@@ -39,7 +39,7 @@ public class TipController {
     public HttpStatus updateTip(@RequestBody TipTO tipTO) {
         if (isValidTip(tipTO, "updateTip")) {
             tipRepository.putTip(convert(tipTO));
-            return HttpStatus.ACCEPTED;
+            return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
         }
