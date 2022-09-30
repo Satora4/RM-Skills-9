@@ -10,6 +10,7 @@ import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -108,12 +109,13 @@ public class GameRepository {
                 .fetch(this::convert);
     }
 
-    public Game getGame(int gameId) {
-        return dslContext.select(GAME.GAME_TIME)
+    public LocalDateTime getGameTime(int gameId) {
+        var gameTime = dslContext.select(GAME.GAME_TIME)
                 .from(GAME)
                 .join(TIP).on(TIP.GAME_ID.eq(GAME.GAME_ID))
                 .where(GAME.GAME_ID.eq(gameId))
-                .fetchOne(this::convertGame);
+                .fetchOne();
+        return gameTime.get(GAME.GAME_TIME);
     }
 
     private Game convert(Record record) {
@@ -140,13 +142,6 @@ public class GameRepository {
         team2.setId(record.get(TEAM_ALIAS_2.TEAM_ID));
         team2.setCountry(record.get(TEAM_ALIAS_2.COUNTRY));
         game.setTeam2(team2);
-        return game;
-    }
-
-    private Game convertGame(Record record) {
-        Game game = new Game();
-        game.setGameTime(record.get(GAME.GAME_TIME));
-
         return game;
     }
 }
