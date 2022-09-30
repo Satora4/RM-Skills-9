@@ -20,7 +20,7 @@ export interface DialogData {
 
 export interface DataObject {
   dataSource: MatTableDataSource<any>;
-  phase: string
+  phase: string;
 }
 
 @Component({
@@ -32,7 +32,7 @@ export class GameComponent implements OnInit {
   dataObjects: DataObject[] = [];
 
 
-  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
@@ -137,7 +137,7 @@ export class GameComponent implements OnInit {
 
   }
 
-  private addTip(tip: Tip){
+  private addTip(tip: Tip) {
     this.tipService.addTip(tip).subscribe(tip => {
       location.reload()
     })
@@ -151,18 +151,42 @@ export class GameComponent implements OnInit {
 
   loadGames(): void {
     this.gameService.getKoGames().subscribe((koPhaseModels) => {
-      let sortedKoPhaseModels = koPhaseModels.sort((a,b) =>  b.games.length - a.games.length);
+      let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
       for (let sortedKoPhaseModel of sortedKoPhaseModels) {
         let dataSource = new MatTableDataSource();
         dataSource.data = sortedKoPhaseModel.games;
         console.log(sortedKoPhaseModel)
         let dataObject: DataObject = {
           dataSource: dataSource,
-          phase: sortedKoPhaseModel.phaseOfGames.toString()
+          phase: this.getPhase(sortedKoPhaseModel.phase.toString())
         }
         this.dataObjects.push(dataObject);
       }
     });
+  }
+
+  private getPhase(phase: string): string {
+    switch (phase) {
+      case "FINAL": {
+        return "Final";
+      }
+
+      case "SEMI_FINAL": {
+        return "Halbfinal";
+      }
+
+      case "QUARTER_FINAL": {
+        return "Viertelfinal";
+      }
+
+      case "ROUND_OF_16": {
+        return "Achtelfinal";
+      }
+
+      default: {
+        return "phase"
+      }
+    }
   }
 }
 

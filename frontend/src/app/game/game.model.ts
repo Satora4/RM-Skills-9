@@ -1,4 +1,7 @@
 import {Team} from "../team/team.model";
+import {Tip} from "../tip/tip.model";
+
+
 
 
 export interface Game {
@@ -10,15 +13,6 @@ export interface Game {
   teamCountry1: string;
   teamCountry2: string;
   tip: string;
-}
-
-export interface GameObject {
-  id: number;
-  gameTime: Date;
-  gameLocation: string;
-  pointsTeam1: number;
-  pointsTeam2: number;
-  teamCountry1: Team;
-  teamCountry2: Team;
-  tip: string;
+  flagTeam1: string;
+  flagTeam2: string;
 }

@@ -9,10 +9,7 @@ import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.text.Collator;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +39,10 @@ public class GameRepository {
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_1.FLAG,
                         TEAM_ALIAS_2.TEAM_ID,
                         TEAM_ALIAS_2.COUNTRY,
+                        TEAM_ALIAS_2.FLAG,
                         GROUP.NAME,
                         GROUP.GROUP_ID)
                 .from(GAME)
@@ -66,8 +65,10 @@ public class GameRepository {
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_1.FLAG,
                         TEAM_ALIAS_2.TEAM_ID,
-                        TEAM_ALIAS_2.COUNTRY)
+                        TEAM_ALIAS_2.COUNTRY,
+                        TEAM_ALIAS_2.FLAG)
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
@@ -87,8 +88,10 @@ public class GameRepository {
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_1.FLAG,
                         TEAM_ALIAS_2.TEAM_ID,
-                        TEAM_ALIAS_2.COUNTRY)
+                        TEAM_ALIAS_2.COUNTRY,
+                        TEAM_ALIAS_2.FLAG)
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
@@ -105,8 +108,11 @@ public class GameRepository {
                         GAME.PHASE,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_1.FLAG,
                         TEAM_ALIAS_2.TEAM_ID,
-                        TEAM_ALIAS_2.COUNTRY)
+                        TEAM_ALIAS_2.COUNTRY,
+                        TEAM_ALIAS_2.FLAG
+                        )
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
@@ -144,10 +150,11 @@ public class GameRepository {
     }
 
     private static Team createTeam(Record record, TeamTable teamAlias) {
-        Team team1 = new Team();
-        team1.setId(record.get(teamAlias.TEAM_ID));
-        team1.setCountry(record.get(teamAlias.COUNTRY));
-        return team1;
+        Team team = new Team();
+        team.setId(record.get(teamAlias.TEAM_ID));
+        team.setCountry(record.get(teamAlias.COUNTRY));
+        team.setCountryFlag(record.get(teamAlias.FLAG));
+        return team;
     }
 
     private static List<Games> convertGroup(Map<String, List<Game>> result) {
