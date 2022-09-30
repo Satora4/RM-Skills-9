@@ -162,10 +162,8 @@ export class GameSortGroupComponent implements OnInit {
     if (this.isTipAllowed(game)) {
       this.tipService.updateTip(tip).subscribe(tip => {
       })
-      console.log("true");
     } else {
       alert("Spiel wird oder wurde bereits gespielt.");
-      console.log("false");
     }
   }
 
