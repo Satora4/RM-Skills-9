@@ -70,11 +70,11 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
 
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
+  public getTipTeam1ByGameId(gameId: number): any {
+    let tip: any = null;
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
+        tip = this.tips[i].tipTeam1;
       }
     }
     return tip;
@@ -89,11 +89,11 @@ export class GameComponent implements AfterViewInit, OnInit {
     throw new Error("tip isn't in database")
   }
 
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
+  public getTipTeam2ByGameId(gameId: number): any {
+    let tip:any = null;
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
+        tip = this.tips[i].tipTeam2;
       }
     }
     return tip;
