@@ -1,14 +1,15 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {GameService} from './game.service';
-
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Tip} from "../tip/tip.model";
+import {MatSort} from "@angular/material/sort";
+import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
-import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
+import {GroupPhaseService} from "../group-phase/group-phase.service";
+import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {KoPhaseModel} from "./Ko-Phase.model";
+import {MatTableDataSource} from "@angular/material/table";
+import {GroupPhaseModel} from "../group-phase/group-phase.model";
+import {Group} from "../group/group.model";
 
 
 export interface DialogData {
@@ -18,20 +19,18 @@ export interface DialogData {
   country2: string;
 }
 
-export interface DataObject {
+export interface DataObjekt {
   dataSource: MatTableDataSource<any>;
-  phase: string;
+  group: string;
 }
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css'],
+  selector: 'app-game-sort-group',
+  templateUrl: './game-sort-group.component.html',
+  styleUrls: ['./game-sort-group.component.css']
 })
-export class GameComponent implements OnInit {
-  dataObjects: DataObject[] = [];
-
-
+export class GameSortGroupComponent implements OnInit {
+  dataObjects: DataObjekt[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
@@ -42,13 +41,18 @@ export class GameComponent implements OnInit {
 
   constructor(private gameService: GameService,
               private tipService: TipService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private groupPhaseService: GroupPhaseService) {
     this.loadTipsByUser(1)
   }
 
   ngOnInit(): void {
     this.loadGames();
   }
+
+  ngAfterViewInit() {
+  }
+
 
   public openTipWindow(game: Game): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
@@ -100,9 +104,11 @@ export class GameComponent implements OnInit {
   }
 
   public loadTipsByUser(userId: number) {
+
     this.tipService.getTips(userId).subscribe((tips) => {
       this.tips = tips;
     });
+
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
@@ -128,79 +134,43 @@ export class GameComponent implements OnInit {
     }
 
     if (requestToggle) {
-      this.updateTip(tip, game)
+      this.updateTip(tip)
     } else {
-      this.addTip(tip, game);
+      this.addTip(tip);
     }
+
   }
 
-  public isTipAllowed(game: Game): boolean {
-    if (Date.parse(game.gameTime.toString()) > Date.now() ||
-        (game.pointsTeam1 && game.pointsTeam2) === null) {
-      return true;
-    } else {
-      return false;
-    }
+  private addTip(tip: Tip) {
+    this.tipService.addTip(tip).subscribe(tip => {
+      location.reload()
+    })
   }
 
-  private addTip(tip: Tip, game: Game){
-    if (this.isTipAllowed(game)) {
-      this.tipService.addTip(tip).subscribe(tip => {
-        location.reload()
-      })
-    } else {
-      alert("Spiel wird oder wurde bereits gespielt.");
-    }
+  private updateTip(tip: Tip): void {
+    this.tipService.updateTip(tip).subscribe(tip => {
+    })
   }
 
-  private updateTip(tip: Tip, game: Game): void {
-    if (this.isTipAllowed(game)) {
-      this.tipService.updateTip(tip).subscribe(tip => {
-      })
-    } else {
-      alert("Spiel wird oder wurde bereits gespielt.");
-    }
-  }
 
-  private loadGames(): void {
-    this.gameService.getKoGames().subscribe((koPhaseModels) => {
-      let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
-      for (let sortedKoPhaseModel of sortedKoPhaseModels) {
+  loadGames(): void {
+    this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
+      for (let groupsGame of groupsWithGamesObjects) {
         let dataSource = new MatTableDataSource();
-        dataSource.data = sortedKoPhaseModel.games;
-        console.log(sortedKoPhaseModel)
-        let dataObject: DataObject = {
+        let games: Game[] = groupsGame.games;
+
+        dataSource.data = games;
+        let dataObject: DataObjekt = {
           dataSource: dataSource,
-          phase: this.getPhase(sortedKoPhaseModel.phase.toString())
+          group: groupsGame.groupName
         }
         this.dataObjects.push(dataObject);
+        this.dataObjects.sort(    (firstObject: DataObjekt , secondObject:DataObjekt ) =>
+          (firstObject.group > secondObject.group) ? 1 : -1
+        );
       }
+      console.log(this.dataObjects)
+
     });
   }
-
-  private getPhase(phase: string): string {
-    switch (phase) {
-      case "FINAL": {
-        return "Final";
-      }
-
-      case "SEMI_FINAL": {
-        return "Halbfinal";
-      }
-
-      case "QUARTER_FINAL": {
-        return "Viertelfinal";
-      }
-
-      case "ROUND_OF_16": {
-        return "Achtelfinal";
-      }
-
-      default: {
-        return "phase"
-      }
-    }
-  }
 }
-
-

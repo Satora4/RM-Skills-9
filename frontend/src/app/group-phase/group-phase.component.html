@@ -1,0 +1,22 @@
+<h1>Spielplan-Gruppenphase</h1>
+
+<mat-button-toggle-group class="toggle" [value]="toggle" (change)="toggleView($event)">
+  <mat-button-toggle [value]="true">
+    Datum
+  </mat-button-toggle>
+  <mat-button-toggle [value]="false">
+    Gruppen
+  </mat-button-toggle>
+</mat-button-toggle-group>
+<div *ngIf="toggle">
+    <app-game-sort-date></app-game-sort-date>
+</div>
+
+
+<div *ngIf="!toggle">
+    <app-game-sort-group></app-game-sort-group>
+</div>
+
+
+
+

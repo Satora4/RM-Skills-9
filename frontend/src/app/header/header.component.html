@@ -1,11 +1,21 @@
 <header>
   <nav>
     <ul>
-      <li><a routerLink="/games" routerLinkActive="active" ariaCurrentWhenActive="page">Spielplan</a></li>
+      <li>
+        <a [matMenuTriggerFor]="menu">Spielplan</a>
+        <mat-menu #menu="matMenu">
+          <a mat-menu-item routerLink="/groupPhase" routerLinkActive="active" ariaCurrentWhenActive="page">Gruppenphase</a>
+          <a mat-menu-item routerLink="/ko" routerLinkActive="active" ariaCurrentWhenActive="page">K.O.-Phase</a>
+        </mat-menu>
+      </li>
       <li><a routerLink="/users" routerLinkActive="active" ariaCurrentWhenActive="page">Rangliste</a></li>
       <li><a routerLink="/groups" routerLinkActive="active" ariaCurrentWhenActive="page">WM-Gruppen Rangliste</a></li>
       <li><a routerLink="/rules" routerLinkActive="active" ariaCurrentWhenActive="page">Regeln</a></li>
-      <li class="right"><a href="about.asp">Login</a></li>
+      <li class="right" *ngIf="user"><a
+        href="https://www.ergon.ch/de/wir/mitarbeitende/{{this.user.firstName.toLowerCase()}}-{{this.user.lastName.toLowerCase()}}"
+        target="_blank">
+        {{this.user.firstName}} {{this.user.lastName}}
+      </a></li>
     </ul>
   </nav>
   <router-outlet></router-outlet>

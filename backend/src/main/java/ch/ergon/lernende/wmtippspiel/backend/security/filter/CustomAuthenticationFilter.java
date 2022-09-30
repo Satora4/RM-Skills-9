@@ -1,8 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.security.filter;
 
 import ch.ergon.lernende.wmtippspiel.backend.security.authentication.CustomAuthentication;
-import ch.ergon.lernende.wmtippspiel.backend.security.authentication.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -31,11 +30,11 @@ public final class CustomAuthenticationFilter extends OncePerRequestFilter {
         String username = request.getHeader("X-Forwarded-User");
         String email = request.getHeader("X-Forwarded-Mail");
 
-        User user;
+        IamUser user;
         if (username == null || username.equals("") || email == null || email.equals("")) {
-            user = User.UNKNOWN_USER;
+            user = IamUser.UNKNOWN_USER;
         } else {
-            user = new User(username.trim(), email.trim());
+            user = new IamUser(username.trim(), email.trim());
         }
 
         CustomAuthentication customAuthentication = new CustomAuthentication(user);

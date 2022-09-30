@@ -1,7 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.security.provider;
 
 import ch.ergon.lernende.wmtippspiel.backend.security.authentication.CustomAuthentication;
-import ch.ergon.lernende.wmtippspiel.backend.security.authentication.User;
+import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -19,9 +19,9 @@ public final class CustomAuthenticationProvider implements AuthenticationProvide
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        User user = (User) authentication.getPrincipal();
+        IamUser user = (IamUser) authentication.getPrincipal();
 
-        if (user == User.UNKNOWN_USER) {
+        if (user == IamUser.UNKNOWN_USER) {
             throw new BadCredentialsException("unknown user");
         }
 
@@ -35,7 +35,7 @@ public final class CustomAuthenticationProvider implements AuthenticationProvide
         return new CustomAuthentication(user, grantedAuthorities);
     }
 
-    private static boolean isAdmin(User user) {
+    private static boolean isAdmin(IamUser user) {
         return ADMIN_USERS.contains(user.mail());
     }
 
