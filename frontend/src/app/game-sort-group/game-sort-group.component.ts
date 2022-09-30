@@ -5,7 +5,7 @@ import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {GroupPhaseService} from "../group-phase/group-phase.service";
-import {Game, GameObject} from "../game/game.model";
+import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {GroupPhaseModel} from "../group-phase/group-phase.model";
@@ -31,7 +31,7 @@ export interface DataObjekt {
 })
 export class GameSortGroupComponent implements OnInit {
   dataObjects: DataObjekt[] = [];
-  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'pointsTeam1', 'colon', 'pointsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];

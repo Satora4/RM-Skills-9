@@ -1,8 +1,9 @@
+<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+
+
 <div class="groups" *ngFor="let dataObject of dataObjects">
-
   <div class="list">
-    <h2>Gruppe: {{dataObject.group}}</h2>
-
+    <h2>Gruppe {{dataObject.group}}</h2>
     <table mat-table [dataSource]="dataObject.dataSource" matSort matSortDisableClear matSortActive="gameTime"
            matSortDirection="asc">
 
@@ -20,6 +21,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Team 1</th>
         <td mat-cell *matCellDef="let game">{{game.team1.country}}</td>
       </ng-container>
+      <ng-container matColumnDef="flag1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.team1.countryFlag}}" aria-role="presentation"></i></td>
+      </ng-container>
 
       <ng-container matColumnDef="pointsTeam1">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte von Team 1</th>
@@ -34,6 +39,11 @@
       <ng-container matColumnDef="pointsTeam2">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte von Team 2</th>
         <td mat-cell *matCellDef="let game" style="text-align: center">{{game.pointsTeam2}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="flag2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.team2.countryFlag}}" aria-role="presentation"></i></td>
       </ng-container>
 
       <ng-container matColumnDef="teamCountry2">
@@ -83,6 +93,7 @@
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+
     </table>
   </div>
 </div>

@@ -23,7 +23,7 @@
       </ng-container>
       <ng-container matColumnDef="flag1">
         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.flagTeam1}}" aria-role="presentation"></i></td>
+        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.team1.countryFlag}}" aria-role="presentation"></i></td>
       </ng-container>
 
       <ng-container matColumnDef="pointsTeam1">
@@ -43,7 +43,7 @@
 
       <ng-container matColumnDef="flag2">
         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.flagTeam2}}" aria-role="presentation"></i></td>
+        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.team2.countryFlag}}" aria-role="presentation"></i></td>
       </ng-container>
 
       <ng-container matColumnDef="teamCountry2">

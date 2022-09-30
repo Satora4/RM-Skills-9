@@ -26,7 +26,7 @@ public class TeamController {
         teamTO.setId(team.getId());
         teamTO.setCountry(team.getCountry());
         teamTO.setPoints(team.getPoints());
-        teamTO.setFlag(team.getFlag());
+        teamTO.setFlag(team.getCountryFlag());
         return teamTO;
     }
 }
