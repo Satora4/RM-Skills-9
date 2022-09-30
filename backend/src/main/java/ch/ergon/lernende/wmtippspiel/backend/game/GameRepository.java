@@ -36,7 +36,7 @@ public class GameRepository {
         if (games.size() == 1) {
             return games.get(0);
         } else {
-            throw new IllegalArgumentException("Database has an error! The GameId " + gameId + " is not Serial.");
+            throw new IllegalArgumentException("No game found with id: " + gameId);
         }
     }
 
