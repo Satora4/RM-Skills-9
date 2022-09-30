@@ -56,15 +56,11 @@ public class TipController {
     }
 
     private boolean isValidTip(TipTO tipTO, String tipType) {
-        LocalDateTime gameTime = gameRepository.getGameTime(tipTO.getGameId());
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && gameTime.isAfter(LocalDateTime.now())) {
+        Game game = gameRepository.getGame(tipTO.getGameId());
+        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now())) {
             if (tipType.equals("addTip")) {
                 return true;
-            } else if (tipType.equals("updateTip")) {
-                return true;
-            } else {
-                return false;
-            }
+            } else return tipType.equals("updateTip");
         } else {
             throw new IllegalArgumentException("the game has already been played");
         }

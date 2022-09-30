@@ -10,7 +10,6 @@ import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +90,15 @@ public class GameRepository {
         return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
     }
 
+    public Game getGame(int gameId) {
+        List<Game> games = getGamesWithCondition(GAME.GAME_ID.eq(gameId));
+        if (games.size() == 1) {
+            return games.get(0);
+        } else {
+            throw new IllegalArgumentException("Database has an error! The GameId " + gameId + " is not Serial.");
+        }
+    }
+
     private List<Game> getGamesWithCondition(Condition condition) {
         return dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
@@ -107,15 +115,6 @@ public class GameRepository {
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
                 .where(condition)
                 .fetch(this::convert);
-    }
-
-    public LocalDateTime getGameTime(int gameId) {
-        var gameTime = dslContext.select(GAME.GAME_TIME)
-                .from(GAME)
-                .join(TIP).on(TIP.GAME_ID.eq(GAME.GAME_ID))
-                .where(GAME.GAME_ID.eq(gameId))
-                .fetchOne();
-        return gameTime.get(GAME.GAME_TIME);
     }
 
     private Game convert(Record record) {
