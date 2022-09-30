@@ -129,22 +129,37 @@ export class GameSortDateComponent implements OnInit {
     }
 
     if (requestToggle) {
-      this.updateTip(tip)
+      this.updateTip(tip, game)
     } else {
-      this.addTip(tip);
+      this.addTip(tip, game);
     }
-
   }
 
-  private addTip(tip: Tip) {
-    this.tipService.addTip(tip).subscribe(tip => {
-      location.reload()
-    })
+  public isTipAllowed(game: Game): boolean {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(tip => {
-    })
+  private addTip(tip: Tip, game: Game){
+    if (this.isTipAllowed(game)) {
+      this.tipService.addTip(tip).subscribe(tip => {
+        location.reload()
+      })
+    } else {
+      alert("Spiel wird oder wurde bereits gespielt.");
+    }
+  }
+
+  private updateTip(tip: Tip, game: Game): void {
+    if (this.isTipAllowed(game)) {
+      this.tipService.updateTip(tip).subscribe(tip => {
+      })
+    } else {
+      alert("Spiel wird oder wurde bereits gespielt.");
+    }
   }
 
 

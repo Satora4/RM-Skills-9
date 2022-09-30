@@ -135,8 +135,7 @@ export class GameComponent implements OnInit {
   }
 
   public isTipAllowed(game: Game): boolean {
-    if (Date.parse(game.gameTime.toString()) > Date.now() ||
-        (game.pointsTeam1 && game.pointsTeam2) === null) {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
       return true;
     } else {
       return false;
