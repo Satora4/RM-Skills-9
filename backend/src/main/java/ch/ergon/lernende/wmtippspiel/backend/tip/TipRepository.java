@@ -1,7 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
-import ch.ergon.lernende.wmtippspiel.backend.team.Team;
+import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import ch.ergon.lernenden.wmtippspiel.backend.db.tables.TeamTable;
 import org.jooq.Condition;
@@ -41,7 +41,7 @@ public class TipRepository {
     }
 
     private List<Tip> getTipsFromDB(Condition condition) {
-        List<Tip> tips = dslContext.select(TIP.TIP_ID,
+        return dslContext.select(TIP.TIP_ID,
                         TIP.TIP_TEAM1,
                         TIP.TIP_TEAM2,
                         TIP.POINTS,
@@ -67,7 +67,6 @@ public class TipRepository {
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
                 .where(condition)
                 .fetch(this::convert);
-        return tips;
     }
 
     public void addTip(Tip tip) {
@@ -123,15 +122,7 @@ public class TipRepository {
             game.setPointsTeam2(record.get(GAME.GOALS_TEAM2));
         }
 
-        Team team1 = new Team();
-        team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
-        team1.setCountry(record.get(TEAM_ALIAS_1.COUNTRY));
-        game.setTeam1(team1);
-
-        Team team2 = new Team();
-        team2.setId(record.get(TEAM_ALIAS_2.TEAM_ID));
-        team2.setCountry(record.get(TEAM_ALIAS_2.COUNTRY));
-        game.setTeam2(team2);
+        GameRepository.convertTeams(record, game, TEAM_ALIAS_1, TEAM_ALIAS_2);
 
         tip.setGame(game);
 

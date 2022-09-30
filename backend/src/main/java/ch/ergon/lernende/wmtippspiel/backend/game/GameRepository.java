@@ -133,15 +133,19 @@ public class GameRepository {
         }
         game.setPhase(record.get(GAME.PHASE));
 
+        convertTeams(record, game, TEAM_ALIAS_1, TEAM_ALIAS_2);
+        return game;
+    }
+
+    public static void convertTeams(Record record, Game game, TeamTable teamAlias1, TeamTable teamAlias2) {
         Team team1 = new Team();
-        team1.setId(record.get(TEAM_ALIAS_1.TEAM_ID));
-        team1.setCountry(record.get(TEAM_ALIAS_1.COUNTRY));
+        team1.setId(record.get(teamAlias1.TEAM_ID));
+        team1.setCountry(record.get(teamAlias1.COUNTRY));
         game.setTeam1(team1);
 
         Team team2 = new Team();
-        team2.setId(record.get(TEAM_ALIAS_2.TEAM_ID));
-        team2.setCountry(record.get(TEAM_ALIAS_2.COUNTRY));
+        team2.setId(record.get(teamAlias2.TEAM_ID));
+        team2.setCountry(record.get(teamAlias2.COUNTRY));
         game.setTeam2(team2);
-        return game;
     }
 }
