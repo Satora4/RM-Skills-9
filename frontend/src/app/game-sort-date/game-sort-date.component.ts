@@ -1,23 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {GameService} from './game.service';
-
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
+import {MatSort} from "@angular/material/sort";
+import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
-import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
+import {GroupPhaseService} from "../group-phase/group-phase.service";
+import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {
-  FormControl,
-  FormGroupDirective,
-  NgForm,
-  Validators
-} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material/core';
-import {GameTableModel} from "./game.table.model";
-import {formControl} from "../util/initFormControlForTip.util";
-import {KoPhaseModel} from "./Ko-Phase.model";
 
 
 export interface DialogData {
@@ -27,41 +17,31 @@ export interface DialogData {
   country2: string;
 }
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
-
 export interface DataObject {
   dataSource: MatTableDataSource<any>;
-  phase: string;
+  groupDate: Date;
 }
 
+
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css'],
+  selector: 'app-game-sort-date',
+  templateUrl: './game-sort-date.component.html',
+  styleUrls: ['./game-sort-date.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameSortDateComponent implements OnInit {
   dataObjects: DataObject[] = [];
-
-
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public readonly dash = '—';
-  public formControlsTip1: FormControl[] = [];
-  public formControlsTip2: FormControl[] = [];
-  matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private gameService: GameService,
               private tipService: TipService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private groupPhaseService: GroupPhaseService) {
     this.loadTipsByUser(1)
   }
 
@@ -169,63 +149,19 @@ export class GameComponent implements OnInit {
 
 
   loadGames(): void {
-    this.gameService.getKoGames().subscribe((koPhaseModels) => {
-      let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
-      for (let sortedKoPhaseModel of sortedKoPhaseModels) {
+    this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
+      console.log(groupPhaseModelsForDate)
+      for (let groupPhaseModel of groupPhaseModelsForDate) {
         let dataSource = new MatTableDataSource();
-        dataSource.data = sortedKoPhaseModel.games;
-        console.log(sortedKoPhaseModel)
+        dataSource.data = groupPhaseModel.games;
+        console.log(groupPhaseModel)
         let dataObject: DataObject = {
           dataSource: dataSource,
-          phase: this.getPhase(sortedKoPhaseModel.phase.toString())
+          groupDate: groupPhaseModel.groupDate
         }
         this.dataObjects.push(dataObject);
       }
+      console.log(this.dataObjects);
     });
   }
-
-  private getPhase(phase: string): string {
-    switch (phase) {
-      case "FINAL": {
-        return "Final";
-      }
-
-      case "SEMI_FINAL": {
-        return "Halbfinal";
-      }
-
-      case "QUARTER_FINAL": {
-        return "Viertelfinal";
-      }
-
-      case "ROUND_OF_16": {
-        return "Achtelfinal";
-      }
-
-      default: {
-        return "phase"
-      }
-    }
-  }
-
-  private loadGameTableModel(games: Game[]): GameTableModel[] {
-    const gameTableModel: GameTableModel[] = [];
-    games.forEach(game => {
-      this.formControlsTip1.push(this.initFormControl());
-      this.formControlsTip2.push(this.initFormControl());
-
-      gameTableModel.push({
-        game: game,
-        formControlTip1: this.initFormControl(),
-        formControlTip2: this.initFormControl()
-      });
-    })
-    return gameTableModel;
-  }
-
-  private initFormControl(): FormControl {
-    return formControl();
-  }
 }
-
-

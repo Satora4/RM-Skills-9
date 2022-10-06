@@ -24,9 +24,14 @@ import { UserComponent } from './user/user.component';
 import {MatInputModule} from "@angular/material/input";
 import { PopUpComponent } from './pop-up/pop-up.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {GroupPhaseComponent} from "./group-phase/group-phase.component";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { GameSortGroupComponent } from './game-sort-group/game-sort-group.component';
+import { GameSortDateComponent } from './game-sort-date/game-sort-date.component';
 
 @NgModule({
-  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, PopUpComponent],
+  declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, PopUpComponent, GroupPhaseComponent, GameSortGroupComponent, GameSortDateComponent],
     imports: [
         AppRoutingModule,
         BrowserAnimationsModule,
@@ -45,6 +50,8 @@ import {MatDialogModule} from "@angular/material/dialog";
         ReactiveFormsModule,
         MatInputModule,
         MatDialogModule,
+        MatMenuModule,
+        MatButtonToggleModule,
     ],
   providers: [],
   bootstrap: [AppComponent],

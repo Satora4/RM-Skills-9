@@ -11,6 +11,7 @@ public class TeamMapper {
         team.setId(teamRecord.getTeamId());
         team.setCountry(teamRecord.getCountry());
         team.setPoints(teamRecord.getPoints());
+        team.setCountryFlag(teamRecord.getFlag());
         return team;
     }
 }

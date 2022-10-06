@@ -1,6 +1,8 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
+import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +18,16 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public List<UserTO> getAllUser() {
         return userRepository.getAllUser().stream().map(this::convert).collect(Collectors.toList());
+    }
+
+    @GetMapping("/user")
+    public UserTO getUser(Authentication authentication) {
+        IamUser userData = (IamUser) authentication.getPrincipal();
+
+        return convert(userRepository.getForMail(userData.mail()));
     }
 
     private UserTO convert(User user) {
