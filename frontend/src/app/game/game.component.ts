@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
+import {formControl} from "../util/initFormControlForTip.util";
 
 
 export interface DialogData {
@@ -186,7 +187,7 @@ export class GameComponent implements AfterViewInit, OnInit {
   }
 
   private initFormControl(): FormControl {
-    return new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]);
+    return formControl();
   }
 }
 
