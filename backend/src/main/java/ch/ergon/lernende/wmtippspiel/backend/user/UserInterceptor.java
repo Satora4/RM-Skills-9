@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class UserInterceptor implements HandlerInterceptor {
 
+    private static final String UNKNOWN = "Unbekannt";
     private CurrentUser currentUser;
     private UserRepository userRepository;
 
@@ -27,12 +28,30 @@ public class UserInterceptor implements HandlerInterceptor {
 
         var user =  userRepository.getForMail(iamUser.mail());
         if (user == null) {
-            // TODO get first name and last name for ergon user (maybe via adjustment of IAM config?)
-            userRepository.insertUser(iamUser.mail(), "Vorname", "Nachname", false);
+            final var fullName = inferFullNameFromMailAddress(iamUser.mail());
+            userRepository.insertUser(iamUser.mail(), fullName.firstName, fullName.lastName, false);
             user = userRepository.getForMail(iamUser.mail());
         }
         currentUser.setUser(user);
 
         return true;
+    }
+
+    private static FullName inferFullNameFromMailAddress(String mailAddress) {
+        final var mailUsernamePart = mailAddress.split("@")[0];
+        final var names = mailUsernamePart.split("\\.");
+        if (names.length == 2) {
+            return new FullName(capitalizeLetterOfString(names[0], 0), capitalizeLetterOfString(names[1], 0));
+        } else {
+            return new FullName(UNKNOWN, UNKNOWN);
+        }
+    }
+
+    private static String capitalizeLetterOfString(String string, int idx) {
+        return string.substring(0, idx) + string.substring(idx, idx + 1).toUpperCase() + string.substring(idx + 1);
+    }
+
+    private record FullName(String firstName, String lastName) {
+
     }
 }
