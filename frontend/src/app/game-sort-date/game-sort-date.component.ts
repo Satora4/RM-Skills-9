@@ -8,20 +8,13 @@ import {MatDialog} from "@angular/material/dialog";
 import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {getTipFromTeamByGameId, isTipAllowedForGame} from "../tip/tip.util";
 
-
-export interface DialogData {
-  tip1: number;
-  tip2: number;
-  country1: string;
-  country2: string;
-}
 
 export interface DataObject {
   dataSource: MatTableDataSource<any>;
   groupDate: Date;
 }
-
 
 @Component({
   selector: 'app-game-sort-date',
@@ -68,17 +61,6 @@ export class GameSortDateComponent implements OnInit {
     });
   }
 
-
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
   public getTipByGameId(gameId: number): Tip {
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
@@ -86,16 +68,6 @@ export class GameSortDateComponent implements OnInit {
       }
     }
     throw new Error("tip isn't in database")
-  }
-
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
   }
 
   public loadTipsByUser(userId: number) {
@@ -135,16 +107,20 @@ export class GameSortDateComponent implements OnInit {
     }
   }
 
-  public isTipAllowed(game: Game): boolean {
-    if (Date.parse(game.gameTime.toString()) > Date.now()) {
-      return true;
-    } else {
-      return false;
-    }
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number, tips: Tip[]): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, tips);
+  }
+
+  public isTipAllowed(game: Game, tipTeam: number): boolean {
+    return isTipAllowedForGame(game, this.tips, tipTeam);
+  }
+
+  public isDateValid(game: Game): boolean {
+    return Date.parse(game.gameTime.toString()) > Date.now();
   }
 
   private addTip(tip: Tip, game: Game){
-    if (this.isTipAllowed(game)) {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
       this.tipService.addTip(tip).subscribe(tip => {
         location.reload()
       })
@@ -154,7 +130,7 @@ export class GameSortDateComponent implements OnInit {
   }
 
   private updateTip(tip: Tip, game: Game): void {
-    if (this.isTipAllowed(game)) {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
       this.tipService.updateTip(tip).subscribe(tip => {
       })
     } else {
@@ -163,7 +139,7 @@ export class GameSortDateComponent implements OnInit {
   }
 
 
-  loadGames(): void {
+  private loadGames(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
       console.log(groupPhaseModelsForDate)
       for (let groupPhaseModel of groupPhaseModelsForDate) {

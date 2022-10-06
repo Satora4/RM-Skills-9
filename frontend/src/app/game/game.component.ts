@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {GameService} from './game.service';
@@ -8,7 +8,7 @@ import {TipService} from "../tip/tip.service";
 import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {KoPhaseModel} from "./Ko-Phase.model";
+import {getTipFromTeamByGameId, isTipAllowedForGame} from "../tip/tip.util";
 
 
 export interface DialogData {
@@ -69,17 +69,6 @@ export class GameComponent implements OnInit {
     });
   }
 
-
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
   public getTipByGameId(gameId: number): Tip {
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
@@ -87,16 +76,6 @@ export class GameComponent implements OnInit {
       }
     }
     throw new Error("tip isn't in database")
-  }
-
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
   }
 
   public loadTipsByUser(userId: number) {
@@ -134,16 +113,20 @@ export class GameComponent implements OnInit {
     }
   }
 
-  public isTipAllowed(game: Game): boolean {
-    if (Date.parse(game.gameTime.toString()) > Date.now()) {
-      return true;
-    } else {
-      return false;
-    }
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number, tips: Tip[]): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, tips);
+  }
+
+  public isTipAllowed(game: Game, tipTeam: number): boolean {
+    return isTipAllowedForGame(game, this.tips, tipTeam);
+  }
+
+  public isDateValid(game: Game): boolean {
+    return Date.parse(game.gameTime.toString()) > Date.now();
   }
 
   private addTip(tip: Tip, game: Game){
-    if (this.isTipAllowed(game)) {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
       this.tipService.addTip(tip).subscribe(tip => {
         location.reload()
       })
@@ -153,7 +136,7 @@ export class GameComponent implements OnInit {
   }
 
   private updateTip(tip: Tip, game: Game): void {
-    if (this.isTipAllowed(game)) {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
       this.tipService.updateTip(tip).subscribe(tip => {
       })
     } else {

@@ -57,11 +57,11 @@
         <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
         <td mat-cell *matCellDef="let game">
           <input matInput
-                 *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash && isTipAllowed(game); else showTipTeam1"
+                 *ngIf="isTipAllowed(game, 1); else showTipTeam1"
                  max="15" min="0" type="number"
                  [placeholder]="dash" [(ngModel)]="tipTeam1[game.id]">
           <ng-template #showTipTeam1>
-            {{getTipTeam1ByGameId(game.id)}}
+            {{getTipFromTeamByGameId(game.id, 1, tips)}}
           </ng-template>
         </td>
       </ng-container>
@@ -70,11 +70,11 @@
         <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
         <td mat-cell *matCellDef="let game">
           <input matInput
-                 *ngIf="game.pointsTeam2 == null && getTipTeam2ByGameId(game.id) == dash && isTipAllowed(game); else showTipTeam2"
+                 *ngIf="isTipAllowed(game, 2); else showTipTeam2"
                  max="15" min="0" type="number"
                  [placeholder]="dash" [(ngModel)]="tipTeam2[game.id]">
           <ng-template #showTipTeam2>
-            {{getTipTeam2ByGameId(game.id)}}
+            {{getTipFromTeamByGameId(game.id, 2, tips)}}
           </ng-template>
         </td>
       </ng-container>
@@ -83,19 +83,22 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let game">
           <button
-            *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash && isTipAllowed(game); else showEditButton"
+            *ngIf="isTipAllowed(game, 1); else showEditButton"
             mat-stroked-button
             (click)="saveTip(1, tipTeam1[game.id], tipTeam2[game.id], game)">save
+
           </button>
 
           <ng-template #showEditButton>
             <button
-              *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) != dash && isTipAllowed(game);"
+              *ngIf="game.pointsTeam1 == null && getTipFromTeamByGameId(game.id, 1, tips) != dash && isDateValid(game);"
               mat-stroked-button
               (click)="openTipWindow(game)">edit
             </button>
           </ng-template>
+
         </td>
+
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

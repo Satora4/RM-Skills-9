@@ -8,16 +8,8 @@ import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 import {MatTableDataSource} from "@angular/material/table";
-import {GroupPhaseModel} from "../group-phase/group-phase.model";
-import {Group} from "../group/group.model";
+import {getTipFromTeamByGameId, isTipAllowedForGame} from "../tip/tip.util";
 
-
-export interface DialogData {
-  tip1: number;
-  tip2: number;
-  country1: string;
-  country2: string;
-}
 
 export interface DataObjekt {
   dataSource: MatTableDataSource<any>;
@@ -50,10 +42,6 @@ export class GameSortGroupComponent implements OnInit {
     this.loadGames();
   }
 
-  ngAfterViewInit() {
-  }
-
-
   public openTipWindow(game: Game): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
       width: '250px',
@@ -73,17 +61,6 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
-
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
   public getTipByGameId(gameId: number): Tip {
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
@@ -91,16 +68,6 @@ export class GameSortGroupComponent implements OnInit {
       }
     }
     throw new Error("tip isn't in database")
-  }
-
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
   }
 
   public loadTipsByUser(userId: number) {
@@ -140,16 +107,20 @@ export class GameSortGroupComponent implements OnInit {
     }
   }
 
-  public isTipAllowed(game: Game): boolean {
-    if (Date.parse(game.gameTime.toString()) > Date.now()) {
-      return true;
-    } else {
-      return false;
-    }
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number, tips: Tip[]): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, tips);
+  }
+
+  public isTipAllowed(game: Game, tipTeam: number): boolean {
+    return isTipAllowedForGame(game, this.tips, tipTeam);
+  }
+
+  public isDateValid(game: Game): boolean {
+    return Date.parse(game.gameTime.toString()) > Date.now();
   }
 
   private addTip(tip: Tip, game: Game){
-    if (this.isTipAllowed(game)) {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
       this.tipService.addTip(tip).subscribe(tip => {
         location.reload()
       })
@@ -159,7 +130,7 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   private updateTip(tip: Tip, game: Game): void {
-    if (this.isTipAllowed(game)) {
+    if (Date.parse(game.gameTime.toString()) > Date.now()) {
       this.tipService.updateTip(tip).subscribe(tip => {
       })
     } else {
@@ -167,8 +138,7 @@ export class GameSortGroupComponent implements OnInit {
     }
   }
 
-
-  loadGames(): void {
+  private loadGames(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
       for (let groupsGame of groupsWithGamesObjects) {
         let dataSource = new MatTableDataSource();
