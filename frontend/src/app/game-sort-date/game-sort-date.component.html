@@ -1,91 +1,122 @@
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
-
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
-    <h2>Gruppe {{dataObject.groupDate}}</h2>
-    <table mat-table [dataSource]="dataObject.dataSource" matSort matSortDisableClear matSortActive="gameTime"
-           matSortDirection="asc">
+    <h2>{{dataObject.groupDate}}</h2>
+    <table mat-table [dataSource]="dataObject.dataSource">
 
       <ng-container matColumnDef="gameTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum</th>
-        <td mat-cell *matCellDef="let game">{{game.gameTime | date:'d MMM y | HH:mm'}}</td>
+        <th mat-header-cell *matHeaderCellDef>Datum</th>
+        <td mat-cell
+            *matCellDef="let gameTableModel">{{gameTableModel.game.gameTime | date:'d MMM y | HH:mm'}}</td>
       </ng-container>
 
       <ng-container matColumnDef="gameLocation">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ort</th>
-        <td mat-cell *matCellDef="let game">{{game.gameLocation}}</td>
+        <th mat-header-cell *matHeaderCellDef>Ort</th>
+        <td mat-cell *matCellDef="let gameTableModel">{{gameTableModel.game.gameLocation}}</td>
       </ng-container>
 
       <ng-container matColumnDef="teamCountry1">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Team 1</th>
-        <td mat-cell *matCellDef="let game">{{game.team1.country}}</td>
+        <th mat-header-cell *matHeaderCellDef>Team 1</th>
+        <td mat-cell *matCellDef="let gameTableModel">{{gameTableModel.game.team1.country}}</td>
       </ng-container>
       <ng-container matColumnDef="flag1">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.team1.countryFlag}}" aria-role="presentation"></i></td>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center"><i
+          class="em {{gameTableModel.game.team1.countryFlag}}"
+          aria-role="presentation"></i></td>
       </ng-container>
 
       <ng-container matColumnDef="pointsTeam1">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte von Team 1</th>
-        <td mat-cell *matCellDef="let game" style="text-align: center">{{game.pointsTeam1}}</td>
+        <th mat-header-cell *matHeaderCellDef>Punkte von Team 1</th>
+        <td mat-cell *matCellDef="let gameTableModel"
+            style="text-align: center">{{gameTableModel.game.pointsTeam1}}</td>
       </ng-container>
 
       <ng-container matColumnDef="colon">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-        <td mat-cell *matCellDef="let game">:</td>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let gameTableModel">:</td>
       </ng-container>
 
       <ng-container matColumnDef="pointsTeam2">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Punkte von Team 2</th>
-        <td mat-cell *matCellDef="let game" style="text-align: center">{{game.pointsTeam2}}</td>
+        <th mat-header-cell *matHeaderCellDef>Punkte von Team 2</th>
+        <td mat-cell *matCellDef="let gameTableModel"
+            style="text-align: center">{{gameTableModel.game.pointsTeam2}}</td>
       </ng-container>
 
       <ng-container matColumnDef="flag2">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-        <td mat-cell *matCellDef="let game" style="text-align: center"><i class="em {{game.team2.countryFlag}}" aria-role="presentation"></i></td>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center"><i
+          class="em {{gameTableModel.game.team2.countryFlag}}"
+          aria-role="presentation"></i></td>
       </ng-container>
 
       <ng-container matColumnDef="teamCountry2">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Team 2</th>
-        <td mat-cell *matCellDef="let game">{{game.team2.country}}</td>
+        <th mat-header-cell *matHeaderCellDef>Team 2</th>
+        <td mat-cell *matCellDef="let gameTableModel">{{gameTableModel.game.team2.country}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="tipTeam1">
-        <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
-        <td mat-cell *matCellDef="let game">
-          <input matInput *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash; else showTipTeam1"
-                 max="15" min="0" type="number"
-                 [placeholder]="dash" [(ngModel)]="tipTeam1[game.id]">
-          <ng-template #showTipTeam1>
-            {{getTipTeam1ByGameId(game.id)}}
-          </ng-template>
-        </td>
-      </ng-container>
+      <div>
+        <ng-container matColumnDef="tipTeam1">
+          <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
+          <td mat-cell *matCellDef="let gameTableModel">
+            <input matInput
+                   *ngIf="gameTableModel.game.pointsTeam1 == null && getTipTeam1ByGameId(gameTableModel.game.id) == dash; else showTipTeam1"
+                   maxlength="2" type="text"
+                   [placeholder]="dash" [(ngModel)]="tipTeam1[gameTableModel.game.id]"
+                   [formControl]="gameTableModel.formControlTip1" [errorStateMatcher]="matcher">
 
-      <ng-container matColumnDef="tipTeam2">
-        <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
-        <td mat-cell *matCellDef="let game">
-          <input matInput *ngIf="game.pointsTeam2 == null && getTipTeam2ByGameId(game.id) == dash; else showTipTeam2"
-                 max="15" min="0" type="number"
-                 [placeholder]="dash" [(ngModel)]="tipTeam2[game.id]">
-          <ng-template #showTipTeam2>
-            {{getTipTeam2ByGameId(game.id)}}
-          </ng-template>
-        </td>
-      </ng-container>
+            <br>
+            <mat-error
+              *ngIf="gameTableModel.formControlTip1.hasError('pattern') &&
+              !gameTableModel.formControlTip1.hasError('required')">
+              Bitte geben Sie eine gültige Nummer ein.
+            </mat-error>
+
+            <ng-template #showTipTeam1>
+              {{getTipTeam1ByGameId(gameTableModel.game.id)}}
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipTeam2">
+          <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
+          <td mat-cell *matCellDef="let gameTableModel">
+            <input matInput
+                   *ngIf="gameTableModel.game.pointsTeam2 == null && getTipTeam2ByGameId(gameTableModel.game.id) == dash; else showTipTeam2"
+                   maxlength="2" type="text"
+                   [placeholder]="dash" [(ngModel)]="tipTeam2[gameTableModel.game.id]"
+                   [formControl]="gameTableModel.formControlTip2" [errorStateMatcher]="matcher">
+
+            <br>
+            <mat-error
+              *ngIf="(gameTableModel.formControlTip2.hasError('pattern')) &&
+            !gameTableModel.formControlTip2.hasError('required')">
+              Bitte geben Sie eine gültige Nummer ein.
+            </mat-error>
+
+            <ng-template #showTipTeam2>
+              {{getTipTeam2ByGameId(gameTableModel.game.id)}}
+            </ng-template>
+          </td>
+        </ng-container>
+      </div>
 
       <ng-container matColumnDef="button">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let game">
-          <button *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) == dash; else showEditButton"
-                  mat-stroked-button
-                  (click)="saveTip(1, tipTeam1[game.id], tipTeam2[game.id], game)">save
+        <td mat-cell *matCellDef="let gameTableModel">
+          <button
+            *ngIf="gameTableModel.game.pointsTeam1 == null && getTipTeam1ByGameId(gameTableModel.game.id) == dash; else showEditButton"
+            mat-stroked-button
+            (click)="saveTip(1, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
+            save
           </button>
 
           <ng-template #showEditButton>
-            <button *ngIf="game.pointsTeam1 == null && getTipTeam1ByGameId(game.id) != dash;" mat-stroked-button
-                    (click)="openTipWindow(game)">edit
+            <button
+              *ngIf="gameTableModel.game.pointsTeam1 == null && getTipTeam1ByGameId(gameTableModel.game.id) != dash;"
+              mat-stroked-button
+              (click)="openTipWindow(gameTableModel.game)">edit
             </button>
           </ng-template>
         </td>

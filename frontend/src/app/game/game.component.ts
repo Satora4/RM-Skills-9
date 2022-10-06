@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {GameService} from './game.service';
@@ -11,13 +11,11 @@ import {PopUpComponent} from "../pop-up/pop-up.component";
 import {
   FormControl,
   FormGroupDirective,
-  NgForm,
-  Validators
+  NgForm
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControl} from "../util/initFormControlForTip.util";
-import {KoPhaseModel} from "./Ko-Phase.model";
 
 
 export interface DialogData {
@@ -173,8 +171,9 @@ export class GameComponent implements OnInit {
       let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
       for (let sortedKoPhaseModel of sortedKoPhaseModels) {
         let dataSource = new MatTableDataSource();
-        dataSource.data = sortedKoPhaseModel.games;
+        dataSource.data = this.loadGameTableModel(sortedKoPhaseModel.games);
         console.log(sortedKoPhaseModel)
+
         let dataObject: DataObject = {
           dataSource: dataSource,
           phase: this.getPhase(sortedKoPhaseModel.phase.toString())
