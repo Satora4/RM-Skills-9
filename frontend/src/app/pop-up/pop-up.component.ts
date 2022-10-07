@@ -1,10 +1,17 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {DialogData} from "../game/game.component";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import { errorMessage } from '../util/errorMessage.util';
+
+
+export interface DialogData {
+  tip1: number;
+  tip2: number;
+  country1: string;
+  country2: string;
+}
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

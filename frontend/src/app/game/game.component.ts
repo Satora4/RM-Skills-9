@@ -1,30 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {GameService} from './game.service';
-
 import {Tip} from "../tip/tip.model";
+import {MatSort} from '@angular/material/sort';
+import {GameService} from './game.service';
 import {TipService} from "../tip/tip.service";
-import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
+import {Game} from "./game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {
-  FormControl,
-  FormGroupDirective,
-  NgForm
-} from '@angular/forms';
+import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
-
-
-export interface DialogData {
-  tip1: number;
-  tip2: number;
-  country1: string;
-  country2: string;
-}
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -45,8 +32,6 @@ export interface DataObject {
 })
 export class GameComponent implements OnInit {
   dataObjects: DataObject[] = [];
-
-
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};

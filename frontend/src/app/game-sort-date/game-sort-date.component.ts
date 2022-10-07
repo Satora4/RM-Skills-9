@@ -5,18 +5,14 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
-import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {
-  FormControl,
-  FormGroupDirective,
-  NgForm,
-} from '@angular/forms';
+import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
-import { errorMessage } from '../util/errorMessage.util';
+import {errorMessage} from '../util/errorMessage.util';
+import {GroupPhaseService} from "../group-phase/group-phase.service";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -37,7 +33,6 @@ export interface DataObject {
 })
 export class GameSortDateComponent implements OnInit {
   dataObjects: DataObject[] = [];
-
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};

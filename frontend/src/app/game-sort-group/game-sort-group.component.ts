@@ -5,22 +5,14 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
-import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
-import { errorMessage } from '../util/errorMessage.util';
-
-
-export interface DialogData {
-  tip1: number;
-  tip2: number;
-  country1: string;
-  country2: string;
-}
+import {errorMessage} from '../util/errorMessage.util';
+import {GroupPhaseService} from "../group-phase/group-phase.service";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
