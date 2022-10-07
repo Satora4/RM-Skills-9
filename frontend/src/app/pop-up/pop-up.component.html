@@ -8,9 +8,7 @@
     <br>
     <mat-error
       *ngIf="(formControlTip1.hasError('pattern')) &&
-            !formControlTip1.hasError('required')">
-      Please enter a valid number.
-    </mat-error>
+            !formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
 
   </mat-form-field>
   <mat-form-field>
@@ -21,9 +19,7 @@
     <br>
     <mat-error
       *ngIf="(formControlTip2.hasError('pattern')) &&
-            !formControlTip2.hasError('required')">
-      Bitte geben Sie eine gültige Nummer ein.
-    </mat-error>
+            !formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
 
   </mat-form-field>
 </div>

@@ -4,6 +4,7 @@ import {DialogData} from "../game/game.component";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {formControlForTip} from "../util/initFormControlForTip.util";
+import { errorMessage } from '../util/errorMessage.util';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -19,6 +20,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class PopUpComponent implements OnInit {
 
+  public readonly errorMessage = errorMessage;
   formControlTip1 = formControlForTip();
   formControlTip2 = formControlForTip();
   matcher = new MyErrorStateMatcher();
