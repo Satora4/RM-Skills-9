@@ -22,7 +22,7 @@ public class UserRepository {
     public List<User> getAllUser() {
 
         return dslContext.select(
-                        USER.USER_ID,
+                        USER.USER_ID.as("id"),
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
                         USER.EMAIL,
@@ -38,10 +38,13 @@ public class UserRepository {
         return dslContext.select(
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
-                        USER.USER_ID)
+                        USER.USER_ID.as("id"),
+                        USER.EMAIL,
+                        USER.POINTS,
+                        USER.ADMINISTRATOR)
                 .from(USER)
                 .where(USER.EMAIL.eq(mail))
-                .fetchOne(this::convert);
+                .fetchOneInto(User.class);
     }
 
     public void updateUser(User user) {
@@ -52,12 +55,13 @@ public class UserRepository {
                 .execute();
     }
 
-    private User convert(Record record) {
-        User user = new User();
-        user.setId(record.get(USER.USER_ID));
-        user.setFirstName(record.get(USER.FIRST_NAME));
-        user.setLastName(record.get(USER.LAST_NAME));
-
-        return user;
+    public void insertUser(String email, String firstName, String lastName, boolean isAdmin) {
+        dslContext.insertInto(USER)
+                .set(USER.EMAIL, email)
+                .set(USER.FIRST_NAME, firstName)
+                .set(USER.LAST_NAME, lastName)
+                .set(USER.POINTS, 0)
+                .set(USER.ADMINISTRATOR, isAdmin)
+                .execute();
     }
 }
