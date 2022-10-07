@@ -5,23 +5,26 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
-import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {GameTableModel} from "../game/game.table.model";
+import {formControlForTip} from "../util/initFormControlForTip.util";
+import {errorMessage} from '../util/errorMessage.util';
+import {GroupPhaseService} from "../group-phase/group-phase.service";
 
-
-export interface DialogData {
-  tip1: number;
-  tip2: number;
-  country1: string;
-  country2: string;
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
 }
 
 export interface DataObject {
   dataSource: MatTableDataSource<any>;
   groupDate: Date;
 }
-
 
 @Component({
   selector: 'app-game-sort-date',
@@ -35,6 +38,10 @@ export class GameSortDateComponent implements OnInit {
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public readonly dash = '—';
+  public readonly errorMessage = errorMessage;
+  public formControlsTip1: FormControl[] = [];
+  public formControlsTip2: FormControl[] = [];
+  matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
 
@@ -153,8 +160,9 @@ export class GameSortDateComponent implements OnInit {
       console.log(groupPhaseModelsForDate)
       for (let groupPhaseModel of groupPhaseModelsForDate) {
         let dataSource = new MatTableDataSource();
-        dataSource.data = groupPhaseModel.games;
+        dataSource.data = this.loadGameTableModel(groupPhaseModel.games);
         console.log(groupPhaseModel)
+
         let dataObject: DataObject = {
           dataSource: dataSource,
           groupDate: groupPhaseModel.groupDate
@@ -163,5 +171,25 @@ export class GameSortDateComponent implements OnInit {
       }
       console.log(this.dataObjects);
     });
+
+  }
+
+  private loadGameTableModel(games: Game[]): GameTableModel[] {
+    const gameTableModel: GameTableModel[] = [];
+    games.forEach(game => {
+      this.formControlsTip1.push(this.initFormControl());
+      this.formControlsTip2.push(this.initFormControl());
+
+      gameTableModel.push({
+        game: game,
+        formControlTip1: this.initFormControl(),
+        formControlTip2: this.initFormControl()
+      });
+    })
+    return gameTableModel;
+  }
+
+  private initFormControl(): FormControl {
+    return formControlForTip();
   }
 }

@@ -1,22 +1,24 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
-import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {MatTableDataSource} from "@angular/material/table";
-import {GroupPhaseModel} from "../group-phase/group-phase.model";
-import {Group} from "../group/group.model";
+import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {GameTableModel} from "../game/game.table.model";
+import {formControlForTip} from "../util/initFormControlForTip.util";
+import {errorMessage} from '../util/errorMessage.util';
+import {GroupPhaseService} from "../group-phase/group-phase.service";
 
-
-export interface DialogData {
-  tip1: number;
-  tip2: number;
-  country1: string;
-  country2: string;
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
 }
 
 export interface DataObjekt {
@@ -36,6 +38,10 @@ export class GameSortGroupComponent implements OnInit {
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public readonly dash = '—';
+  public readonly errorMessage = errorMessage;
+  public formControlsTip1: FormControl[] = [];
+  public formControlsTip2: FormControl[] = [];
+  matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
 
@@ -49,10 +55,6 @@ export class GameSortGroupComponent implements OnInit {
   ngOnInit(): void {
     this.loadGames();
   }
-
-  ngAfterViewInit() {
-  }
-
 
   public openTipWindow(game: Game): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
@@ -157,20 +159,39 @@ export class GameSortGroupComponent implements OnInit {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
       for (let groupsGame of groupsWithGamesObjects) {
         let dataSource = new MatTableDataSource();
-        let games: Game[] = groupsGame.games;
+        dataSource.data = this.loadGameTableModel(groupsGame.games);
 
-        dataSource.data = games;
         let dataObject: DataObjekt = {
           dataSource: dataSource,
           group: groupsGame.groupName
         }
+
         this.dataObjects.push(dataObject);
         this.dataObjects.sort(    (firstObject: DataObjekt , secondObject:DataObjekt ) =>
           (firstObject.group > secondObject.group) ? 1 : -1
         );
       }
-      console.log(this.dataObjects)
-
+      console.log(this.dataObjects);
     });
+
+  }
+
+  private loadGameTableModel(games: Game[]): GameTableModel[] {
+    const gameTableModel: GameTableModel[] = [];
+    games.forEach(game => {
+      this.formControlsTip1.push(this.initFormControl());
+      this.formControlsTip2.push(this.initFormControl());
+
+      gameTableModel.push({
+        game: game,
+        formControlTip1: this.initFormControl(),
+        formControlTip2: this.initFormControl()
+      });
+    })
+    return gameTableModel;
+  }
+
+  private initFormControl(): FormControl {
+    return formControlForTip();
   }
 }

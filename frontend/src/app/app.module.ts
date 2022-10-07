@@ -43,6 +43,7 @@ import { GameSortDateComponent } from './game-sort-date/game-sort-date.component
         MatDividerModule,
         MatFormFieldModule,
         MatIconModule,
+        MatInputModule,
         MatNativeDateModule,
         MatSortModule,
         MatTableModule,
