@@ -1,4 +1,4 @@
-table{
+table {
   width: 100%;
 }
 
@@ -14,15 +14,16 @@ table{
   padding-right: 2em;
   margin-top: 1em;
 }
+
 .selected-value {
   margin: 15px 0;
 }
 
-h2{
+h2 {
   margin-left: 0.5em;
   margin-top: 0.5em;
 }
 
-.groups{
+.groups {
   margin-bottom: 3em;
 }

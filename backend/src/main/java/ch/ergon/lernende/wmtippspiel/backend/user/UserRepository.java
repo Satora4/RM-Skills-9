@@ -1,6 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
-import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class UserRepository {
     public List<User> getAllUser() {
 
         return dslContext.select(
-                        USER.USER_ID,
+                        USER.USER_ID.as("id"),
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
                         USER.EMAIL,
@@ -34,18 +33,22 @@ public class UserRepository {
                 .fetchInto(User.class);
     }
 
-    public User getUser(IamUser user) {
+    public User getForMail(String mail) {
 
         return dslContext.select(
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
-                        USER.USER_ID)
+                        USER.USER_ID.as("id"),
+                        USER.EMAIL,
+                        USER.POINTS,
+                        USER.ADMINISTRATOR)
                 .from(USER)
-                .where(USER.EMAIL.eq(user.mail()))
-                .fetchOne(this::convert);
+                .where(USER.EMAIL.eq(mail))
+                .fetchOneInto(User.class);
     }
 
     public void updateUser(User user) {
+
         dslContext.update(USER)
                 .set(USER.POINTS, user.getPoints())
                 .where(USER.USER_ID.eq(user.getUserId()))
@@ -59,5 +62,15 @@ public class UserRepository {
         user.setLastName(record.get(USER.LAST_NAME));
 
         return user;
+    }
+
+    public void insertUser(String email, String firstName, String lastName, boolean isAdmin) {
+        dslContext.insertInto(USER)
+                .set(USER.EMAIL, email)
+                .set(USER.FIRST_NAME, firstName)
+                .set(USER.LAST_NAME, lastName)
+                .set(USER.POINTS, 0)
+                .set(USER.ADMINISTRATOR, isAdmin)
+                .execute();
     }
 }

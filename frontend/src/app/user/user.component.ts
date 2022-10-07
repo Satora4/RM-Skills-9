@@ -11,6 +11,7 @@ import { UserService } from './user.service';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
+  public user: User | any;
   private users: User[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
@@ -24,13 +25,16 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.loadUser();
   }
 
   private loadUser(): void {
+
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
       this.computeRanks(this.users);
+      this.users.unshift(this.user);
       this.userDataSource.data = this.users;
       console.log(users);
     });
@@ -49,5 +53,12 @@ export class UserComponent implements OnInit {
         }
     }
     return users;
+  }
+
+  private getUser(){
+    this.UserService.getUserData().subscribe( (user) => {
+      this.user = user;
+      console.log(this.user);
+    })
   }
 }
