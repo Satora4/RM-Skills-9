@@ -69,9 +69,7 @@
             <br>
             <mat-error
               *ngIf="gameTableModel.formControlTip1.hasError('pattern') &&
-              !gameTableModel.formControlTip1.hasError('required')">
-              Bitte geben Sie eine gültige Nummer ein.
-            </mat-error>
+              !gameTableModel.formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam1>
               {{getTipTeam1ByGameId(gameTableModel.game.id)}}
@@ -91,9 +89,7 @@
             <br>
             <mat-error
               *ngIf="(gameTableModel.formControlTip2.hasError('pattern')) &&
-            !gameTableModel.formControlTip2.hasError('required')">
-              Bitte geben Sie eine gültige Nummer ein.
-            </mat-error>
+            !gameTableModel.formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam2>
               {{getTipTeam2ByGameId(gameTableModel.game.id)}}

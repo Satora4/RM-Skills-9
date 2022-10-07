@@ -15,7 +15,8 @@ import {
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
-import {formControl} from "../util/initFormControlForTip.util";
+import {formControlForTip} from "../util/initFormControlForTip.util";
+import { errorMessage } from '../util/errorMessage.util';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -42,6 +43,7 @@ export class GameSortDateComponent implements OnInit {
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public readonly dash = '—';
+  public readonly errorMessage = errorMessage;
   public formControlsTip1: FormControl[] = [];
   public formControlsTip2: FormControl[] = [];
   matcher = new MyErrorStateMatcher();
@@ -193,6 +195,6 @@ export class GameSortDateComponent implements OnInit {
   }
 
   private initFormControl(): FormControl {
-    return formControl();
+    return formControlForTip();
   }
 }

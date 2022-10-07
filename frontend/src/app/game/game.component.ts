@@ -15,7 +15,8 @@ import {
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
-import {formControl} from "../util/initFormControlForTip.util";
+import {formControlForTip} from "../util/initFormControlForTip.util";
+import {errorMessage} from "../util/errorMessage.util";
 
 
 export interface DialogData {
@@ -51,6 +52,7 @@ export class GameComponent implements OnInit {
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public readonly dash = '—';
+  public readonly errorMessage = errorMessage;
   public formControlsTip1: FormControl[] = [];
   public formControlsTip2: FormControl[] = [];
   matcher = new MyErrorStateMatcher();
@@ -223,7 +225,7 @@ export class GameComponent implements OnInit {
   }
 
   private initFormControl(): FormControl {
-    return formControl();
+    return formControlForTip();
   }
 }
 
