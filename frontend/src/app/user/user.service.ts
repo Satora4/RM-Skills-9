@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 
 import { handleError } from '../util/http.util';
 import { User } from './user.model';
+import {UserComponent} from "./user.component";
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class UserService {
   private userDataUrl = 'api/user';
 
   constructor(private http: HttpClient) {}
+
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.userUrl).pipe(tap({ complete: () => console.log('fetched Users') }), catchError(handleError<User[]>('getUsers', [])));

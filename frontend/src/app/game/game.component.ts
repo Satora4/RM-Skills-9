@@ -8,6 +8,7 @@ import {TipService} from "../tip/tip.service";
 import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {UserService} from "../user/user.service";
 
 
 export interface DialogData {
@@ -35,8 +36,9 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   constructor(private gameService: GameService,
               private tipService: TipService,
+              private userService: UserService,
               public dialog: MatDialog) {
-    this.loadTipsByUser(1)
+    this.loadTipsByUser()
   }
 
   ngOnInit(): void {
@@ -96,9 +98,9 @@ export class GameComponent implements AfterViewInit, OnInit {
     return tip;
   }
 
-  public loadTipsByUser(userId: number) {
+  public loadTipsByUser() {
 
-    this.tipService.getTips(userId).subscribe((tips) => {
+    this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
 
@@ -134,7 +136,7 @@ export class GameComponent implements AfterViewInit, OnInit {
 
   }
 
-  private addTip(tip: Tip){
+  private addTip(tip: Tip) {
     this.tipService.addTip(tip).subscribe(tip => {
       location.reload()
     })

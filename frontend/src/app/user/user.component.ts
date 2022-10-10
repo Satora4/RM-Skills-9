@@ -33,9 +33,9 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   private getUserRank(): void {
-    for (let user of this.users){
+    for (let user of this.users) {
       console.log(user);
-      if (user.email == this.user.email){
+      if (user.email == this.user.email) {
         this.user.ranking = user.ranking;
         break;
       }
@@ -77,5 +77,4 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.user = user;
     })
   }
-
 }

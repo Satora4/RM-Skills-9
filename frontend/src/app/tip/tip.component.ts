@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Tip } from "./tip.model";
 import { TipService } from "./tip.service";
+import {UserService} from "../user/user.service";
 
 @Component({
   selector: 'app-tip',
@@ -11,14 +12,21 @@ import { TipService } from "./tip.service";
 export class TipComponent implements OnInit {
   private tips: Tip[] = [];
 
-  constructor(private tipService: TipService) {}
+  constructor(private tipService: TipService, private userService:UserService) {}
 
   ngOnInit(): void {
-    this.loadTipsByUser(1);
+    this.loadTipsByUser();
   }
 
-  private loadTipsByUser(userId: number): void {
-    this.tipService.getTips(userId).subscribe((tips) => {
+  getUserEmail():string{
+    this.userService.getUserData().subscribe((user)=>{
+      return  user.email;
+    })
+    throw new Error("Mail isn't in list")
+  }
+
+  private loadTipsByUser(): void {
+    this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
   }
