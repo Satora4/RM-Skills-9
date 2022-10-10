@@ -18,13 +18,6 @@ export class TipComponent implements OnInit {
     this.loadTipsByUser();
   }
 
-  getUserEmail():string{
-    this.userService.getUserData().subscribe((user)=>{
-      return  user.email;
-    })
-    throw new Error("Mail isn't in list")
-  }
-
   private loadTipsByUser(): void {
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;

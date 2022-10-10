@@ -147,7 +147,6 @@ export class GameComponent implements AfterViewInit, OnInit {
     })
   }
 
-
   loadGames(): void {
     this.gameService.getGames().subscribe((games) => {
       this.dataSource.data = games;
