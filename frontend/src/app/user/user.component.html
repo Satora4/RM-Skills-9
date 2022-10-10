@@ -7,20 +7,18 @@
       <th>
         <mat-icon>account_circle</mat-icon>
       </th>
-      <th>Score</th>
-      <th>Rank</th>
+      <th><mat-icon>stars</mat-icon></th>
+      <th><mat-icon>public</mat-icon></th>
     </tr>
     <tr>
       <td>{{this.user.firstName}} {{this.user.lastName}}</td>
       <td>{{this.user.points}}</td>
       <td>{{this.user.ranking}}</td>
-
     </tr>
   </table>
 
-
   <mat-form-field appearance="standard" class="list">
-    <mat-label style="color: black">Suchen</mat-label>
+    <mat-label style="color: black"><mat-icon style="font-size: 20px">search</mat-icon></mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Niculin" #input>
   </mat-form-field>
 

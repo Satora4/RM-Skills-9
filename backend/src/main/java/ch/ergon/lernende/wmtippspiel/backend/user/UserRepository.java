@@ -36,9 +36,12 @@ public class UserRepository {
     public User getForMail(String mail) {
 
         return dslContext.select(
+                        USER.USER_ID,
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
-                        USER.USER_ID)
+                        USER.EMAIL,
+                        USER.POINTS,
+                        USER.ADMINISTRATOR)
                 .from(USER)
                 .where(USER.EMAIL.eq(mail))
                 .fetchOne(this::convert);
@@ -57,6 +60,9 @@ public class UserRepository {
         user.setId(record.get(USER.USER_ID));
         user.setFirstName(record.get(USER.FIRST_NAME));
         user.setLastName(record.get(USER.LAST_NAME));
+        user.setPoints(record.get(USER.POINTS));
+        user.setEmail(record.get(USER.EMAIL));
+        user.setAdministrator(record.get(USER.ADMINISTRATOR));
 
         return user;
     }

@@ -32,11 +32,22 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.loadUser();
   }
 
+  private getUserRank(): void {
+    for (let user of this.users){
+      console.log(user);
+      if (user.email == this.user.email){
+        this.user.ranking = user.ranking;
+        break;
+      }
+    }
+  }
+
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
       this.computeRanks(this.users);
       this.userDataSource.data = this.users;
+      this.getUserRank();
       console.log(users);
     });
   }
