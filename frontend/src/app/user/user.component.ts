@@ -30,7 +30,6 @@ export class UserComponent implements OnInit {
   }
 
   private loadUser(): void {
-
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
       this.computeRanks(this.users);

@@ -49,7 +49,7 @@ export class GameSortGroupComponent implements OnInit {
               private tipService: TipService,
               public dialog: MatDialog,
               private groupPhaseService: GroupPhaseService) {
-    this.loadTipsByUser(1)
+    this.loadTipsByUser()
   }
 
   ngOnInit(): void {
@@ -105,12 +105,11 @@ export class GameSortGroupComponent implements OnInit {
     return tip;
   }
 
-  public loadTipsByUser(userId: number) {
+  public loadTipsByUser() {
 
-    this.tipService.getTips(userId).subscribe((tips) => {
+    this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
-
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
@@ -144,16 +143,15 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   private addTip(tip: Tip) {
-    this.tipService.addTip(tip).subscribe(tip => {
+    this.tipService.addTip(tip).subscribe(() => {
       location.reload()
     })
   }
 
   private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(tip => {
+    this.tipService.updateTip(tip).subscribe(() => {
     })
   }
-
 
   loadGames(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
@@ -173,7 +171,6 @@ export class GameSortGroupComponent implements OnInit {
       }
       console.log(this.dataObjects);
     });
-
   }
 
   private loadGameTableModel(games: Game[]): GameTableModel[] {

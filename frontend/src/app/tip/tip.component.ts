@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { Tip } from "./tip.model";
-import { TipService } from "./tip.service";
+import {Tip} from "./tip.model";
+import {TipService} from "./tip.service";
 
 @Component({
   selector: 'app-tip',
@@ -14,11 +14,11 @@ export class TipComponent implements OnInit {
   constructor(private tipService: TipService) {}
 
   ngOnInit(): void {
-    this.loadTipsByUser(1);
+    this.loadTipsByUser();
   }
 
-  private loadTipsByUser(userId: number): void {
-    this.tipService.getTips(userId).subscribe((tips) => {
+  private loadTipsByUser(): void {
+    this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
   }

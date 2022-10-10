@@ -1,10 +1,13 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
+import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
+import ch.ergon.lernende.wmtippspiel.backend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -16,14 +19,21 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("tip")
 public class TipController {
     private final TipRepository tipRepository;
+    private final UserRepository userRepository;
+
 
     @Autowired
-    public TipController(TipRepository tipRepository) {
+    public TipController(TipRepository tipRepository, UserRepository userRepository ) {
         this.tipRepository = tipRepository;
+        this.userRepository = userRepository;
     }
 
+
+
     @PatchMapping()
-    public void updateTip(@RequestBody TipTO tipTO) {
+    public void updateTip(@RequestBody TipTO tipTO, Authentication authentication) {
+        IamUser user = (IamUser) authentication.getPrincipal();
+        tipTO.setUserId(userRepository.getForMail(user.mail()).getId());
         if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
             tipRepository.putTip(convert(tipTO));
         } else {
@@ -32,17 +42,20 @@ public class TipController {
     }
 
     @GetMapping
-    public List<TipTO> getTips(@RequestParam(required = false, name = "userId") Integer userId) {
-        if (userId != null) {
-            return convert(tipRepository.getTipsByUserId(userId));
+    public List<TipTO> getTips(Authentication authentication) {
+        IamUser user = (IamUser) authentication.getPrincipal();
+        if (user != null) {
+            return convert(tipRepository.getTipsByUserId(user.mail()));
         } else {
-            return convert(tipRepository.getAllTip());
+            throw new RuntimeException("no tips available");
         }
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void addTip(@RequestBody TipTO tipTO) {
+    public void addTip(@RequestBody TipTO tipTO, Authentication authentication) {
+        IamUser user = (IamUser) authentication.getPrincipal();
+        tipTO.setUserId(userRepository.getForMail(user.mail()).getId());
         if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
             tipRepository.addTip(convert(tipTO));
         } else {
