@@ -26,14 +26,13 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.getUser();
     this.loadUser();
+    this.getUser();
   }
 
   private getUserRank(): void {
-    for (let user of this.users){
-      console.log(user);
-      if (user.email == this.user.email){
+    for (let user of this.users) {
+      if (user.email == this.user.email) {
         this.user.ranking = user.ranking;
         break;
       }
@@ -41,14 +40,11 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   private loadUser(): void {
-
     this.UserService.getUsers().subscribe((users) => {
       this.users = users;
       this.computeRanks(this.users);
-      this.users.unshift(this.user);
       this.userDataSource.data = this.users;
       this.getUserRank();
-      console.log(users);
     });
   }
 
@@ -72,8 +68,8 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.userDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  private getUser(){
-    this.UserService.getUserData().subscribe( (user) => {
+  private getUser() {
+    this.UserService.getUserData().subscribe((user) => {
       this.user = user;
     })
   }
