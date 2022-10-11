@@ -135,7 +135,7 @@ public class GameRepository {
         return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()).and(GAME.CALCULATED.eq(false)));
     }
 
-    public void updateGameClalculateStateToTrue(Game game) {
+    public void markAsCalculated(Game game) {
         dslContext.update(GAME)
                 .set(GAME.CALCULATED, true)
                 .where(GAME.GAME_ID.eq(game.getId()))

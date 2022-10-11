@@ -10,7 +10,10 @@ import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import ch.ergon.lernende.wmtippspiel.backend.user.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CalculatorService {
@@ -32,8 +35,7 @@ public class CalculatorService {
 
     public void calculateGames() {
         List<Game> gamesToCalculate = gameRepository.getAllFinishedGamesWithOutTeamCalculation();
-
-        for (Game game:gamesToCalculate) {
+        for (Game game : gamesToCalculate) {
             PointsPerGameAndTeam pointsPerGameAndTeam = ruleService.calculateGame(game);
 
             Team team1 = getTeam(game.getTeam1().getId());
@@ -46,11 +48,11 @@ public class CalculatorService {
         }
     }
 
-    public Team getTeam (int teamId){
+    public Team getTeam(int teamId) {
         List<Team> allTeams = teamRepository.getAllTeams();
 
-        for (Team team :allTeams){
-            if (team.getId() == teamId){
+        for (Team team : allTeams) {
+            if (team.getId() == teamId) {
                 return team;
             }
         }
@@ -61,7 +63,6 @@ public class CalculatorService {
      * get ready the data to calculate the score for the points of each tip
      */
     public void calculateScore() {
-
         List<Game> gamesToCalculate = gameRepository.getAllFinishedGames();
 
         List<Tip> tips = tipRepository.getAllTip();
@@ -72,9 +73,7 @@ public class CalculatorService {
                 tipsToCalculate.add(tip);
             }
         }
-
         Map<User, List<Tip>> usersWithTips = groupTipsByUser(tipsToCalculate);
-
         for (var user : usersWithTips.keySet()) {
             int userPoints = user.getPoints();
 
@@ -95,7 +94,6 @@ public class CalculatorService {
 
                 tipRepository.updateTipPoints(tip);
             }
-
             user.setPoints(userPoints);
             userRepository.updateUser(user);
         }
@@ -103,7 +101,6 @@ public class CalculatorService {
 
     private Map<User, List<Tip>> groupTipsByUser(List<Tip> tipsToCalculate) {
         Map<User, List<Tip>> usersWithTips = new HashMap<>();
-
         List<User> users = new ArrayList<>();
         for (Tip tip : tipsToCalculate) {
             if (!users.contains(tip.getUser())) {
@@ -120,8 +117,6 @@ public class CalculatorService {
             tips.forEach(tipsToCalculate::remove);
             usersWithTips.put(user, tips);
         }
-
         return usersWithTips;
     }
-
 }

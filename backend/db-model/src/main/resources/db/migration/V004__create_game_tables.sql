@@ -16,7 +16,7 @@ CREATE TABLE GAME
     GOALS_TEAM1   INT,
     GOALS_TEAM2   INT,
     PHASE         PHASE DEFAULT 'GROUP_PHASE',
-    CALCULATED   BOOLEAN,
+    CALCULATED    BOOLEAN,
     foreign key (TEAM1_ID) references TEAM (TEAM_ID),
     foreign key (TEAM2_ID) references TEAM (TEAM_ID)
 );

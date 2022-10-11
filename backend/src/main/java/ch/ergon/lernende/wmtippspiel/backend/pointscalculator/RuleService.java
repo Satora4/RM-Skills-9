@@ -37,17 +37,13 @@ public class RuleService {
     }
 
     public PointsPerGameAndTeam calculateGame(Game game) {
+        gameRepository.markAsCalculated(game);
         if (game.getPointsTeam1().equals(game.getPointsTeam2())) {
-            gameRepository.updateGameClalculateStateToTrue(game);
             return draw();
         } else if (game.getPointsTeam1() > game.getPointsTeam2()) {
-            gameRepository.updateGameClalculateStateToTrue(game);
             return winTeam1();
-        } else if (game.getPointsTeam2() > game.getPointsTeam1()) {
-            gameRepository.updateGameClalculateStateToTrue(game);
-            return winTeam2();
         } else {
-            throw new RuntimeException("wrong game");
+            return winTeam2();
         }
     }
 }
