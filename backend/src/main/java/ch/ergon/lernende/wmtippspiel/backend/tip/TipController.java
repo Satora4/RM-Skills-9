@@ -40,7 +40,6 @@ public class TipController {
 
     @GetMapping
     public List<TipTO> getTips() {
-        System.out.println(currentUser);
         if (currentUser != null) {
             return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
         } else {
@@ -51,7 +50,6 @@ public class TipController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addTip(@RequestBody TipTO tipTO) {
-
         tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getId());
         if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
             tipRepository.addTip(convert(tipTO));
@@ -65,7 +63,6 @@ public class TipController {
     }
 
     private TipTO convert(Tip tip) {
-
         User user = tip.getUser();
         Game game = tip.getGame();
 
@@ -97,7 +94,6 @@ public class TipController {
     }
 
     private Tip convert(TipTO tipTO) {
-
         Tip tip = new Tip();
         tip.setId(tipTO.getId());
         tip.setTipTeam1(tipTO.getTipTeam1());
