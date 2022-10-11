@@ -8,7 +8,7 @@ import static org.springframework.web.context.WebApplicationContext.SCOPE_REQUES
 
 @Component
 @Scope(value = SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class CurrentUser extends User {
+public class CurrentUser {
     private User user;
 
     public User getUser() {

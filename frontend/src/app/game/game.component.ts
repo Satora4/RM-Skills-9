@@ -47,7 +47,7 @@ export class GameComponent implements OnInit {
   constructor(private gameService: GameService,
               private tipService: TipService,
               public dialog: MatDialog) {
-    this.loadTipsByUser(1)
+    this.loadTipsByUser()
   }
 
   ngOnInit(): void {
@@ -103,9 +103,9 @@ export class GameComponent implements OnInit {
     return tip;
   }
 
-  public loadTipsByUser(userId: number) {
+  public loadTipsByUser() {
 
-    this.tipService.getTips(userId).subscribe((tips) => {
+    this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
 
@@ -142,13 +142,13 @@ export class GameComponent implements OnInit {
   }
 
   private addTip(tip: Tip) {
-    this.tipService.addTip(tip).subscribe(tip => {
+    this.tipService.addTip(tip).subscribe(() => {
       location.reload()
     })
   }
 
   private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(tip => {
+    this.tipService.updateTip(tip).subscribe(() => {
     })
   }
 
