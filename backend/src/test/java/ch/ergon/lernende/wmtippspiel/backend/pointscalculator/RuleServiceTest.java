@@ -23,35 +23,35 @@ class RuleServiceTest {
     @Test
     void testWrongTipCalculatesZeroPoints() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_1);
-        int points = ruleService.calculate(tipAndGameResult);
+        int points = ruleService.calculateScore(tipAndGameResult);
         assertEquals(0, points);
     }
 
     @Test
     void testCorrectTipCalculatesThreePoints() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_2, GAME_RESULT_VALUE_3);
-        int points = ruleService.calculate(tipAndGameResult);
+        int points = ruleService.calculateScore(tipAndGameResult);
         assertEquals(3, points);
     }
 
     @Test
     void testTipHasCorrectGoalDeviationCalculatesTwoPoints() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_3, GAME_RESULT_VALUE_4);
-        int points = ruleService.calculate(tipAndGameResult);
+        int points = ruleService.calculateScore(tipAndGameResult);
         assertEquals(2, points);
     }
 
     @Test
     void testNotCorrectTieCalculatesOnePoint() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_2, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_4);
-        int points = ruleService.calculate(tipAndGameResult);
+        int points = ruleService.calculateScore(tipAndGameResult);
         assertEquals(1, points);
     }
 
     @Test
     void testCorrectWinnerCalculatesOnePoint() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_1, GAME_RESULT_VALUE_4);
-        int points = ruleService.calculate(tipAndGameResult);
+        int points = ruleService.calculateScore(tipAndGameResult);
         assertEquals(1, points);
     }
 }

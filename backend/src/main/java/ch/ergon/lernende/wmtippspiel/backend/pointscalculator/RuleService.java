@@ -1,16 +1,26 @@
 package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 
+import ch.ergon.lernende.wmtippspiel.backend.game.Game;
+import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
 import org.springframework.stereotype.Service;
+
+import static ch.ergon.lernende.wmtippspiel.backend.pointscalculator.PointsPerGameAndTeam.*;
 
 @Service
 public class RuleService {
+    private final GameRepository gameRepository;
+
+    public RuleService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
 
     /**
      * calculates the score for each tip, on the basis of the ruleset
+     *
      * @param tipAndGameResult
      * @return int
      */
-    public int calculate(TipAndGameResult tipAndGameResult) {
+    public int calculateScore(TipAndGameResult tipAndGameResult) {
         if (tipAndGameResult.getTipTeam1() == tipAndGameResult.getPointsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.getPointsTeam2()) {
             return 3;
         } else if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getPointsTeam1() == tipAndGameResult.getTipTeam2() - tipAndGameResult.getPointsTeam2()) {
@@ -23,6 +33,21 @@ public class RuleService {
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    public PointsPerGameAndTeam calculateGame(Game game) {
+        if (game.getPointsTeam1().equals(game.getPointsTeam2())) {
+            gameRepository.updateGameClalculateStateToTrue(game);
+            return draw();
+        } else if (game.getPointsTeam1() > game.getPointsTeam2()) {
+            gameRepository.updateGameClalculateStateToTrue(game);
+            return winTeam1();
+        } else if (game.getPointsTeam2() > game.getPointsTeam1()) {
+            gameRepository.updateGameClalculateStateToTrue(game);
+            return winTeam2();
+        } else {
+            throw new RuntimeException("wrong game");
         }
     }
 }

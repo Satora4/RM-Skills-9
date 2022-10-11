@@ -30,6 +30,7 @@ public class GameRepository {
     public GameRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }
+
     public List<Games> getGamesForGroups() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
@@ -112,7 +113,7 @@ public class GameRepository {
                         TEAM_ALIAS_2.TEAM_ID,
                         TEAM_ALIAS_2.COUNTRY,
                         TEAM_ALIAS_2.FLAG
-                        )
+                )
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
@@ -124,10 +125,21 @@ public class GameRepository {
     }
 
     /**
-     * returns all games they're already done, means where the points aren't NULL
+     * returns all games they're already done, means where the goals aren't NULL
      */
-    public List<Game> getGamesWithPoints() {
+    public List<Game> getAllFinishedGames() {
         return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
+    }
+
+    public List<Game> getAllFinishedGamesWithOutTeamCalculation() {
+        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()).and(GAME.CALCULATED.eq(false)));
+    }
+
+    public void updateGameClalculateStateToTrue(Game game) {
+        dslContext.update(GAME)
+                .set(GAME.CALCULATED, true)
+                .where(GAME.GAME_ID.eq(game.getId()))
+                .execute();
     }
 
     private Game convert(Record record) {

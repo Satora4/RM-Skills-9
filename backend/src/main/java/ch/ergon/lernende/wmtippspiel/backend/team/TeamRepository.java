@@ -23,4 +23,11 @@ public class TeamRepository {
     public List<Team> getAllTeams() {
         return dslContext.selectFrom(TEAM).fetch(teamMapper::map);
     }
+
+    public void updateTeam(int teamId, int points){
+            dslContext.update(TEAM)
+                    .set(TEAM.POINTS, points)
+                    .where(TEAM.TEAM_ID.eq(teamId))
+                    .execute();
+        }
 }
