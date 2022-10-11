@@ -30,7 +30,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.getUser();
   }
 
-  private getUserRank(): void {
+  private calculateUserRank(): void {
     for (let user of this.users) {
       if (user.email == this.user.email) {
         this.user.ranking = user.ranking;
@@ -44,7 +44,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.users = users;
       this.computeRanks(this.users);
       this.userDataSource.data = this.users;
-      this.getUserRank();
+      this.calculateUserRank();
     });
   }
 

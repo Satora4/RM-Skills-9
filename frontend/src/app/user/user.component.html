@@ -7,8 +7,8 @@
       <th>
         <mat-icon>account_circle</mat-icon>
       </th>
-      <th><mat-icon>stars</mat-icon></th>
-      <th><mat-icon>public</mat-icon></th>
+      <th>Score</th>
+      <th>Rang</th>
     </tr>
     <tr>
       <td>{{this.user.firstName}} {{this.user.lastName}}</td>
@@ -19,7 +19,7 @@
 
   <mat-form-field appearance="standard" class="list">
     <mat-label style="color: black"><mat-icon style="font-size: 20px">search</mat-icon></mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Niculin" #input>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Name..." #input>
   </mat-form-field>
 
   <div class="list">
@@ -50,7 +50,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        <td class="mat-cell" colspan="4">Kein passender Eintrag gefunden für "{{input.value}}"</td>
       </tr>
     </table>
 
