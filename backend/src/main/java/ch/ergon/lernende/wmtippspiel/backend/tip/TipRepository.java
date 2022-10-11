@@ -32,7 +32,7 @@ public class TipRepository {
         return getTips(DSL.noCondition());
     }
 
-    public List<Tip> getTipsByUserId(String userMail) {
+    public List<Tip> getTipsByUserMail(String userMail) {
         return getTips(USER.EMAIL.eq(userMail));
     }
 

@@ -19,16 +19,18 @@ import static java.util.stream.Collectors.toList;
 public class TipController {
     private final TipRepository tipRepository;
     private final UserRepository userRepository;
+    private final CurrentUser currentUser;
 
     @Autowired
-    public TipController(TipRepository tipRepository, UserRepository userRepository ) {
+    public TipController(TipRepository tipRepository, UserRepository userRepository, CurrentUser currentUser) {
         this.tipRepository = tipRepository;
         this.userRepository = userRepository;
+        this.currentUser = currentUser;
     }
 
     @PatchMapping()
-    public void updateTip(@RequestBody TipTO tipTO, CurrentUser currentUser) {
-        tipTO.setUserId(userRepository.getForMail(currentUser.getEmail()).getId());
+    public void updateTip(@RequestBody TipTO tipTO) {
+        tipTO.setUserId(currentUser.getUser().getId());
         if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
             tipRepository.putTip(convert(tipTO));
         } else {
@@ -37,9 +39,10 @@ public class TipController {
     }
 
     @GetMapping
-    public List<TipTO> getTips(CurrentUser currentUser) {
+    public List<TipTO> getTips() {
+        System.out.println(currentUser);
         if (currentUser != null) {
-            return convert(tipRepository.getTipsByUserId(currentUser.getEmail()));
+            return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
         } else {
             throw new RuntimeException("no tips available");
         }
@@ -47,9 +50,9 @@ public class TipController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void addTip(@RequestBody TipTO tipTO, CurrentUser currentUser) {
+    public void addTip(@RequestBody TipTO tipTO) {
 
-        tipTO.setUserId(userRepository.getForMail(currentUser.getEmail()).getId());
+        tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getId());
         if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
             tipRepository.addTip(convert(tipTO));
         } else {
