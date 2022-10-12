@@ -29,6 +29,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { GameSortGroupComponent } from './game-sort-group/game-sort-group.component';
 import { GameSortDateComponent } from './game-sort-date/game-sort-date.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [AppComponent, GameComponent, GroupComponent, HeaderComponent, RulesComponent, TeamComponent, TipComponent, UserComponent, PopUpComponent, GroupPhaseComponent, GameSortGroupComponent, GameSortDateComponent],
@@ -52,6 +53,7 @@ import { GameSortDateComponent } from './game-sort-date/game-sort-date.component
         MatDialogModule,
         MatMenuModule,
         MatButtonToggleModule,
+        MatSlideToggleModule,
     ],
   providers: [],
   bootstrap: [AppComponent],

@@ -13,6 +13,9 @@ import {GameTableModel} from "../game/game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from '../util/errorMessage.util';
 import {GroupPhaseService} from "../group-phase/group-phase.service";
+import {MatButtonToggleChange} from "@angular/material/button-toggle";
+import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {filter} from "rxjs";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -33,6 +36,7 @@ export interface DataObject {
 })
 export class GameSortDateComponent implements OnInit {
   dataObjects: DataObject[] = [];
+  dataObjectsWithOutPlayedGames: DataObject[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
@@ -42,6 +46,7 @@ export class GameSortDateComponent implements OnInit {
   public formControlsTip1: FormControl[] = [];
   public formControlsTip2: FormControl[] = [];
   matcher = new MyErrorStateMatcher();
+  toggle:boolean |any;
 
   @ViewChild(MatSort) sort = new MatSort();
 
@@ -53,7 +58,16 @@ export class GameSortDateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadGames();
+  }
+
+
+  onChange(ob: MatSlideToggleChange) {
+    this.toggle = ob;
+    if (ob.checked) {
+      this.loadGames();
+    } else {
+      this.loadGamesWithOutPlayedGames();
+    }
   }
 
   public openTipWindow(game: Game): void {
@@ -172,6 +186,31 @@ export class GameSortDateComponent implements OnInit {
       console.log(this.dataObjects);
     });
 
+  }
+
+  loadGamesWithOutPlayedGames(): void {
+    this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
+      console.log(groupPhaseModelsForDate)
+      for (let groupPhaseModel of groupPhaseModelsForDate) {
+        let dataSource = new MatTableDataSource();
+        for (let i = 0; i < groupPhaseModel.games.length; i++) {
+          if (groupPhaseModel.games[i].pointsTeam1 !== null) {
+            groupPhaseModel.games.splice(i, 1);
+          }
+        }
+        dataSource.data = this.loadGameTableModel(groupPhaseModel.games);
+
+
+        console.log(groupPhaseModel)
+
+        let dataObject: DataObject = {
+          dataSource: dataSource,
+          groupDate: groupPhaseModel.groupDate
+        }
+        this.dataObjectsWithOutPlayedGames.push(dataObject);
+      }
+      console.log(this.dataObjectsWithOutPlayedGames);
+    });
   }
 
   private loadGameTableModel(games: Game[]): GameTableModel[] {
