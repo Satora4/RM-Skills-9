@@ -13,6 +13,7 @@ import {GameTableModel} from "../game/game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from '../util/errorMessage.util';
 import {GroupPhaseService} from "../group-phase/group-phase.service";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -21,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-export interface DataObjekt {
+export interface DataObjectForGroup {
   dataSource: MatTableDataSource<any>;
   group: string;
 }
@@ -32,7 +33,9 @@ export interface DataObjekt {
   styleUrls: ['./game-sort-group.component.css']
 })
 export class GameSortGroupComponent implements OnInit {
-  dataObjects: DataObjekt[] = [];
+  dataObjectsWithAllGames: DataObjectForGroup[] = [];
+  dataObjectsWithOutPlayedGames: DataObjectForGroup[] = [];
+  dataObjects: DataObjectForGroup[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
@@ -53,7 +56,17 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataObjects = this.dataObjectsWithOutPlayedGames;
     this.loadGames();
+    this.loadGamesWithOutPlayedGames();
+  }
+
+  onChange(ob: MatSlideToggleChange) {
+    if (ob.checked) {
+      this.dataObjects = this.dataObjectsWithAllGames;
+    } else {
+      this.dataObjects = this.dataObjectsWithOutPlayedGames;
+    }
   }
 
   public openTipWindow(game: Game): void {
@@ -74,7 +87,6 @@ export class GameSortGroupComponent implements OnInit {
       window.location.reload();
     });
   }
-
 
   public getTipTeam1ByGameId(gameId: number): string {
     let tip: string = this.dash;
@@ -106,15 +118,12 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   public loadTipsByUser(userId: number) {
-
     this.tipService.getTips(userId).subscribe((tips) => {
       this.tips = tips;
     });
-
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
-
     let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,
@@ -140,7 +149,6 @@ export class GameSortGroupComponent implements OnInit {
     } else {
       this.addTip(tip);
     }
-
   }
 
   private addTip(tip: Tip) {
@@ -154,26 +162,43 @@ export class GameSortGroupComponent implements OnInit {
     })
   }
 
+  loadGamesWithOutPlayedGames(): void {
+    this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
+      for (let groupsGame of groupsWithGamesObjects) {
+        let dataSource = new MatTableDataSource();
+        for (let i = 0; i < groupsGame.games.length; i++) {
+          if (groupsGame.games[i].pointsTeam1 !== null) {
+            groupsGame.games.splice(i, 1);
+          }
+        }
+        dataSource.data = this.loadGameTableModel(groupsGame.games);
+        let dataObject: DataObjectForGroup = {
+          dataSource: dataSource,
+          group: groupsGame.groupName
+        }
+        this.dataObjectsWithOutPlayedGames.push(dataObject);
+        this.dataObjectsWithOutPlayedGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
+          (firstObject.group > secondObject.group) ? 1 : -1
+        );
+      }
+    });
+  }
 
   loadGames(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
       for (let groupsGame of groupsWithGamesObjects) {
         let dataSource = new MatTableDataSource();
         dataSource.data = this.loadGameTableModel(groupsGame.games);
-
-        let dataObject: DataObjekt = {
+        let dataObject: DataObjectForGroup = {
           dataSource: dataSource,
           group: groupsGame.groupName
         }
-
-        this.dataObjects.push(dataObject);
-        this.dataObjects.sort(    (firstObject: DataObjekt , secondObject:DataObjekt ) =>
+        this.dataObjectsWithAllGames.push(dataObject);
+        this.dataObjectsWithAllGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
           (firstObject.group > secondObject.group) ? 1 : -1
         );
       }
-      console.log(this.dataObjects);
     });
-
   }
 
   private loadGameTableModel(games: Game[]): GameTableModel[] {
@@ -181,7 +206,6 @@ export class GameSortGroupComponent implements OnInit {
     games.forEach(game => {
       this.formControlsTip1.push(this.initFormControl());
       this.formControlsTip2.push(this.initFormControl());
-
       gameTableModel.push({
         game: game,
         formControlTip1: this.initFormControl(),
