@@ -87,7 +87,7 @@ public class CalculatorService {
                 int pointsTeam2 = currentGame.getPointsTeam2();
 
                 TipAndGameResult tipAndGameResult = new TipAndGameResult(tipTeam1, tipTeam2, pointsTeam1, pointsTeam2);
-                int points = ruleService.calculateScore(tipAndGameResult);
+                int points = ruleService.calculateTipScore(tipAndGameResult);
                 tip.setPoints(points);
 
                 userPoints += points;

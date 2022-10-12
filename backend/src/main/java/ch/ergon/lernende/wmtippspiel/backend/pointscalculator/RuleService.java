@@ -20,7 +20,7 @@ public class RuleService {
      * @param tipAndGameResult
      * @return int
      */
-    public int calculateScore(TipAndGameResult tipAndGameResult) {
+    public int calculateTipScore(TipAndGameResult tipAndGameResult) {
         if (tipAndGameResult.getTipTeam1() == tipAndGameResult.getPointsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.getPointsTeam2()) {
             return 3;
         } else if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getPointsTeam1() == tipAndGameResult.getTipTeam2() - tipAndGameResult.getPointsTeam2()) {
