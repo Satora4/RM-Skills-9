@@ -20,8 +20,8 @@ export class TipService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
-  getTips(userId: number): Observable<Tip[]> {
-    return this.httpClient.get<Tip[]>(this.tipUrl + "?userId=" + userId).pipe(
+  getTips(): Observable<Tip[]> {
+    return this.httpClient.get<Tip[]>(this.tipUrl).pipe(
       tap({complete: () => console.log('fetched Tips')}), catchError(handleError<Tip[]>('getTips', [])));
   }
 
