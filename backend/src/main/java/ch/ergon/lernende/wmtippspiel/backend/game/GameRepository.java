@@ -125,7 +125,7 @@ public class GameRepository {
     }
 
     /**
-     * returns all games they're already done, means where the goals aren't NULL
+     * returns all games that already have been played, i.e. where the goals aren't NULL
      */
     public List<Game> getAllFinishedGames() {
         return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
