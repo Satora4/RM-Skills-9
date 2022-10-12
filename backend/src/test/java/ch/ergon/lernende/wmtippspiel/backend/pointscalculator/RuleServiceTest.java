@@ -1,5 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 
+import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,44 +15,46 @@ class RuleServiceTest {
     public static final int GAME_RESULT_VALUE_2 = 2;
     public static final int GAME_RESULT_VALUE_3 = 3;
     private RuleService ruleService;
+    private GameRepository gameRepository;
+
 
     @BeforeEach
     void initializeRuleService() {
-        ruleService = new RuleService();
+        ruleService = new RuleService(gameRepository);
     }
 
     @Test
     void testWrongTipCalculatesZeroPoints() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_1);
-        int points = ruleService.calculateScore(tipAndGameResult);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
         assertEquals(0, points);
     }
 
     @Test
     void testCorrectTipCalculatesThreePoints() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_2, GAME_RESULT_VALUE_3);
-        int points = ruleService.calculateScore(tipAndGameResult);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
         assertEquals(3, points);
     }
 
     @Test
     void testTipHasCorrectGoalDeviationCalculatesTwoPoints() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_3, GAME_RESULT_VALUE_4);
-        int points = ruleService.calculateScore(tipAndGameResult);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
         assertEquals(2, points);
     }
 
     @Test
     void testNotCorrectTieCalculatesOnePoint() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_2, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_4);
-        int points = ruleService.calculateScore(tipAndGameResult);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
         assertEquals(1, points);
     }
 
     @Test
     void testCorrectWinnerCalculatesOnePoint() {
         var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_1, GAME_RESULT_VALUE_4);
-        int points = ruleService.calculateScore(tipAndGameResult);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
         assertEquals(1, points);
     }
 }
