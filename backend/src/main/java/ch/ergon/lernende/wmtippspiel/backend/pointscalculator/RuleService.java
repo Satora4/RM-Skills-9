@@ -14,6 +14,18 @@ public class RuleService {
         this.gameRepository = gameRepository;
     }
 
+    public static PointsPerGameAndTeam winTeam1() {
+        return new PointsPerGameAndTeam(3, 0);
+    }
+
+    public static PointsPerGameAndTeam winTeam2() {
+        return new PointsPerGameAndTeam(0, 3);
+    }
+
+    public static PointsPerGameAndTeam draw() {
+        return new PointsPerGameAndTeam(1, 1);
+    }
+
     /**
      * calculates the score for each tip, on the basis of the ruleset
      *
