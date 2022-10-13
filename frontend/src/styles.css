@@ -5,6 +5,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Aktiv Grotesk';
+  src:url(src/rsc/fonts/AktivGrotesk_W_Bd.woff) format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
 * {
   margin: 0;
 }
