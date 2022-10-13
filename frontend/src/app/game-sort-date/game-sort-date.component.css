@@ -1,4 +1,18 @@
-table{
+@font-face {
+  font-family: 'AktivGroteskBd';
+  src: url(src/rsc/fonts/AktivGrotesk_W_Bd.woff) format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AktivGroteskRg';
+  src: url(src/rsc/fonts/AktivGrotesk_W_Rg.woff) format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+table {
   width: 100%;
 }
 
@@ -13,16 +27,35 @@ table{
 .list tr td {
   padding-right: 2em;
   margin-top: 1em;
+  font-family: 'AktivGroteskRg', sans-serif;
 }
+
+.list th {
+  font-family: 'AktivGroteskBd', sans-serif;
+  color: #404648;
+}
+
 .selected-value {
   margin: 15px 0;
 }
 
-h2{
+h2 {
   margin-left: 0.5em;
   margin-top: 0.5em;
+  font-family: 'AktivGroteskBd', sans-serif;
+  font-size: 24px;
 }
 
-.groups{
+.groups {
   margin-bottom: 3em;
+}
+
+input{
+  height: 48px;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 30px;
+  text-align: center;
+  background: #F0F1F2;
 }
