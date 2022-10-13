@@ -1,7 +1,11 @@
+<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+
 <h1 mat-dialog-title>Edit tip</h1>
 <div mat-dialog-content>
   <mat-form-field>
-    <label>{{data.country1}}</label>
+    <label>{{data.country1}} <i
+      class="em {{data.flag1}}"
+      aria-role="presentation"></i> </label>
     <input matInput [(ngModel)]="data.tip1" type="text" maxlength="2"
            [formControl]="formControlTip1" [errorStateMatcher]="matcher">
 
@@ -12,7 +16,9 @@
 
   </mat-form-field>
   <mat-form-field>
-    <label>{{data.country2}}</label>
+    <label>{{data.country2}} <i
+      class="em {{data.flag2}}"
+      aria-role="presentation"></i> </label>
     <input matInput [(ngModel)]="data.tip2" type="text" maxlength="2"
            [formControl]="formControlTip2" [errorStateMatcher]="matcher">
 

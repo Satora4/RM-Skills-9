@@ -64,7 +64,9 @@ export class GameSortDateComponent implements OnInit {
         tip1: this.getTipByGameId(game.id).tipTeam1,
         tip2: this.getTipByGameId(game.id).tipTeam2,
         country1: game.team1.country,
-        country2: game.team2.country
+        country2: game.team2.country,
+        flag1: game.team1.countryFlag,
+        flag2: game.team2.countryFlag,
       }
     });
 
@@ -115,7 +117,6 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
-
     let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,

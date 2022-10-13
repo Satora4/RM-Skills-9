@@ -11,6 +11,8 @@ export interface DialogData {
   tip2: number;
   country1: string;
   country2: string;
+  flag1: string;
+  flag2:string;
 }
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
