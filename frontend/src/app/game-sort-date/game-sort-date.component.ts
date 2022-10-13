@@ -33,8 +33,8 @@ export interface DataObject {
   styleUrls: ['./game-sort-date.component.css']
 })
 export class GameSortDateComponent implements OnInit {
-  dataObjectsWithAllGames: DataObject[] = [];
-  dataObjectsWithOutPlayedGames: DataObject[] = [];
+  allGames: DataObject[] = [];
+  allOpenGamesOnly: DataObject[] = [];
   dataObjects: DataObject[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
@@ -56,17 +56,16 @@ export class GameSortDateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataObjects = this.dataObjectsWithOutPlayedGames;
-    this.loadGames();
-    this.loadGamesWithOutPlayedGames();
+    this.dataObjects = this.allOpenGamesOnly;
+    this.showAllGames();
+    this.showAllOpenGamesOnly();
   }
 
-
-  onChange(ob: MatSlideToggleChange) {
-    if (ob.checked) {
-      this.dataObjects = this.dataObjectsWithAllGames;
+  onChange(gameStateToggle: MatSlideToggleChange) {
+    if (gameStateToggle.checked) {
+      this.dataObjects = this.allGames;
     } else {
-      this.dataObjects = this.dataObjectsWithOutPlayedGames;
+      this.dataObjects = this.allOpenGamesOnly;
     }
   }
 
@@ -165,39 +164,38 @@ export class GameSortDateComponent implements OnInit {
     })
   }
 
-  loadGames(): void {
+  showAllGames(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
-      console.log(groupPhaseModelsForDate)
       for (let groupPhaseModel of groupPhaseModelsForDate) {
         let dataSource = new MatTableDataSource();
         dataSource.data = this.loadGameTableModel(groupPhaseModel.games);
-        console.log(groupPhaseModel)
         let dataObject: DataObject = {
           dataSource: dataSource,
           groupDate: groupPhaseModel.groupDate
         }
-        this.dataObjectsWithAllGames.push(dataObject);
+        this.allGames.push(dataObject);
       }
-      console.log(this.dataObjectsWithAllGames);
     });
   }
 
-  loadGamesWithOutPlayedGames(): void {
+  showAllOpenGamesOnly(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
-      console.log(groupPhaseModelsForDate)
-      for (let groupPhaseModel of groupPhaseModelsForDate) {
+      for (let j = 0; j < groupPhaseModelsForDate.length; j++) {
         let dataSource = new MatTableDataSource();
-        for (let i = 0; i < groupPhaseModel.games.length; i++) {
-          if (groupPhaseModel.games[i].pointsTeam1 !== null) {
-            groupPhaseModel.games.splice(i, 1);
+        for (let i = 0; i < groupPhaseModelsForDate[j].games.length; i++) {
+          if (groupPhaseModelsForDate[j].games[i].pointsTeam1 !== null) {
+            groupPhaseModelsForDate[j].games.splice(i, 1);
+            if (groupPhaseModelsForDate[j].games.length == 0){
+              groupPhaseModelsForDate.splice(j,1)
+            }
           }
         }
-        dataSource.data = this.loadGameTableModel(groupPhaseModel.games);
+        dataSource.data = this.loadGameTableModel(groupPhaseModelsForDate[j].games);
         let dataObject: DataObject = {
           dataSource: dataSource,
-          groupDate: groupPhaseModel.groupDate
+          groupDate: groupPhaseModelsForDate[j].groupDate
         }
-        this.dataObjectsWithOutPlayedGames.push(dataObject);
+        this.allOpenGamesOnly.push(dataObject);
       }
     });
   }

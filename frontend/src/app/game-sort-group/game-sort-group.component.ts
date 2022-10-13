@@ -33,8 +33,8 @@ export interface DataObjectForGroup {
   styleUrls: ['./game-sort-group.component.css']
 })
 export class GameSortGroupComponent implements OnInit {
-  dataObjectsWithAllGames: DataObjectForGroup[] = [];
-  dataObjectsWithOutPlayedGames: DataObjectForGroup[] = [];
+  allGames: DataObjectForGroup[] = [];
+  allOpenGamesOnly: DataObjectForGroup[] = [];
   dataObjects: DataObjectForGroup[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
@@ -56,16 +56,16 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataObjects = this.dataObjectsWithOutPlayedGames;
-    this.loadGames();
-    this.loadGamesWithOutPlayedGames();
+    this.dataObjects = this.allOpenGamesOnly;
+    this.showAllGames();
+    this.showAllOpenGamesOnly();
   }
 
-  onChange(ob: MatSlideToggleChange) {
-    if (ob.checked) {
-      this.dataObjects = this.dataObjectsWithAllGames;
+  onChange(gameStateToggle: MatSlideToggleChange) {
+    if (gameStateToggle.checked) {
+      this.dataObjects = this.allGames;
     } else {
-      this.dataObjects = this.dataObjectsWithOutPlayedGames;
+      this.dataObjects = this.allOpenGamesOnly;
     }
   }
 
@@ -163,29 +163,32 @@ export class GameSortGroupComponent implements OnInit {
     })
   }
 
-  loadGamesWithOutPlayedGames(): void {
+  showAllOpenGamesOnly(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
-      for (let groupsGame of groupsWithGamesObjects) {
+      for (let j = 0; j < groupsWithGamesObjects.length; j++) {
         let dataSource = new MatTableDataSource();
-        for (let i = 0; i < groupsGame.games.length; i++) {
-          if (groupsGame.games[i].pointsTeam1 !== null) {
-            groupsGame.games.splice(i, 1);
+        for (let i = 0; i < groupsWithGamesObjects[j].games.length; i++) {
+          if (groupsWithGamesObjects[j].games[i].pointsTeam1 !== null) {
+            groupsWithGamesObjects[j].games.splice(i, 1);
+            if (groupsWithGamesObjects[j].games.length == 0){
+              groupsWithGamesObjects.splice(j,1);
+            }
           }
         }
-        dataSource.data = this.loadGameTableModel(groupsGame.games);
+        dataSource.data = this.loadGameTableModel(groupsWithGamesObjects[j].games);
         let dataObject: DataObjectForGroup = {
           dataSource: dataSource,
-          group: groupsGame.groupName
+          group: groupsWithGamesObjects[j].groupName
         }
-        this.dataObjectsWithOutPlayedGames.push(dataObject);
-        this.dataObjectsWithOutPlayedGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
+        this.allOpenGamesOnly.push(dataObject);
+        this.allOpenGamesOnly.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
           (firstObject.group > secondObject.group) ? 1 : -1
         );
       }
     });
   }
 
-  loadGames(): void {
+  showAllGames(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
       for (let groupsGame of groupsWithGamesObjects) {
         let dataSource = new MatTableDataSource();
@@ -194,8 +197,8 @@ export class GameSortGroupComponent implements OnInit {
           dataSource: dataSource,
           group: groupsGame.groupName
         }
-        this.dataObjectsWithAllGames.push(dataObject);
-        this.dataObjectsWithAllGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
+        this.allGames.push(dataObject);
+        this.allGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
           (firstObject.group > secondObject.group) ? 1 : -1
         );
       }
