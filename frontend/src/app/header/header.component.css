@@ -1,9 +1,24 @@
+@font-face {
+  font-family: 'AktivGroteskBd';
+  src: url(src/rsc/fonts/AktivGrotesk_W_Bd.woff) format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AktivGroteskRg';
+  src: url(src/rsc/fonts/AktivGrotesk_W_Rg.woff) format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: #000000;
 }
 
 li {
@@ -12,14 +27,17 @@ li {
 
 li a {
   display: block;
-  color: white;
+  color: #ffffff;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-family: 'AktivGroteskBd', sans-serif;
+
+
 }
 
 li a:hover {
-  background-color: #111;
+  background-color: #808B8F;
 }
 
 .right {
