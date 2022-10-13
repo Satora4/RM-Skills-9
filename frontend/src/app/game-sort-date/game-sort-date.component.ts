@@ -14,6 +14,7 @@ import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from '../util/errorMessage.util';
 import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {GroupPhaseModelForDate} from "../group-phase/group-phase.model";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -57,8 +58,7 @@ export class GameSortDateComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataObjects = this.allOpenGamesOnly;
-    this.showAllGames();
-    this.showAllOpenGamesOnly();
+    this.loadGames();
   }
 
   onChange(gameStateToggle: MatSlideToggleChange) {
@@ -87,7 +87,6 @@ export class GameSortDateComponent implements OnInit {
       window.location.reload();
     });
   }
-
 
   public getTipTeam1ByGameId(gameId: number): string {
     let tip: string = this.dash;
@@ -164,43 +163,41 @@ export class GameSortDateComponent implements OnInit {
     })
   }
 
-  showAllGames(): void {
+  public loadGames(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
       for (let groupPhaseModel of groupPhaseModelsForDate) {
-        let dataSource = new MatTableDataSource();
-        dataSource.data = this.loadGameTableModel(groupPhaseModel.games);
-        let dataObject: DataObject = {
-          dataSource: dataSource,
-          groupDate: groupPhaseModel.groupDate
-        }
-        this.allGames.push(dataObject);
-      }
-    });
-  }
-
-  showAllOpenGamesOnly(): void {
-    this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
-      for (let j = 0; j < groupPhaseModelsForDate.length; j++) {
-        let dataSource = new MatTableDataSource();
-        for (let i = 0; i < groupPhaseModelsForDate[j].games.length; i++) {
-          if (groupPhaseModelsForDate[j].games[i].pointsTeam1 !== null) {
-            groupPhaseModelsForDate[j].games.splice(i, 1);
-            if (groupPhaseModelsForDate[j].games.length == 0){
-              groupPhaseModelsForDate.splice(j,1)
-            }
+        this.allGames.push(this.getDataObject(groupPhaseModel));
+        let openGamesOnly: Game[] = [];
+        for (let i = 0; i < groupPhaseModel.games.length; i++) {
+          if (this.isOpenGame(groupPhaseModel.games[i])) {
+            openGamesOnly.push(groupPhaseModel.games[i])
           }
         }
-        dataSource.data = this.loadGameTableModel(groupPhaseModelsForDate[j].games);
-        let dataObject: DataObject = {
-          dataSource: dataSource,
-          groupDate: groupPhaseModelsForDate[j].groupDate
+        if (openGamesOnly.length !== 0) {
+          let groupPhaseModelForDateOpenGamesOnly: GroupPhaseModelForDate = {
+            games: openGamesOnly,
+            groupDate: groupPhaseModel.groupDate
+          }
+          this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForDateOpenGamesOnly));
         }
-        this.allOpenGamesOnly.push(dataObject);
       }
     });
   }
 
-  private loadGameTableModel(games: Game[]): GameTableModel[] {
+  private isOpenGame(game: Game): boolean {
+    return game.pointsTeam1 === null && game.pointsTeam2 === null;
+  }
+
+  private getDataObject(groupPhaseModel: GroupPhaseModelForDate): DataObject {
+    let dataSource = new MatTableDataSource();
+    dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
+    return {
+      dataSource: dataSource,
+      groupDate: groupPhaseModel.groupDate
+    };
+  }
+
+  private mapGamesToGameTableModel(games: Game[]): GameTableModel[] {
     const gameTableModel: GameTableModel[] = [];
     games.forEach(game => {
       this.formControlsTip1.push(this.initFormControl());

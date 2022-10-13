@@ -14,6 +14,7 @@ import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from '../util/errorMessage.util';
 import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {GroupPhaseModel} from "../group-phase/group-phase.model";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -57,8 +58,7 @@ export class GameSortGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataObjects = this.allOpenGamesOnly;
-    this.showAllGames();
-    this.showAllOpenGamesOnly();
+    this.loadGames();
   }
 
   onChange(gameStateToggle: MatSlideToggleChange) {
@@ -163,24 +163,26 @@ export class GameSortGroupComponent implements OnInit {
     })
   }
 
-  showAllOpenGamesOnly(): void {
+  loadGames(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
-      for (let j = 0; j < groupsWithGamesObjects.length; j++) {
-        let dataSource = new MatTableDataSource();
-        for (let i = 0; i < groupsWithGamesObjects[j].games.length; i++) {
-          if (groupsWithGamesObjects[j].games[i].pointsTeam1 !== null) {
-            groupsWithGamesObjects[j].games.splice(i, 1);
-            if (groupsWithGamesObjects[j].games.length == 0){
-              groupsWithGamesObjects.splice(j,1);
-            }
+      for (let groupsGame of groupsWithGamesObjects) {
+        this.allGames.push(this.getDataObject(groupsGame));
+        let openGamesOnly: Game[] = [];
+        for (let i = 0; i < groupsGame.games.length; i++) {
+          if (this.isOpenGame(groupsGame.games[i])) {
+            openGamesOnly.push(groupsGame.games[i])
           }
         }
-        dataSource.data = this.loadGameTableModel(groupsWithGamesObjects[j].games);
-        let dataObject: DataObjectForGroup = {
-          dataSource: dataSource,
-          group: groupsWithGamesObjects[j].groupName
+        if (openGamesOnly.length !== 0) {
+          let groupPhaseModelForGroupOpenGamesOnly: GroupPhaseModel = {
+            games: openGamesOnly,
+            groupName: groupsGame.groupName
+          }
+          this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForGroupOpenGamesOnly));
         }
-        this.allOpenGamesOnly.push(dataObject);
+        this.allGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
+          (firstObject.group > secondObject.group) ? 1 : -1
+        );
         this.allOpenGamesOnly.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
           (firstObject.group > secondObject.group) ? 1 : -1
         );
@@ -188,24 +190,20 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
-  showAllGames(): void {
-    this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
-      for (let groupsGame of groupsWithGamesObjects) {
-        let dataSource = new MatTableDataSource();
-        dataSource.data = this.loadGameTableModel(groupsGame.games);
-        let dataObject: DataObjectForGroup = {
-          dataSource: dataSource,
-          group: groupsGame.groupName
-        }
-        this.allGames.push(dataObject);
-        this.allGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
-          (firstObject.group > secondObject.group) ? 1 : -1
-        );
-      }
-    });
+  private isOpenGame(game: Game): boolean {
+    return game.pointsTeam1 === null && game.pointsTeam2 === null;
   }
 
-  private loadGameTableModel(games: Game[]): GameTableModel[] {
+  private getDataObject(groupPhaseModel: GroupPhaseModel): DataObjectForGroup {
+    let dataSource = new MatTableDataSource();
+    dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
+    return {
+      dataSource: dataSource,
+      group: groupPhaseModel.groupName
+    };
+  }
+
+  private mapGamesToGameTableModel(games: Game[]): GameTableModel[] {
     const gameTableModel: GameTableModel[] = [];
     games.forEach(game => {
       this.formControlsTip1.push(this.initFormControl());
