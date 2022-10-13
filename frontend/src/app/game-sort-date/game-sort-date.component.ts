@@ -57,13 +57,14 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public openTipWindow(game: Game): void {
+    console.log(game);
     const dialogRef = this.dialog.open(PopUpComponent, {
       width: '250px',
       data: {
         tip1: this.getTipByGameId(game.id).tipTeam1,
         tip2: this.getTipByGameId(game.id).tipTeam2,
-        country1: game.teamCountry1,
-        country2: game.teamCountry2
+        country1: game.team1.country,
+        country2: game.team2.country
       }
     });
 
@@ -121,8 +122,8 @@ export class GameSortDateComponent implements OnInit {
       tipTeam2: tipTeam2,
       points: 0,
       gameId: game.id,
-      teamCountry1: game.teamCountry1,
-      teamCountry2: game.teamCountry2,
+      teamCountry1: game.team1.country,
+      teamCountry2: game.team2.country,
       pointsTeam1: game.pointsTeam1,
       pointsTeam2: game.pointsTeam2,
       gameTime: game.gameTime

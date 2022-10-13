@@ -62,8 +62,8 @@ export class GameSortGroupComponent implements OnInit {
       data: {
         tip1: this.getTipByGameId(game.id).tipTeam1,
         tip2: this.getTipByGameId(game.id).tipTeam2,
-        country1: game.teamCountry1,
-        country2: game.teamCountry2
+        country1: game.team1.country,
+        country2: game.team2.country
       }
     });
 
@@ -113,15 +113,14 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
-
     let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,
       tipTeam2: tipTeam2,
       points: 0,
       gameId: game.id,
-      teamCountry1: game.teamCountry1,
-      teamCountry2: game.teamCountry2,
+      teamCountry1: game.team1.country,
+      teamCountry2: game.team2.country,
       pointsTeam1: game.pointsTeam1,
       pointsTeam2: game.pointsTeam2,
       gameTime: game.gameTime
