@@ -12,28 +12,28 @@ node {
 }
 
 tasks {
-  clean {
+  named("clean") {
     doFirst {
       file("dist").deleteRecursively()
       file("node_modules").deleteRecursively()
     }
   }
 
-  build {
-    dependsOn("npmBuild")
-  }
-
-  val npmBuild by creating(NpmTask::class) {
+  register<NpmTask>("npmBuild") {
+    dependsOn(named("npmInstall"))
     this.npmCommand.set(listOf("run", "build"))
   }
 
-  val formatFrontend by creating(NpmTask::class) {
+  register<NpmTask>("formatFrontend") {
     this.npmCommand.set(listOf("run", "format"))
   }
 
-  val npmStart by creating(NpmTask::class) {
-    dependsOn(build)
+  register<NpmTask>("npmStart") {
+    dependsOn(named("build"))
     this.npmCommand.set(listOf("run", "start"))
   }
 
+  named("build") {
+    dependsOn(named("npmBuild"))
+  }
 }
