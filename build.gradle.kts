@@ -4,8 +4,9 @@ plugins {
 
 allprojects {
     repositories {
-        maven { setUrl("https://nexus.ergon.ch/repository/secure-public") }
-        maven { setUrl("https://nexus.ergon.ch/repository/intermediates") }
+        maven {
+            url = uri("https://artifacts.ergon.ch/artifactory/proxy-maven-central/")
+        }
     }
 
     pluginManager.withPlugin("java-library") {
@@ -17,7 +18,7 @@ allprojects {
     }
 }
 
-val dockerRepoPrefix by extra {"docker.ergon.ch/berufsbildung/wm-tippspiel"}
+val dockerRepoPrefix by extra { "docker.ergon.ch/berufsbildung/wm-tippspiel" }
 
 tasks {
     val pushDockerImages by creating() {
