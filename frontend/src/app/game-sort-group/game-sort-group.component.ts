@@ -58,7 +58,6 @@ export class GameSortGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadGames();
-    this.dataObjects = this.allOpenGamesOnly;
   }
 
   onChange(gameStateToggle: MatSlideToggleChange) {
@@ -187,6 +186,7 @@ export class GameSortGroupComponent implements OnInit {
           (firstObject.group > secondObject.group) ? 1 : -1
         );
       }
+      this.dataObjects = this.allOpenGamesOnly;
     });
   }
 

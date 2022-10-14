@@ -58,7 +58,6 @@ export class GameSortDateComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadGames();
-    this.dataObjects = this.allOpenGamesOnly;
   }
 
   onChange(gameStateToggle: MatSlideToggleChange) {
@@ -181,6 +180,7 @@ export class GameSortDateComponent implements OnInit {
           this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForDateOpenGamesOnly));
         }
       }
+      this.dataObjects = this.allOpenGamesOnly;
     });
   }
 
