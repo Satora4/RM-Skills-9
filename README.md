@@ -5,7 +5,7 @@
 Das WM-Tippspiel lässt sich ganz einfach starten. Es muss lediglich Java 17 installiert sein. Es ist nicht nötig, Node oder NPM selbst zu installieren. Das Build Script macht das für uns.
 
 ```shell
-./graldew npmStart
+./gradlew :frontend:npmStart
 ./gradlew bootRun
 ```
 
