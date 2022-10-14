@@ -1,5 +1,7 @@
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
+<mat-slide-toggle class="toggle" (change)="onChange($event)">Alle Spiele anzeigen</mat-slide-toggle>
+
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
     <h2>{{dataObject.group}}</h2>
