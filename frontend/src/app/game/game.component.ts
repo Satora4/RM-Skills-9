@@ -56,7 +56,7 @@ export class GameComponent implements OnInit {
 
   public openTipWindow(game: Game): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
-      width: '250px',
+      width: 'auto',
       data: {
         tip1: this.getTipByGameId(game.id).tipTeam1,
         tip2: this.getTipByGameId(game.id).tipTeam2,
