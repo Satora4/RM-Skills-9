@@ -1,22 +1,4 @@
-DELETE
-FROM TEAM_TO_GROUP;
-
-DELETE
-FROM "GROUP";
-
-DELETE
-FROM TIP;
-
-DELETE
-FROM GAME;
-
-DELETE
-FROM TEAM;
-
-INSERT INTO TEAM(TEAM_ID,
-                 COUNTRY,
-                 POINTS,
-                 FLAG)
+INSERT INTO team(team_id, country, points, flag)
 VALUES (1, 'Argentinien', 0, 'em-flag-ar'),
        (2, 'Australien', 0, 'em-flag-au'),
        (3, 'Belgien', 0, 'em-flag-be'),
@@ -50,7 +32,7 @@ VALUES (1, 'Argentinien', 0, 'em-flag-ar'),
        (31, 'USA', 0, 'em-flag-um'),
        (32, 'Wales', 0, 'em-flag-wales');
 
-INSERT INTO "GROUP"(GROUP_ID, NAME)
+INSERT INTO "group"(group_id, name)
 VALUES (1, 'A'),
        (2, 'B'),
        (3, 'C'),
@@ -60,8 +42,7 @@ VALUES (1, 'A'),
        (7, 'G'),
        (8, 'H');
 
-INSERT INTO TEAM_TO_GROUP(TEAM_ID,
-                          GROUP_ID)
+INSERT INTO team_to_group(team_id, group_id)
 VALUES ('16', '1'),
        ('8', '1'),
        ('26', '1'),
@@ -95,15 +76,7 @@ VALUES ('16', '1'),
        ('30', '8'),
        ('17', '8');
 
-
-
-INSERT INTO GAME(GAME_ID,
-                 GAME_TIME,
-                 GAME_LOCATION,
-                 TEAM1_ID,
-                 TEAM2_ID,
-                 PHASE,
-                 CALCULATED)
+INSERT INTO game(game_id, game_time, game_location, team1_id, team2_id, phase, calculated)
 VALUES (1, '2022-11-20T17:00:00', 'Katar', 16, 8, 'GROUP_PHASE', false),
        (2, '2022-11-21T14:00:00', 'Katar', 9, 12, 'GROUP_PHASE', false),
        (3, '2022-11-21T17:00:00', 'Katar', 26, 21, 'GROUP_PHASE', false),
@@ -153,19 +126,7 @@ VALUES (1, '2022-11-20T17:00:00', 'Katar', 16, 8, 'GROUP_PHASE', false),
        (47, '2022-12-02T17:00:00', 'Katar', 27, 25, 'GROUP_PHASE', false),
        (48, '2022-12-02T20:00:00', 'Katar', 14, 4, 'GROUP_PHASE', false);
 
-INSERT INTO "USER"(USER_ID,
-                   FIRST_NAME,
-                   LAST_NAME,
-                   EMAIL,
-                   POINTS,
-                   ADMINISTRATOR)
-VALUES (1, 'Joel', 'Vontobel', 'joel.vontobel@ergon.ch', 780, TRUE),
-       (2, 'Niculin', 'Steiner', 'niculin.steiner@ergon.ch', 34, TRUE);
-
-INSERT INTO TIP(USER_ID,
-                TIP_TEAM1,
-                TIP_TEAM2,
-                GAME_ID)
+INSERT INTO tip(user_id, tip_team1, tip_team2, game_id)
 VALUES (1, 2, 2, 1),
        (1, 2, 0, 2),
        (1, 0, 4, 3),
