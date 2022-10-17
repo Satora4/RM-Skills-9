@@ -1,6 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Tip} from "../tip/tip.model";
 import {MatSort} from '@angular/material/sort';
@@ -85,8 +83,8 @@ export class GameComponent implements OnInit {
     throw new Error("tip isn't in database")
   }
 
-  public loadTipsByUser(userId: number) {
-    this.tipService.getTips(userId).subscribe((tips) => {
+  public loadTipsByUser() {
+    this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
   }

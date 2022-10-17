@@ -7,7 +7,6 @@ import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {MatTableDataSource} from "@angular/material/table";
 import {getTipFromTeamByGameId, isTipAllowedForGame, isTTipAlreadySet} from "../tip/tip.util";
 
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
@@ -99,7 +98,7 @@ export class GameSortGroupComponent implements OnInit {
     throw new Error("tip isn't in database")
   }
 
-  public loadTipsByUser(userId: number) {
+  public loadTipsByUser() {
 
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;

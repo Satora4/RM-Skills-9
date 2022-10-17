@@ -32,16 +32,6 @@ public class TipController {
         this.gameRepository = gameRepository;
     }
 
-    @PatchMapping()
-    public void updateTip(@RequestBody TipTO tipTO) {
-        tipTO.setUserId(currentUser.getUser().getId());
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
-            tipRepository.putTip(convert(tipTO));
-        } else {
-            throw new IllegalArgumentException("the game has already been played");
-        }
-    }
-
     @GetMapping
     public List<TipTO> getTips() {
         if (currentUser != null) {

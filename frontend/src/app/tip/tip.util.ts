@@ -16,15 +16,14 @@ export function isTTipAlreadySet(game: Game, tips: Tip[], tipTeam: number): bool
 }
 
 export function getTipFromTeamByGameId(gameId: number, tipTeam: number, tips: Tip[]): string {
-  let tip: string = '—';
   for (let i = 0; i < tips.length; i++) {
     if (tips[i].gameId == gameId) {
       if (tipTeam == 1) {
-        tip = tips[i].tipTeam1.toString();
+        return tips[i].tipTeam1.toString();
       } else if (tipTeam == 2) {
-        tip = tips[i].tipTeam2.toString();
+        return tips[i].tipTeam2.toString();
       }
     }
   }
-  return tip;
+  return '—';
 }
