@@ -1,8 +1,8 @@
 export interface User {
-  userId: number;
+  id: number;
   firstName: string;
   lastName: string;
-  email: string;
+  email:string;
   points: number;
   ranking: number;
   administrator: boolean;

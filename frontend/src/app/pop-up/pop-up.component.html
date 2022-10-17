@@ -2,11 +2,25 @@
 <div mat-dialog-content>
   <mat-form-field>
     <label>{{data.country1}}</label>
-    <input matInput [(ngModel)]="data.tip1" type="number" min="0" max="15">
+    <input matInput [(ngModel)]="data.tip1" type="text" maxlength="2"
+           [formControl]="formControlTip1" [errorStateMatcher]="matcher">
+
+    <br>
+    <mat-error
+      *ngIf="(formControlTip1.hasError('pattern')) &&
+            !formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
+
   </mat-form-field>
   <mat-form-field>
     <label>{{data.country2}}</label>
-    <input matInput [(ngModel)]="data.tip2" type="number" min="0" max="15">
+    <input matInput [(ngModel)]="data.tip2" type="text" maxlength="2"
+           [formControl]="formControlTip2" [errorStateMatcher]="matcher">
+
+    <br>
+    <mat-error
+      *ngIf="(formControlTip2.hasError('pattern')) &&
+            !formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
+
   </mat-form-field>
 </div>
 <div mat-dialog-actions>

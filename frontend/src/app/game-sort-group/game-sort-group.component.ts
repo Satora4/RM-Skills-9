@@ -1,17 +1,32 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
-import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {getTipFromTeamByGameId, isTipAllowedForGame, isTTipAlreadySet} from "../tip/tip.util";
 
+import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {GameTableModel} from "../game/game.table.model";
+import {formControlForTip} from "../util/initFormControlForTip.util";
+import {errorMessage} from '../util/errorMessage.util';
+import {GroupPhaseService} from "../group-phase/group-phase.service";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {GroupPhaseModel} from "../group-phase/group-phase.model";
 
-export interface DataObjekt {
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
+export interface DataObjectForGroup {
   dataSource: MatTableDataSource<any>;
   group: string;
 }
@@ -22,12 +37,18 @@ export interface DataObjekt {
   styleUrls: ['./game-sort-group.component.css']
 })
 export class GameSortGroupComponent implements OnInit {
-  dataObjects: DataObjekt[] = [];
+  allGames: DataObjectForGroup[] = [];
+  allOpenGamesOnly: DataObjectForGroup[] = [];
+  dataObjects: DataObjectForGroup[] = [];
   columnsToDisplay = ['gameTime', 'gameLocation', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public readonly dash = '—';
+  public readonly errorMessage = errorMessage;
+  public formControlsTip1: FormControl[] = [];
+  public formControlsTip2: FormControl[] = [];
+  matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
 
@@ -35,11 +56,19 @@ export class GameSortGroupComponent implements OnInit {
               private tipService: TipService,
               public dialog: MatDialog,
               private groupPhaseService: GroupPhaseService) {
-    this.loadTipsByUser(1)
+    this.loadTipsByUser()
   }
 
   ngOnInit(): void {
     this.loadGames();
+  }
+
+  onChange(gameStateToggle: MatSlideToggleChange) {
+    if (gameStateToggle.checked) {
+      this.dataObjects = this.allGames;
+    } else {
+      this.dataObjects = this.allOpenGamesOnly;
+    }
   }
 
   public openTipWindow(game: Game): void {
@@ -72,14 +101,12 @@ export class GameSortGroupComponent implements OnInit {
 
   public loadTipsByUser(userId: number) {
 
-    this.tipService.getTips(userId).subscribe((tips) => {
+    this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
-
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
-
     let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,
@@ -119,35 +146,73 @@ export class GameSortGroupComponent implements OnInit {
     return isTTipAlreadySet(game, this.tips, tipTeam);
   }
 
-  private addTip(tip: Tip){
-      this.tipService.addTip(tip).subscribe(tip => {
-        location.reload()
-      });
+  private addTip(tip: Tip) {
+    this.tipService.addTip(tip).subscribe(() => {
+      location.reload();
+    });
   }
 
   private updateTip(tip: Tip): void {
-      this.tipService.updateTip(tip).subscribe(tip => {
-      });
+    this.tipService.updateTip(tip).subscribe(() => {
+    });
   }
 
-  private loadGames(): void {
+  public loadGames(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
       for (let groupsGame of groupsWithGamesObjects) {
-        let dataSource = new MatTableDataSource();
-        let games: Game[] = groupsGame.games;
-
-        dataSource.data = games;
-        let dataObject: DataObjekt = {
-          dataSource: dataSource,
-          group: groupsGame.groupName
+        this.allGames.push(this.getDataObject(groupsGame));
+        let openGamesOnly: Game[] = [];
+        for (let i = 0; i < groupsGame.games.length; i++) {
+          if (this.isOpenGame(groupsGame.games[i])) {
+            openGamesOnly.push(groupsGame.games[i])
+          }
         }
-        this.dataObjects.push(dataObject);
-        this.dataObjects.sort(    (firstObject: DataObjekt , secondObject:DataObjekt ) =>
+        if (openGamesOnly.length !== 0) {
+          let groupPhaseModelForGroupOpenGamesOnly: GroupPhaseModel = {
+            games: openGamesOnly,
+            groupName: groupsGame.groupName
+          }
+          this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForGroupOpenGamesOnly));
+        }
+        this.allGames.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
+          (firstObject.group > secondObject.group) ? 1 : -1
+        );
+        this.allOpenGamesOnly.sort((firstObject: DataObjectForGroup, secondObject: DataObjectForGroup) =>
           (firstObject.group > secondObject.group) ? 1 : -1
         );
       }
-      console.log(this.dataObjects)
-
+      this.dataObjects = this.allOpenGamesOnly;
     });
+  }
+
+  private isOpenGame(game: Game): boolean {
+    return game.pointsTeam1 === null && game.pointsTeam2 === null;
+  }
+
+  private getDataObject(groupPhaseModel: GroupPhaseModel): DataObjectForGroup {
+    let dataSource = new MatTableDataSource();
+    dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
+    return {
+      dataSource: dataSource,
+      group: groupPhaseModel.groupName
+    };
+  }
+
+  private mapGamesToGameTableModel(games: Game[]): GameTableModel[] {
+    const gameTableModel: GameTableModel[] = [];
+    games.forEach(game => {
+      this.formControlsTip1.push(this.initFormControl());
+      this.formControlsTip2.push(this.initFormControl());
+      gameTableModel.push({
+        game: game,
+        formControlTip1: this.initFormControl(),
+        formControlTip2: this.initFormControl()
+      });
+    })
+    return gameTableModel;
+  }
+
+  private initFormControl(): FormControl {
+    return formControlForTip();
   }
 }

@@ -66,30 +66,6 @@ public class GameRepository {
         return convertGroup(result);
     }
 
-    public List<Games> getGamesForKoPhase() {
-        var result = dslContext.select(GAME.GAME_ID,
-                        GAME.GAME_TIME,
-                        GAME.GAME_LOCATION,
-                        GAME.GOALS_TEAM1,
-                        GAME.GOALS_TEAM2,
-                        GAME.PHASE,
-                        TEAM_ALIAS_1.TEAM_ID,
-                        TEAM_ALIAS_1.COUNTRY,
-                        TEAM_ALIAS_1.FLAG,
-                        TEAM_ALIAS_2.TEAM_ID,
-                        TEAM_ALIAS_2.COUNTRY,
-                        TEAM_ALIAS_2.FLAG
-                )
-                .from(GAME)
-                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
-                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
-                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
-                .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
-                .collect(groupingBy(record -> record.get(GAME.PHASE), mapping(this::convert, toList())));
-
-        return convertPhase(result);
-    }
-
     public List<Games> getGamesInGroupPhaseWithOutGroupName() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
@@ -133,11 +109,45 @@ public class GameRepository {
                 .fetch(this::convert);
     }
 
+    public List<Games> getGamesForKoPhase() {
+        var result = dslContext.select(GAME.GAME_ID,
+                        GAME.GAME_TIME,
+                        GAME.GAME_LOCATION,
+                        GAME.GOALS_TEAM1,
+                        GAME.GOALS_TEAM2,
+                        GAME.PHASE,
+                        TEAM_ALIAS_1.TEAM_ID,
+                        TEAM_ALIAS_1.COUNTRY,
+                        TEAM_ALIAS_1.FLAG,
+                        TEAM_ALIAS_2.TEAM_ID,
+                        TEAM_ALIAS_2.COUNTRY,
+                        TEAM_ALIAS_2.FLAG)
+                .from(GAME)
+                .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
+                .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
+                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
+                .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
+                .collect(groupingBy(record -> record.get(GAME.PHASE), mapping(this::convert, toList())));
+
+        return convertPhase(result);
+    }
+
     /**
-     * returns all games they're already done, means where the points aren't NULL
+     * returns all games that already have been played, i.e. where the goals aren't NULL
      */
-    public List<Game> getGamesWithPoints() {
+    public List<Game> getAllFinishedGames() {
         return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
+    }
+
+    public List<Game> getAllFinishedGamesWithOutTeamCalculation() {
+        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()).and(GAME.CALCULATED.eq(false)));
+    }
+
+    public void markAsCalculated(Game game) {
+        dslContext.update(GAME)
+                .set(GAME.CALCULATED, true)
+                .where(GAME.GAME_ID.eq(game.getId()))
+                .execute();
     }
 
     private Game convert(Record record) {

@@ -32,8 +32,8 @@ public class TipRepository {
         return getTips(DSL.noCondition());
     }
 
-    public List<Tip> getTipsByUserId(int userId) {
-        return getTips(USER.USER_ID.eq(userId));
+    public List<Tip> getTipsByUserMail(String userMail) {
+        return getTips(USER.EMAIL.eq(userMail));
     }
 
     private List<Tip> getTips(Condition condition) {
