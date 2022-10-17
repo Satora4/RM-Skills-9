@@ -95,7 +95,6 @@ export class GameComponent implements OnInit {
       for (let sortedKoPhaseModel of sortedKoPhaseModels) {
         let dataSource = new MatTableDataSource();
         dataSource.data = sortedKoPhaseModel.games;
-        console.log(sortedKoPhaseModel)
         let dataObject: DataObject = {
           dataSource: dataSource,
           phase: this.getPhase(sortedKoPhaseModel.phase.toString())
