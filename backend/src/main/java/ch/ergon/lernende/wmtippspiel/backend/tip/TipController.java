@@ -64,11 +64,7 @@ public class TipController {
 
     private boolean isValidTip(TipTO tipTO) {
         Game game = gameRepository.getGame(tipTO.getGameId());
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now())) {
-            return true;
-        } else {
-            throw new IllegalArgumentException("the game has already been played");
-        }
+        return tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now());
     }
 
     private List<TipTO> convert(Collection<Tip> tips) {
