@@ -101,9 +101,9 @@ export class GameSortGroupComponent implements OnInit {
     }
 
     if (requestToggle) {
-      this.updateTip(tip, game)
+      this.updateTip(tip)
     } else {
-      this.addTip(tip, game);
+      this.addTip(tip);
     }
   }
 
@@ -119,23 +119,15 @@ export class GameSortGroupComponent implements OnInit {
     return Date.parse(game.gameTime.toString()) > Date.now();
   }
 
-  private addTip(tip: Tip, game: Game){
-    if (Date.parse(game.gameTime.toString()) > Date.now()) {
+  private addTip(tip: Tip){
       this.tipService.addTip(tip).subscribe(tip => {
         location.reload()
-      })
-    } else {
-      alert("Spiel wird oder wurde bereits gespielt.");
-    }
+      });
   }
 
-  private updateTip(tip: Tip, game: Game): void {
-    if (Date.parse(game.gameTime.toString()) > Date.now()) {
+  private updateTip(tip: Tip): void {
       this.tipService.updateTip(tip).subscribe(tip => {
-      })
-    } else {
-      alert("Spiel wird oder wurde bereits gespielt.");
-    }
+      });
   }
 
   private loadGames(): void {
