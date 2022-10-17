@@ -38,7 +38,7 @@ public class UserRepository {
         return dslContext.select(
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
-                        USER.USER_ID.as("id"),
+                        USER.USER_ID,
                         USER.EMAIL,
                         USER.POINTS,
                         USER.ADMINISTRATOR)

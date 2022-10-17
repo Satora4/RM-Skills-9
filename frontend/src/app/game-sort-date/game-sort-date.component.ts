@@ -8,6 +8,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {TipHelper} from "../tip/tip-helper";
+import {UserService} from "../user/user.service";
 
 
 export interface DialogData {
@@ -22,7 +24,6 @@ export interface DataObject {
   groupDate: Date;
 }
 
-
 @Component({
   selector: 'app-game-sort-date',
   templateUrl: './game-sort-date.component.html',
@@ -34,40 +35,22 @@ export class GameSortDateComponent implements OnInit {
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
+  public userId: number | any;
   public readonly dash = '—';
 
   @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private gameService: GameService,
               private tipService: TipService,
-              public dialog: MatDialog,
+              private userService: UserService,
+              private savingTipps: TipHelper,
               private groupPhaseService: GroupPhaseService) {
-    this.loadTipsByUser(1)
   }
 
   ngOnInit(): void {
     this.loadGames();
+    this.loadUser();
   }
-
-  public openTipWindow(game: Game): void {
-    const dialogRef = this.dialog.open(PopUpComponent, {
-      width: '250px',
-      data: {
-        tip1: this.getTipByGameId(game.id).tipTeam1,
-        tip2: this.getTipByGameId(game.id).tipTeam2,
-        country1: game.teamCountry1,
-        country2: game.teamCountry2
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result)
-      this.saveTip(this.getTipByGameId(game.id).userId, result.tip1, result.tip2, game)
-      window.location.reload();
-    });
-  }
-
 
   public getTipTeam1ByGameId(gameId: number): string {
     let tip: string = this.dash;
@@ -77,15 +60,6 @@ export class GameSortDateComponent implements OnInit {
       }
     }
     return tip;
-  }
-
-  public getTipByGameId(gameId: number): Tip {
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        return this.tips[i];
-      }
-    }
-    throw new Error("tip isn't in database")
   }
 
   public getTipTeam2ByGameId(gameId: number): string {
@@ -106,47 +80,13 @@ export class GameSortDateComponent implements OnInit {
 
   }
 
-  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
-
-    let tip: Tip = {
-      userId: userId,
-      tipTeam1: tipTeam1,
-      tipTeam2: tipTeam2,
-      points: 0,
-      gameId: game.id,
-      teamCountry1: game.teamCountry1,
-      teamCountry2: game.teamCountry2,
-      pointsTeam1: game.pointsTeam1,
-      pointsTeam2: game.pointsTeam2,
-      gameTime: game.gameTime
-    }
-    let requestToggle: boolean = false;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == tip.gameId) {
-        requestToggle = true;
-        break;
-      }
-    }
-
-    if (requestToggle) {
-      this.updateTip(tip)
-    } else {
-      this.addTip(tip);
-    }
-
+  public openTipWindow(game: Game): void {
+    this.savingTipps.openTipWindow(this.userId, game, this.tips);
   }
 
-  private addTip(tip: Tip) {
-    this.tipService.addTip(tip).subscribe(tip => {
-      location.reload()
-    })
+  public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
+    this.savingTipps.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
   }
-
-  private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(tip => {
-    })
-  }
-
 
   loadGames(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
@@ -163,5 +103,14 @@ export class GameSortDateComponent implements OnInit {
       }
       console.log(this.dataObjects);
     });
+  }
+
+  loadUser(): void {
+    this.userService.getUserData().subscribe( (user) => {
+      this.userId = user.userId;
+      console.log(user);
+      console.log('userId: ' + this.userId);
+      this.loadTipsByUser(this.userId);
+    })
   }
 }
