@@ -8,7 +8,7 @@ import {TipService} from "../tip/tip.service";
 import {Game} from "./game.model";
 import {MatDialog} from "@angular/material/dialog";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {getTipFromTeamByGameId, isTipAllowedForGame} from "../tip/tip.util";
+import {getTipFromTeamByGameId, isTipAllowedForGame, isTTipAlreadySet} from "../tip/tip.util";
 
 
 export interface DialogData {
@@ -121,8 +121,8 @@ export class GameComponent implements OnInit {
     return isTipAllowedForGame(game, this.tips, tipTeam);
   }
 
-  public isDateValid(game: Game): boolean {
-    return Date.parse(game.gameTime.toString()) > Date.now();
+  public isTipAlreadySet(game: Game, tipTeam: number): boolean {
+    return isTTipAlreadySet(game, this.tips, tipTeam);
   }
 
   private addTip(tip: Tip){

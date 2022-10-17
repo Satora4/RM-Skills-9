@@ -8,6 +8,13 @@ export function isTipAllowedForGame(game: Game, tips: Tip[], tipTeam: number): b
   );
 }
 
+export function isTTipAlreadySet(game: Game, tips: Tip[], tipTeam: number): boolean {
+  return (Date.parse(game.gameTime.toString()) > Date.now() &&
+    game.pointsTeam1 == null && game.pointsTeam2 == null &&
+    getTipFromTeamByGameId(game.id, tipTeam, tips) != '—'
+  );
+}
+
 export function getTipFromTeamByGameId(gameId: number, tipTeam: number, tips: Tip[]): string {
   let tip: string = '—';
   for (let i = 0; i < tips.length; i++) {

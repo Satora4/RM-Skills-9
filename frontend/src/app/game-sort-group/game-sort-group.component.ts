@@ -8,7 +8,7 @@ import {GroupPhaseService} from "../group-phase/group-phase.service";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
 import {MatTableDataSource} from "@angular/material/table";
-import {getTipFromTeamByGameId, isTipAllowedForGame} from "../tip/tip.util";
+import {getTipFromTeamByGameId, isTipAllowedForGame, isTTipAlreadySet} from "../tip/tip.util";
 
 
 export interface DataObjekt {
@@ -115,8 +115,8 @@ export class GameSortGroupComponent implements OnInit {
     return isTipAllowedForGame(game, this.tips, tipTeam);
   }
 
-  public isDateValid(game: Game): boolean {
-    return Date.parse(game.gameTime.toString()) > Date.now();
+  public isTipAlreadySet(game: Game, tipTeam: number): boolean {
+    return isTTipAlreadySet(game, this.tips, tipTeam);
   }
 
   private addTip(tip: Tip){

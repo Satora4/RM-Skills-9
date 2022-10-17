@@ -91,7 +91,7 @@
 
           <ng-template #showEditButton>
             <button
-              *ngIf="game.pointsTeam1 == null && getTipFromTeamByGameId(game.id, 1, tips) != dash && isDateValid(game);"
+              *ngIf="isTipAlreadySet(game, 1);"
               mat-stroked-button
               (click)="openTipWindow(game)">edit
             </button>
