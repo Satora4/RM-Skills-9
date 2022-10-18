@@ -5,8 +5,7 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {Game} from "../game/game.model";
-import {PopUpComponent} from "../pop-up/pop-up.component";
-import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -17,7 +16,6 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {GroupPhaseModel} from "../group-phase/group-phase.model";
 import {TipHelper} from "../tip/tip-helper";
 import {UserService} from "../user/user.service";
-
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -71,26 +69,6 @@ export class GameSortGroupComponent implements OnInit {
     } else {
       this.dataObjects = this.allOpenGamesOnly;
     }
-  }
-
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: any = null;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: any = null;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
   }
 
   public loadTipsByUser() {

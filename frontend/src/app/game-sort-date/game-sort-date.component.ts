@@ -5,8 +5,7 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {Game} from "../game/game.model";
-import {PopUpComponent} from "../pop-up/pop-up.component";
-import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -52,8 +51,7 @@ export class GameSortDateComponent implements OnInit {
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(public dialog: MatDialog,
-              private gameService: GameService,
+  constructor(private gameService: GameService,
               private tipService: TipService,
               private userService: UserService,
               private savingTipps: TipHelper,
@@ -71,26 +69,6 @@ export class GameSortDateComponent implements OnInit {
     } else {
       this.dataObjects = this.allOpenGamesOnly;
     }
-  }
-
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: any = null;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: any = null;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
   }
 
   public loadTipsByUser() {

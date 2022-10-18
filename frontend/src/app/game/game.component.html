@@ -74,7 +74,7 @@
               !gameTableModel.formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam1>
-              {{getTipFromTeamByGameId(gameTableModel.game.id, 1, tips)}}
+              {{getTipFromTeamByGameId(gameTableModel.game.id, 1)}}
             </ng-template>
           </td>
         </ng-container>
@@ -94,7 +94,7 @@
             !gameTableModel.formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam2>
-              {{getTipFromTeamByGameId(gameTableModel.game.id, 2, tips)}}
+              {{getTipFromTeamByGameId(gameTableModel.game.id, 2)}}
             </ng-template>
           </td>
         </ng-container>

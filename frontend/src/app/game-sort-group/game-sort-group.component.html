@@ -108,7 +108,7 @@
           <button
             *ngIf="insertingTipIsAllowed(gameTableModel.game, 1); else showEditButton"
             mat-stroked-button
-            (click)="saveTip(1, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
+            (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             save
           </button>
 

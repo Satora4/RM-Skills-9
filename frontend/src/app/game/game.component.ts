@@ -13,7 +13,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
-import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -59,26 +59,6 @@ export class GameComponent implements OnInit {
     this.loadUser();
   }
 
-  public getTipTeam1ByGameId(gameId: number): any {
-    let tip: any = null;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1;
-      }
-    }
-    return tip;
-  }
-
-  public getTipTeam2ByGameId(gameId: number): any {
-    let tip: any = null;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2;
-      }
-    }
-    return tip;
-  }
-
   public loadTipsByUser() {
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
@@ -91,6 +71,18 @@ export class GameComponent implements OnInit {
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
     this.tipHelper.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
+  }
+
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, this.tips);
+  }
+
+  public insertingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return insertingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
+  public editingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return editingTipIsAllowed(game, this.tips, tipTeam);
   }
 
   loadGames(): void {
