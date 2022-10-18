@@ -5,6 +5,8 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {Game} from "../game/game.model";
+import {PopUpComponent} from "../pop-up/pop-up.component";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -50,7 +52,8 @@ export class GameSortDateComponent implements OnInit {
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(private gameService: GameService,
+  constructor(public dialog: MatDialog,
+              private gameService: GameService,
               private tipService: TipService,
               private userService: UserService,
               private savingTipps: TipHelper,
@@ -104,7 +107,19 @@ export class GameSortDateComponent implements OnInit {
     this.savingTipps.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
   }
 
-  loadGames(): void {
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, this.tips);
+  }
+
+  public insertingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return insertingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
+  public editingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return editingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
+  public loadGames(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
       for (let groupPhaseModel of groupPhaseModelsForDate) {
         this.allGames.push(this.getDataObject(groupPhaseModel));

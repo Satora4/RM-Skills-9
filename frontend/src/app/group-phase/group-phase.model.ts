@@ -1,5 +1,4 @@
 import {Game} from "../game/game.model";
-import {GameTableModel} from "../game/game.table.model";
 
 export interface GroupPhaseModel{
   groupName:string;

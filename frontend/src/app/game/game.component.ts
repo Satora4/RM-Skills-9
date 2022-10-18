@@ -13,6 +13,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -79,11 +80,9 @@ export class GameComponent implements OnInit {
   }
 
   public loadTipsByUser() {
-
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
-
   }
 
   public openTipWindow(game: Game): void {
