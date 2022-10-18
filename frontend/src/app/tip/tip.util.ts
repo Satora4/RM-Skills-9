@@ -1,14 +1,14 @@
 import {Game} from "../game/game.model";
 import {Tip} from "./tip.model";
 
-export function isTipAllowedForGame(game: Game, tips: Tip[], tipTeam: number): boolean {
+export function insertingTipIsAllowed(game: Game, tips: Tip[], tipTeam: number): boolean {
   return (Date.parse(game.gameTime.toString()) > Date.now() &&
     game.pointsTeam1 == null && game.pointsTeam2 == null &&
       getTipFromTeamByGameId(game.id, tipTeam, tips) == '—'
   );
 }
 
-export function isTTipAlreadySet(game: Game, tips: Tip[], tipTeam: number): boolean {
+export function editingTipIsAllowed(game: Game, tips: Tip[], tipTeam: number): boolean {
   return (Date.parse(game.gameTime.toString()) > Date.now() &&
     game.pointsTeam1 == null && game.pointsTeam2 == null &&
     getTipFromTeamByGameId(game.id, tipTeam, tips) != '—'

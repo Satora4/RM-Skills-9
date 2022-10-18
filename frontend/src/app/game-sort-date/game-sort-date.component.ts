@@ -7,7 +7,7 @@ import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
-import {getTipFromTeamByGameId, isTipAllowedForGame, isTTipAlreadySet} from "../tip/tip.util";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -134,12 +134,12 @@ export class GameSortDateComponent implements OnInit {
     return getTipFromTeamByGameId(gameId, tipTeam, this.tips);
   }
 
-  public isTipAllowed(game: Game, tipTeam: number): boolean {
-    return isTipAllowedForGame(game, this.tips, tipTeam);
+  public insertingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return insertingTipIsAllowed(game, this.tips, tipTeam);
   }
 
-  public isTipAlreadySet(game: Game, tipTeam: number): boolean {
-    return isTTipAlreadySet(game, this.tips, tipTeam);
+  public editingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return editingTipIsAllowed(game, this.tips, tipTeam);
   }
 
   private addTip(tip: Tip) {
