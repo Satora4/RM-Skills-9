@@ -90,14 +90,6 @@ export class GameSortDateComponent implements OnInit {
     return getTipByGameId(gameId, this.tips);
   }
 
-  public getTipFromTeamByGameId(getTipByGameId: number | undefined): string {
-    if (getTipByGameId == null) {
-      return '—';
-    } else {
-      return getTipByGameId.toString();
-    }
-  }
-
   public insertingTipIsAllowed(game: Game): boolean {
     return insertingTipIsAllowed(game, this.tips);
   }

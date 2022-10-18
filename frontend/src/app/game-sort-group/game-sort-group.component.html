@@ -76,7 +76,13 @@
               !gameTableModel.formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam1>
-              {{getTipFromTeamByGameId(getTipByGameId(gameTableModel.game.id)?.tipTeam2)}}
+              <ng-container *ngIf="getTipByGameId(gameTableModel.game.id) != null; else showDash">
+                {{getTipByGameId(gameTableModel.game.id)?.tipTeam2}}
+              </ng-container>
+
+              <ng-template #showDash>
+                {{dash}}
+              </ng-template>
             </ng-template>
           </td>
         </ng-container>
@@ -96,7 +102,13 @@
             !gameTableModel.formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam2>
-              {{getTipFromTeamByGameId(getTipByGameId(gameTableModel.game.id)?.tipTeam2)}}
+              <ng-container *ngIf="getTipByGameId(gameTableModel.game.id) != null; else showDash">
+                {{getTipByGameId(gameTableModel.game.id)?.tipTeam2}}
+              </ng-container>
+
+              <ng-template #showDash>
+                {{dash}}
+              </ng-template>
             </ng-template>
           </td>
         </ng-container>
