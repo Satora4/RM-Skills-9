@@ -7,6 +7,7 @@ import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -52,12 +53,11 @@ export class GameSortDateComponent implements OnInit {
   constructor(private gameService: GameService,
               private tipService: TipService,
               public dialog: MatDialog,
-              private groupPhaseService: GroupPhaseService) {
-    this.loadTipsByUser()
-  }
+              private groupPhaseService: GroupPhaseService) {}
 
   ngOnInit(): void {
     this.loadGames();
+    this.loadTipsByUser();
   }
 
   onChange(gameStateToggle: MatSlideToggleChange) {
@@ -87,16 +87,6 @@ export class GameSortDateComponent implements OnInit {
     });
   }
 
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
   public getTipByGameId(gameId: number): Tip {
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
@@ -106,18 +96,7 @@ export class GameSortDateComponent implements OnInit {
     throw new Error("tip isn't in database")
   }
 
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
-  }
-
   public loadTipsByUser() {
-
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
@@ -151,15 +130,27 @@ export class GameSortDateComponent implements OnInit {
     }
   }
 
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, this.tips);
+  }
+
+  public insertingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return insertingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
+  public editingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return editingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
   private addTip(tip: Tip) {
-    this.tipService.addTip(tip).subscribe(() => {
-      location.reload()
-    })
+    this.tipService.addTip(tip).subscribe(tip => {
+      location.reload();
+    });
   }
 
   private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(() => {
-    })
+    this.tipService.updateTip(tip).subscribe(tip => {
+    });
   }
 
   public loadGames(): void {

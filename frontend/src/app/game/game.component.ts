@@ -12,6 +12,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -73,17 +74,6 @@ export class GameComponent implements OnInit {
     });
   }
 
-
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
   public getTipByGameId(gameId: number): Tip {
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
@@ -93,22 +83,10 @@ export class GameComponent implements OnInit {
     throw new Error("tip isn't in database")
   }
 
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
-  }
-
   public loadTipsByUser() {
-
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
-
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
@@ -138,7 +116,18 @@ export class GameComponent implements OnInit {
     } else {
       this.addTip(tip);
     }
+  }
 
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number, tips: Tip[]): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, tips);
+  }
+
+  public insertingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return insertingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
+  public editingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return editingTipIsAllowed(game, this.tips, tipTeam);
   }
 
   private addTip(tip: Tip) {
@@ -152,8 +141,7 @@ export class GameComponent implements OnInit {
     })
   }
 
-
-  loadGames(): void {
+  private loadGames(): void {
     this.gameService.getKoGames().subscribe((koPhaseModels) => {
       let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
       for (let sortedKoPhaseModel of sortedKoPhaseModels) {

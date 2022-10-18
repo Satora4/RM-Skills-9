@@ -7,6 +7,8 @@ import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Game} from "../game/game.model";
 import {PopUpComponent} from "../pop-up/pop-up.component";
+import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../tip/tip.util";
+
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -87,16 +89,6 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
   public getTipByGameId(gameId: number): Tip {
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
@@ -104,16 +96,6 @@ export class GameSortGroupComponent implements OnInit {
       }
     }
     throw new Error("tip isn't in database")
-  }
-
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
   }
 
   public loadTipsByUser() {
@@ -151,18 +133,30 @@ export class GameSortGroupComponent implements OnInit {
     }
   }
 
+  public getTipFromTeamByGameId(gameId: number, tipTeam: number, tips: Tip[]): string {
+    return getTipFromTeamByGameId(gameId, tipTeam, tips);
+  }
+
+  public insertingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return insertingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
+  public editingTipIsAllowed(game: Game, tipTeam: number): boolean {
+    return editingTipIsAllowed(game, this.tips, tipTeam);
+  }
+
   private addTip(tip: Tip) {
     this.tipService.addTip(tip).subscribe(() => {
-      location.reload()
-    })
+      location.reload();
+    });
   }
 
   private updateTip(tip: Tip): void {
     this.tipService.updateTip(tip).subscribe(() => {
-    })
+    });
   }
 
-  loadGames(): void {
+  public loadGames(): void {
     this.groupPhaseService.getGroupPhases().subscribe((groupsWithGamesObjects) => {
       for (let groupsGame of groupsWithGamesObjects) {
         this.allGames.push(this.getDataObject(groupsGame));

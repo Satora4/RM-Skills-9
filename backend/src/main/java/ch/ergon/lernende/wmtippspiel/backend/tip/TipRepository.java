@@ -41,7 +41,7 @@ public class TipRepository {
     }
 
     private List<Tip> getTipsFromDB(Condition condition) {
-        List<Tip> tips = dslContext.select(TIP.TIP_ID,
+        return dslContext.select(TIP.TIP_ID,
                         TIP.TIP_TEAM1,
                         TIP.TIP_TEAM2,
                         TIP.POINTS,
@@ -67,7 +67,6 @@ public class TipRepository {
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
                 .where(condition)
                 .fetch(this::convert);
-        return tips;
     }
 
     public void addTip(Tip tip) {

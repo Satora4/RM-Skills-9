@@ -31,6 +31,15 @@ public class GameRepository {
         this.dslContext = dslContext;
     }
 
+    public Game getGame(int gameId) {
+        List<Game> games = getGamesWithCondition(GAME.GAME_ID.eq(gameId));
+        if (games.size() == 1) {
+            return games.get(0);
+        } else {
+            throw new IllegalArgumentException("No game found with id: " + gameId);
+        }
+    }
+
     public List<Games> getGamesForGroups() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
@@ -112,8 +121,7 @@ public class GameRepository {
                         TEAM_ALIAS_1.FLAG,
                         TEAM_ALIAS_2.TEAM_ID,
                         TEAM_ALIAS_2.COUNTRY,
-                        TEAM_ALIAS_2.FLAG
-                )
+                        TEAM_ALIAS_2.FLAG)
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
