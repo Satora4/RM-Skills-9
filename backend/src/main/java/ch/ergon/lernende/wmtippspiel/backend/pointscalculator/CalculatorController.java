@@ -15,5 +15,6 @@ public class CalculatorController {
     @GetMapping("/calculate")
     public void calculate() {
         calculatorService.calculateScore();
+        calculatorService.calculateGames();
     }
 }

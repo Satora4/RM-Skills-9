@@ -23,10 +23,10 @@ public class UserInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         final IamUser iamUser = (IamUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        var user =  userRepository.getForMail(iamUser.mail());
+        var user = userRepository.getForMail(iamUser.mail());
         if (user == null) {
             final var fullName = inferFullNameFromMailAddress(iamUser.mail());
             userRepository.insertUser(iamUser.mail(), fullName.firstName, fullName.lastName, false);
@@ -52,6 +52,5 @@ public class UserInterceptor implements HandlerInterceptor {
     }
 
     private record FullName(String firstName, String lastName) {
-
     }
 }

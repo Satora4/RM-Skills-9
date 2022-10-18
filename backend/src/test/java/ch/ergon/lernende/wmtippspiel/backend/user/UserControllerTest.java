@@ -36,7 +36,6 @@ class UserControllerTest {
         assertEquals("Steiner", user.getLastName());
         assertEquals("steiner.niculin@mail.ch", user.getEmail());
         assertEquals(12, user.getPoints());
-        assertEquals(2, user.getRanking());
         assertTrue(user.isAdministrator());
     }
 }
