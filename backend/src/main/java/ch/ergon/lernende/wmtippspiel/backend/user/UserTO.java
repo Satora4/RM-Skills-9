@@ -2,19 +2,19 @@ package ch.ergon.lernende.wmtippspiel.backend.user;
 
 public class UserTO {
 
-    private int id;
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
     private int points;
     private boolean administrator;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {

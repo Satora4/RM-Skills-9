@@ -2,19 +2,19 @@ package ch.ergon.lernende.wmtippspiel.backend.user;
 
 public class User {
 
-    private int id;
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
     private int points;
     private boolean administrator;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -64,7 +64,7 @@ public class User {
 
         User user = (User) o;
 
-        if (id != user.id) return false;
+        if (userId != user.userId) return false;
         if (points != user.points) return false;
         if (administrator != user.administrator) return false;
         if (!firstName.equals(user.firstName)) return false;
@@ -74,7 +74,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = userId;
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
         result = 31 * result + email.hashCode();
@@ -86,7 +86,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

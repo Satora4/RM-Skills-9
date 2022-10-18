@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HeaderService } from './header.service';
+import { GroupPhaseService } from './group-phase.service';
 
-describe('HeaderService', () => {
-  let service: HeaderService;
+describe('GroupPhaseService', () => {
+  let service: GroupPhaseService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HeaderService);
+    service = TestBed.inject(GroupPhaseService);
   });
 
   it('should be created', () => {

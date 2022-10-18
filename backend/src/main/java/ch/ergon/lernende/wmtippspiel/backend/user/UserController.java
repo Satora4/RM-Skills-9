@@ -1,8 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
-import ch.ergon.lernende.wmtippspiel.backend.security.authentication.IamUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,10 +10,12 @@ import java.util.stream.Collectors;
 @RestController
 public class UserController {
     private final UserRepository userRepository;
+    private final CurrentUser currentUser;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, CurrentUser currentUser) {
         this.userRepository = userRepository;
+        this.currentUser = currentUser;
     }
 
     @GetMapping("/users")
@@ -24,15 +24,13 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public UserTO getUser(Authentication authentication) {
-        IamUser userData = (IamUser) authentication.getPrincipal();
-
-        return convert(userRepository.getForMail(userData.mail()));
+    public UserTO getUser() {
+        return convert(currentUser.getUser());
     }
 
     private UserTO convert(User user) {
         UserTO userTO = new UserTO();
-        userTO.setId(user.getId());
+        userTO.setUserId(user.getUserId());
         userTO.setFirstName(user.getFirstName());
         userTO.setLastName(user.getLastName());
         userTO.setEmail(user.getEmail());

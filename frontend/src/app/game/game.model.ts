@@ -7,4 +7,6 @@ export interface Game {
   teamCountry1: string;
   teamCountry2: string;
   tip: string;
+  flagTeam1: string;
+  flagTeam2: string;
 }
