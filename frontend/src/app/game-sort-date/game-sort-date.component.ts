@@ -159,10 +159,9 @@ export class GameSortDateComponent implements OnInit {
     return formControlForTip();
   }
 
-  loadUser(): void {
+  private loadUser(): void {
     this.userService.getUserData().subscribe( (user) => {
       this.userId = user.userId;
-      console.log('userId: ' + this.userId);
     })
   }
 }
