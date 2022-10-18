@@ -125,9 +125,3 @@ VALUES (1, '2022-11-20T17:00:00', 'Katar', 16, 8, 'GROUP_PHASE', false),
        (46, '2022-12-02T14:00:00', 'Katar', 17, 23, 'GROUP_PHASE', false),
        (47, '2022-12-02T17:00:00', 'Katar', 27, 25, 'GROUP_PHASE', false),
        (48, '2022-12-02T20:00:00', 'Katar', 14, 4, 'GROUP_PHASE', false);
-
-INSERT INTO tip(user_id, tip_team1, tip_team2, game_id)
-VALUES (1, 2, 2, 1),
-       (1, 2, 0, 2),
-       (1, 0, 4, 3),
-       (1, 3, 4, 4);

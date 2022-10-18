@@ -1,7 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="WM-Tippspiel Backend" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" />
+  <configuration default="false" name="WM-Tippspiel Backend Prod" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="prod" />
     <module name="wm-tippspiel.backend.main" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
     <option name="SPRING_BOOT_MAIN_CLASS" value="ch.ergon.lernende.wmtippspiel.backend.BackendApplication" />
     <method v="2">
       <option name="Make" enabled="true" />

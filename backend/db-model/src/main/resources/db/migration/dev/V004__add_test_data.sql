@@ -1,3 +1,0 @@
-INSERT INTO "GROUP"(GROUP_ID, NAME)
-VALUES (23, 'X'),
-       (42, 'Y');
