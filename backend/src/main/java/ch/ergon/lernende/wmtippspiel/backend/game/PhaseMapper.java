@@ -4,6 +4,7 @@ import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import org.springframework.stereotype.Component;
 
 @Component
+// wird nirgendwo gebraucht -> löschen
 public class PhaseMapper {
     public PhaseTO map(Phase phase) {
         return switch (phase) {

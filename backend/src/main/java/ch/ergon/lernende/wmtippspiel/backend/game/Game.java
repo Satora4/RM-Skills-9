@@ -11,6 +11,8 @@ public class Game {
     private int id;
     private LocalDateTime gameTime;
     private String gameLocation;
+    // Ich finde hier "points" noch etwas verwirrend, da Punkte ja eigentlich im Fussball etwas anderes sind, als Tore.
+    // Würde es deswegen, wie auch schon in der DB in "goalsTeam1" umbenennen.
     private Integer pointsTeam1;
     private Integer pointsTeam2;
     private Team team1;

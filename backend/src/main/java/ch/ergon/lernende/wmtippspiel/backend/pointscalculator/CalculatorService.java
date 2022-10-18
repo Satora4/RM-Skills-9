@@ -48,6 +48,7 @@ public class CalculatorService {
         }
     }
 
+    // Methode getTeamById in TeamRepository
     public Team getTeam(int teamId) {
         List<Team> allTeams = teamRepository.getAllTeams();
 
@@ -62,9 +63,15 @@ public class CalculatorService {
     /**
      * get ready the data to calculate the score for the points of each tip
      */
+    // "calculateUserScores"
+    // Diese Funktion würde ich vermutlich etwas auseinander nehmen.
+    //
     public void calculateScore() {
+        // Könnte das "CALCULATED"-Flag nicht auch als Anzeiger gebraucht werden, dass Tipps für diese Spiel bereits
+        // gewertet sind? Dann müssten hier nur die noch nicht gewerteten Spiele geholte werden.
         List<Game> gamesToCalculate = gameRepository.getAllFinishedGames();
 
+        // Hier müssten nur nicht gewertete Tipps geholt werden.
         List<Tip> tips = tipRepository.getAllTip();
         List<Tip> tipsToCalculate = new ArrayList<>();
 
@@ -73,6 +80,10 @@ public class CalculatorService {
                 tipsToCalculate.add(tip);
             }
         }
+
+        // den ganzen Teil über diesem Kommentar in eine Funktion "getTipsToCalculate()" auslagern
+        // IntelliJ-Tip: Bereich markieren, Rechtsklick, Refactor->Extract Method
+
         Map<User, List<Tip>> usersWithTips = groupTipsByUser(tipsToCalculate);
         for (var user : usersWithTips.keySet()) {
             int userPoints = user.getPoints();
@@ -82,6 +93,9 @@ public class CalculatorService {
                 int tipTeam2 = tip.getTipTeam2();
                 int gameId = tip.getGame().getId();
 
+                // Hier ist eine Performance-Optimierung möglich:
+                // Momentan wird jedes mal über die ganze gamesToCalculate Liste iteriert, um das richtige Game zu finden
+                // Wie könnte man das schneller machen?
                 Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
                 int pointsTeam1 = currentGame.getPointsTeam1();
                 int pointsTeam2 = currentGame.getPointsTeam2();
@@ -90,9 +104,11 @@ public class CalculatorService {
                 int points = ruleService.calculateTipScore(tipAndGameResult);
                 tip.setPoints(points);
 
+                tipRepository.updateTipPoints(tip);
+
                 userPoints += points;
 
-                tipRepository.updateTipPoints(tip);
+                // den Loop-Body würde ich in eine
             }
             user.setPoints(userPoints);
             userRepository.updateUser(user);

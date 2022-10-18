@@ -7,6 +7,7 @@ import java.util.List;
 
 public class GroupTO {
 
+    // Warum braucht's deise JsonProperty?
     @JsonProperty("groupId")
     private int id;
     private String name;

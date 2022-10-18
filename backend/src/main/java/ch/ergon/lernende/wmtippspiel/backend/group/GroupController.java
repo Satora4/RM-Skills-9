@@ -16,11 +16,13 @@ public class GroupController {
         this.groupRepository = groupRepository;
     }
 
+    // besser "/groups"
     @GetMapping("/group")
     public List<GroupTO> getAllGroups() {
         return groupRepository.getAllGroups().stream().map(this::convert).collect(Collectors.toList());
     }
 
+    // in die Klasse "Group" verschieben und toGroupTO() nennen
     private GroupTO convert(Group group) {
         GroupTO groupTO = new GroupTO();
         

@@ -24,6 +24,7 @@ public class TeamRepository {
         return dslContext.selectFrom(TEAM).fetch(teamMapper::map);
     }
 
+    // in "updateTeamPoints" umbenennen
     public void updateTeam(int teamId, int points){
             dslContext.update(TEAM)
                     .set(TEAM.POINTS, points)
