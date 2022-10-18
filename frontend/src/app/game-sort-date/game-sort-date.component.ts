@@ -4,9 +4,7 @@ import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
-import {MatDialog} from "@angular/material/dialog";
 import {Game} from "../game/game.model";
-import {PopUpComponent} from "../pop-up/pop-up.component";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -57,7 +55,6 @@ export class GameSortDateComponent implements OnInit {
               private userService: UserService,
               private savingTipps: TipHelper,
               private groupPhaseService: GroupPhaseService) {
-    this.loadTipsByUser()
   }
 
   ngOnInit(): void {
@@ -74,7 +71,7 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
+    let tip: any = null;
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
         tip = this.tips[i].tipTeam1.toString();
@@ -83,17 +80,8 @@ export class GameSortDateComponent implements OnInit {
     return tip;
   }
 
-  public getTipByGameId(gameId: number): Tip {
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        return this.tips[i];
-      }
-    }
-    throw new Error("tip isn't in database")
-  }
-
   public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
+    let tip: any = null;
     for (let i = 0; i < this.tips.length; i++) {
       if (this.tips[i].gameId == gameId) {
         tip = this.tips[i].tipTeam2.toString();
@@ -103,7 +91,6 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public loadTipsByUser() {
-
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
@@ -175,7 +162,7 @@ export class GameSortDateComponent implements OnInit {
       this.userId = user.userId;
       console.log(user);
       console.log('userId: ' + this.userId);
-      this.loadTipsByUser(this.userId);
+      this.loadTipsByUser();
     })
   }
 }

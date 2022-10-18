@@ -6,7 +6,6 @@ import {GameService} from './game.service';
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Game} from "./game.model";
-import {PopUpComponent} from "../pop-up/pop-up.component";
 import {UserService} from "../user/user.service";
 import {TipHelper} from "../tip/tip-helper";
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
@@ -52,7 +51,6 @@ export class GameComponent implements OnInit {
               private userService: UserService,
               private tipHelper: TipHelper,
               public dialog: MatDialog) {
-    this.loadTipsByUser()
   }
 
   ngOnInit(): void {
@@ -96,12 +94,6 @@ export class GameComponent implements OnInit {
     this.tipHelper.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
   }
 
-  private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(() => {
-    })
-  }
-
-
   loadGames(): void {
     this.gameService.getKoGames().subscribe((koPhaseModels) => {
       let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
@@ -122,7 +114,7 @@ export class GameComponent implements OnInit {
       this.userId = user.userId;
       console.log(user);
       console.log('userId: ' + this.userId);
-      this.loadTipsByUser(this.userId);
+      this.loadTipsByUser();
     })
   }
 
@@ -137,11 +129,11 @@ export class GameComponent implements OnInit {
       }
 
       case "QUARTER_FINAL": {
-        return "Viertelfinal";
+        return "Viertelfinale";
       }
 
       case "ROUND_OF_16": {
-        return "Achtelfinal";
+        return "Achtelfinale";
       }
 
       default: {

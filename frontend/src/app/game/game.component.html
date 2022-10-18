@@ -106,7 +106,7 @@
           <button
             *ngIf="gameTableModel.game.pointsTeam1 == null && getTipTeam1ByGameId(gameTableModel.game.id) == null; else showEditButton"
             mat-stroked-button
-            (click)="saveTip(1, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
+            (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             save
           </button>
 
