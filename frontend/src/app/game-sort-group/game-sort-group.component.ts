@@ -54,7 +54,7 @@ export class GameSortGroupComponent implements OnInit {
   constructor(private gameService: GameService,
               private tipService: TipService,
               private userService: UserService,
-              private savingTipps: TipHelper,
+              private tipHelper: TipHelper,
               private groupPhaseService: GroupPhaseService) {
   }
 
@@ -80,11 +80,11 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   public openTipWindow(game: Game): void {
-    this.savingTipps.openTipWindow(this.userId, game, this.tips)
+    this.tipHelper.openTipWindow(this.userId, game, this.tips)
   }
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
-    this.savingTipps.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
+    this.tipHelper.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
   }
 
   public getTipByGameId(gameId: number): Tip | null {
