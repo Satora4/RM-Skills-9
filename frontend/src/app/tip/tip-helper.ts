@@ -17,8 +17,8 @@ export class TipHelper {
     const dialogRef = this.dialog.open(PopUpComponent, {
       width: '250px',
       data: {
-        tip1: getTipByGameId(game.id, tips).tipTeam1,
-        tip2: getTipByGameId(game.id, tips).tipTeam2,
+        tip1: getTipByGameId(game.id, tips)?.tipTeam1,
+        tip2: getTipByGameId(game.id, tips)?.tipTeam2,
         country1: game.teamCountry1,
         country2: game.teamCountry2
       }

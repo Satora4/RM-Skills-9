@@ -5,7 +5,7 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {Game} from "../game/game.model";
-import {getTipFromTeamByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
+import {getTipByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -61,6 +61,7 @@ export class GameSortDateComponent implements OnInit {
   ngOnInit(): void {
     this.loadGames();
     this.loadUser();
+    this.loadTipsByUser();
   }
 
   onChange(gameStateToggle: MatSlideToggleChange) {
@@ -85,16 +86,24 @@ export class GameSortDateComponent implements OnInit {
     this.savingTipps.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
   }
 
-  public getTipFromTeamByGameId(gameId: number, tipTeam: number): string {
-    return getTipFromTeamByGameId(gameId, tipTeam, this.tips);
+  public getTipByGameId(gameId: number): Tip | null {
+    return getTipByGameId(gameId, this.tips);
   }
 
-  public insertingTipIsAllowed(game: Game, tipTeam: number): boolean {
-    return insertingTipIsAllowed(game, this.tips, tipTeam);
+  public getTipFromTeamByGameId(getTipByGameId: number | undefined): string {
+    if (getTipByGameId == null) {
+      return '—';
+    } else {
+      return getTipByGameId.toString();
+    }
   }
 
-  public editingTipIsAllowed(game: Game, tipTeam: number): boolean {
-    return editingTipIsAllowed(game, this.tips, tipTeam);
+  public insertingTipIsAllowed(game: Game): boolean {
+    return insertingTipIsAllowed(game, this.tips);
+  }
+
+  public editingTipIsAllowed(game: Game): boolean {
+    return editingTipIsAllowed(game, this.tips);
   }
 
   public loadGames(): void {
@@ -153,9 +162,7 @@ export class GameSortDateComponent implements OnInit {
   loadUser(): void {
     this.userService.getUserData().subscribe( (user) => {
       this.userId = user.userId;
-      console.log(user);
       console.log('userId: ' + this.userId);
-      this.loadTipsByUser();
     })
   }
 }

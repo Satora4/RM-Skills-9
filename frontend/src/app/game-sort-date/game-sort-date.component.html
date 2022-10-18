@@ -64,7 +64,7 @@
           <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
           <td mat-cell *matCellDef="let gameTableModel">
             <input matInput
-                   *ngIf="insertingTipIsAllowed(gameTableModel.game, 1); else showTipTeam1"
+                   *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam1"
                    maxlength="2" type="text"
                    [placeholder]="dash" [(ngModel)]="tipTeam1[gameTableModel.game.id]"
                    [formControl]="gameTableModel.formControlTip1" [errorStateMatcher]="matcher">
@@ -75,7 +75,7 @@
               !gameTableModel.formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam1>
-              {{getTipFromTeamByGameId(gameTableModel.game.id, 1)}}
+              {{getTipFromTeamByGameId(getTipByGameId(gameTableModel.game.id)?.tipTeam2)}}
             </ng-template>
           </td>
         </ng-container>
@@ -84,7 +84,7 @@
           <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
           <td mat-cell *matCellDef="let gameTableModel">
             <input matInput
-                   *ngIf="insertingTipIsAllowed(gameTableModel.game, 2); else showTipTeam2"
+                   *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam2"
                    maxlength="2" type="text"
                    [placeholder]="dash" [(ngModel)]="tipTeam2[gameTableModel.game.id]"
                    [formControl]="gameTableModel.formControlTip2" [errorStateMatcher]="matcher">
@@ -95,7 +95,7 @@
             !gameTableModel.formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam2>
-              {{getTipFromTeamByGameId(gameTableModel.game.id, 2)}}
+              {{getTipFromTeamByGameId(getTipByGameId(gameTableModel.game.id)?.tipTeam2)}}
             </ng-template>
           </td>
         </ng-container>
@@ -105,7 +105,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel">
           <button
-            *ngIf="insertingTipIsAllowed(gameTableModel.game, 1); else showEditButton"
+            *ngIf="insertingTipIsAllowed(gameTableModel.game); else showEditButton"
             mat-stroked-button
             (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             save
@@ -113,7 +113,7 @@
 
           <ng-template #showEditButton>
             <button
-              *ngIf="editingTipIsAllowed(gameTableModel.game, 1);"
+              *ngIf="editingTipIsAllowed(gameTableModel.game);"
               mat-stroked-button
               (click)="openTipWindow(gameTableModel.game)">edit
             </button>
