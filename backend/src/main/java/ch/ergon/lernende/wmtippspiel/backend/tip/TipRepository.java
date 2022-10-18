@@ -71,7 +71,7 @@ public class TipRepository {
 
     public void addTip(Tip tip) {
         dslContext.insertInto(TIP)
-                .set(TIP.USER_ID, tip.getUser().getId())
+                .set(TIP.USER_ID, tip.getUser().getUserId())
                 .set(TIP.TIP_TEAM1, tip.getTipTeam1())
                 .set(TIP.TIP_TEAM2, tip.getTipTeam2())
                 .set(TIP.GAME_ID, tip.getGame().getId())
@@ -82,7 +82,7 @@ public class TipRepository {
         dslContext.update(TIP)
                 .set(TIP.TIP_TEAM1, tip.getTipTeam1())
                 .set(TIP.TIP_TEAM2, tip.getTipTeam2())
-                .where(TIP.GAME_ID.eq(tip.getGame().getId()).and(TIP.USER_ID.eq(tip.getUser().getId())))
+                .where(TIP.GAME_ID.eq(tip.getGame().getId()).and(TIP.USER_ID.eq(tip.getUser().getUserId())))
                 .execute();
     }
 
@@ -101,7 +101,7 @@ public class TipRepository {
         tip.setPoints(record.get(TIP.POINTS));
 
         User user = new User();
-        user.setId(record.get(USER.USER_ID));
+        user.setUserId(record.get(USER.USER_ID));
         user.setFirstName(record.get(USER.FIRST_NAME));
         user.setLastName(record.get(USER.LAST_NAME));
         user.setEmail(record.get(USER.EMAIL));

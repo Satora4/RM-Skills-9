@@ -110,7 +110,7 @@ public class CalculatorService {
         for (User user : users) {
             List<Tip> tips = new ArrayList<>();
             for (Tip tip : tipsToCalculate) {
-                if (tip.getUser().getId() == user.getId()) {
+                if (tip.getUser().getUserId() == user.getUserId()) {
                     tips.add(tip);
                 }
             }
