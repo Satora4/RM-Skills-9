@@ -58,7 +58,6 @@ export class GameSortDateComponent implements OnInit {
   ngOnInit(): void {
     this.loadGames();
     this.loadTipsByUser();
-    console.log(this.tips)
   }
 
   onChange(gameStateToggle: MatSlideToggleChange) {
