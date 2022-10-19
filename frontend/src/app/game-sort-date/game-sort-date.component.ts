@@ -5,7 +5,7 @@ import {MatSort} from "@angular/material/sort";
 import {GameService} from "../game/game.service";
 import {TipService} from "../tip/tip.service";
 import {Game} from "../game/game.model";
-import {getTipByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
+import {editingTipIsAllowed, getTipByGameId, insertingTipIsAllowed} from "../util/tip.util";
 import {FormControl, FormGroupDirective, NgForm,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "../game/game.table.model";
@@ -152,7 +152,7 @@ export class GameSortDateComponent implements OnInit {
   }
 
   private loadUser(): void {
-    this.userService.getUserData().subscribe( (user) => {
+    this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
     })
   }
