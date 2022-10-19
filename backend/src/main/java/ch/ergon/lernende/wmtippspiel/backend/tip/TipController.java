@@ -53,7 +53,7 @@ public class TipController {
 
     @PostMapping
     public HttpStatus addTip(@RequestBody TipTO tipTO) {
-        tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getId());
+        tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getUserId());
         if (isValidTip(tipTO)) {
             tipRepository.addTip(convert(tipTO));
             return HttpStatus.CREATED;
