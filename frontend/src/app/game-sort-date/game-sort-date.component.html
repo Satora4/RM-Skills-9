@@ -1,5 +1,7 @@
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+<h1 style="text-align: center; margin-top: 3em">Spielplan K.O.-Phase</h1>
 
+<mat-slide-toggle class="toggle" (change)="onChange($event)">Alle Spiele anzeigen</mat-slide-toggle>
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
     <h2>{{dataObject.groupDate}}</h2>
@@ -15,6 +17,7 @@
         <th mat-header-cell *matHeaderCellDef>Team 1</th>
         <td mat-cell *matCellDef="let gameTableModel">{{gameTableModel.game.team1.country}}</td>
       </ng-container>
+
       <ng-container matColumnDef="flag1">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel" style="text-align: center"><i
@@ -56,7 +59,7 @@
           <th mat-header-cell style="margin-right: 2em;" *matHeaderCellDef>Tipp Team1</th>
           <td mat-cell *matCellDef="let gameTableModel">
             <input matInput
-                   *ngIf="gameTableModel.game.pointsTeam1 == null && getTipTeam1ByGameId(gameTableModel.game.id) == dash; else showTipTeam1"
+                   *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam1"
                    maxlength="2" type="text"
                    [placeholder]="dash" [(ngModel)]="tipTeam1[gameTableModel.game.id]"
                    [formControl]="gameTableModel.formControlTip1" [errorStateMatcher]="matcher">
@@ -67,7 +70,13 @@
               !gameTableModel.formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam1>
-              {{getTipTeam1ByGameId(gameTableModel.game.id)}}
+              <ng-container *ngIf="getTipByGameId(gameTableModel.game.id) != null; else showDash">
+                {{getTipByGameId(gameTableModel.game.id)?.tipTeam2}}
+              </ng-container>
+
+              <ng-template #showDash>
+                {{dash}}
+              </ng-template>
             </ng-template>
           </td>
         </ng-container>
@@ -76,7 +85,7 @@
           <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
           <td mat-cell *matCellDef="let gameTableModel">
             <input matInput
-                   *ngIf="gameTableModel.game.pointsTeam2 == null && getTipTeam2ByGameId(gameTableModel.game.id) == dash; else showTipTeam2"
+                   *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam2"
                    maxlength="2" type="text"
                    [placeholder]="dash" [(ngModel)]="tipTeam2[gameTableModel.game.id]"
                    [formControl]="gameTableModel.formControlTip2" [errorStateMatcher]="matcher">
@@ -87,7 +96,13 @@
             !gameTableModel.formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
 
             <ng-template #showTipTeam2>
-              {{getTipTeam2ByGameId(gameTableModel.game.id)}}
+              <ng-container *ngIf="getTipByGameId(gameTableModel.game.id) != null; else showDash">
+                {{getTipByGameId(gameTableModel.game.id)?.tipTeam2}}
+              </ng-container>
+
+              <ng-template #showDash>
+                {{dash}}
+              </ng-template>
             </ng-template>
           </td>
         </ng-container>
@@ -97,15 +112,15 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel">
           <button
-            *ngIf="gameTableModel.game.pointsTeam1 == null && getTipTeam1ByGameId(gameTableModel.game.id) == dash; else showEditButton"
+            *ngIf="insertingTipIsAllowed(gameTableModel.game); else showEditButton"
             mat-stroked-button
-            (click)="saveTip(1, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
+            (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
 
           <ng-template #showEditButton>
             <button
-              *ngIf="gameTableModel.game.pointsTeam1 == null && getTipTeam1ByGameId(gameTableModel.game.id) != dash;"
+              *ngIf="editingTipIsAllowed(gameTableModel.game);"
               mat-stroked-button
               (click)="openTipWindow(gameTableModel.game)">
               <span class="material-icons">edit</span>

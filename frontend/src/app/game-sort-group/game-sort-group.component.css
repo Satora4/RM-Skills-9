@@ -58,3 +58,7 @@ input{
   width: 30px;
   background: #F0F1F2;
 }
+
+.toggle {
+  margin-left: 20%;
+}

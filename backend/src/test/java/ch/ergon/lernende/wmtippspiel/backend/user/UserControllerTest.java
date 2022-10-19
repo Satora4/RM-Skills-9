@@ -31,7 +31,7 @@ class UserControllerTest {
         assertTrue(userData.size() >= 1);
 
         UserTO user = userData.get(0);
-        assertEquals(1, user.getId());
+        assertEquals(1, user.getUserId());
         assertEquals("Niculin", user.getFirstName());
         assertEquals("Steiner", user.getLastName());
         assertEquals("steiner.niculin@mail.ch", user.getEmail());

@@ -1,7 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,7 +37,7 @@ public class UserRepository {
         return dslContext.select(
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
-                        USER.USER_ID.as("id"),
+                        USER.USER_ID,
                         USER.EMAIL,
                         USER.POINTS,
                         USER.ADMINISTRATOR)
@@ -48,10 +47,10 @@ public class UserRepository {
     }
 
     public void updateUser(User user) {
-        
+
         dslContext.update(USER)
                 .set(USER.POINTS, user.getPoints())
-                .where(USER.USER_ID.eq(user.getId()))
+                .where(USER.USER_ID.eq(user.getUserId()))
                 .execute();
     }
 

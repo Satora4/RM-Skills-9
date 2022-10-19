@@ -1,6 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
+import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.user.CurrentUser;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,24 +20,16 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("tip")
 public class TipController {
     private final TipRepository tipRepository;
+    private final GameRepository gameRepository;
     private final UserRepository userRepository;
     private final CurrentUser currentUser;
 
     @Autowired
-    public TipController(TipRepository tipRepository, UserRepository userRepository, CurrentUser currentUser) {
+    public TipController(TipRepository tipRepository, GameRepository gameRepository, UserRepository userRepository, CurrentUser currentUser) {
         this.tipRepository = tipRepository;
         this.userRepository = userRepository;
         this.currentUser = currentUser;
-    }
-
-    @PatchMapping()
-    public void updateTip(@RequestBody TipTO tipTO) {
-        tipTO.setUserId(currentUser.getUser().getId());
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
-            tipRepository.putTip(convert(tipTO));
-        } else {
-            throw new IllegalArgumentException("the game has already been played");
-        }
+        this.gameRepository = gameRepository;
     }
 
     @GetMapping
@@ -47,15 +41,30 @@ public class TipController {
         }
     }
 
-    @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public void addTip(@RequestBody TipTO tipTO) {
-        tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getId());
-        if (tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null) {
-            tipRepository.addTip(convert(tipTO));
+    @PatchMapping
+    public HttpStatus updateTip(@RequestBody TipTO tipTO) {
+        if (isValidTip(tipTO)) {
+            tipRepository.putTip(convert(tipTO));
+            return HttpStatus.OK;
         } else {
-            throw new IllegalArgumentException("the game has already been played");
+            return HttpStatus.BAD_REQUEST;
         }
+    }
+
+    @PostMapping
+    public HttpStatus addTip(@RequestBody TipTO tipTO) {
+        tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getUserId());
+        if (isValidTip(tipTO)) {
+            tipRepository.addTip(convert(tipTO));
+            return HttpStatus.CREATED;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    private boolean isValidTip(TipTO tipTO) {
+        Game game = gameRepository.getGame(tipTO.getGameId());
+        return tipTO.getPointsTeam1() == null && tipTO.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now());
     }
 
     private List<TipTO> convert(Collection<Tip> tips) {
@@ -73,7 +82,7 @@ public class TipController {
         tipTO.setTipTeam2(tip.getTipTeam2());
         tipTO.setPoints(tip.getPoints());
 
-        tipTO.setUserId(user.getId());
+        tipTO.setUserId(user.getUserId());
         tipTO.setFirstName(user.getFirstName());
         tipTO.setLastName(user.getLastName());
         tipTO.setEmail(user.getEmail());
@@ -129,7 +138,7 @@ public class TipController {
         tip.setGame(game);
 
         User user = new User();
-        user.setId(tipTO.getUserId());
+        user.setUserId(tipTO.getUserId());
         user.setFirstName(tipTO.getFirstName());
         user.setLastName(tipTO.getLastName());
         user.setEmail(tipTO.getEmail());

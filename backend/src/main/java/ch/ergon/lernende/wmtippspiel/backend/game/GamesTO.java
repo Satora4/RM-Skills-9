@@ -27,9 +27,8 @@ public class GamesTO {
         return new GamesTO(games, null, phase, null);
     }
 
-
-    public static GamesTO gamesWithGroup(List<Game> games, String groupName){
-        return new GamesTO(games, null,null,groupName);
+    public static GamesTO gamesWithGroup(List<Game> games, String groupName) {
+        return new GamesTO(games, null, null, groupName);
     }
 
     public List<Game> getGames() {

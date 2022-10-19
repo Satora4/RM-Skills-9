@@ -6,12 +6,14 @@ import {GameService} from './game.service';
 import {TipService} from "../tip/tip.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Game} from "./game.model";
-import {PopUpComponent} from "../pop-up/pop-up.component";
+import {UserService} from "../user/user.service";
+import {TipHelper} from "../tip/tip-helper";
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
+import {getTipByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -36,6 +38,7 @@ export class GameComponent implements OnInit {
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
+  public userId: number | any;
   public readonly dash = '—';
   public readonly errorMessage = errorMessage;
   public formControlsTip1: FormControl[] = [];
@@ -46,113 +49,42 @@ export class GameComponent implements OnInit {
 
   constructor(private gameService: GameService,
               private tipService: TipService,
+              private userService: UserService,
+              private tipHelper: TipHelper,
               public dialog: MatDialog) {
-    this.loadTipsByUser()
   }
 
   ngOnInit(): void {
     this.loadGames();
-  }
-
-  public openTipWindow(game: Game): void {
-    const dialogRef = this.dialog.open(PopUpComponent, {
-      width: 'auto',
-      data: {
-        tip1: this.getTipByGameId(game.id).tipTeam1,
-        tip2: this.getTipByGameId(game.id).tipTeam2,
-        country1: game.team1.country,
-        country2: game.team2.country,
-        flag1: game.team1.countryFlag,
-        flag2: game.team2.countryFlag,
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result)
-      this.saveTip(this.getTipByGameId(game.id).userId, result.tip1, result.tip2, game)
-      window.location.reload();
-    });
-  }
-
-
-  public getTipTeam1ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam1.toString();
-      }
-    }
-    return tip;
-  }
-
-  public getTipByGameId(gameId: number): Tip {
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        return this.tips[i];
-      }
-    }
-    throw new Error("tip isn't in database")
-  }
-
-  public getTipTeam2ByGameId(gameId: number): string {
-    let tip: string = this.dash;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == gameId) {
-        tip = this.tips[i].tipTeam2.toString();
-      }
-    }
-    return tip;
+    this.loadUser();
+    this.loadTipsByUser();
   }
 
   public loadTipsByUser() {
-
     this.tipService.getTips().subscribe((tips) => {
       this.tips = tips;
     });
-
   }
 
-  public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game) {
-    let tip: Tip = {
-      userId: userId,
-      tipTeam1: tipTeam1,
-      tipTeam2: tipTeam2,
-      points: 0,
-      gameId: game.id,
-      teamCountry1: game.team1.country,
-      teamCountry2: game.team2.country,
-      pointsTeam1: game.pointsTeam1,
-      pointsTeam2: game.pointsTeam2,
-      gameTime: game.gameTime
-    }
-    let requestToggle: boolean = false;
-    for (let i = 0; i < this.tips.length; i++) {
-      if (this.tips[i].gameId == tip.gameId) {
-        requestToggle = true;
-        break;
-      }
-    }
-
-    if (requestToggle) {
-      this.updateTip(tip)
-    } else {
-      this.addTip(tip);
-    }
-
+  public openTipWindow(game: Game): void {
+    this.tipHelper.openTipWindow(this.userId, game, this.tips)
   }
 
-  private addTip(tip: Tip) {
-    this.tipService.addTip(tip).subscribe(() => {
-      location.reload()
-    })
+  public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
+    this.tipHelper.saveTip(this.userId, tipTeam1, tipTeam2, game, this.tips);
   }
 
-  private updateTip(tip: Tip): void {
-    this.tipService.updateTip(tip).subscribe(() => {
-    })
+  public getTipByGameId(gameId: number): Tip | null {
+    return getTipByGameId(gameId, this.tips);
   }
 
+  public insertingTipIsAllowed(game: Game): boolean {
+    return insertingTipIsAllowed(game, this.tips);
+  }
+
+  public editingTipIsAllowed(game: Game): boolean {
+    return editingTipIsAllowed(game, this.tips);
+  }
 
   loadGames(): void {
     this.gameService.getKoGames().subscribe((koPhaseModels) => {
@@ -160,8 +92,6 @@ export class GameComponent implements OnInit {
       for (let sortedKoPhaseModel of sortedKoPhaseModels) {
         let dataSource = new MatTableDataSource();
         dataSource.data = this.loadGameTableModel(sortedKoPhaseModel.games);
-        console.log(sortedKoPhaseModel)
-
         let dataObject: DataObject = {
           dataSource: dataSource,
           phase: this.getPhase(sortedKoPhaseModel.phase.toString())
@@ -169,6 +99,13 @@ export class GameComponent implements OnInit {
         this.dataObjects.push(dataObject);
       }
     });
+  }
+
+  loadUser(): void {
+    this.userService.getUserData().subscribe( (user) => {
+      this.userId = user.userId;
+      console.log('userId: ' + this.userId);
+    })
   }
 
   private getPhase(phase: string): string {
@@ -182,11 +119,11 @@ export class GameComponent implements OnInit {
       }
 
       case "QUARTER_FINAL": {
-        return "Viertelfinal";
+        return "Viertelfinale";
       }
 
       case "ROUND_OF_16": {
-        return "Achtelfinal";
+        return "Achtelfinale";
       }
 
       default: {
