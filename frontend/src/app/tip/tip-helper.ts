@@ -28,7 +28,6 @@ export class TipHelper {
       console.log('The dialog was closed');
       console.log(result);
       this.saveTip(userId, result.tip1, result.tip2, game, tips)
-      window.location.reload();
     });
   }
 
@@ -47,21 +46,25 @@ export class TipHelper {
       gameTime: game.gameTime
     }
 
-    if (tips.includes(tip)) {
-      this.updateTip(tip)
+    console.log(tips.findIndex((element) => element.userId == tip.userId && element.gameId == tip.gameId) != -1)
+    if (tips.findIndex((element) => element.userId == tip.userId && element.gameId == tip.gameId) != -1) {
+      this.updateTip(tip, tips)
     } else {
-      this.addTip(tip);
+      this.addTip(tip, tips);
     }
   }
 
-  public addTip(tip: Tip) {
+  public addTip(tip: Tip, tips: Tip[]) {
     this.tipService.addTip(tip).subscribe(tip => {
-      location.reload()
     })
+    tips.push(tip);
   }
 
-  public updateTip(tip: Tip): void {
+  public updateTip(tip: Tip, tips: Tip[]): void {
     this.tipService.updateTip(tip).subscribe(tip => {
     })
+    let indexOfOldTip = tips.findIndex((element) =>
+      element.userId == tip.userId && element.gameId == tip.gameId);
+    tips.splice(indexOfOldTip, 1, tip);
   }
 }
