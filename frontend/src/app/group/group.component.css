@@ -34,10 +34,10 @@ table.center {
 table {
   width: 100%;
   height: auto;
-  border: solid#DEE1E2;
+  border: solid #DEE1E2;
 }
 
-.list th{
+.list th {
   font-family: 'AktivGroteskBd', sans-serif;
   color: #404648;
 }
@@ -56,7 +56,6 @@ h1 {
   font-size: 28px;
 }
 
-
 ul {
   list-style-type: none;
   margin: 0;
@@ -64,22 +63,26 @@ ul {
   overflow: hidden;
 }
 
+li {
+  float: left;
+}
 
 li a {
-  display: block;
-  color: black;
+  display: inline;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  width: 6.5%;
-  margin-right: 46%;
-  margin-left: 46%;
-  font-family: 'AktivGroteskRg', sans-serif;
-
-
+  color: black;
+  font-family: 'AktivGroteskBd', sans-serif;
 }
 
 li a:hover {
-  color: gray;
   text-decoration: underline;
+}
+
+.menu {
+  margin-left: 35%;
+  margin-right: 35%;
+  width: 30%;
+  margin-top: 2em;
 }
