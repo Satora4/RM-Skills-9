@@ -70,7 +70,7 @@
 
             <ng-template #showTipTeam1>
               <ng-container *ngIf="getTipByGameId(gameTableModel.game.id) != null; else showDash">
-                {{getTipByGameId(gameTableModel.game.id)?.tipTeam2}}
+                {{getTipByGameId(gameTableModel.game.id)?.tipTeam1}}
               </ng-container>
 
               <ng-template #showDash>
