@@ -1,19 +1,20 @@
 @font-face {
   font-family: 'AktivGroteskRg';
-  src:url(src/rsc/fonts/AktivGrotesk_W_Rg.woff) format("woff");
+  src: url(src/rsc/fonts/AktivGrotesk_W_Rg.woff) format("woff");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Aktiv Grotesk';
-  src:url(src/rsc/fonts/AktivGrotesk_W_Bd.woff) format("woff");
+  src: url(src/rsc/fonts/AktivGrotesk_W_Bd.woff) format("woff");
   font-weight: 700;
   font-style: normal;
 }
 
 * {
   margin: 0;
+  font-family: "AktivGroteskRg", sans-serif;
 }
 
 html, body {
@@ -24,3 +25,4 @@ html, body {
 body {
   margin: 0;
 }
+

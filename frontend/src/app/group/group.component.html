@@ -1,7 +1,7 @@
-<h1 style="text-align: center; margin-top: 3em">Gruppen</h1>
+<h1>Gruppen</h1>
 
 
-<nav>
+<nav class="menu">
   <ul>
     <li><a *ngFor="let dataObject of groupDataObjects;"
            href="/groups#{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</a></li>
