@@ -53,11 +53,14 @@ export class UserComponent implements OnInit, AfterViewInit {
       return;
     }
     users[0].ranking = 1;
+    users[0].email = "";
     for (let i = 1; i < users.length; i++) {
       if (users[i].points === users[i - 1].points) {
         users[i].ranking = users[i - 1].ranking;
+        users[i].email = "";
       } else {
         users[i].ranking = i + 1;
+        users[i].email = "";
       }
     }
     return users;
