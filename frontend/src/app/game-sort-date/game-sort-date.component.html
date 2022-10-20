@@ -2,13 +2,13 @@
 <mat-slide-toggle class="toggle" (change)="onChange($event)">Alle Spiele anzeigen</mat-slide-toggle>
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
-    <h2>{{dataObject.groupDate}}</h2>
+    <h2>{{dataObject.groupDate | date: 'd.MM.y'}}</h2>
     <table mat-table [dataSource]="dataObject.dataSource">
 
       <ng-container matColumnDef="gameTime">
         <th mat-header-cell *matHeaderCellDef>Datum</th>
         <td mat-cell
-            *matCellDef="let gameTableModel">{{gameTableModel.game.gameTime | date:'d MMM y | HH:mm'}}</td>
+            *matCellDef="let gameTableModel">{{gameTableModel.game.gameTime | date:'HH:mm'}}</td>
       </ng-container>
 
       <ng-container matColumnDef="teamCountry1">
