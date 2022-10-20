@@ -43,7 +43,7 @@ public class TipController {
 
     @PatchMapping
     public HttpStatus updateTip(@RequestBody TipTO tipTO) {
-        if (isValidTip(tipTO.getGameId())) {
+        if (isValidTip(tipTO)) {
             tipRepository.putTip(convert(tipTO));
             return HttpStatus.OK;
         } else {
@@ -54,7 +54,7 @@ public class TipController {
     @PostMapping
     public HttpStatus addTip(@RequestBody TipTO tipTO) {
         tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getUserId());
-        if (isValidTip(tipTO.getGameId())) {
+        if (isValidTip(tipTO)) {
             tipRepository.addTip(convert(tipTO));
             return HttpStatus.CREATED;
         } else {
@@ -62,8 +62,8 @@ public class TipController {
         }
     }
 
-    private boolean isValidTip(int gameId) {
-        Game game = gameRepository.getGame(gameId);
+    private boolean isValidTip(TipTO tipTO) {
+        Game game = gameRepository.getGame(tipTO.getGameId());
         return game.getPointsTeam1() == null && game.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now());
     }
 
