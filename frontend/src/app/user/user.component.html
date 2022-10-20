@@ -15,9 +15,9 @@
     </tr>
   </table>
 
-  <mat-form-field appearance="standard" class="list">
-    <mat-label style="color: black">
-      <mat-icon style="font-size: 20px">search</mat-icon>
+  <mat-form-field appearance="standard" class="searchbar">
+    <mat-label>
+      <mat-icon>search</mat-icon>
     </mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Name..." #input>
   </mat-form-field>
