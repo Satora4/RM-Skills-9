@@ -26,4 +26,3 @@ export function getTipByGameId(gameId: number, tips: Tip[]): Tip | null {
   }
   return null;
 }
-
