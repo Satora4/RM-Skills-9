@@ -51,12 +51,16 @@ h2 {
 }
 
 input {
-  height: 48px;
+  height: 25px;
   left: 0;
   right: 0;
   top: 0;
   width: 30px;
   background: #F0F1F2;
+}
+
+mat-form-field {
+  width: 13%;
 }
 
 .toggleGroup {
