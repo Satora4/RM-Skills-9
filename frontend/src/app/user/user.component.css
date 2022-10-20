@@ -12,15 +12,6 @@
   font-style: normal;
 }
 
-th {
-  font-family: "AktivGroteskBd", sans-serif;
-  text-align: center;
-}
-
-td {
-  font-family: "AktivGroteskRg", sans-serif;
-}
-
 .list {
   width: 100%;
   margin-top: 2em;
@@ -30,9 +21,6 @@ table {
   width: 100%;
   height: auto;
   border: solid #DEE1E2;
-}
-
-table th {
 }
 
 h1 {
@@ -67,10 +55,23 @@ h1 {
   width: 20%;
 }
 
-.mat-header-cell {
-  font-family: "AktivGroteskBd", sans-serif;
+.list th {
+  font-family: 'AktivGroteskBd', sans-serif;
+  color: #404648;
+}
+
+.searchbar mat-label {
   color: black;
 }
+
+.searchbar mat-icon {
+  font-size: 20px;
+}
+
+.searchbar{
+  width: 100%;
+}
+
 
 
 
