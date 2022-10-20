@@ -17,8 +17,8 @@ export class TipHelper {
     const dialogRef = this.dialog.open(PopUpComponent, {
       width: 'auto',
       data: {
-        tip1: getTipByGameId(game.id, tips)?.tipTeam1,
-        tip2: getTipByGameId(game.id, tips)?.tipTeam2,
+        tip1: getTipByGameId(game.id, userId, tips)?.tipTeam1,
+        tip2: getTipByGameId(game.id, userId, tips)?.tipTeam2,
         country1: game.team1.country,
         country2: game.team2.country,
         flag1: game.team1.countryFlag,
@@ -46,22 +46,24 @@ export class TipHelper {
       pointsTeam2: game.team2.points,
       gameTime: game.gameTime
     }
-    if (tips.findIndex((element) => element.userId == tip.userId && element.gameId == tip.gameId) != -1) {
-      this.updateTip(tip)
+    if (getTipByGameId(game.id, userId, tips)) {
+      this.updateTip(tip, tips)
     } else {
-      this.addTip(tip);
+      this.addTip(tip, tips);
     }
   }
 
-  public addTip(tip: Tip) {
+  public addTip(tip: Tip, tips: Tip[]) {
     this.tipService.addTip(tip).subscribe(tip => {
-      location.reload()
     })
+    tips.push(tip);
   }
 
-  public updateTip(tip: Tip): void {
+  public updateTip(tip: Tip, tips: Tip[]): void {
     this.tipService.updateTip(tip).subscribe(tip => {
-      location.reload();
     })
+    let indexOfOldTip = tips.findIndex((element) =>
+      element.userId == tip.userId && element.gameId == tip.gameId);
+    tips.splice(indexOfOldTip, 1, tip);
   }
 }
