@@ -1,13 +1,11 @@
-<h1 style="text-align: center; margin-top: 3em">Spielplan</h1>
+<h1 style="text-align: center; margin-top: 3em">Rangliste</h1>
 
 <div class="content">
 
   <table class="littleTable">
     <tr>
-      <th>
-        <mat-icon>account_circle</mat-icon>
-      </th>
-      <th>Score</th>
+      <th>Name</th>
+      <th>Punkte</th>
       <th>Rang</th>
     </tr>
     <tr>
@@ -17,8 +15,10 @@
     </tr>
   </table>
 
-  <mat-form-field appearance="standard" class="list">
-    <mat-label style="color: black"><mat-icon style="font-size: 20px">search</mat-icon></mat-label>
+  <mat-form-field appearance="standard" class="searchbar">
+    <mat-label>
+      <mat-icon>search</mat-icon>
+    </mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Name..." #input>
   </mat-form-field>
 

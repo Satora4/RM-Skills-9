@@ -44,7 +44,7 @@ tasks {
     }
 
     withType<JooqGenerate> {
-        dependsOn(flywayMigrate)
+        dependsOn(named("flywayMigrate"))
         finalizedBy(deleteDbDirectory)
     }
 }
