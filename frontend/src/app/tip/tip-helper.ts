@@ -15,12 +15,14 @@ export class TipHelper {
 
   public openTipWindow(userId: number, game: Game, tips: Tip[]): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
-      width: '250px',
+      width: 'auto',
       data: {
         tip1: getTipByGameId(game.id, tips)?.tipTeam1,
         tip2: getTipByGameId(game.id, tips)?.tipTeam2,
         country1: game.team1.country,
-        country2: game.team2.country
+        country2: game.team2.country,
+        flag1: game.team1.countryFlag,
+        flag2: game.team2.countryFlag,
       }
     });
 
