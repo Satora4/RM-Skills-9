@@ -27,13 +27,13 @@ export class TipService {
 
   addTip(tip: Tip): Observable<Tip> {
     return this.httpClient.post<Tip>(this.tipUrl, tip)
-      .pipe(tap((newTip: Tip) => console.log(`added tip w/ id=${newTip.gameId}`)), catchError(handleError<Tip>('addedTip'))
+      .pipe(tap((newTip: Tip) => console.log(`added tip w/ tip: ${newTip}`)), catchError(handleError<Tip>('addedTip'))
       );
   }
 
   updateTip(tip: Tip): Observable<Tip> {
     return this.httpClient.patch<Tip>(this.tipUrl, tip, this.httpOptions)
-      .pipe(tap((newTip: Tip) => console.log(`updated tip w/ id=${newTip.gameId}`)), catchError(handleError<Tip>('updatedTip'))
+      .pipe(tap((newTip: Tip) => console.log(`updated tip w/ tip: ${newTip}`)), catchError(handleError<Tip>('updatedTip'))
       );
   }
 }

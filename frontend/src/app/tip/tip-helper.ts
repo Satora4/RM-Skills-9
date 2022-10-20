@@ -28,12 +28,10 @@ export class TipHelper {
       console.log('The dialog was closed');
       console.log(result);
       this.saveTip(userId, result.tip1, result.tip2, game, tips)
-      window.location.reload();
     });
   }
 
   public saveTip(userId: number, tipTeam1: number, tipTeam2: number, game: Game, tips: Tip[]) {
-
     let tip: Tip = {
       userId: userId,
       tipTeam1: tipTeam1,
@@ -46,8 +44,7 @@ export class TipHelper {
       pointsTeam2: game.team2.points,
       gameTime: game.gameTime
     }
-
-    if (tips.includes(tip)) {
+    if (tips.findIndex((element) => element.userId == tip.userId && element.gameId == tip.gameId) != -1) {
       this.updateTip(tip)
     } else {
       this.addTip(tip);
@@ -62,6 +59,7 @@ export class TipHelper {
 
   public updateTip(tip: Tip): void {
     this.tipService.updateTip(tip).subscribe(tip => {
+      location.reload();
     })
   }
 }
