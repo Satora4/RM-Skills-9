@@ -23,6 +23,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.userDataSource.sort = this.sort;
+    this.calculateUserRank();
   }
 
   ngOnInit(): void {
@@ -32,9 +33,10 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   private calculateUserRank(): void {
     for (let user of this.users) {
-      if (user.email == this.user.email) {
+      if (user.userId == this.user.userId) {
         this.user.ranking = user.ranking;
         break;
+      } else {
       }
     }
   }

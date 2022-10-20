@@ -21,7 +21,7 @@ public class UserRepository {
     public List<User> getAllUser() {
 
         return dslContext.select(
-                        USER.USER_ID.as("id"),
+                        USER.USER_ID,
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
                         USER.EMAIL,
