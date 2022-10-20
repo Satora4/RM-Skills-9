@@ -36,7 +36,6 @@ export class UserComponent implements OnInit, AfterViewInit {
       if (user.userId == this.user.userId) {
         this.user.ranking = user.ranking;
         break;
-      } else {
       }
     }
   }
