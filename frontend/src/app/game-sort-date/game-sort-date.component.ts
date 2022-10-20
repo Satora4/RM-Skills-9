@@ -87,15 +87,15 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public getTipByGameId(gameId: number): Tip | null {
-    return getTipByGameId(gameId, this.tips);
+    return getTipByGameId(gameId, this.userId, this.tips);
   }
 
   public insertingTipIsAllowed(game: Game): boolean {
-    return insertingTipIsAllowed(game, this.tips);
+    return insertingTipIsAllowed(game,this.userId, this.tips);
   }
 
   public editingTipIsAllowed(game: Game): boolean {
-    return editingTipIsAllowed(game, this.tips);
+    return editingTipIsAllowed(game, this.userId, this.tips);
   }
 
   public loadGames(): void {
