@@ -3,7 +3,7 @@
 
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
-    <h2>{{dataObject.group}}</h2>
+    <h2>Gruppe {{dataObject.group}}</h2>
     <table mat-table [dataSource]="dataObject.dataSource">
 
       <ng-container matColumnDef="gameTime">
