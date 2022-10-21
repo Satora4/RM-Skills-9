@@ -18,6 +18,10 @@ export function editingTipIsAllowed(game: Game, userId: number, tips: Tip[]): bo
   return isGameNotPlayedYet(game) && isTipAlreadySet(game, userId, tips);
 }
 
+export function isTipAPositivNumber(tipTeam1: any, tipTeam2: any): boolean {
+  return tipTeam1 >= 0 && tipTeam2 >= 0 || tipTeam1 == null && tipTeam2 == null;
+}
+
 export function getTipByGameId(gameId: number, userId: number, tips: Tip[]): Tip | null {
   for (let i = 0; i < tips.length; i++) {
     if (tips[i].gameId == gameId && tips[i].userId == userId) {

@@ -4,6 +4,7 @@ import {ErrorStateMatcher} from "@angular/material/core";
 import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import { errorMessage } from '../util/errorMessage.util';
+import {isTipAPositivNumber} from "../util/tip.util";
 
 
 export interface DialogData {
@@ -46,4 +47,7 @@ export class PopUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public isTipAPositivNumber(tipTeam1: any, tipTeam2: any): boolean {
+    return isTipAPositivNumber(tipTeam1, tipTeam2);
+  }
 }
