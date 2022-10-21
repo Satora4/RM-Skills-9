@@ -1,32 +1,35 @@
 import {Game} from "../game/game.model";
 import {Tip} from "../tip/tip.model";
 
-export function isTipAlreadySet(game: Game, userId: number, tips: Tip[]): boolean {
-  return getTipByGameId(game.id, userId, tips) != null;
-}
+export class TipUtil {
 
-export function isGameNotPlayedYet(game: Game): boolean {
-  return Date.parse(game.gameTime.toString()) > Date.now() &&
-  game.pointsTeam1 == null && game.pointsTeam2 == null;
-}
-
-export function insertingTipIsAllowed(game: Game, userId: number, tips: Tip[]): boolean {
-  return isGameNotPlayedYet(game) && !isTipAlreadySet(game, userId, tips);
-}
-
-export function editingTipIsAllowed(game: Game, userId: number, tips: Tip[]): boolean {
-  return isGameNotPlayedYet(game) && isTipAlreadySet(game, userId, tips);
-}
-
-export function isTipAPositivNumber(tipTeam1: any, tipTeam2: any): boolean {
-  return tipTeam1 >= 0 && tipTeam2 >= 0 || tipTeam1 == null && tipTeam2 == null;
-}
-
-export function getTipByGameId(gameId: number, userId: number, tips: Tip[]): Tip | null {
-  for (let i = 0; i < tips.length; i++) {
-    if (tips[i].gameId == gameId && tips[i].userId == userId) {
-      return tips[i];
-    }
+  public static isTipAlreadySet(game: Game, userId: number, tips: Tip[]): boolean {
+    return TipUtil.getTipByGameId(game.id, userId, tips) != null;
   }
-  return null;
+
+  public static isGameNotPlayedYet(game: Game): boolean {
+    return Date.parse(game.gameTime.toString()) > Date.now() &&
+      game.pointsTeam1 == null && game.pointsTeam2 == null;
+  }
+
+  public static insertingTipIsAllowed(game: Game, userId: number, tips: Tip[]): boolean {
+    return TipUtil.isGameNotPlayedYet(game) && !TipUtil.isTipAlreadySet(game, userId, tips);
+  }
+
+  public static editingTipIsAllowed(game: Game, userId: number, tips: Tip[]): boolean {
+    return TipUtil.isGameNotPlayedYet(game) && TipUtil.isTipAlreadySet(game, userId, tips);
+  }
+
+  public static isPositivNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return Number(tipTeam1) >= 0 && Number(tipTeam2) >= 0 || tipTeam1 == null && tipTeam2 == null;
+  }
+
+  public static getTipByGameId(gameId: number, userId: number, tips: Tip[]): Tip | null {
+    for (let i = 0; i < tips.length; i++) {
+      if (tips[i].gameId == gameId && tips[i].userId == userId) {
+        return tips[i];
+      }
+    }
+    return null;
+  }
 }
