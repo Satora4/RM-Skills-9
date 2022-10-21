@@ -25,9 +25,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-pop-up',
   templateUrl: './pop-up.component.html',
-  styleUrls: ['./pop-up.component.css']
+  styleUrls: ['./pop-up.component.css'],
 })
 export class PopUpComponent implements OnInit {
+
+  // ngClass?: string | string[] | Set<string> | { [klass: string]: any; }
 
   public readonly errorMessage = errorMessage;
   formControlTip1 = formControlForTip();
@@ -45,5 +47,13 @@ export class PopUpComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  // public hasError() {
+  //   if (!this.isTipAPositivNumber(this.data.tip1, this.data.tip2)) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
 
 }
