@@ -125,7 +125,6 @@ public class GameRepository {
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
-                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
                 .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
                 .collect(groupingBy(record -> record.get(GAME.PHASE), mapping(this::convert, toList())));
 

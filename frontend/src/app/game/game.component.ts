@@ -13,7 +13,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
-import {getTipByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
+import {editingTipIsAllowed, getTipByGameId, insertingTipIsAllowed} from "../util/tip.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -102,7 +102,7 @@ export class GameComponent implements OnInit {
   }
 
   loadUser(): void {
-    this.userService.getUserData().subscribe( (user) => {
+    this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
       console.log('userId: ' + this.userId);
     })
@@ -112,6 +112,10 @@ export class GameComponent implements OnInit {
     switch (phase) {
       case "FINAL": {
         return "Final";
+      }
+
+      case "LITTLE_FINAL": {
+        return "Kleines Final";
       }
 
       case "SEMI_FINAL": {

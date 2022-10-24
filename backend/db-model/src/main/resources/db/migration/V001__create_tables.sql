@@ -27,6 +27,7 @@ CREATE TYPE phase AS ENUM (
     'ROUND_OF_16',
     'QUARTER_FINAL',
     'SEMI_FINAL',
+    'LITTLE_FINAL',
     'FINAL'
     );
 
