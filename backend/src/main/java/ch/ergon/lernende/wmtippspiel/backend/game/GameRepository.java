@@ -136,7 +136,7 @@ public class GameRepository {
      * returns all games that already have been played, i.e. where the goals aren't NULL
      */
     public List<Game> getAllFinishedGames() {
-        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
+        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()).and(GAME.CALCULATED.eq(false)));
     }
 
     public List<Game> getAllFinishedGamesWithOutTeamCalculation() {

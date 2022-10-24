@@ -69,7 +69,7 @@ public class CalculatorService {
         List<Tip> tipsToCalculate = new ArrayList<>();
 
         for (Tip tip : tips) {
-            if (tip.getPoints() == null && gamesToCalculate.contains(tip.getGame())) {
+            if (tip.getPoints() == null && (tip.getGame().getPointsTeam2() != null) && !tip.getGame().isCalculated()) {
                 tipsToCalculate.add(tip);
             }
         }

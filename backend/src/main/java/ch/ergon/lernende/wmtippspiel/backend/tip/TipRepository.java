@@ -56,6 +56,7 @@ public class TipRepository {
                         GAME.GOALS_TEAM1,
                         GAME.GOALS_TEAM2,
                         GAME.PHASE,
+                        GAME.CALCULATED,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_2.TEAM_ID,
@@ -113,6 +114,7 @@ public class TipRepository {
         game.setGameTime(record.get(GAME.GAME_TIME));
         game.setGameLocation(record.get(GAME.GAME_LOCATION));
         game.setPhase(record.get(GAME.PHASE));
+        game.setCalculated(record.get(GAME.CALCULATED));
 
         if (record.get(GAME.GOALS_TEAM1) != null) {
             game.setPointsTeam1(record.get(GAME.GOALS_TEAM1));

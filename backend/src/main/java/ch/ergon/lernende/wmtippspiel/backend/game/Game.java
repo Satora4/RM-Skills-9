@@ -16,6 +16,7 @@ public class Game {
     private Team team1;
     private Team team2;
     private Phase phase;
+    private boolean calculated;
 
     public int getId() {
         return id;
@@ -81,6 +82,14 @@ public class Game {
         this.phase = phase;
     }
 
+    public boolean isCalculated() {
+        return calculated;
+    }
+
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,6 +98,7 @@ public class Game {
         Game game = (Game) o;
 
         if (id != game.id) return false;
+        if (calculated != game.calculated) return false;
         if (!Objects.equals(gameTime, game.gameTime)) return false;
         if (!Objects.equals(gameLocation, game.gameLocation)) return false;
         if (!Objects.equals(pointsTeam1, game.pointsTeam1)) return false;
@@ -108,6 +118,7 @@ public class Game {
         result = 31 * result + (team1 != null ? team1.hashCode() : 0);
         result = 31 * result + (team2 != null ? team2.hashCode() : 0);
         result = 31 * result + (phase != null ? phase.hashCode() : 0);
+        result = 31 * result + (calculated ? 1 : 0);
         return result;
     }
 
