@@ -32,23 +32,23 @@ VALUES (33, 'Sieger Gruppe A', 0, ''),
        (64, 'Sieger HF 1', 0, ''),
        (65, 'Sieger HF 2', 0, '');
 
-INSERT INTO game(game_id, game_time, game_location, team1_id, team2_id, phase, calculated)
-VALUES (49, '2022-12-03T16:00:00', 'Katar', 33, 42, 'ROUND_OF_16', false),
-       (50, '2022-12-03T20:00:00', 'Katar', 35, 44, 'ROUND_OF_16', false),
-       (51, '2022-12-04T16:00:00', 'Katar', 36, 43, 'ROUND_OF_16', false),
-       (52, '2022-12-04T20:00:00', 'Katar', 34, 41, 'ROUND_OF_16', false),
-       (53, '2022-12-05T16:00:00', 'Katar', 37, 46, 'ROUND_OF_16', false),
-       (54, '2022-12-05T20:00:00', 'Katar', 39, 48, 'ROUND_OF_16', false),
-       (55, '2022-12-06T16:00:00', 'Katar', 38, 45, 'ROUND_OF_16', false),
-       (56, '2022-12-06T20:00:00', 'Katar', 40, 47, 'ROUND_OF_16', false),
-       (57, '2022-12-09T16:00:00', 'Katar', 54, 55, 'QUARTER_FINAL', false),
-       (58, '2022-12-09T20:00:00', 'Katar', 49, 50, 'QUARTER_FINAL', false),
-       (59, '2022-12-10T16:00:00', 'Katar', 56, 57, 'QUARTER_FINAL', false),
-       (60, '2022-12-10T20:00:00', 'Katar', 52, 53, 'QUARTER_FINAL', false),
-       (61, '2022-12-13T20:00:00', 'Katar', 59, 58, 'SEMI_FINAL', false),
-       (62, '2022-12-14T20:00:00', 'Katar', 61, 60, 'SEMI_FINAL', false),
-       (63, '2022-12-17T16:00:00', 'Katar', 62, 63, 'LITTLE_FINAL', false),
-       (64, '2022-12-18T16:00:00', 'Katar', 64, 65, 'FINAL', false);
+INSERT INTO game(game_id, game_time, game_location, team1_id, team2_id, phase, calculated, enableButtons)
+VALUES (49, '2022-12-03T16:00:00', 'Katar', 33, 42, 'ROUND_OF_16', false, false),
+       (50, '2022-12-03T20:00:00', 'Katar', 35, 44, 'ROUND_OF_16', false, false),
+       (51, '2022-12-04T16:00:00', 'Katar', 36, 43, 'ROUND_OF_16', false, false),
+       (52, '2022-12-04T20:00:00', 'Katar', 34, 41, 'ROUND_OF_16', false, false),
+       (53, '2022-12-05T16:00:00', 'Katar', 37, 46, 'ROUND_OF_16', false, false),
+       (54, '2022-12-05T20:00:00', 'Katar', 39, 48, 'ROUND_OF_16', false, false),
+       (55, '2022-12-06T16:00:00', 'Katar', 38, 45, 'ROUND_OF_16', false, false),
+       (56, '2022-12-06T20:00:00', 'Katar', 40, 47, 'ROUND_OF_16', false, false),
+       (57, '2022-12-09T16:00:00', 'Katar', 54, 55, 'QUARTER_FINAL', false, false),
+       (58, '2022-12-09T20:00:00', 'Katar', 49, 50, 'QUARTER_FINAL', false, false),
+       (59, '2022-12-10T16:00:00', 'Katar', 56, 57, 'QUARTER_FINAL', false, false),
+       (60, '2022-12-10T20:00:00', 'Katar', 52, 53, 'QUARTER_FINAL', false, false),
+       (61, '2022-12-13T20:00:00', 'Katar', 59, 58, 'SEMI_FINAL', false, false),
+       (62, '2022-12-14T20:00:00', 'Katar', 61, 60, 'SEMI_FINAL', false, false),
+       (63, '2022-12-17T16:00:00', 'Katar', 62, 63, 'LITTLE_FINAL', false, false),
+       (64, '2022-12-18T16:00:00', 'Katar', 64, 65, 'FINAL', false, false);
 
 
 

@@ -7,6 +7,7 @@ export interface Game {
   pointsTeam1: number;
   pointsTeam2: number;
   tip: string;
-  team1:Team;
-  team2:Team;
+  team1: Team;
+  team2: Team;
+  enableButtons: boolean;
 }

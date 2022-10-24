@@ -88,7 +88,6 @@
                    maxlength="2" type="text"
                    [placeholder]="dash" [(ngModel)]="tipTeam2[gameTableModel.game.id]"
                    [formControl]="gameTableModel.formControlTip2" [errorStateMatcher]="matcher">
-
             <br>
             <mat-error
               *ngIf="(gameTableModel.formControlTip2.hasError('pattern')) &&
@@ -110,18 +109,18 @@
       <ng-container matColumnDef="button">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel">
-          <button
-            *ngIf="insertingTipIsAllowed(gameTableModel.game); else showEditButton"
-            mat-stroked-button
-            (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
+          <button disabled="{{!gameTableModel.game.enableButtons}}"
+                  *ngIf="insertingTipIsAllowed(gameTableModel.game); else showEditButton"
+                  mat-stroked-button
+                  (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
 
           <ng-template #showEditButton>
-            <button
-              *ngIf="editingTipIsAllowed(gameTableModel.game);"
-              mat-stroked-button
-              (click)="openTipWindow(gameTableModel.game)">
+            <button disabled="{{!gameTableModel.game.enableButtons}}"
+                    *ngIf="editingTipIsAllowed(gameTableModel.game);"
+                    mat-stroked-button
+                    (click)="openTipWindow(gameTableModel.game)">
               <span class="material-icons">edit</span>
             </button>
           </ng-template>

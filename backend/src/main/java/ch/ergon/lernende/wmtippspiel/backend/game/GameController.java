@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 import static ch.ergon.lernende.wmtippspiel.backend.game.GamesTO.*;
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("game")
@@ -33,9 +34,13 @@ public class GameController {
         return switch (phase) {
             case GROUP_PHASE -> convertToGroupTo(gameRepository.getGamesForGroups());
             case GROUP_PHASE_ORDER_DATE -> convertToDateTo(gameRepository.getGamesInGroupPhaseWithOutGroupName());
-            case KO_PHASE -> convertToKoTo(gameRepository.getGamesForKoPhase());
+            case KO_PHASE -> convertToKoTo(gameRepository.getGamesForKoPhase(calculateDate()));
             default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
         };
+    }
+
+    private LocalDateTime calculateDate() {
+        return LocalDateTime.now().plusDays(2);
     }
 
     private static List<GamesTO> convertToGroupTo(Collection<Games> gamesWithGroups) {

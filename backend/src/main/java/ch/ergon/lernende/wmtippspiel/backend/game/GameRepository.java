@@ -7,11 +7,14 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static ch.ergon.lernende.wmtippspiel.backend.game.Games.*;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
@@ -47,6 +50,7 @@ public class GameRepository {
                         GAME.GOALS_TEAM1,
                         GAME.GOALS_TEAM2,
                         GAME.PHASE,
+                        GAME.ENABLEBUTTONS,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_1.FLAG,
@@ -73,6 +77,7 @@ public class GameRepository {
                         GAME.GOALS_TEAM1,
                         GAME.GOALS_TEAM2,
                         GAME.PHASE,
+                        GAME.ENABLEBUTTONS,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_1.FLAG,
@@ -109,13 +114,15 @@ public class GameRepository {
                 .fetch(this::convert);
     }
 
-    public List<Games> getGamesForKoPhase() {
+    public List<Games> getGamesForKoPhase(LocalDateTime date) {
+        updateButtonState(date);
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
                         GAME.GOALS_TEAM1,
                         GAME.GOALS_TEAM2,
                         GAME.PHASE,
+                        GAME.ENABLEBUTTONS,
                         TEAM_ALIAS_1.TEAM_ID,
                         TEAM_ALIAS_1.COUNTRY,
                         TEAM_ALIAS_1.FLAG,
@@ -149,6 +156,13 @@ public class GameRepository {
                 .execute();
     }
 
+    private void updateButtonState(LocalDateTime date) {
+        dslContext.update(GAME)
+                .set(GAME.ENABLEBUTTONS, true)
+                .where(GAME.GAME_TIME.lessOrEqual(date).and(GAME.ENABLEBUTTONS.isNotNull()))
+                .execute();
+    }
+
     private Game convert(Record record) {
         Game game = new Game();
 
@@ -165,6 +179,7 @@ public class GameRepository {
         game.setPhase(record.get(GAME.PHASE));
         game.setTeam1(createTeam(record, TEAM_ALIAS_1));
         game.setTeam2(createTeam(record, TEAM_ALIAS_2));
+        game.setEnableButtons(record.get(GAME.ENABLEBUTTONS));
         return game;
     }
 
