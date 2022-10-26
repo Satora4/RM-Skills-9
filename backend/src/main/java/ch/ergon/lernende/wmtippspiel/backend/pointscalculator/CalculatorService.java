@@ -83,8 +83,8 @@ public class CalculatorService {
                 int gameId = tip.getGame().getId();
 
                 Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
-                int pointsTeam1 = currentGame.getPointsTeam1();
-                int pointsTeam2 = currentGame.getPointsTeam2();
+                int pointsTeam1 = currentGame.getGoalsTeam1();
+                int pointsTeam2 = currentGame.getGoalsTeam2();
 
                 TipAndGameResult tipAndGameResult = new TipAndGameResult(tipTeam1, tipTeam2, pointsTeam1, pointsTeam2);
                 int points = ruleService.calculateTipScore(tipAndGameResult);

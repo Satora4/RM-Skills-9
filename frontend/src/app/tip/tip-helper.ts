@@ -42,8 +42,8 @@ export class TipHelper {
       gameId: game.id,
       teamCountry1: game.team1.country,
       teamCountry2: game.team2.country,
-      pointsTeam1: game.team1.points,
-      pointsTeam2: game.team2.points,
+      goalsTeam1: game.team1.points,
+      goalsTeam2: game.team2.points,
       gameTime: game.gameTime
     }
     if (getTipByGameId(game.id, userId, tips)) {

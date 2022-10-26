@@ -64,7 +64,7 @@ public class TipController {
 
     private boolean isValidTip(TipTO tipTO) {
         Game game = gameRepository.getGame(tipTO.getGameId());
-        return game.getPointsTeam1() == null && game.getPointsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now());
+        return game.getGoalsTeam1() == null && game.getGoalsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now());
     }
 
     private List<TipTO> convert(Collection<Tip> tips) {
@@ -93,10 +93,10 @@ public class TipController {
         tipTO.setGameLocation(game.getGameLocation());
         tipTO.setTeamId1(game.getTeam1().getId());
         tipTO.setTeamCountry1(game.getTeam1().getCountry());
-        tipTO.setPointsTeam1(game.getPointsTeam1());
+        tipTO.setGoalsTeam1(game.getGoalsTeam1());
         tipTO.setTeamId2(game.getTeam2().getId());
         tipTO.setTeamCountry2(game.getTeam2().getCountry());
-        tipTO.setPointsTeam2(game.getPointsTeam2());
+        tipTO.setGoalsTeam2(game.getGoalsTeam2());
         tipTO.setPhase(game.getPhase());
 
         return tipTO;
@@ -114,25 +114,25 @@ public class TipController {
         Team team1 = new Team();
         team1.setId(tipTO.getTeamId1());
         team1.setCountry(tipTO.getTeamCountry1());
-        if (tipTO.getPointsTeam1() != null) {
-            team1.setPoints(tipTO.getPointsTeam1());
+        if (tipTO.getGoalsTeam1() != null) {
+            team1.setPoints(tipTO.getGoalsTeam1());
         }
         game.setTeam1(team1);
 
         Team team2 = new Team();
         team2.setId(tipTO.getTeamId2());
         team2.setCountry(tipTO.getTeamCountry2());
-        if (tipTO.getPointsTeam2() != null) {
-            team2.setPoints(tipTO.getPointsTeam2());
+        if (tipTO.getGoalsTeam2() != null) {
+            team2.setPoints(tipTO.getGoalsTeam2());
         }
         game.setTeam2(team2);
 
         game.setId(tipTO.getGameId());
         game.setGameTime(tipTO.getGameTime());
         game.setGameLocation(tipTO.getGameLocation());
-        if (tipTO.getPointsTeam1() != null && tipTO.getPointsTeam2() != null) {
-            game.setPointsTeam1(tipTO.getPointsTeam1());
-            game.setPointsTeam2(tipTO.getPointsTeam2());
+        if (tipTO.getGoalsTeam1() != null && tipTO.getGoalsTeam2() != null) {
+            game.setGoalsTeam1(tipTO.getGoalsTeam1());
+            game.setGoalsTeam2(tipTO.getGoalsTeam2());
         }
 
         tip.setGame(game);
