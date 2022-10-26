@@ -61,7 +61,7 @@
             <mat-form-field *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam1">
               <input matInput
                      max="15" type="number"
-                     [placeholder]="dash" [(ngModel)]="tipTeam1[gameTableModel.game.id]"
+                     [(ngModel)]="tipTeam1[gameTableModel.game.id]"
                      [formControl]="gameTableModel.formControlTip1" [errorStateMatcher]="matcher">
 
               <br>
@@ -89,7 +89,7 @@
             <mat-form-field *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam2">
               <input matInput
                      max="15" type="number"
-                     [placeholder]="dash" [(ngModel)]="tipTeam2[gameTableModel.game.id]"
+                     [(ngModel)]="tipTeam2[gameTableModel.game.id]"
                      [formControl]="gameTableModel.formControlTip2" [errorStateMatcher]="matcher">
 
               <br>
