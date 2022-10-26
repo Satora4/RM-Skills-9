@@ -6,7 +6,7 @@
     <label>{{data.country1}} <i
       class="em {{data.flag1}}"
       aria-role="presentation"></i> </label>
-    <input matInput [(ngModel)]="data.tip1" type="text" maxlength="2"
+    <input matInput [(ngModel)]="data.tip1" type="number" maxlength="2"
            [formControl]="formControlTip1" [errorStateMatcher]="matcher">
 
     <br>
@@ -19,7 +19,7 @@
     <label>{{data.country2}} <i
       class="em {{data.flag2}}"
       aria-role="presentation"></i> </label>
-    <input matInput [(ngModel)]="data.tip2" type="text" maxlength="2"
+    <input matInput [(ngModel)]="data.tip2" type="number" maxlength="2"
            [formControl]="formControlTip2" [errorStateMatcher]="matcher">
     <br>
     <mat-error
