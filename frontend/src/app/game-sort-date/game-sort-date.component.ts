@@ -91,15 +91,15 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public insertingTipIsAllowed(game: Game): boolean {
-    return TipUtil.insertingTipIsAllowed(game,this.userId, this.tips);
+    return TipUtil.insertingTipIsAllowed(game, this.userId, this.tips);
   }
 
-  public editingTipIsAllowed(game: Game): boolean {
-    return TipUtil.editingTipIsAllowed(game, this.userId, this.tips);
+  public isInsertingTipValid(game: Game, tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isInsertedTipValid(game, this.userId, this.tips, tipTeam1, tipTeam2);
   }
 
-  public isTipAPositiveNumber(tipTeam1: string, tipTeam2: string): boolean {
-    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+  public isEditingTipValid(game: Game, tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isEditedTipValid(game, this.userId, this.tips, tipTeam1, tipTeam2);
   }
 
   public loadGames(): void {
