@@ -47,7 +47,7 @@ export class PopUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public isTipAPositivNumber(tipTeam1: string, tipTeam2: string): boolean {
-    return TipUtil.isPositivNumber(tipTeam1, tipTeam2);
+  public isTipAPositiveNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
   }
 }

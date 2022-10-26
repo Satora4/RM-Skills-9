@@ -20,7 +20,7 @@ export class TipUtil {
     return TipUtil.isGameNotPlayedYet(game) && TipUtil.isTipAlreadySet(game, userId, tips);
   }
 
-  public static isPositivNumber(tipTeam1: string, tipTeam2: string): boolean {
+  public static isPositiveNumber(tipTeam1: string, tipTeam2: string): boolean {
     return Number(tipTeam1) >= 0 && Number(tipTeam2) >= 0 || tipTeam1 == null && tipTeam2 == null;
   }
 
