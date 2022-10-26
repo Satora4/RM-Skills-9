@@ -55,7 +55,7 @@
 
       <div>
         <ng-container matColumnDef="tipTeam1">
-          <th mat-header-cell style="margin-right: 2em;" *matHeaderCellDef>Tipp Team1</th>
+          <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
           <td mat-cell *matCellDef="let gameTableModel">
 
             <mat-form-field *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam1">

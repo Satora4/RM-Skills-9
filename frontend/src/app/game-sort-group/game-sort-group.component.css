@@ -32,6 +32,7 @@ table {
 
 .list th {
   font-family: 'AktivGroteskBd', sans-serif;
+  margin-right: 2em;
   color: #404648;
 }
 
