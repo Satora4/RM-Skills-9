@@ -34,15 +34,13 @@ export interface DataObject {
 })
 export class GameComponent implements OnInit {
   dataObjects: DataObject[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'goalsTeam1', 'colon', 'goalsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public userId: number | any;
   public readonly dash = '—';
   public readonly errorMessage = errorMessage;
-  public formControlsTip1: FormControl[] = [];
-  public formControlsTip2: FormControl[] = [];
   matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
@@ -139,9 +137,6 @@ export class GameComponent implements OnInit {
   private loadGameTableModel(games: Game[]): GameTableModel[] {
     const gameTableModel: GameTableModel[] = [];
     games.forEach(game => {
-      this.formControlsTip1.push(this.initFormControl());
-      this.formControlsTip2.push(this.initFormControl());
-
       gameTableModel.push({
         game: game,
         formControlTip1: this.initFormControl(),

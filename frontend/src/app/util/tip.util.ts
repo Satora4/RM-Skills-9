@@ -9,7 +9,7 @@ export class TipUtil {
 
   public static isGameNotPlayedYet(game: Game): boolean {
     return Date.parse(game.gameTime.toString()) > Date.now() &&
-      game.pointsTeam1 == null && game.pointsTeam2 == null;
+      game.goalsTeam1 == null && game.goalsTeam2 == null;
   }
 
   public static isPositiveNumber(tipTeam1: string, tipTeam2: string): boolean {

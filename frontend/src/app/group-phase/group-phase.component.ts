@@ -1,25 +1,6 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {GameService} from '../game/game.service';
-
-import {Tip} from "../tip/tip.model";
-import {TipService} from "../tip/tip.service";
-import {Game} from "../game/game.model";
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {PopUpComponent} from "../pop-up/pop-up.component";
-import {GroupPhaseService} from "./group-phase.service";
 import {MatButtonToggleChange} from "@angular/material/button-toggle";
-
-
-export interface DialogData {
-  tip1: number;
-  tip2: number;
-  country1: string;
-  country2: string;
-}
-
-
 
 @Component({
   selector: 'app-game',
@@ -30,10 +11,7 @@ export class GroupPhaseComponent implements OnInit {
 
   toggle: boolean = true;
 
-  constructor(private gameService: GameService,
-              private tipService: TipService,
-              public dialog: MatDialog,
-              private groupPhaseService: GroupPhaseService) {
+  constructor(public dialog: MatDialog,) {
   }
 
   toggleView(change: MatButtonToggleChange){
@@ -42,7 +20,4 @@ export class GroupPhaseComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-
-
 }
