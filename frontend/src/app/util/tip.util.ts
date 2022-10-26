@@ -21,7 +21,7 @@ export class TipUtil {
   }
 
   public static isPositiveNumber(tipTeam1: string, tipTeam2: string): boolean {
-    return Number(tipTeam1) >= 0 && Number(tipTeam2) >= 0 || tipTeam1 == null && tipTeam2 == null;
+    return Number(tipTeam1) >= 0 && Number(tipTeam2) >= 0;
   }
 
   public static getTipByGameId(gameId: number, userId: number, tips: Tip[]): Tip | null {
