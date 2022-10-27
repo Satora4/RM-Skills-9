@@ -69,10 +69,11 @@ public class CalculatorService {
         List<Tip> tipsToCalculate = new ArrayList<>();
 
         for (Tip tip : tips) {
-            if (tip.getPoints() == null && (tip.getGame().getPointsTeam2() != null) && !tip.getGame().isCalculated()) {
+            if (tip.isTipNotCalculated()) {
                 tipsToCalculate.add(tip);
             }
         }
+
         Map<User, List<Tip>> usersWithTips = groupTipsByUser(tipsToCalculate);
         for (var user : usersWithTips.keySet()) {
             int userPoints = user.getPoints();
