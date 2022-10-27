@@ -12,7 +12,7 @@ import {UserService} from './user.service';
 })
 export class UserComponent implements OnInit, AfterViewInit {
   public user: User | any;
-  private users: User[] = [];
+  public users: User[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
 
@@ -23,7 +23,6 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.userDataSource.sort = this.sort;
-    this.calculateUserRank();
   }
 
   ngOnInit(): void {

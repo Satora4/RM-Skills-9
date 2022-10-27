@@ -1,6 +1,6 @@
 package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -12,7 +12,7 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
-    @GetMapping("/calculate")
+    @PostMapping("/calculate")
     public void calculate() {
         calculatorService.calculateScore();
         calculatorService.calculateGames();
