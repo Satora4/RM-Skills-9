@@ -33,7 +33,6 @@ export interface DataObjectForGroup {
   selector: 'app-game-sort-group',
   templateUrl: './game-sort-group.component.html',
   styleUrls: ['./game-sort-group.component.css'],
-  encapsulation: ViewEncapsulation.None
 })
 export class GameSortGroupComponent implements OnInit {
   allGames: DataObjectForGroup[] = [];

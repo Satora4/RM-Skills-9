@@ -33,7 +33,6 @@ export interface DataObject {
   selector: 'app-game-sort-date',
   templateUrl: './game-sort-date.component.html',
   styleUrls: ['./game-sort-date.component.css'],
-  encapsulation: ViewEncapsulation.None
 })
 export class GameSortDateComponent implements OnInit {
   allGames: DataObject[] = [];
