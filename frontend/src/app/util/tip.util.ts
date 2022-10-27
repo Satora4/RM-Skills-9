@@ -28,10 +28,6 @@ export class TipUtil {
     return TipUtil.insertingTipIsAllowed(game, userId, tips) && TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
   }
 
-  public static isEditedTipValid(game: Game, userId: number, tips: Tip[], tipTeam1: string, tipTeam2: string): boolean {
-    return TipUtil.editingTipIsAllowed(game, userId, tips) && TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
-  }
-
   public static getTipByGameId(gameId: number, userId: number, tips: Tip[]): Tip | null {
     for (let i = 0; i < tips.length; i++) {
       if (tips[i].gameId == gameId && tips[i].userId == userId) {

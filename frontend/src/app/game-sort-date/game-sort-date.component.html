@@ -123,7 +123,7 @@
 
           <ng-template #showEditButton>
             <button
-              *ngIf="isEditingTipValid(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]);"
+              *ngIf="editingTipIsAllowed(gameTableModel.game);"
               mat-stroked-button
               (click)="openTipWindow(gameTableModel.game)">
               <span class="material-icons">edit</span>
