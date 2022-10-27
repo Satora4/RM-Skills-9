@@ -1,36 +1,43 @@
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
 <h1>Tipp bearbeiten</h1>
-<div>
+<div class="container">
   <mat-form-field style="margin-left: 1em">
     <!--                  [ngClass]="{'tip-error': hasError()}"-->
-    <label>{{data.country1}} <i
-      class="em {{data.flag1}}"
-      aria-role="presentation"></i> </label>
-    <input matInput [(ngModel)]="data.tip1" type="text" maxlength="2"
+    <div class="container">
+      <label>{{data.country1}} <i
+        class="em {{data.flag1}}"
+        aria-role="presentation"></i> </label>
+    </div>
+    <input matInput [(ngModel)]="data.tip1" type="number" maxlength="2"
            [formControl]="formControlTip1" [errorStateMatcher]="matcher">
 
     <br>
     <mat-error
       *ngIf="(formControlTip1.hasError('pattern')) &&
-            !formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
+            !formControlTip1.hasError('required')"></mat-error>
 
   </mat-form-field>
   <mat-form-field style="margin-left: 1em">
     <!--                  [ngClass]="{'tip-error': hasError()}"-->
-    <label>{{data.country2}} <i
-      class="em {{data.flag2}}"
-      aria-role="presentation"></i> </label>
-    <input matInput [(ngModel)]="data.tip2" type="text" maxlength="2"
+    <div class="container">
+      <label>{{data.country2}} <i
+        class="em {{data.flag2}}"
+        aria-role="presentation"></i> </label>
+    </div>
+    <input matInput [(ngModel)]="data.tip2" type="number" maxlength="2"
            [formControl]="formControlTip2" [errorStateMatcher]="matcher">
     <br>
     <mat-error
       *ngIf="(formControlTip2.hasError('pattern')) &&
-            !formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
+            !formControlTip2.hasError('required')"></mat-error>
 
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button id="cancel" mat-button (click)="onNoClick()">Abbrechen</button>
-  <button id="ok" mat-button [mat-dialog-close]="data" cdkFocusInitial><p>Speichern</p></button>
+  <button id="ok" mat-button [mat-dialog-close]="data" cdkFocusInitial
+          *ngIf="isTipAPositiveNumber(data.tip1, data.tip2)">
+    <p>Speichern</p>
+  </button>
 </div>

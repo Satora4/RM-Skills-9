@@ -13,7 +13,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
-import {getTipByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
+import {TipUtil} from "../util/tip.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -34,15 +34,13 @@ export interface DataObject {
 })
 export class GameComponent implements OnInit {
   dataObjects: DataObject[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'pointsTeam1', 'colon', 'pointsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'goalsTeam1', 'colon', 'goalsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
   public userId: number | any;
   public readonly dash = '—';
   public readonly errorMessage = errorMessage;
-  public formControlsTip1: FormControl[] = [];
-  public formControlsTip2: FormControl[] = [];
   matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
@@ -75,15 +73,19 @@ export class GameComponent implements OnInit {
   }
 
   public getTipByGameId(gameId: number): Tip | null {
-    return getTipByGameId(gameId, this.userId, this.tips);
+    return TipUtil.getTipByGameId(gameId, this.userId, this.tips);
   }
 
   public insertingTipIsAllowed(game: Game): boolean {
-    return insertingTipIsAllowed(game, this.userId, this.tips);
+    return TipUtil.insertingTipIsAllowed(game, this.userId, this.tips);
   }
 
   public editingTipIsAllowed(game: Game): boolean {
-    return editingTipIsAllowed(game, this.userId, this.tips);
+    return TipUtil.editingTipIsAllowed(game, this.userId, this.tips);
+  }
+
+  public isSavingNewTipAllowed(game: Game, tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isSavingNewTipAllowed(game, this.userId, this.tips, tipTeam1, tipTeam2);
   }
 
   loadGames(): void {
@@ -135,9 +137,6 @@ export class GameComponent implements OnInit {
   private loadGameTableModel(games: Game[]): GameTableModel[] {
     const gameTableModel: GameTableModel[] = [];
     games.forEach(game => {
-      this.formControlsTip1.push(this.initFormControl());
-      this.formControlsTip2.push(this.initFormControl());
-
       gameTableModel.push({
         game: game,
         formControlTip1: this.initFormControl(),
