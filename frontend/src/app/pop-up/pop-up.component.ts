@@ -3,7 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 import {formControlForTip} from "../util/initFormControlForTip.util";
-import { errorMessage } from '../util/errorMessage.util';
 import {TipUtil} from "../util/tip.util";
 
 
@@ -32,7 +31,6 @@ export class PopUpComponent implements OnInit {
 
   // ngClass?: string | string[] | Set<string> | { [klass: string]: any; }
 
-  public readonly errorMessage = errorMessage;
   formControlTip1 = formControlForTip();
   formControlTip2 = formControlForTip();
   matcher = new MyErrorStateMatcher();
