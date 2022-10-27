@@ -3,7 +3,7 @@
 
 <div class="toggleGroup">
   <label>Bereits gespielte Partien anzeigen</label>
-  <mat-slide-toggle class="toggle" (change)="onChange($event)"></mat-slide-toggle>
+  <mat-slide-toggle class="toggle" (change)="onDisplayGameToggleChange($event)"></mat-slide-toggle>
 </div>
 
 <div class="groups" *ngFor="let dataObject of dataObjects">

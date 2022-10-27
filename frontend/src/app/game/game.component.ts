@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Tip} from "../tip/tip.model";
 import {MatSort} from '@angular/material/sort';
@@ -13,7 +13,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
-import {getTipByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
+import {editingTipIsAllowed, getTipByGameId, insertingTipIsAllowed} from "../util/tip.util";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {KoPhaseModel} from "./Ko-Phase.model";
 
@@ -33,6 +33,7 @@ export interface DataObject {
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GameComponent implements OnInit {
   allGames: DataObject[] = [];
@@ -88,7 +89,7 @@ export class GameComponent implements OnInit {
     return editingTipIsAllowed(game, this.userId, this.tips);
   }
 
-  public onChange(gameStateToggle: MatSlideToggleChange) {
+  public onDisplayGameToggleChange(gameStateToggle: MatSlideToggleChange) {
     if (gameStateToggle.checked) {
       this.dataObjects = this.allGames;
     } else {
@@ -97,28 +98,14 @@ export class GameComponent implements OnInit {
   }
 
   private loadGames(): void {
-    this.gameService.getKoGames().subscribe((koPhaseModels) => {
-        let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
+    this.gameService.getKoGames().subscribe((koPhaseGameGroup) => {
+        let sortedKoPhaseModels = koPhaseGameGroup.sort((a, b) => b.games.length - a.games.length);
         for (let sortedKoPhaseModel of sortedKoPhaseModels) {
-          let dataSource = new MatTableDataSource();
-          dataSource.data = this.loadGameTableModel(sortedKoPhaseModel.games);
-          let dataObject: DataObject = {
-            dataSource: dataSource,
-            phase: this.getPhase(sortedKoPhaseModel.phase.toString())
-          }
-          this.allGames.push(dataObject);
-
+          this.allGames.push(this.getDataObject(sortedKoPhaseModel));
           let openGamesOnly: Game[] = [];
-          for (let i = 0; i < sortedKoPhaseModel.games.length; i++) {
-            if (this.isOpenGame(sortedKoPhaseModel.games[i])) {
-              openGamesOnly.push(sortedKoPhaseModel.games[i])
-            }
-          }
+          this.getOpenGamesOnly(sortedKoPhaseModel, openGamesOnly);
           if (openGamesOnly.length !== 0) {
-            let groupPhaseModelForDateOpenGamesOnly: KoPhaseModel = {
-              games: openGamesOnly,
-              phase: this.getPhase(sortedKoPhaseModel.phase.toString())
-            }
+            let groupPhaseModelForDateOpenGamesOnly = this.getKoPhaseModel(openGamesOnly, sortedKoPhaseModel);
             this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForDateOpenGamesOnly));
           }
         }
@@ -127,12 +114,28 @@ export class GameComponent implements OnInit {
     );
   }
 
+  private getKoPhaseModel(openGamesOnly: Game[], sortedKoPhaseModel: KoPhaseModel) {
+    let groupPhaseModelForDateOpenGamesOnly: KoPhaseModel = {
+      games: openGamesOnly,
+      phase: this.getPhase(sortedKoPhaseModel.phase)
+    }
+    return groupPhaseModelForDateOpenGamesOnly;
+  }
+
+  private getOpenGamesOnly(sortedKoPhaseModel: KoPhaseModel, openGamesOnly: Game[]) {
+    for (let i = 0; i < sortedKoPhaseModel.games.length; i++) {
+      if (GameComponent.isOpenGame(sortedKoPhaseModel.games[i])) {
+        openGamesOnly.push(sortedKoPhaseModel.games[i])
+      }
+    }
+  }
+
   private getDataObject(groupPhaseModel: KoPhaseModel): DataObject {
     let dataSource = new MatTableDataSource();
     dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
     return {
       dataSource: dataSource,
-      phase: groupPhaseModel.phase
+      phase: groupPhaseModel.phase.toString()
     };
   }
 
@@ -148,7 +151,7 @@ export class GameComponent implements OnInit {
     return gameTableModel;
   }
 
-  private isOpenGame(game: Game): boolean {
+  private static isOpenGame(game: Game): boolean {
     return game.goalsTeam1 === null && game.goalsTeam2 === null;
   }
 
@@ -199,7 +202,3 @@ export class GameComponent implements OnInit {
     return formControlForTip();
   }
 }
-
-
-
-
