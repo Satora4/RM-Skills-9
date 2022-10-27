@@ -117,7 +117,7 @@ export class GameComponent implements OnInit {
   private getKoPhaseModel(openGamesOnly: Game[], sortedKoPhaseModel: KoPhaseModel) {
     let groupPhaseModelForDateOpenGamesOnly: KoPhaseModel = {
       games: openGamesOnly,
-      phase: this.getPhase(sortedKoPhaseModel.phase)
+      phase: sortedKoPhaseModel.phase.toString()
     }
     return groupPhaseModelForDateOpenGamesOnly;
   }
@@ -135,7 +135,7 @@ export class GameComponent implements OnInit {
     dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
     return {
       dataSource: dataSource,
-      phase: groupPhaseModel.phase.toString()
+      phase: this.getPhase(groupPhaseModel.phase)
     };
   }
 
