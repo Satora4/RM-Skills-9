@@ -64,7 +64,7 @@ public class TipController {
 
     private boolean isValidTip(TipTO tipTO) {
         Game game = gameRepository.getGame(tipTO.getGameId());
-        return game.getGoalsTeam1() == null && game.getGoalsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now()) && game.isEnableButtons();
+        return game.getGoalsTeam1() == null && game.getGoalsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now());
     }
 
     private List<TipTO> convert(Collection<Tip> tips) {

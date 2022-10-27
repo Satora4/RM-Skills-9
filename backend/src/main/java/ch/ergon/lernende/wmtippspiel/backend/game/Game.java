@@ -16,7 +16,6 @@ public class Game {
     private Team team1;
     private Team team2;
     private Phase phase;
-    private boolean enableButtons;
 
     public int getId() {
         return id;
@@ -90,7 +89,6 @@ public class Game {
         Game game = (Game) o;
 
         if (id != game.id) return false;
-        if (enableButtons != game.enableButtons) return false;
         if (!Objects.equals(gameTime, game.gameTime)) return false;
         if (!Objects.equals(gameLocation, game.gameLocation)) return false;
         if (!Objects.equals(goalsTeam1, game.goalsTeam1)) return false;
@@ -110,16 +108,7 @@ public class Game {
         result = 31 * result + (team1 != null ? team1.hashCode() : 0);
         result = 31 * result + (team2 != null ? team2.hashCode() : 0);
         result = 31 * result + (phase != null ? phase.hashCode() : 0);
-        result = 31 * result + (enableButtons ? 1 : 0);
         return result;
-    }
-
-    public boolean isEnableButtons() {
-        return enableButtons;
-    }
-
-    public void setEnableButtons(boolean enableButtons) {
-        this.enableButtons = enableButtons;
     }
 
     @Override
@@ -133,7 +122,6 @@ public class Game {
                 ", team1=" + team1 +
                 ", team2=" + team2 +
                 ", phase=" + phase +
-                ", enableButtons=" + enableButtons +
                 '}';
     }
 }

@@ -9,5 +9,4 @@ export interface Game {
   tip: string;
   team1: Team;
   team2: Team;
-  enableButtons: boolean;
 }

@@ -64,6 +64,14 @@ export class GameComponent implements OnInit {
     });
   }
 
+  public isDisabled(game: Game): boolean {
+    let today = new Date();
+    let dayAfterTomorrow = new Date;
+    dayAfterTomorrow.setDate(today.getDate() + 2)
+
+    return new Date(game.gameTime) >= new Date(dayAfterTomorrow);
+  }
+
   public openTipWindow(game: Game): void {
     this.tipHelper.openTipWindow(this.userId, game, this.tips)
   }

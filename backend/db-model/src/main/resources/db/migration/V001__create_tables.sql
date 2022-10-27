@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS game
     goals_team2   INT,
     phase         phase DEFAULT 'GROUP_PHASE',
     calculated    BOOLEAN,
-    enableButtons BOOLEAN,
     foreign key (team1_id) references team (team_id),
     foreign key (team2_id) references team (team_id)
 );
