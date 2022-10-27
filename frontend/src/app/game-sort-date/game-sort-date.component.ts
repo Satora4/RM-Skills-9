@@ -96,8 +96,8 @@ export class GameSortDateComponent implements OnInit {
     return TipUtil.editingTipIsAllowed(game, this.userId, this.tips);
   }
 
-  public isInsertingTipValid(game: Game, tipTeam1: string, tipTeam2: string): boolean {
-    return TipUtil.isInsertedTipValid(game, this.userId, this.tips, tipTeam1, tipTeam2);
+  public isSavingNewTipAllowed(game: Game, tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isSavingNewTipAllowed(game, this.userId, this.tips, tipTeam1, tipTeam2);
   }
 
   public loadGames(): void {

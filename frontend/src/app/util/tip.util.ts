@@ -24,7 +24,7 @@ export class TipUtil {
     return TipUtil.isGameNotPlayedYet(game) && TipUtil.isTipAlreadySet(game, userId, tips);
   }
 
-  public static isInsertedTipValid(game: Game, userId: number, tips: Tip[], tipTeam1: string, tipTeam2: string): boolean {
+  public static isSavingNewTipAllowed(game: Game, userId: number, tips: Tip[], tipTeam1: string, tipTeam2: string): boolean {
     return TipUtil.insertingTipIsAllowed(game, userId, tips) && TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
   }
 
