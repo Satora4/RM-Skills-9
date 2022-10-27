@@ -30,8 +30,8 @@
 
       <ng-container matColumnDef="goalsTeam1">
         <th mat-header-cell *matHeaderCellDef>Tore von Team 1</th>
-        <td mat-cell *matCellDef="let gameTableModel"
-            style="text-align: center">{{gameTableModel.game.goalsTeam1}}</td>
+        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center;font-family: 'AktivGroteskBd',sans-serif;"
+        >{{gameTableModel.game.goalsTeam1}}</td>
       </ng-container>
 
       <ng-container matColumnDef="colon">
@@ -42,7 +42,7 @@
       <ng-container matColumnDef="goalsTeam2">
         <th mat-header-cell *matHeaderCellDef>Tore von Team 2</th>
         <td mat-cell *matCellDef="let gameTableModel"
-            style="text-align: center">{{gameTableModel.game.goalsTeam2}}</td>
+            style="text-align: center; font-family: 'AktivGroteskBd',sans-serif;" class="goal">{{gameTableModel.game.goalsTeam2}}</td>
       </ng-container>
 
       <ng-container matColumnDef="flag2">
