@@ -4,8 +4,6 @@ import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
 import org.springframework.stereotype.Service;
 
-import static ch.ergon.lernende.wmtippspiel.backend.pointscalculator.PointsPerGameAndTeam.*;
-
 @Service
 public class RuleService {
     private final GameRepository gameRepository;
@@ -50,9 +48,9 @@ public class RuleService {
 
     public PointsPerGameAndTeam calculateGame(Game game) {
         gameRepository.markAsCalculated(game);
-        if (game.getPointsTeam1().equals(game.getPointsTeam2())) {
+        if (game.getGoalsTeam1().equals(game.getGoalsTeam2())) {
             return draw();
-        } else if (game.getPointsTeam1() > game.getPointsTeam2()) {
+        } else if (game.getGoalsTeam1() > game.getGoalsTeam2()) {
             return winTeam1();
         } else {
             return winTeam2();

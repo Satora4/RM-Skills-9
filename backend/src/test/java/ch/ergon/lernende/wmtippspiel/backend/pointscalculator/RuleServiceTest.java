@@ -4,9 +4,7 @@ import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.mockito.configuration.IMockitoConfiguration;
 
 import static ch.ergon.lernende.wmtippspiel.backend.pointscalculator.RuleService.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,8 +28,8 @@ class RuleServiceTest {
     @Test
     void calculateGameScoreDraw() {
         Game game = new Game();
-        game.setPointsTeam2(1);
-        game.setPointsTeam1(1);
+        game.setGoalsTeam2(1);
+        game.setGoalsTeam1(1);
         var pointsPerGameAndTeam = ruleService.calculateGame(game);
         assertEquals(pointsPerGameAndTeam, draw());
     }
@@ -39,8 +37,8 @@ class RuleServiceTest {
     @Test
     void calculateGameScoreWinTeam1() {
         Game game = new Game();
-        game.setPointsTeam2(1);
-        game.setPointsTeam1(2);
+        game.setGoalsTeam2(1);
+        game.setGoalsTeam1(2);
         var pointsPerGameAndTeam = ruleService.calculateGame(game);
         assertEquals(pointsPerGameAndTeam, winTeam1());
     }
@@ -48,8 +46,8 @@ class RuleServiceTest {
     @Test
     void calculateGameScoreWinTeam2() {
         Game game = new Game();
-        game.setPointsTeam2(3);
-        game.setPointsTeam1(1);
+        game.setGoalsTeam2(3);
+        game.setGoalsTeam1(1);
         var pointsPerGameAndTeam = ruleService.calculateGame(game);
         assertEquals(pointsPerGameAndTeam, winTeam2());
     }

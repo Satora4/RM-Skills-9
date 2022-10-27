@@ -6,7 +6,7 @@ export interface Tip {
   points: number;
   teamCountry1: string;
   teamCountry2: string;
-  pointsTeam1: number;
-  pointsTeam2: number;
+  goalsTeam1: number;
+  goalsTeam2: number;
   gameTime: Date;
 }

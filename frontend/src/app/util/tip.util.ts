@@ -7,7 +7,7 @@ export function isTipAlreadySet(game: Game, userId: number, tips: Tip[]): boolea
 
 export function isGameNotPlayedYet(game: Game): boolean {
   return Date.parse(game.gameTime.toString()) > Date.now() &&
-  game.pointsTeam1 == null && game.pointsTeam2 == null;
+  game.goalsTeam1 == null && game.goalsTeam2 == null;
 }
 
 export function insertingTipIsAllowed(game: Game, userId: number, tips: Tip[]): boolean {
