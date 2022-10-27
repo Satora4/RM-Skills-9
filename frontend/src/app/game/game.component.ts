@@ -33,7 +33,6 @@ export interface DataObject {
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
-  encapsulation: ViewEncapsulation.None
 })
 export class GameComponent implements OnInit {
   allGames: DataObject[] = [];
