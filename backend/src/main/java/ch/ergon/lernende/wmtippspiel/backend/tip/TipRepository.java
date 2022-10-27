@@ -117,11 +117,11 @@ public class TipRepository {
         game.setCalculated(record.get(GAME.CALCULATED));
 
         if (record.get(GAME.GOALS_TEAM1) != null) {
-            game.setPointsTeam1(record.get(GAME.GOALS_TEAM1));
+            game.setGoalsTeam1(record.get(GAME.GOALS_TEAM1));
         }
 
         if (record.get(GAME.GOALS_TEAM2) != null) {
-            game.setPointsTeam2(record.get(GAME.GOALS_TEAM2));
+            game.setGoalsTeam2(record.get(GAME.GOALS_TEAM2));
         }
 
         Team team1 = new Team();

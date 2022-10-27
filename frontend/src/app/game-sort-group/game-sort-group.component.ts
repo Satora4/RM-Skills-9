@@ -45,8 +45,6 @@ export class GameSortGroupComponent implements OnInit {
   public userId: number | any;
   public readonly dash = '—';
   public readonly errorMessage = errorMessage;
-  public formControlsTip1: FormControl[] = [];
-  public formControlsTip2: FormControl[] = [];
   matcher = new MyErrorStateMatcher();
 
   @ViewChild(MatSort) sort = new MatSort();
@@ -128,7 +126,7 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   private isOpenGame(game: Game): boolean {
-    return game.pointsTeam1 === null && game.pointsTeam2 === null;
+    return game.goalsTeam1 === null && game.goalsTeam2 === null;
   }
 
   private getDataObject(groupPhaseModel: GroupPhaseModel): DataObjectForGroup {
@@ -143,8 +141,6 @@ export class GameSortGroupComponent implements OnInit {
   private mapGamesToGameTableModel(games: Game[]): GameTableModel[] {
     const gameTableModel: GameTableModel[] = [];
     games.forEach(game => {
-      this.formControlsTip1.push(this.initFormControl());
-      this.formControlsTip2.push(this.initFormControl());
       gameTableModel.push({
         game: game,
         formControlTip1: this.initFormControl(),

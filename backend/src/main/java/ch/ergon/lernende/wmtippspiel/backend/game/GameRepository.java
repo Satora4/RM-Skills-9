@@ -154,11 +154,11 @@ public class GameRepository {
         game.setGameTime(record.get(GAME.GAME_TIME));
         game.setGameLocation(record.get(GAME.GAME_LOCATION));
         if (record.get(GAME.GOALS_TEAM1) != null) {
-            game.setPointsTeam1(record.get(GAME.GOALS_TEAM1));
+            game.setGoalsTeam1(record.get(GAME.GOALS_TEAM1));
         }
 
         if (record.get(GAME.GOALS_TEAM2) != null) {
-            game.setPointsTeam2(record.get(GAME.GOALS_TEAM2));
+            game.setGoalsTeam2(record.get(GAME.GOALS_TEAM2));
         }
         game.setPhase(record.get(GAME.PHASE));
         game.setTeam1(createTeam(record, TEAM_ALIAS_1));

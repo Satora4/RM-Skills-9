@@ -44,8 +44,8 @@ class TipControllerTest {
         assertEquals("Katar", tip.getGameLocation());
         assertEquals(6, tip.getTeamId1());
         assertEquals(4, tip.getTeamId2());
-        assertEquals(3, tip.getPointsTeam1());
-        assertEquals(4, tip.getPointsTeam2());
+        assertEquals(3, tip.getGoalsTeam1());
+        assertEquals(4, tip.getGoalsTeam2());
         assertEquals("Germany", tip.getTeamCountry1());
         assertEquals("England", tip.getTeamCountry2());
     }
@@ -78,8 +78,8 @@ class TipControllerTest {
         assertEquals("Katar", tip.getGameLocation());
         assertEquals(9, tip.getTeamId1());
         assertEquals(1, tip.getTeamId2());
-        assertEquals(2, tip.getPointsTeam1());
-        assertEquals(3, tip.getPointsTeam2());
+        assertEquals(2, tip.getGoalsTeam1());
+        assertEquals(3, tip.getGoalsTeam2());
         assertEquals("Argentinian", tip.getTeamCountry1());
         assertEquals("Switzerland", tip.getTeamCountry2());
     }
