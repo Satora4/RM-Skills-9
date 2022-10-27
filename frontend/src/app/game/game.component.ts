@@ -14,6 +14,8 @@ import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
 import {getTipByGameId, insertingTipIsAllowed, editingTipIsAllowed} from "../util/tip.util";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {KoPhaseModel} from "./Ko-Phase.model";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -33,6 +35,8 @@ export interface DataObject {
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit {
+  allGames: DataObject[] = [];
+  allOpenGamesOnly: DataObject[] = [];
   dataObjects: DataObject[] = [];
   columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'goalsTeam1', 'colon', 'goalsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
@@ -84,23 +88,72 @@ export class GameComponent implements OnInit {
     return editingTipIsAllowed(game, this.userId, this.tips);
   }
 
-  loadGames(): void {
-    this.gameService.getKoGames().subscribe((koPhaseModels) => {
-      let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
-      for (let sortedKoPhaseModel of sortedKoPhaseModels) {
-        let dataSource = new MatTableDataSource();
-        dataSource.data = this.loadGameTableModel(sortedKoPhaseModel.games);
-        let dataObject: DataObject = {
-          dataSource: dataSource,
-          phase: this.getPhase(sortedKoPhaseModel.phase.toString())
-        }
-        this.dataObjects.push(dataObject);
-      }
-    });
+  public onChange(gameStateToggle: MatSlideToggleChange) {
+    if (gameStateToggle.checked) {
+      this.dataObjects = this.allGames;
+    } else {
+      this.dataObjects = this.allOpenGamesOnly;
+    }
   }
 
-  loadUser(): void {
-    this.userService.getUserData().subscribe( (user) => {
+  private loadGames(): void {
+    this.gameService.getKoGames().subscribe((koPhaseModels) => {
+        let sortedKoPhaseModels = koPhaseModels.sort((a, b) => b.games.length - a.games.length);
+        for (let sortedKoPhaseModel of sortedKoPhaseModels) {
+          let dataSource = new MatTableDataSource();
+          dataSource.data = this.loadGameTableModel(sortedKoPhaseModel.games);
+          let dataObject: DataObject = {
+            dataSource: dataSource,
+            phase: this.getPhase(sortedKoPhaseModel.phase.toString())
+          }
+          this.allGames.push(dataObject);
+
+          let openGamesOnly: Game[] = [];
+          for (let i = 0; i < sortedKoPhaseModel.games.length; i++) {
+            if (this.isOpenGame(sortedKoPhaseModel.games[i])) {
+              openGamesOnly.push(sortedKoPhaseModel.games[i])
+            }
+          }
+          if (openGamesOnly.length !== 0) {
+            let groupPhaseModelForDateOpenGamesOnly: KoPhaseModel = {
+              games: openGamesOnly,
+              phase: this.getPhase(sortedKoPhaseModel.phase.toString())
+            }
+            this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForDateOpenGamesOnly));
+          }
+        }
+        this.dataObjects = this.allOpenGamesOnly;
+      }
+    );
+  }
+
+  private getDataObject(groupPhaseModel: KoPhaseModel): DataObject {
+    let dataSource = new MatTableDataSource();
+    dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
+    return {
+      dataSource: dataSource,
+      phase: groupPhaseModel.phase
+    };
+  }
+
+  private mapGamesToGameTableModel(games: Game[]): GameTableModel[] {
+    const gameTableModel: GameTableModel[] = [];
+    games.forEach(game => {
+      gameTableModel.push({
+        game: game,
+        formControlTip1: this.initFormControl(),
+        formControlTip2: this.initFormControl()
+      });
+    })
+    return gameTableModel;
+  }
+
+  private isOpenGame(game: Game): boolean {
+    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+  }
+
+  private loadUser(): void {
+    this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
       console.log('userId: ' + this.userId);
     })
@@ -146,5 +199,7 @@ export class GameComponent implements OnInit {
     return formControlForTip();
   }
 }
+
+
 
 

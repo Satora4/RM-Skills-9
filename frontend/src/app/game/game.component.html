@@ -1,6 +1,11 @@
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 <h1 style="text-align: center; margin-top: 3em">Spielplan K.O.-Phase</h1>
 
+<div class="toggleGroup">
+  <label>Bereits gespielte Partien anzeigen</label>
+  <mat-slide-toggle class="toggle" (change)="onChange($event)"></mat-slide-toggle>
+</div>
+
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
     <h2>{{dataObject.phase}}</h2>
