@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../user/user.model";
 import {UserService} from "../user/user.service";
-import {HeaderService} from "./header.service";
+import {AdminService} from "../admin/admin.service";
 
 @Component({
   selector: 'app-header',
@@ -10,9 +10,9 @@ import {HeaderService} from "./header.service";
 })
 export class HeaderComponent implements OnInit {
   public user: User | any;
-  public userIsAdmin?: boolean;
+  public userIsAdmin: boolean = false;
 
-  constructor(private userService: UserService, private headerService: HeaderService) {
+  constructor(private userService: UserService, private adminService: AdminService) {
   }
 
   ngOnInit(): void {
@@ -22,16 +22,14 @@ export class HeaderComponent implements OnInit {
   loadUser(): void {
     this.userService.getUserData().subscribe((user) => {
       this.user = user;
+      this.userIsAdmin = this.user.administrator;
       console.log(this.user);
-      this.isUserAnAdmin();
     })
   }
 
   calculateTips(): void {
-    this.headerService.calculate().subscribe();
-  }
-
-  isUserAnAdmin(): void {
-    this.userIsAdmin = this.user.administrator;
+    this.adminService.calculate().subscribe(() => {
+      location.reload();
+    });
   }
 }

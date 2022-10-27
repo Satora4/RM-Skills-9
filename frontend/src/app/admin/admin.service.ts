@@ -7,7 +7,7 @@ import {handleError} from "../util/http.util";
 @Injectable({
   providedIn: 'root'
 })
-export class HeaderService {
+export class AdminService {
   private calculateUrl = 'api/calculate';
 
   constructor(private httpClient: HttpClient) {}
