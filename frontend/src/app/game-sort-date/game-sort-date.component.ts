@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
@@ -32,7 +32,8 @@ export interface DataObject {
 @Component({
   selector: 'app-game-sort-date',
   templateUrl: './game-sort-date.component.html',
-  styleUrls: ['./game-sort-date.component.css']
+  styleUrls: ['./game-sort-date.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GameSortDateComponent implements OnInit {
   allGames: DataObject[] = [];
