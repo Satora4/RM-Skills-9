@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS tip
     game_id   INT NOT NULL,
     points    INT,
 
+    UNIQUE (user_id, game_id),
+
     foreign key (user_id) references "user" (user_id),
     foreign key (game_id) references game (game_id)
 );
