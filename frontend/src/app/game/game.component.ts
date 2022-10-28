@@ -68,6 +68,10 @@ export class GameComponent implements OnInit {
     });
   }
 
+  public isDisabled(game: Game): boolean {
+    return game.team1.countryFlag == "" && game.team2.countryFlag == "";
+  }
+
   public openTipWindow(game: Game): void {
     this.tipHelper.openTipWindow(this.userId, game, this.tips)
   }
@@ -120,7 +124,7 @@ export class GameComponent implements OnInit {
   private getKoPhaseModel(openGamesOnly: Game[], sortedKoPhaseModel: KoPhaseModel) {
     let groupPhaseModelForDateOpenGamesOnly: KoPhaseModel = {
       games: openGamesOnly,
-      phase: sortedKoPhaseModel.phase.toString()
+      phase: sortedKoPhaseModel.phase
     }
     return groupPhaseModelForDateOpenGamesOnly;
   }
@@ -138,7 +142,7 @@ export class GameComponent implements OnInit {
     dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
     return {
       dataSource: dataSource,
-      phase: this.getPhase(groupPhaseModel.phase)
+      phase: this.getPhase(groupPhaseModel.phase.toString())
     };
   }
 
@@ -158,7 +162,7 @@ export class GameComponent implements OnInit {
     return game.goalsTeam1 === null && game.goalsTeam2 === null;
   }
 
-  private loadUser(): void {
+  loadUser(): void {
     this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
       console.log('userId: ' + this.userId);
@@ -169,6 +173,10 @@ export class GameComponent implements OnInit {
     switch (phase) {
       case "FINAL": {
         return "Final";
+      }
+
+      case "LITTLE_FINAL": {
+        return "Kleines Final";
       }
 
       case "SEMI_FINAL": {

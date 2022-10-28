@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 import static ch.ergon.lernende.wmtippspiel.backend.game.GamesTO.*;
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("game")

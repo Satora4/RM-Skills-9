@@ -27,6 +27,7 @@ CREATE TYPE phase AS ENUM (
     'ROUND_OF_16',
     'QUARTER_FINAL',
     'SEMI_FINAL',
+    'LITTLE_FINAL',
     'FINAL'
     );
 
@@ -41,7 +42,6 @@ CREATE TABLE IF NOT EXISTS game
     goals_team2   INT,
     phase         phase DEFAULT 'GROUP_PHASE',
     calculated    BOOLEAN,
-
     foreign key (team1_id) references team (team_id),
     foreign key (team2_id) references team (team_id)
 );
