@@ -1,11 +1,9 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
 import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TeamTO {
-
-    @JsonProperty("teamId")
+    
     private int id;
     private String country;
     private int points;
