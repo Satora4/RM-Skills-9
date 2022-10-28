@@ -18,8 +18,8 @@ table {
 
 .list {
   margin-left: auto;
-  width: 60%;
-  margin-right: 20%;
+  width: 70%;
+  margin-right: 15%;
   margin-top: 2em;
   border: solid #DEE1E2;
 }
@@ -112,56 +112,51 @@ mat-form-field {
 
 :host /deep/ td.mat-cell.cdk-column-button.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-tipTeam1.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-tipTeam2.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 
 }
 
 :host /deep/ td.mat-cell.cdk-column-goalsTeam1.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-goalsTeam2.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-teamCountry1.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-teamCountry2.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-gameTime.ng-star-inserted {
   width: 11% !important;
-  flex: 0 0 25% !important;
   min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-colon.ng-star-inserted {
   width: 1% !important;
-  flex: 0 0 25% !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-points.ng-star-inserted {
+  width: 12% !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-points.ng-star-inserted {
