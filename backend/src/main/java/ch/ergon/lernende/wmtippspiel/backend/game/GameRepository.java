@@ -112,7 +112,7 @@ public class GameRepository {
                 .fetch(this::convert);
     }
 
-    public List<Games> getGamesForKoPhase(LocalDateTime date) {
+    public List<Games> getGamesForKoPhase() {
         var result = dslContext.select(GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,

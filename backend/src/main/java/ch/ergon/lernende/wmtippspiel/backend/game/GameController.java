@@ -34,13 +34,9 @@ public class GameController {
         return switch (phase) {
             case GROUP_PHASE -> convertToGroupTo(gameRepository.getGamesForGroups());
             case GROUP_PHASE_ORDER_DATE -> convertToDateTo(gameRepository.getGamesInGroupPhaseWithOutGroupName());
-            case KO_PHASE -> convertToKoTo(gameRepository.getGamesForKoPhase(calculateDate()));
+            case KO_PHASE -> convertToKoTo(gameRepository.getGamesForKoPhase());
             default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phase: " + phase);
         };
-    }
-
-    private LocalDateTime calculateDate() {
-        return LocalDateTime.now().plusDays(2);
     }
 
     private static List<GamesTO> convertToGroupTo(Collection<Games> gamesWithGroups) {

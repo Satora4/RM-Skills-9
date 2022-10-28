@@ -69,11 +69,7 @@ export class GameComponent implements OnInit {
   }
 
   public isDisabled(game: Game): boolean {
-    let today = new Date();
-    let dayAfterTomorrow = new Date;
-    dayAfterTomorrow.setDate(today.getDate() + 2)
-
-    return new Date(game.gameTime) >= new Date(dayAfterTomorrow);
+    return game.team1.countryFlag == "" && game.team1.countryFlag == "";
   }
 
   public openTipWindow(game: Game): void {
