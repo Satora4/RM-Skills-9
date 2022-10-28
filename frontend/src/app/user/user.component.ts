@@ -52,7 +52,6 @@ export class UserComponent implements OnInit, AfterViewInit {
   private removePlayersWithZeroPoints(users:User[]): User[] {
     let newList :User[] = [];
     for (let i = 0; i < users.length; i++){
-      console.log(users[i])
       if (users[i].points != 0){
         newList.push(users[i])
       }
