@@ -38,7 +38,7 @@ export class GameSortGroupComponent implements OnInit {
   allGames: DataObjectForGroup[] = [];
   allOpenGamesOnly: DataObjectForGroup[] = [];
   dataObjects: DataObjectForGroup[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'goalsTeam1', 'colon', 'goalsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button', 'points'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button', 'points'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
