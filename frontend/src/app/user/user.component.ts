@@ -11,7 +11,7 @@ import {UserService} from './user.service';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit, AfterViewInit {
-  public user: User | any;
+  public user?: User;
   public users: User[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
@@ -32,7 +32,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   private calculateUserRank(): void {
     for (let user of this.users) {
-      if (user.userId == this.user.userId) {
+      if (user.userId == this.user?.userId) {
         this.user.ranking = user.ranking;
         break;
       }
