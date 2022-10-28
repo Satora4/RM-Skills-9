@@ -17,28 +17,24 @@ table {
 }
 
 .list {
-  margin-left: auto;
   width: 60%;
+  margin-left: 20%;
   margin-right: 20%;
+
   margin-top: 2em;
   border: solid rgba(0, 0, 0, 7%);
 }
 
-.list tr td {
-  padding-right: 2em;
+:host /deep/ .list tr td {
   margin-top: 1em;
   font-family: 'AktivGroteskRg', sans-serif;
 }
 
 .list th {
   font-family: 'AktivGroteskBd', sans-serif;
-  margin-right: 2em;
   color: #404648;
 }
 
-.selected-value {
-  margin: 15px 0;
-}
 
 h2 {
   margin-left: 0.5em;
@@ -113,3 +109,78 @@ input[type=number] {
 .mat-slide-toggle.mat-checked .mat-ripple-element {
   display: none;
 }
+
+:host /deep/ td.mat-cell.cdk-column-button.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-tipTeam1.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-tipTeam2.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+
+}
+
+:host /deep/ td.mat-cell.cdk-column-goalsTeam1.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-goalsTeam2.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-teamCountry1.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-teamCountry2.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-gameTime.ng-star-inserted {
+  width: 12.375% !important;
+  flex: 0 0 25% !important;
+  min-width: 104px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-colon.ng-star-inserted {
+  width: 1% !important;
+  flex: 0 0 25% !important;
+}
+
+:host /deep/ th.mat-header-cell.ng-star-inserted {
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:host /deep/ td.mat-cell.ng-star-inserted {
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#flag2 {
+  float: left;
+}
+
+#flag1 {
+  float: right;
+}
+

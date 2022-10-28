@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
@@ -38,7 +38,7 @@ export class GameSortDateComponent implements OnInit {
   allGames: DataObject[] = [];
   allOpenGamesOnly: DataObject[] = [];
   dataObjects: DataObject[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'goalsTeam1', 'colon', 'goalsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
@@ -89,7 +89,7 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public insertingTipIsAllowed(game: Game): boolean {
-    return insertingTipIsAllowed(game,this.userId, this.tips);
+    return insertingTipIsAllowed(game, this.userId, this.tips);
   }
 
   public editingTipIsAllowed(game: Game): boolean {
