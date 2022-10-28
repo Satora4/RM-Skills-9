@@ -16,17 +16,8 @@ public class GroupController {
         this.groupRepository = groupRepository;
     }
 
-    @GetMapping("/group")
+    @GetMapping("/groups")
     public List<GroupTO> getAllGroups() {
-        return groupRepository.getAllGroups().stream().map(this::convert).collect(Collectors.toList());
-    }
-
-    private GroupTO convert(Group group) {
-        GroupTO groupTO = new GroupTO();
-        
-        groupTO.setId(group.getId());
-        groupTO.setName(group.getName());
-        groupTO.setGroupMembers(group.getGroupMembers());
-        return groupTO;
+        return groupRepository.getAllGroups().stream().map(Group::toGroupTO).collect(Collectors.toList());
     }
 }
