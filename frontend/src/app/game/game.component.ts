@@ -69,7 +69,7 @@ export class GameComponent implements OnInit {
   }
 
   public isDisabled(game: Game): boolean {
-    return game.team1.countryFlag == "" && game.team1.countryFlag == "";
+    return game.team1.countryFlag == "" && game.team2.countryFlag == "";
   }
 
   public openTipWindow(game: Game): void {
