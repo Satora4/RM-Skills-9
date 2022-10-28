@@ -61,6 +61,10 @@ public class Tip {
         this.points = points;
     }
 
+    public boolean isTipNotCalculated() {
+        return this.getPoints() == null && this.getGame().getGoalsTeam1() != null && this.getGame().getGoalsTeam2() != null && !this.getGame().isCalculated();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

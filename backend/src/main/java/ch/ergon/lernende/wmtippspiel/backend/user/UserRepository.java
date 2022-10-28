@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.GAME;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
 
 @Repository
@@ -47,7 +48,6 @@ public class UserRepository {
     }
 
     public void updateUser(User user) {
-
         dslContext.update(USER)
                 .set(USER.POINTS, user.getPoints())
                 .where(USER.USER_ID.eq(user.getUserId()))

@@ -55,6 +55,7 @@
   flex: none;
   order: 0;
   flex-grow: 0;
+  margin-right: auto;
 }
 
 #ok {
@@ -72,7 +73,7 @@
   flex: none;
   order: 1;
   flex-grow: 0;
-  margin-left: 110px;
+  margin-left: auto;
 
 
 }
@@ -107,15 +108,23 @@ input {
   right: 0px;
   top: 0px;
   background: #F0F1F2;
+  text-align: center;
   font-family: 'AktivGroteskRg', sans-serif;
 }
 
-label{
+.container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+label {
   font-family: 'AktivGroteskRg', sans-serif;
 }
 
-h1{
+h1 {
   font-family: 'AktivGroteskBd', sans-serif;
   font-size: 28px;
+  text-align: center;
 }
 
