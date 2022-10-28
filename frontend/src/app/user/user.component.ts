@@ -11,8 +11,8 @@ import {UserService} from './user.service';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit, AfterViewInit {
-  public user: User | any;
-  private users: User[] = [];
+  public user?: User;
+  public users: User[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
 
@@ -23,7 +23,6 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.userDataSource.sort = this.sort;
-    this.calculateUserRank();
   }
 
   ngOnInit(): void {
@@ -33,7 +32,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   private calculateUserRank(): void {
     for (let user of this.users) {
-      if (user.userId == this.user.userId) {
+      if (user.userId == this.user?.userId) {
         this.user.ranking = user.ranking;
         break;
       }
@@ -45,7 +44,6 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.users = users;
       this.computeRanks(this.users);
       this.userDataSource.data = this.users;
-      this.calculateUserRank();
     });
   }
 
@@ -75,6 +73,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   private getUser() {
     this.UserService.getUserData().subscribe((user) => {
       this.user = user;
+      this.calculateUserRank();
     })
   }
 }
