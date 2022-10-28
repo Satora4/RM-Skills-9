@@ -42,11 +42,22 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
-      this.users = users;
+      this.users = this.removePlayersWithZeroPoints(users);
       this.computeRanks(this.users);
       this.userDataSource.data = this.users;
       this.calculateUserRank();
     });
+  }
+
+  private removePlayersWithZeroPoints(users:User[]): User[] {
+    let newList :User[] = [];
+    for (let i = 0; i < users.length; i++){
+      console.log(users[i])
+      if (users[i].points != 0){
+        newList.push(users[i])
+      }
+    }
+    return newList;
   }
 
   private computeRanks(users: User[]) {
