@@ -60,7 +60,7 @@ mat-form-field {
   width: 13%;
 }
 
-button{
+button {
   width: 48px;
   height: 48px;
   min-width: 48px;
@@ -190,12 +190,12 @@ input[type=number] {
 }
 
 
-#goal1{
+#goal1 {
   text-align: center;
   font-family: 'AktivGroteskBd', sans-serif;
 }
 
-#goal2{
+#goal2 {
   text-align: center;
   font-family: 'AktivGroteskBd', sans-serif;
 }

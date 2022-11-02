@@ -113,8 +113,8 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel">
           <button disabled="{{isDisabled(gameTableModel.game)}}"
-            *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
-            (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
+                  *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
+                  (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
 
@@ -130,7 +130,8 @@
 
       <ng-container matColumnDef="points">
         <th mat-header-cell *matHeaderCellDef>Punkte</th>
-        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center">{{getTipByGameId(gameTableModel.game.id)?.points}}</td>
+        <td mat-cell *matCellDef="let gameTableModel"
+            style="text-align: center">{{getTipByGameId(gameTableModel.game.id)?.points}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
