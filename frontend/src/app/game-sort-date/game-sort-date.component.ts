@@ -156,4 +156,8 @@ export class GameSortDateComponent implements OnInit {
       this.userId = user.userId;
     })
   }
+
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+  }
 }

@@ -104,6 +104,10 @@ export class GameComponent implements OnInit {
     }
   }
 
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+  }
+
   private loadGames(): void {
     this.gameService.getKoGames().subscribe((koPhaseGameGroup) => {
         let sortedKoPhaseModels = koPhaseGameGroup.sort((a, b) => b.games.length - a.games.length);

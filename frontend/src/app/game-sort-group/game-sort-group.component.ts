@@ -129,6 +129,10 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+  }
+
   private isOpenGame(game: Game): boolean {
     return game.goalsTeam1 === null && game.goalsTeam2 === null;
   }
