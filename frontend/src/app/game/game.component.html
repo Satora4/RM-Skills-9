@@ -62,7 +62,7 @@
                      [formControl]="gameTableModel.formControlTip1" [errorStateMatcher]="matcher">
               <br>
               <mat-error
-                *ngIf="(gameTableModel.formControlTip2.hasError('pattern')) &&
+                *ngIf="(gameTableModel.formControlTip1.hasError('pattern')) &&
             !gameTableModel.formControlTip1.hasError('required')"></mat-error>
             </mat-form-field>
 
