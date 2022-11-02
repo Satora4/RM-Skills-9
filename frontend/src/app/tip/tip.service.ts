@@ -11,7 +11,8 @@ import { Tip } from "./tip.model";
   providedIn: 'root'
 })
 export class TipService {
-  private tipUrl = 'api/tip';
+  private tipUrl = 'api/tip?param=currentUser';
+  private allTipsUrl = 'api/tip?param=all'
 
   constructor(private httpClient: HttpClient) {
   }
@@ -22,6 +23,11 @@ export class TipService {
 
   getTips(): Observable<Tip[]> {
     return this.httpClient.get<Tip[]>(this.tipUrl).pipe(
+      tap({complete: () => console.log('fetched Tips')}), catchError(handleError<Tip[]>('getTips', [])));
+  }
+
+  getAllTips() : Observable<Tip[]>{
+    return this.httpClient.get<Tip[]>(this.allTipsUrl).pipe(
       tap({complete: () => console.log('fetched Tips')}), catchError(handleError<Tip[]>('getTips', [])));
   }
 

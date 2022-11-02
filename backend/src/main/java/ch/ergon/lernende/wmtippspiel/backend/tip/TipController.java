@@ -9,6 +9,7 @@ import ch.ergon.lernende.wmtippspiel.backend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -33,12 +34,19 @@ public class TipController {
     }
 
     @GetMapping
-    public List<TipTO> getTips() {
-        if (currentUser != null) {
-            return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
+    public List<TipTO> getTips(@RequestParam(name = "param")String param) {
+        if (param.equals("currentUser")){
+            if (currentUser != null) {
+                return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
+            } else {
+                throw new RuntimeException("no tips available");
+            }
+        } else if (param.equals("all")) {
+            return convert(tipRepository.getAllTip());
         } else {
-            throw new RuntimeException("no tips available");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid param: " + param);
         }
+
     }
 
     @PatchMapping

@@ -4,6 +4,8 @@ import {MatTableDataSource} from '@angular/material/table';
 
 import {User} from './user.model';
 import {UserService} from './user.service';
+import {TipService} from "../tip/tip.service";
+import {Tip} from "../tip/tip.model";
 
 @Component({
   selector: 'app-user-list',
@@ -13,12 +15,13 @@ import {UserService} from './user.service';
 export class UserComponent implements OnInit, AfterViewInit {
   public user: User | any;
   private users: User[] = [];
+  private allTips: Tip[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(private UserService: UserService) {
+  constructor(private UserService: UserService, private tipService: TipService) {
   }
 
   ngAfterViewInit() {
@@ -27,6 +30,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.loadAllTips();
     this.loadUser();
     this.getUser();
   }
@@ -40,20 +44,30 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
   }
 
+  private loadAllTips(): void {
+    this.tipService.getAllTips().subscribe((tips) => {
+      this.allTips = tips;
+    })
+  }
+
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
-      this.users = this.removePlayersWithZeroPoints(users);
+      this.users = this.removePlayersWithZeroTips(users);
       this.computeRanks(this.users);
       this.userDataSource.data = this.users;
       this.calculateUserRank();
     });
   }
 
-  private removePlayersWithZeroPoints(users:User[]): User[] {
-    let newList :User[] = [];
-    for (let i = 0; i < users.length; i++){
-      if (users[i].points != 0){
-        newList.push(users[i])
+  private removePlayersWithZeroTips(users: User[]): User[] {
+    console.log(this.allTips)
+    let newList: User[] = [];
+    for (let user of users) {
+      for (let tip of this.allTips) {
+          if (tip.userId == user.userId){
+            newList.push(user);
+            break;
+          }
       }
     }
     return newList;
