@@ -13,8 +13,8 @@ import {Tip} from "../tip/tip.model";
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit, AfterViewInit {
-  public user: User | any;
-  private users: User[] = [];
+  public user?: User;
+  public users: User[] = [];
   private allTips: Tip[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
@@ -37,7 +37,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   private calculateUserRank(): void {
     for (let user of this.users) {
-      if (user.userId == this.user.userId) {
+      if (user.userId == this.user?.userId) {
         this.user.ranking = user.ranking;
         break;
       }
@@ -99,6 +99,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   private getUser() {
     this.UserService.getUserData().subscribe((user) => {
       this.user = user;
+      this.calculateUserRank();
     })
   }
 }

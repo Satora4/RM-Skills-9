@@ -4,7 +4,7 @@ import {Tip} from "./tip.model";
 import {MatDialog} from "@angular/material/dialog";
 import {TipService} from "./tip.service";
 import {Injectable} from "@angular/core";
-import {getTipByGameId} from "../util/tip.util";
+import {TipUtil} from "../util/tip.util";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class TipHelper {
     const dialogRef = this.dialog.open(PopUpComponent, {
       width: 'auto',
       data: {
-        tip1: getTipByGameId(game.id, userId, tips)?.tipTeam1,
-        tip2: getTipByGameId(game.id, userId, tips)?.tipTeam2,
+        tip1: TipUtil.getTipByGameId(game.id, userId, tips)?.tipTeam1,
+        tip2: TipUtil.getTipByGameId(game.id, userId, tips)?.tipTeam2,
         country1: game.team1.country,
         country2: game.team2.country,
         flag1: game.team1.countryFlag,
@@ -42,11 +42,11 @@ export class TipHelper {
       gameId: game.id,
       teamCountry1: game.team1.country,
       teamCountry2: game.team2.country,
-      pointsTeam1: game.team1.points,
-      pointsTeam2: game.team2.points,
+      goalsTeam1: game.team1.points,
+      goalsTeam2: game.team2.points,
       gameTime: game.gameTime
     }
-    if (getTipByGameId(game.id, userId, tips)) {
+    if (TipUtil.getTipByGameId(game.id, userId, tips)) {
       this.updateTip(tip, tips)
     } else {
       this.addTip(tip, tips);

@@ -1,6 +1,11 @@
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 <h1 style="text-align: center; margin-top: 3em">Spielplan K.O.-Phase</h1>
 
+<div class="toggleGroup">
+  <label>Bereits gespielte Partien anzeigen</label>
+  <mat-slide-toggle class="toggle" (change)="onDisplayGameToggleChange($event)"></mat-slide-toggle>
+</div>
+
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
     <h2>{{dataObject.phase}}</h2>
@@ -14,20 +19,16 @@
 
       <ng-container matColumnDef="teamCountry1">
         <th mat-header-cell *matHeaderCellDef>Team 1</th>
-        <td mat-cell *matCellDef="let gameTableModel">{{gameTableModel.game.team1.country}}</td>
+        <td mat-cell *matCellDef="let gameTableModel">{{gameTableModel.game.team1.country}}
+          <i id="flag1"
+             class="em {{gameTableModel.game.team1.countryFlag}}"
+             aria-role="presentation"></i>
+        </td>
       </ng-container>
 
-      <ng-container matColumnDef="flag1">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center"><i
-          class="em {{gameTableModel.game.team1.countryFlag}}"
-          aria-role="presentation"></i></td>
-      </ng-container>
-
-      <ng-container matColumnDef="pointsTeam1">
-        <th mat-header-cell *matHeaderCellDef>Punkte von Team 1</th>
-        <td mat-cell *matCellDef="let gameTableModel"
-            style="text-align: center">{{gameTableModel.game.pointsTeam1}}</td>
+      <ng-container matColumnDef="goalsTeam1">
+        <th mat-header-cell *matHeaderCellDef>Tore von Team 1</th>
+        <td mat-cell *matCellDef="let gameTableModel" id="goal1">{{gameTableModel.game.goalsTeam1}}</td>
       </ng-container>
 
       <ng-container matColumnDef="colon">
@@ -35,38 +36,36 @@
         <td mat-cell *matCellDef="let gameTableModel">:</td>
       </ng-container>
 
-      <ng-container matColumnDef="pointsTeam2">
-        <th mat-header-cell *matHeaderCellDef>Punkte von Team 2</th>
-        <td mat-cell *matCellDef="let gameTableModel"
-            style="text-align: center">{{gameTableModel.game.pointsTeam2}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="flag2">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center"><i
-          class="em {{gameTableModel.game.team2.countryFlag}}"
-          aria-role="presentation"></i></td>
+      <ng-container matColumnDef="goalsTeam2">
+        <th mat-header-cell *matHeaderCellDef>Tore von Team 2</th>
+        <td mat-cell *matCellDef="let gameTableModel" id="goal2">{{gameTableModel.game.goalsTeam2}}</td>
       </ng-container>
 
       <ng-container matColumnDef="teamCountry2">
         <th mat-header-cell *matHeaderCellDef>Team 2</th>
-        <td mat-cell *matCellDef="let gameTableModel">{{gameTableModel.game.team2.country}}</td>
+        <td mat-cell *matCellDef="let gameTableModel">
+          <i id="flag2"
+             class="em {{gameTableModel.game.team2.countryFlag}}"
+             aria-role="presentation"></i>{{gameTableModel.game.team2.country}}
+        </td>
       </ng-container>
 
       <div>
         <ng-container matColumnDef="tipTeam1">
           <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
           <td mat-cell *matCellDef="let gameTableModel">
-            <input matInput
-                   *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam1"
-                   maxlength="2" type="text"
-                   [placeholder]="dash" [(ngModel)]="tipTeam1[gameTableModel.game.id]"
-                   [formControl]="gameTableModel.formControlTip1" [errorStateMatcher]="matcher">
 
-            <br>
-            <mat-error
-              *ngIf="gameTableModel.formControlTip1.hasError('pattern') &&
-              !gameTableModel.formControlTip1.hasError('required')">{{errorMessage}}</mat-error>
+            <mat-form-field *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam1">
+              <input matInput
+                     max="15" type="number"
+                     [(ngModel)]="tipTeam1[gameTableModel.game.id]"
+                     [formControl]="gameTableModel.formControlTip1" [errorStateMatcher]="matcher">
+
+              <br>
+              <mat-error
+                *ngIf="gameTableModel.formControlTip1.hasError('pattern') &&
+              !gameTableModel.formControlTip1.hasError('required')"></mat-error>
+            </mat-form-field>
 
             <ng-template #showTipTeam1>
               <ng-container *ngIf="getTipByGameId(gameTableModel.game.id) != null; else showDash">
@@ -77,22 +76,24 @@
                 {{dash}}
               </ng-template>
             </ng-template>
+
           </td>
         </ng-container>
 
         <ng-container matColumnDef="tipTeam2">
           <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
           <td mat-cell *matCellDef="let gameTableModel">
-            <input matInput
-                   *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam2"
-                   maxlength="2" type="text"
-                   [placeholder]="dash" [(ngModel)]="tipTeam2[gameTableModel.game.id]"
-                   [formControl]="gameTableModel.formControlTip2" [errorStateMatcher]="matcher">
+            <mat-form-field *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam2">
+              <input matInput
+                     max="15" type="number"
+                     [(ngModel)]="tipTeam2[gameTableModel.game.id]"
+                     [formControl]="gameTableModel.formControlTip2" [errorStateMatcher]="matcher">
 
-            <br>
-            <mat-error
-              *ngIf="(gameTableModel.formControlTip2.hasError('pattern')) &&
-            !gameTableModel.formControlTip2.hasError('required')">{{errorMessage}}</mat-error>
+              <br>
+              <mat-error
+                *ngIf="(gameTableModel.formControlTip2.hasError('pattern')) &&
+            !gameTableModel.formControlTip2.hasError('required')"></mat-error>
+            </mat-form-field>
 
             <ng-template #showTipTeam2>
               <ng-container *ngIf="getTipByGameId(gameTableModel.game.id) != null; else showDash">
@@ -103,6 +104,7 @@
                 {{dash}}
               </ng-template>
             </ng-template>
+
           </td>
         </ng-container>
       </div>
@@ -110,22 +112,27 @@
       <ng-container matColumnDef="button">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel">
-          <button
-            *ngIf="insertingTipIsAllowed(gameTableModel.game); else showEditButton"
+          <button disabled="{{isDisabled(gameTableModel.game)}}"
+            *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
             mat-stroked-button
             (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
 
           <ng-template #showEditButton>
-            <button
-              *ngIf="editingTipIsAllowed(gameTableModel.game);"
-              mat-stroked-button
-              (click)="openTipWindow(gameTableModel.game)">
+            <button disabled="{{isDisabled(gameTableModel.game)}}"
+                    *ngIf="editingTipIsAllowed(gameTableModel.game);"
+                    mat-stroked-button
+                    (click)="openTipWindow(gameTableModel.game)">
               <span class="material-icons">edit</span>
             </button>
           </ng-template>
         </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef>Punkte</th>
+        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center">{{getTipByGameId(gameTableModel.game.id)?.points}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

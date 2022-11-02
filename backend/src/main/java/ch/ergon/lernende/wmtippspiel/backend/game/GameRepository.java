@@ -7,11 +7,14 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static ch.ergon.lernende.wmtippspiel.backend.game.Games.*;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
@@ -125,7 +128,6 @@ public class GameRepository {
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
-                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
                 .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
                 .collect(groupingBy(record -> record.get(GAME.PHASE), mapping(this::convert, toList())));
 
@@ -135,11 +137,8 @@ public class GameRepository {
     /**
      * returns all games that already have been played, i.e. where the goals aren't NULL
      */
-    public List<Game> getAllFinishedGames() {
-        return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()));
-    }
 
-    public List<Game> getAllFinishedGamesWithOutTeamCalculation() {
+    public List<Game> getAllFinishedGamesWithOutCalculation() {
         return getGamesWithCondition(GAME.GOALS_TEAM1.isNotNull().and(GAME.GOALS_TEAM2.isNotNull()).and(GAME.CALCULATED.eq(false)));
     }
 
@@ -157,11 +156,11 @@ public class GameRepository {
         game.setGameTime(record.get(GAME.GAME_TIME));
         game.setGameLocation(record.get(GAME.GAME_LOCATION));
         if (record.get(GAME.GOALS_TEAM1) != null) {
-            game.setPointsTeam1(record.get(GAME.GOALS_TEAM1));
+            game.setGoalsTeam1(record.get(GAME.GOALS_TEAM1));
         }
 
         if (record.get(GAME.GOALS_TEAM2) != null) {
-            game.setPointsTeam2(record.get(GAME.GOALS_TEAM2));
+            game.setGoalsTeam2(record.get(GAME.GOALS_TEAM2));
         }
         game.setPhase(record.get(GAME.PHASE));
         game.setTeam1(createTeam(record, TEAM_ALIAS_1));

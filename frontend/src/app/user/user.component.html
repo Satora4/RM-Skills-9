@@ -1,8 +1,9 @@
-<h1 style="text-align: center; margin-top: 3em">Rangliste</h1>
+<h1 style="text-align: center; margin-top: 3em">Ergon-Rangliste</h1>
+
 
 <div class="content">
 
-  <table class="littleTable">
+  <table class="littleTable" *ngIf="user">
     <tr>
       <th>Name</th>
       <th>Punkte</th>
@@ -22,7 +23,7 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Name..." #input>
   </mat-form-field>
 
-  <div class="list">
+  <div class="list" *ngIf="users">
     <table mat-table [dataSource]="userDataSource" matSort matSortDisableClear matSortActive="gameTime"
            matSortDirection="asc">
 

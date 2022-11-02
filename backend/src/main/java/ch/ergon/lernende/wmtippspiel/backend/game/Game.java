@@ -11,11 +11,12 @@ public class Game {
     private int id;
     private LocalDateTime gameTime;
     private String gameLocation;
-    private Integer pointsTeam1;
-    private Integer pointsTeam2;
+    private Integer goalsTeam1;
+    private Integer goalsTeam2;
     private Team team1;
     private Team team2;
     private Phase phase;
+    private boolean isCalculated;
 
     public int getId() {
         return id;
@@ -41,20 +42,20 @@ public class Game {
         this.gameLocation = gameLocation;
     }
 
-    public Integer getPointsTeam1() {
-        return pointsTeam1;
+    public Integer getGoalsTeam1() {
+        return goalsTeam1;
     }
 
-    public void setPointsTeam1(Integer pointsTeam1) {
-        this.pointsTeam1 = pointsTeam1;
+    public void setGoalsTeam1(Integer goalsTeam1) {
+        this.goalsTeam1 = goalsTeam1;
     }
 
-    public Integer getPointsTeam2() {
-        return pointsTeam2;
+    public Integer getGoalsTeam2() {
+        return goalsTeam2;
     }
 
-    public void setPointsTeam2(Integer pointsTeam2) {
-        this.pointsTeam2 = pointsTeam2;
+    public void setGoalsTeam2(Integer goalsTeam2) {
+        this.goalsTeam2 = goalsTeam2;
     }
 
     public Team getTeam1() {
@@ -81,6 +82,14 @@ public class Game {
         this.phase = phase;
     }
 
+    public boolean isCalculated() {
+        return isCalculated;
+    }
+
+    public void setCalculated(boolean calculated) {
+        this.isCalculated = calculated;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,10 +98,11 @@ public class Game {
         Game game = (Game) o;
 
         if (id != game.id) return false;
+        if (isCalculated != game.isCalculated) return false;
         if (!Objects.equals(gameTime, game.gameTime)) return false;
         if (!Objects.equals(gameLocation, game.gameLocation)) return false;
-        if (!Objects.equals(pointsTeam1, game.pointsTeam1)) return false;
-        if (!Objects.equals(pointsTeam2, game.pointsTeam2)) return false;
+        if (!Objects.equals(goalsTeam1, game.goalsTeam1)) return false;
+        if (!Objects.equals(goalsTeam2, game.goalsTeam2)) return false;
         if (!Objects.equals(team1, game.team1)) return false;
         if (!Objects.equals(team2, game.team2)) return false;
         return phase == game.phase;
@@ -103,11 +113,12 @@ public class Game {
         int result = id;
         result = 31 * result + (gameTime != null ? gameTime.hashCode() : 0);
         result = 31 * result + (gameLocation != null ? gameLocation.hashCode() : 0);
-        result = 31 * result + (pointsTeam1 != null ? pointsTeam1.hashCode() : 0);
-        result = 31 * result + (pointsTeam2 != null ? pointsTeam2.hashCode() : 0);
+        result = 31 * result + (goalsTeam1 != null ? goalsTeam1.hashCode() : 0);
+        result = 31 * result + (goalsTeam2 != null ? goalsTeam2.hashCode() : 0);
         result = 31 * result + (team1 != null ? team1.hashCode() : 0);
         result = 31 * result + (team2 != null ? team2.hashCode() : 0);
         result = 31 * result + (phase != null ? phase.hashCode() : 0);
+        result = 31 * result + (isCalculated ? 1 : 0);
         return result;
     }
 
@@ -117,11 +128,12 @@ public class Game {
                 "id=" + id +
                 ", gameTime=" + gameTime +
                 ", gameLocation='" + gameLocation + '\'' +
-                ", pointsTeam1=" + pointsTeam1 +
-                ", pointsTeam2=" + pointsTeam2 +
+                ", pointsTeam1=" + goalsTeam1 +
+                ", pointsTeam2=" + goalsTeam2 +
                 ", team1=" + team1 +
                 ", team2=" + team2 +
                 ", phase=" + phase +
+                ", isCalculated=" + isCalculated +
                 '}';
     }
 }

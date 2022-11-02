@@ -47,4 +47,13 @@ public class Group {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    public static GroupTO toGroupTO(Group group) {
+        GroupTO groupTO = new GroupTO();
+
+        groupTO.setId(group.getId());
+        groupTO.setName(group.getName());
+        groupTO.setGroupMembers(group.getGroupMembers());
+        return groupTO;
+    }
 }

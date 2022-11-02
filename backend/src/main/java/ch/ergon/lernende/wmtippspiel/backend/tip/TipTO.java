@@ -21,8 +21,8 @@ public class TipTO {
     private String gameLocation;
     private int teamId1;
     private int teamId2;
-    private Integer pointsTeam1;
-    private Integer pointsTeam2;
+    private Integer goalsTeam1;
+    private Integer goalsTeam2;
     private String teamCountry1;
     private String teamCountry2;
     private Phase phase;
@@ -123,20 +123,20 @@ public class TipTO {
         this.teamId2 = teamId2;
     }
 
-    public Integer getPointsTeam1() {
-        return pointsTeam1;
+    public Integer getGoalsTeam1() {
+        return goalsTeam1;
     }
 
-    public void setPointsTeam1(Integer pointsTeam1) {
-        this.pointsTeam1 = pointsTeam1;
+    public void setGoalsTeam1(Integer goalsTeam1) {
+        this.goalsTeam1 = goalsTeam1;
     }
 
-    public Integer getPointsTeam2() {
-        return pointsTeam2;
+    public Integer getGoalsTeam2() {
+        return goalsTeam2;
     }
 
-    public void setPointsTeam2(Integer pointsTeam2) {
-        this.pointsTeam2 = pointsTeam2;
+    public void setGoalsTeam2(Integer goalsTeam2) {
+        this.goalsTeam2 = goalsTeam2;
     }
 
     public String getTeamCountry1() {
