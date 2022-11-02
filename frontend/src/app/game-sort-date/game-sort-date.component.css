@@ -60,6 +60,16 @@ mat-form-field {
   width: 13%;
 }
 
+button{
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background: #FFFFFF;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
 .toggleGroup {
   margin-left: 20%;
 }

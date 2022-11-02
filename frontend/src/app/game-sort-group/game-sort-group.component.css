@@ -72,6 +72,16 @@ mat-form-field {
   margin-left: 15px;
 }
 
+button{
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background: #FFFFFF;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
 .switch {
   margin-left: 15px;
   left: 41.18%;
