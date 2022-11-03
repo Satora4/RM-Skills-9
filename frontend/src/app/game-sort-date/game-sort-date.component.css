@@ -60,13 +60,24 @@ mat-form-field {
   width: 13%;
 }
 
-button {
+:host /deep/ .mat-stroked-button:enabled {
   width: 48px;
   height: 48px;
   min-width: 48px;
   background: #FFFFFF;
   justify-content: center;
+  text-align: center;
   align-items: center;
+  border: 2px solid #404648;
+  border-radius: 8px;
+}
+
+:host /deep/ .mat-stroked-button:disabled {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background: #FFFFFF;
+  border: 2px solid rgba(0, 0, 0, .26);;
   border-radius: 8px;
 }
 

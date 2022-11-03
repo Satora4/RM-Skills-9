@@ -77,7 +77,7 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
-  public openTipWindow(game: Game, phase:string): void {
+  public openTipWindow(game: Game, phase: string): void {
     this.tipHelper.openTipWindow(this.userId, game, this.tips, phase)
   }
 
@@ -163,7 +163,7 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   private loadUser(): void {
-    this.userService.getUserData().subscribe( (user) => {
+    this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
     })
   }

@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 import {formControlForTip} from "../util/initFormControlForTip.util";
-import { errorMessage } from '../util/errorMessage.util';
+import {errorMessage} from '../util/errorMessage.util';
 import {TipUtil} from "../util/tip.util";
 import {Game} from "../game/game.model";
 
@@ -14,8 +14,8 @@ export interface DialogData {
   country1: string;
   country2: string;
   flag1: string;
-  flag2:string;
-  phase:string;
+  flag2: string;
+  phase: string;
 }
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -49,10 +49,10 @@ export class PopUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public isTipAValidNumber(tipTeam1: string, tipTeam2: string, phase:string): boolean {
-    if (phase == 'GROUP'){
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string, phase: string): boolean {
+    if (phase == 'GROUP') {
       return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
-    }else {
+    } else {
       return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2)
     }
   }

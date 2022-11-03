@@ -76,7 +76,7 @@ export class GameSortDateComponent implements OnInit {
     });
   }
 
-  public openTipWindow(game: Game, phase:string): void {
+  public openTipWindow(game: Game, phase: string): void {
     this.tipHelper.openTipWindow(this.userId, game, this.tips, phase);
   }
 
