@@ -50,8 +50,7 @@ public class Team {
 
         if (id != team.id) return false;
         if (points != team.points) return false;
-        if (!Objects.equals(country, team.country)) return false;
-        return Objects.equals(countryFlag, team.countryFlag);
+        return Objects.equals(country, team.country);
     }
 
     @Override

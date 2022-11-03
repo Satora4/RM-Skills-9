@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
@@ -32,13 +32,13 @@ export interface DataObjectForGroup {
 @Component({
   selector: 'app-game-sort-group',
   templateUrl: './game-sort-group.component.html',
-  styleUrls: ['./game-sort-group.component.css']
+  styleUrls: ['./game-sort-group.component.css'],
 })
 export class GameSortGroupComponent implements OnInit {
   allGames: DataObjectForGroup[] = [];
   allOpenGamesOnly: DataObjectForGroup[] = [];
   dataObjects: DataObjectForGroup[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'goalsTeam1', 'colon', 'goalsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button', 'points'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
@@ -77,8 +77,8 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
-  public openTipWindow(game: Game): void {
-    this.tipHelper.openTipWindow(this.userId, game, this.tips)
+  public openTipWindow(game: Game, phase: string): void {
+    this.tipHelper.openTipWindow(this.userId, game, this.tips, phase)
   }
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
@@ -129,6 +129,10 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+  }
+
   private isOpenGame(game: Game): boolean {
     return game.goalsTeam1 === null && game.goalsTeam2 === null;
   }
@@ -159,7 +163,7 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   private loadUser(): void {
-    this.userService.getUserData().subscribe( (user) => {
+    this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
     })
   }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
@@ -32,13 +32,13 @@ export interface DataObject {
 @Component({
   selector: 'app-game-sort-date',
   templateUrl: './game-sort-date.component.html',
-  styleUrls: ['./game-sort-date.component.css']
+  styleUrls: ['./game-sort-date.component.css'],
 })
 export class GameSortDateComponent implements OnInit {
   allGames: DataObject[] = [];
   allOpenGamesOnly: DataObject[] = [];
   dataObjects: DataObject[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'flag1', 'goalsTeam1', 'colon', 'goalsTeam2', 'flag2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button', 'points'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
@@ -76,8 +76,8 @@ export class GameSortDateComponent implements OnInit {
     });
   }
 
-  public openTipWindow(game: Game): void {
-    this.tipHelper.openTipWindow(this.userId, game, this.tips);
+  public openTipWindow(game: Game, phase: string): void {
+    this.tipHelper.openTipWindow(this.userId, game, this.tips, phase);
   }
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
@@ -155,5 +155,9 @@ export class GameSortDateComponent implements OnInit {
     this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
     })
+  }
+
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
   }
 }

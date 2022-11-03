@@ -102,6 +102,10 @@
   flex-grow: 0;
 }
 
+#ok:disabled{
+  background: #DEE1E2;
+}
+
 input {
   height: 48px;
   left: 0px;

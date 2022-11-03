@@ -34,7 +34,7 @@ public class CalculatorService {
 
 
     public void calculateGames() {
-        List<Game> gamesToCalculate = gameRepository.getAllFinishedGamesWithOutTeamCalculation();
+        List<Game> gamesToCalculate = gameRepository.getAllFinishedGamesWithOutCalculation();
         for (Game game : gamesToCalculate) {
             PointsPerGameAndTeam pointsPerGameAndTeam = ruleService.calculateGame(game);
 
@@ -63,16 +63,17 @@ public class CalculatorService {
      * get ready the data to calculate the score for the points of each tip
      */
     public void calculateScore() {
-        List<Game> gamesToCalculate = gameRepository.getAllFinishedGames();
+        List<Game> gamesToCalculate = gameRepository.getAllFinishedGamesWithOutCalculation();
 
         List<Tip> tips = tipRepository.getAllTip();
         List<Tip> tipsToCalculate = new ArrayList<>();
 
         for (Tip tip : tips) {
-            if (tip.getPoints() == null && gamesToCalculate.contains(tip.getGame())) {
+            if (tip.isTipNotCalculated()) {
                 tipsToCalculate.add(tip);
             }
         }
+
         Map<User, List<Tip>> usersWithTips = groupTipsByUser(tipsToCalculate);
         for (var user : usersWithTips.keySet()) {
             int userPoints = user.getPoints();

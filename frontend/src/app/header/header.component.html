@@ -4,7 +4,8 @@
       <li>
         <a [matMenuTriggerFor]="menu">Spielplan</a>
         <mat-menu #menu="matMenu">
-          <a mat-menu-item routerLink="/groupPhase" routerLinkActive="active" ariaCurrentWhenActive="page">Gruppenphase</a>
+          <a mat-menu-item routerLink="/groupPhase" routerLinkActive="active"
+             ariaCurrentWhenActive="page">Gruppenphase</a>
           <a mat-menu-item routerLink="/ko" routerLinkActive="active" ariaCurrentWhenActive="page">K.O.-Phase</a>
         </mat-menu>
       </li>
@@ -16,6 +17,11 @@
         target="_blank">
         {{this.user.firstName}} {{this.user.lastName}}
       </a></li>
+      <ng-container *ngIf="userIsAdmin">
+        <li class="right">
+          <a (click)="calculateTips()">calculate</a>
+        </li>
+      </ng-container>
     </ul>
   </nav>
   <router-outlet></router-outlet>
