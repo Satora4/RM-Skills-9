@@ -112,7 +112,6 @@
         <td mat-cell *matCellDef="let gameTableModel">
           <button
             *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
-            mat-stroked-button
             (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
@@ -120,7 +119,6 @@
           <ng-template #showEditButton>
             <button
               *ngIf="editingTipIsAllowed(gameTableModel.game);"
-              mat-stroked-button
               (click)="openTipWindow(gameTableModel.game)">
               <span class="material-icons">edit</span>
             </button>
@@ -130,7 +128,8 @@
 
       <ng-container matColumnDef="points">
         <th mat-header-cell *matHeaderCellDef>Punkte</th>
-        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center">{{getTipByGameId(gameTableModel.game.id)?.points}}</td>
+        <td mat-cell *matCellDef="let gameTableModel"
+            style="text-align: center">{{getTipByGameId(gameTableModel.game.id)?.points}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
