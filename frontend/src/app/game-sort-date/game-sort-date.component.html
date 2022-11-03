@@ -111,15 +111,18 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel">
           <button
+            mat-stroked-button
             *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
+            disabled="{{!isTipAValidNumber(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id])}}"
             (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
 
           <ng-template #showEditButton>
             <button
+              mat-stroked-button
               *ngIf="editingTipIsAllowed(gameTableModel.game);"
-              (click)="openTipWindow(gameTableModel.game)">
+              (click)="openTipWindow(gameTableModel.game, 'GROUP')">
               <span class="material-icons">edit</span>
             </button>
           </ng-template>

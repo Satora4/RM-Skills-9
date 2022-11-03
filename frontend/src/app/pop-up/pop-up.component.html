@@ -34,8 +34,7 @@
 </div>
 <div mat-dialog-actions>
   <button id="cancel" mat-button (click)="onNoClick()">Abbrechen</button>
-  <button id="ok" mat-button [mat-dialog-close]="data" cdkFocusInitial
-          *ngIf="isTipAPositiveNumber(data.tip1, data.tip2)">
+  <button id="ok" mat-button [mat-dialog-close]="data" cdkFocusInitial disabled="{{!isTipAValidNumber(data.tip1, data.tip2, data.phase)}}">
     <p>Speichern</p>
   </button>
 </div>

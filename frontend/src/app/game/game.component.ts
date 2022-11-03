@@ -38,7 +38,7 @@ export class GameComponent implements OnInit {
   allGames: DataObject[] = [];
   allOpenGamesOnly: DataObject[] = [];
   dataObjects: DataObject[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button','points'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button', 'points'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
@@ -72,8 +72,8 @@ export class GameComponent implements OnInit {
     return game.team1.countryFlag == "" && game.team2.countryFlag == "";
   }
 
-  public openTipWindow(game: Game): void {
-    this.tipHelper.openTipWindow(this.userId, game, this.tips)
+  public openTipWindow(game: Game, phase: string): void {
+    this.tipHelper.openTipWindow(this.userId, game, this.tips, phase)
   }
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
@@ -102,6 +102,10 @@ export class GameComponent implements OnInit {
     } else {
       this.dataObjects = this.allOpenGamesOnly;
     }
+  }
+
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2);
   }
 
   private loadGames(): void {
