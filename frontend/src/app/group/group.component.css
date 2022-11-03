@@ -101,8 +101,8 @@ li a:hover {
   margin-top: 2em;
 }
 
-i{
- margin-right: 2em;
+i {
+  margin-right: 2em;
 }
 
 :host /deep/ td.mat-cell.ng-star-inserted {
