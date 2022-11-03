@@ -112,6 +112,10 @@ input {
   font-family: 'AktivGroteskRg', sans-serif;
 }
 
+mat-form-field {
+  margin-left: 1em;
+}
+
 .container {
   display: flex;
   justify-content: center;
