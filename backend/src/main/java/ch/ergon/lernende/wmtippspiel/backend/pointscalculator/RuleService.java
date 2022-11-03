@@ -2,11 +2,13 @@ package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RuleService {
     private final GameRepository gameRepository;
+    private Game game;
 
     public RuleService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
@@ -31,18 +33,19 @@ public class RuleService {
      * @return int
      */
     public int calculateTipScore(TipAndGameResult tipAndGameResult) {
+        game = tipAndGameResult.getGame();
         if (tipAndGameResult.getTipTeam1() == tipAndGameResult.getPointsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.getPointsTeam2()) {
-            return 3;
+            return checkPhase(8);
         } else if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getPointsTeam1() == tipAndGameResult.getTipTeam2() - tipAndGameResult.getPointsTeam2()) {
             if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getTipTeam2() == 0) {
-                return 1;
+                return checkPhase(3);
             } else {
-                return 2;
+                return checkPhase(5);
             }
         } else if (tipAndGameResult.getTipTeam1() > tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() > tipAndGameResult.getPointsTeam2() || tipAndGameResult.getTipTeam1() < tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() < tipAndGameResult.getPointsTeam2()) {
-            return 1;
+            return checkPhase(3);
         } else {
-            return 0;
+            return checkPhase(1);
         }
     }
 
@@ -54,6 +57,14 @@ public class RuleService {
             return winTeam1();
         } else {
             return winTeam2();
+        }
+    }
+
+    private int checkPhase(int point) {
+        if (game.getPhase().equals(Phase.GROUP_PHASE)) {
+            return point;
+        } else {
+            return point * 2;
         }
     }
 }
