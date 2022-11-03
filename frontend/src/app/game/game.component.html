@@ -136,7 +136,7 @@
             <button
               *ngIf="editingTipIsAllowed(gameTableModel.game);"
               mat-stroked-button
-              (click)="openTipWindow(gameTableModel.game)">
+              (click)="openTipWindow(gameTableModel.game, dataObject.phase)">
               <span class="material-icons">edit</span>
             </button>
           </ng-template>

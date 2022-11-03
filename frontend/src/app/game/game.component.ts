@@ -72,8 +72,8 @@ export class GameComponent implements OnInit {
     return game.team1.countryFlag == "" && game.team2.countryFlag == "";
   }
 
-  public openTipWindow(game: Game): void {
-    this.tipHelper.openTipWindow(this.userId, game, this.tips)
+  public openTipWindow(game: Game, phase:string): void {
+    this.tipHelper.openTipWindow(this.userId, game, this.tips, phase)
   }
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
@@ -105,7 +105,7 @@ export class GameComponent implements OnInit {
   }
 
   public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
-    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+    return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2);
   }
 
   private loadGames(): void {
