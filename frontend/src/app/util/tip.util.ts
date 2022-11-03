@@ -13,7 +13,6 @@ export class TipUtil {
   }
 
   public static isPositiveNumber(tipTeam1: string, tipTeam2: string): boolean {
-    console.log(tipTeam1, tipTeam2)
     return Number(tipTeam1) >= 0 && Number(tipTeam1) <= 99 && Number(tipTeam2) >= 0 && Number(tipTeam2) <= 99 && tipTeam1 != null && tipTeam2 != null}
 
   public static insertingTipIsAllowed(game: Game, userId: number, tips: Tip[]): boolean {
