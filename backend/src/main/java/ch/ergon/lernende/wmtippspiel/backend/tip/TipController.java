@@ -33,7 +33,7 @@ public class TipController {
         this.gameRepository = gameRepository;
     }
 
-    @GetMapping
+/*    @GetMapping
     public List<TipTO> getTips(@RequestParam(name = "param")String param) {
         if (param.equals("currentUser")){
             if (currentUser != null) {
@@ -46,7 +46,19 @@ public class TipController {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid param: " + param);
         }
+    }*/
 
+    @GetMapping
+    public List<TipTO> getTips(@RequestParam(name = "param") String param) {
+        if (currentUser == null) {
+            throw new RuntimeException("no tips available");
+        } else if (param.equals("currentUser")) {
+            return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
+        } else if (param.equals("all")) {
+            return convert(tipRepository.getAllTip());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid param: " + param);
+        }
     }
 
     @PatchMapping
