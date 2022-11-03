@@ -1,12 +1,13 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,15 +19,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TipControllerTest {
 
+    public static HttpHeaders httpHeaders = new HttpHeaders();
+    public static HttpEntity<TipTO> entity;
+
     @LocalServerPort
     private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @BeforeAll
+    static void setUp() {
+        httpHeaders.set("X-Forwarded-User", "jvontobe");
+        httpHeaders.set("X-Forwarded-Mail", "joel.vontobel@ergon.ch");
+
+        entity = new HttpEntity<>(null, httpHeaders);
+    }
+
     @Test
     void testTipDataResponse() {
-        ResponseEntity<TipTO[]> tips = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO[].class);
+        ResponseEntity<TipTO[]> tips = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
         List<TipTO> tipData = List.of(Objects.requireNonNull(tips.getBody()));
 
         assertTrue(tipData.size() >= 1);
@@ -36,40 +48,41 @@ class TipControllerTest {
         assertEquals(2, tip.getTipTeam1());
         assertEquals(2, tip.getTipTeam2());
         assertEquals(1, tip.getUserId());
-        assertEquals("Niculin", tip.getFirstName());
-        assertEquals("Steiner", tip.getLastName());
-        assertEquals("steiner.niculin@mail.ch", tip.getEmail());
-        assertEquals(8, tip.getGameId());
-        assertEquals(LocalDateTime.of(2022, 11, 13, 22, 00), tip.getGameTime());
+        assertEquals("Joel", tip.getFirstName());
+        assertEquals("Vontobel", tip.getLastName());
+        assertEquals("joel.vontobel@ergon.ch", tip.getEmail());
+        assertEquals(1, tip.getGameId());
+        assertEquals(LocalDateTime.of(2022, 11, 20, 17, 00), tip.getGameTime());
         assertEquals("Katar", tip.getGameLocation());
-        assertEquals(6, tip.getTeamId1());
-        assertEquals(4, tip.getTeamId2());
-        assertEquals(3, tip.getGoalsTeam1());
-        assertEquals(4, tip.getGoalsTeam2());
-        assertEquals("Germany", tip.getTeamCountry1());
-        assertEquals("England", tip.getTeamCountry2());
+        assertEquals(16, tip.getTeamId1());
+        assertEquals(8, tip.getTeamId2());
+        assertEquals("Katar", tip.getTeamCountry1());
+        assertEquals("Ecuador", tip.getTeamCountry2());
     }
 
     @Test
-    void testAddTip() {
+    void testAddAndDeleteTip() {
         TipTO newTip = new TipTO();
-        newTip.setUserId(2);
+        newTip.setId(1000);
+        newTip.setUserId(1);
         newTip.setTipTeam1(50);
         newTip.setTipTeam2(60);
-        newTip.setGameId(1);
+        newTip.setGameId(48);
 
-        restTemplate.postForEntity(TestSetup.createBaseUrl(port) + "tip", newTip, TipTO.class);
+        HttpEntity<TipTO> postEntity = new HttpEntity<>(newTip, httpHeaders);
 
-        ResponseEntity<TipTO[]> tips = restTemplate.getForEntity(TestSetup.createBaseUrl(port) + "tip", TipTO[].class);
+        restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.POST, postEntity, String.class);
+
+        ResponseEntity<TipTO[]> tips = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
         List<TipTO> tipData = List.of(Objects.requireNonNull(tips.getBody()));
 
         assertTrue(tipData.size() >= 1);
 
-        TipTO tip = tipData.get(tipData.size() - 1);
-        assertEquals(5, tip.getId());
+        TipTO tip = tipData.get(tipData.lastIndexOf(null));
+        assertEquals(1000, tip.getId());
         assertEquals(50, tip.getTipTeam1());
         assertEquals(60, tip.getTipTeam2());
-        assertEquals(2, tip.getUserId());
+        assertEquals(1, tip.getUserId());
         assertEquals("Joel", tip.getFirstName());
         assertEquals("Vontobel", tip.getLastName());
         assertEquals("joel.vontobel@ergon.ch", tip.getEmail());
@@ -82,5 +95,13 @@ class TipControllerTest {
         assertEquals(3, tip.getGoalsTeam2());
         assertEquals("Argentinian", tip.getTeamCountry1());
         assertEquals("Switzerland", tip.getTeamCountry2());
+
+        HttpEntity<Integer> deleteEntity = new HttpEntity<>(newTip.getId(), httpHeaders);
+
+        ResponseEntity<HttpStatus> respons = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.DELETE, deleteEntity, HttpStatus.class);
+        HttpStatus responseData = Objects.requireNonNull(respons.getBody());
+        System.out.println(responseData);
+
+        assertEquals("OK", responseData.toString());
     }
 }

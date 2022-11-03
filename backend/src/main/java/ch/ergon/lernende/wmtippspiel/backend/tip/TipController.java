@@ -62,6 +62,12 @@ public class TipController {
         }
     }
 
+    @DeleteMapping
+    public HttpStatus deleteTip(@RequestBody int tipId) {
+        tipRepository.deleteTip(tipId);
+        return HttpStatus.OK;
+    }
+
     private boolean isValidTip(TipTO tipTO) {
         Game game = gameRepository.getGame(tipTO.getGameId());
         return game.getGoalsTeam1() == null && game.getGoalsTeam2() == null && game.getGameTime().isAfter(LocalDateTime.now());

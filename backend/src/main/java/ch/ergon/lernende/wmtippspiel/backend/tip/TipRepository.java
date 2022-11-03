@@ -94,6 +94,12 @@ public class TipRepository {
                 .execute();
     }
 
+    public void deleteTip(int tipId) {
+        dslContext.delete(TIP)
+                .where(TIP.TIP_ID.eq(tipId))
+                .execute();
+    }
+
     private Tip convert(Record record) {
         Tip tip = new Tip();
         tip.setId(record.get(TIP.TIP_ID));
