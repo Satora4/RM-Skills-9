@@ -131,7 +131,7 @@
             *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
             disabled="{{!isTipAValidNumber(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]) || isDisabled(gameTableModel.game)}}"
             (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
-            <span class="material-icons iconEditAndSave">save</span>
+            <span class="material-icons">save</span>
           </button>
 
           <ng-template #showEditButton>
@@ -139,7 +139,7 @@
               mat-stroked-button
               *ngIf="editingTipIsAllowed(gameTableModel.game);"
               (click)="openTipWindow(gameTableModel.game, dataObject.phase)">
-              <span class="material-icons iconEditAndSave">edit</span>
+              <span class="material-icons">edit</span>
             </button>
           </ng-template>
         </td>
