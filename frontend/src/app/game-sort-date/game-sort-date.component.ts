@@ -101,7 +101,7 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public showZeroPoints(game: Game):string{
-    if (game.goalsTeam1 != null){
+    if (game.goalsTeam1 != null && game.goalsTeam2 != null){
       return "0";
     } else {
       return ""

@@ -133,6 +133,14 @@ export class GameSortGroupComponent implements OnInit {
     return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
   }
 
+  public showZeroPoints(game: Game):string{
+    if (game.goalsTeam1 != null && game.goalsTeam2 != null){
+      return "0";
+    } else {
+      return ""
+    }
+  }
+
   private isOpenGame(game: Game): boolean {
     return game.goalsTeam1 === null && game.goalsTeam2 === null;
   }
