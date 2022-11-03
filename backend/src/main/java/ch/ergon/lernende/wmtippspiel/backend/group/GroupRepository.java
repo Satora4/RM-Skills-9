@@ -25,7 +25,7 @@ public class GroupRepository {
 
     public List<Group> getAllGroups() {
 
-        Map<Group, List<Team>> result = dslContext.select(GROUP.GROUP_ID, GROUP.NAME, TEAM.TEAM_ID, TEAM.COUNTRY, TEAM.POINTS)
+        Map<Group, List<Team>> result = dslContext.select(GROUP.GROUP_ID, GROUP.NAME, TEAM.TEAM_ID, TEAM.COUNTRY, TEAM.POINTS, TEAM.FLAG)
                 .from(GROUP)
                 .join(TEAM_TO_GROUP)
                 .on(GROUP.GROUP_ID.eq(TEAM_TO_GROUP.GROUP_ID))
@@ -37,10 +37,10 @@ public class GroupRepository {
 
     private Team convertToTeam(Record record) {
         Team team = new Team();
-
         team.setId(record.get(TEAM.TEAM_ID));
         team.setCountry(record.get(TEAM.COUNTRY));
         team.setPoints(record.get(TEAM.POINTS));
+        team.setCountryFlag(record.get(TEAM.FLAG));
         return team;
     }
 

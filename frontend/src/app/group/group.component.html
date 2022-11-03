@@ -1,3 +1,5 @@
+<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+
 <h1>WM-Gruppen-Rangliste</h1>
 
 <div class="flex-container">
@@ -13,7 +15,11 @@
 
         <ng-container matColumnDef="Name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let group">{{group.country}} {{group.country.countryFlag}}</td>
+          <td mat-cell *matCellDef="let group">
+            <i id="flag2"
+               class="em {{group.countryFlag}}"
+               aria-role="presentation"></i>{{group.country}}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="Punkte">

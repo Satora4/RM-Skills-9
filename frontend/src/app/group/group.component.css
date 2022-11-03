@@ -100,3 +100,32 @@ li a:hover {
   width: 30%;
   margin-top: 2em;
 }
+
+i{
+ margin-right: 2em;
+}
+
+:host /deep/ td.mat-cell.ng-star-inserted {
+  text-align: left !important;
+
+}
+
+:host /deep/ th.mat-header-cell.ng-star-inserted {
+  text-align: left !important;
+
+}
+
+:host /deep/ td.mat-cell.cdk-column-Rang.ng-star-inserted {
+  width: 33.3333333333% !important;
+  min-width: 50px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-Name.ng-star-inserted {
+  width: 33.3333333333% !important;
+  min-width: 50px !important;
+}
+
+:host /deep/ td.mat-cell.cdk-column-Punkte.ng-star-inserted {
+  width: 33.3333333333% !important;
+  min-width: 50px !important;
+}
