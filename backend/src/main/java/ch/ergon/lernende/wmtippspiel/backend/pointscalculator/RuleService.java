@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class RuleService {
     private final GameRepository gameRepository;
-    private Game game;
 
     public RuleService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
@@ -29,24 +28,49 @@ public class RuleService {
     /**
      * calculates the score for each tip, on the basis of the ruleset
      *
-     * @param tipAndGameResult
+     * @param tipAndGameResult tip and game result
      * @return int
      */
     public int calculateTipScore(TipAndGameResult tipAndGameResult) {
-        game = tipAndGameResult.getGame();
-        if (tipAndGameResult.getTipTeam1() == tipAndGameResult.getPointsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.getPointsTeam2()) {
-            return checkPhase(8);
-        } else if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getPointsTeam1() == tipAndGameResult.getTipTeam2() - tipAndGameResult.getPointsTeam2()) {
-            if (tipAndGameResult.getTipTeam1() - tipAndGameResult.getTipTeam2() == 0) {
-                return checkPhase(3);
-            } else {
-                return checkPhase(5);
-            }
-        } else if (tipAndGameResult.getTipTeam1() > tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() > tipAndGameResult.getPointsTeam2() || tipAndGameResult.getTipTeam1() < tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() < tipAndGameResult.getPointsTeam2()) {
-            return checkPhase(3);
+        int result;
+        Game game = tipAndGameResult.getGame();
+        if (isTipEqualGameResult(tipAndGameResult)) {
+            result = 8;
+        } else if (isGoalDifferenceCorrect(tipAndGameResult) && !isDraw(tipAndGameResult)) {
+            result = 5;
+        } else if (isGoalDifferenceCorrect(tipAndGameResult) && isDraw(tipAndGameResult)) {
+            result = 3;
+        } else if (isCorrectTendency(tipAndGameResult)) {
+            result = 3;
         } else {
-            return checkPhase(1);
+            result = 1;
         }
+
+        if (isCurrentPhaseKoPhase(game)) {
+            result *= 2;
+        }
+        return result;
+    }
+
+    private boolean isCurrentPhaseKoPhase(Game game) {
+        return !game.getPhase().equals(Phase.GROUP_PHASE);
+    }
+
+    private static boolean isTipEqualGameResult(TipAndGameResult tipAndGameResult) {
+        return tipAndGameResult.getTipTeam1() == tipAndGameResult.getPointsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.getPointsTeam2();
+    }
+
+    private static boolean isGoalDifferenceCorrect(TipAndGameResult tipAndGameResult) {
+        return tipAndGameResult.getTipTeam1() - tipAndGameResult.getPointsTeam1() == tipAndGameResult.getTipTeam2() - tipAndGameResult.getPointsTeam2();
+    }
+
+    private static boolean isDraw(TipAndGameResult tipAndGameResult) {
+        return tipAndGameResult.getTipTeam1() - tipAndGameResult.getTipTeam2() == 0;
+    }
+
+    private static boolean isCorrectTendency(TipAndGameResult tipAndGameResult) {
+        return tipAndGameResult.getTipTeam1() > tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() > tipAndGameResult.getPointsTeam2() ||
+                tipAndGameResult.getTipTeam1() < tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() < tipAndGameResult.getPointsTeam2();
     }
 
     public PointsPerGameAndTeam calculateGame(Game game) {
@@ -57,14 +81,6 @@ public class RuleService {
             return winTeam1();
         } else {
             return winTeam2();
-        }
-    }
-
-    private int checkPhase(int point) {
-        if (game.getPhase().equals(Phase.GROUP_PHASE)) {
-            return point;
-        } else {
-            return point * 2;
         }
     }
 }

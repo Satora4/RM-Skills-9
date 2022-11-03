@@ -2,6 +2,7 @@ package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 
 import ch.ergon.lernende.wmtippspiel.backend.game.Game;
 import ch.ergon.lernende.wmtippspiel.backend.game.GameRepository;
+import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -52,40 +53,93 @@ class RuleServiceTest {
         assertEquals(pointsPerGameAndTeam, winTeam2());
     }
 
-    //2 other tests
-
     @Test
-    void testWrongTipCalculatesZeroPoints() {
-        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_1);
+    void testWrongTipCalculatesOnePoint() {
+        Game game = new Game();
+        game.setPhase(Phase.GROUP_PHASE);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_1, game);
         int points = ruleService.calculateTipScore(tipAndGameResult);
-        assertEquals(0, points);
+        assertEquals(1, points);
     }
 
     @Test
-    void testCorrectTipCalculatesThreePoints() {
-        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_2, GAME_RESULT_VALUE_3);
-        int points = ruleService.calculateTipScore(tipAndGameResult);
-        assertEquals(3, points);
-    }
-
-    @Test
-    void testTipHasCorrectGoalDeviationCalculatesTwoPoints() {
-        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_3, GAME_RESULT_VALUE_4);
+    void testWrongTipCalculatesTwoPointsInKOPhase() {
+        Game game = new Game();
+        game.setPhase(Phase.LITTLE_FINAL);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_1, game);
         int points = ruleService.calculateTipScore(tipAndGameResult);
         assertEquals(2, points);
     }
 
     @Test
-    void testNotCorrectTieCalculatesOnePoint() {
-        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_2, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_4);
+    void testCorrectTipCalculatesEightPoints() {
+        Game game = new Game();
+        game.setPhase(Phase.GROUP_PHASE);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_2, GAME_RESULT_VALUE_3, game);
         int points = ruleService.calculateTipScore(tipAndGameResult);
-        assertEquals(1, points);
+        assertEquals(8, points);
     }
 
     @Test
-    void testCorrectWinnerCalculatesOnePoint() {
-        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_1, GAME_RESULT_VALUE_4);
+    void testCorrectTipCalculatesSixTeenPointsInKoPhase() {
+        Game game = new Game();
+        game.setPhase(Phase.LITTLE_FINAL);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_2, GAME_RESULT_VALUE_3, game);
         int points = ruleService.calculateTipScore(tipAndGameResult);
-        assertEquals(1, points);
+        assertEquals(16, points);
+    }
+
+    @Test
+    void testTipHasCorrectGoalDeviationCalculatesFivePoints() {
+        Game game = new Game();
+        game.setPhase(Phase.GROUP_PHASE);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_3, GAME_RESULT_VALUE_4, game);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
+        assertEquals(5, points);
+    }
+
+    @Test
+    void testTipHasCorrectGoalDeviationCalculatesTenPointsInKoPhase() {
+        Game game = new Game();
+        game.setPhase(Phase.ROUND_OF_16);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_3, GAME_RESULT_VALUE_4, game);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
+        assertEquals(10, points);
+    }
+
+    @Test
+    void testNotCorrectTieCalculatesThreePoints() {
+        Game game = new Game();
+        game.setPhase(Phase.GROUP_PHASE);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_2, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_4, game);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
+        assertEquals(3, points);
+    }
+
+    @Test
+    void testNotCorrectTieCalculatesSixPointsInKoPhase() {
+        Game game = new Game();
+        game.setPhase(Phase.SEMI_FINAL);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_2, GAME_RESULT_VALUE_4, GAME_RESULT_VALUE_4, game);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
+        assertEquals(6, points);
+    }
+
+    @Test
+    void testCorrectWinnerCalculatesThreePoints() {
+        Game game = new Game();
+        game.setPhase(Phase.GROUP_PHASE);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_1, GAME_RESULT_VALUE_4, game);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
+        assertEquals(3, points);
+    }
+
+    @Test
+    void testCorrectWinnerCalculatesSixPointsInKoPhase() {
+        Game game = new Game();
+        game.setPhase(Phase.QUARTER_FINAL);
+        var tipAndGameResult = new TipAndGameResult(USER_TIP_VALUE_2, USER_TIP_VALUE_3, GAME_RESULT_VALUE_1, GAME_RESULT_VALUE_4, game);
+        int points = ruleService.calculateTipScore(tipAndGameResult);
+        assertEquals(6, points);
     }
 }
