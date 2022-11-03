@@ -1,37 +1,29 @@
 <h1>WM-Gruppen-Rangliste</h1>
 
+<div class="flex-container">
+  <div *ngFor="let dataObject of groupDataObjects;">
 
-<nav class="menu">
-  <ul>
-    <li><a *ngFor="let dataObject of groupDataObjects;"
-           href="/groups#{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</a></li>
-  </ul>
-</nav>
+    <div class="flex">
+      <h2 id="{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</h2>
+      <table mat-table [dataSource]="dataObject.dataSource">
+        <ng-container matColumnDef="Rang">
+          <th mat-header-cell *matHeaderCellDef>Rang</th>
+          <td mat-cell *matCellDef="let group">{{dataObject.dataSource.data.indexOf(group) + 1}}</td>
+        </ng-container>
 
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let group">{{group.country}} {{group.country.countryFlag}}</td>
+        </ng-container>
 
-<div *ngFor="let dataObject of groupDataObjects;">
-  <h2 id="{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</h2>
-  <div class="list">
+        <ng-container matColumnDef="Punkte">
+          <th mat-header-cell *matHeaderCellDef>Punkte</th>
+          <td mat-cell *matCellDef="let group">{{group.points}}</td>
+        </ng-container>
 
-    <table mat-table [dataSource]="dataObject.dataSource">
-
-      <ng-container matColumnDef="Rang">
-        <th mat-header-cell *matHeaderCellDef>Rang</th>
-        <td mat-cell *matCellDef="let group">{{dataObject.dataSource.data.indexOf(group) + 1}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="Name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let group">{{group.country}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="Punkte">
-        <th mat-header-cell *matHeaderCellDef>Punkte</th>
-        <td mat-cell *matCellDef="let group">{{group.points}}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
   </div>
 </div>

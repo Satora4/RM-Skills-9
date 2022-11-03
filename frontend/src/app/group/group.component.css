@@ -17,9 +17,23 @@ table.center {
   margin-right: auto;
 }
 
-.list {
-  width: 80%;
-  margin: 0 10% 2em;
+
+.flex {
+  width: 100%;
+}
+
+.flex-container {
+  height: 100%;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+:host /deep/ .ng-star-inserted {
+  width: 40%;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 
 .list tr td {
