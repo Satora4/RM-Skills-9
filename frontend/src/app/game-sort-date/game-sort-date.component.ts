@@ -100,6 +100,14 @@ export class GameSortDateComponent implements OnInit {
     return TipUtil.isSavingNewTipAllowed(game, this.userId, this.tips, tipTeam1, tipTeam2);
   }
 
+  public showZeroPoints(game: Game):string{
+    if (game.goalsTeam1 != null){
+      return "0";
+    } else {
+      return ""
+    }
+  }
+
   public loadGames(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
       for (let groupPhaseModel of groupPhaseModelsForDate) {
