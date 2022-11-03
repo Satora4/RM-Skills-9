@@ -113,7 +113,6 @@
           <button
             *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
             disabled="{{!isTipAValidNumber(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id])}}"
-            mat-stroked-button
             (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
@@ -121,7 +120,6 @@
           <ng-template #showEditButton>
             <button
               *ngIf="editingTipIsAllowed(gameTableModel.game);"
-              mat-stroked-button
               (click)="openTipWindow(gameTableModel.game, 'GROUP')">
               <span class="material-icons">edit</span>
             </button>
