@@ -108,7 +108,7 @@ export class GameComponent implements OnInit {
     return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2);
   }
 
-  public sortDataObjects(dataObjects:DataObject[]): DataObject[] {
+  public sortDataObjects(dataObjects: DataObject[]): DataObject[] {
     return dataObjects.sort(function compare(a, b) {
       if (a.phase < b.phase) {
         return -1;
