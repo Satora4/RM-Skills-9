@@ -1,5 +1,7 @@
 package ch.ergon.lernende.wmtippspiel.backend.pointscalculator;
 
+import ch.ergon.lernende.wmtippspiel.backend.game.Game;
+
 import static java.lang.String.format;
 
 public class TipAndGameResult {
@@ -9,7 +11,14 @@ public class TipAndGameResult {
     private final int pointsTeam1;
     private final int pointsTeam2;
 
-    public TipAndGameResult(int tipTeam1, int tipTeam2, int pointsTeam1, int pointsTeam2) {
+    public Game getGame() {
+        return game;
+    }
+
+    private final Game game;
+
+    public TipAndGameResult(int tipTeam1, int tipTeam2, int pointsTeam1, int pointsTeam2, Game game) {
+        this.game = game;
         if (tipTeam1 < 0 || tipTeam2 < 0) {
             throw new IllegalArgumentException(format("invalid tip value: %d/%d", tipTeam1, tipTeam2));
         } else {
