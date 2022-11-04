@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.GAME;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
 
 @Repository
@@ -26,7 +25,8 @@ public class UserRepository {
                         USER.FIRST_NAME,
                         USER.LAST_NAME,
                         USER.EMAIL,
-                        USER.POINTS)
+                        USER.POINTS,
+                        USER.ADMINISTRATOR)
                 .from(USER)
                 .groupBy(USER.USER_ID)
                 .orderBy(USER.POINTS.desc())
