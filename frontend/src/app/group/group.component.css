@@ -17,19 +17,16 @@ table.center {
   margin-right: auto;
 }
 
-
-.flex {
-  width: 100%;
-}
-
 .flex-container {
-  height: 100%;
-  width: auto;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
+/*flex-item*/
 :host /deep/ .ng-star-inserted {
   width: 40%;
   margin-right: 5%;
