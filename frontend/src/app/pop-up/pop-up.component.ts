@@ -3,7 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 import {formControlForTip} from "../util/initFormControlForTip.util";
-import {errorMessage} from '../util/errorMessage.util';
 import {TipUtil} from "../util/tip.util";
 import {Game} from "../game/game.model";
 
@@ -28,11 +27,12 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-pop-up',
   templateUrl: './pop-up.component.html',
-  styleUrls: ['./pop-up.component.css']
+  styleUrls: ['./pop-up.component.css'],
 })
 export class PopUpComponent implements OnInit {
 
-  public readonly errorMessage = errorMessage;
+  // ngClass?: string | string[] | Set<string> | { [klass: string]: any; }
+
   formControlTip1 = formControlForTip();
   formControlTip2 = formControlForTip();
   matcher = new MyErrorStateMatcher();
@@ -56,4 +56,12 @@ export class PopUpComponent implements OnInit {
       return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2)
     }
   }
+
+  // public hasError() {
+  //   if (!this.isTipAPositivNumber(this.data.tip1, this.data.tip2)) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
 }
