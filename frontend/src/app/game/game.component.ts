@@ -108,9 +108,20 @@ export class GameComponent implements OnInit {
     return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2);
   }
 
+  public sortDataObjects(dataObjects:DataObject[]): DataObject[] {
+    return dataObjects.sort(function compare(a, b) {
+      if (a.phase < b.phase) {
+        return -1;
+      }
+      if (a.phase > b.phase) {
+        return 1;
+      }
+      return 0;
+    }).reverse();
+  }
+
   private loadGames(): void {
-    this.gameService.getKoGames().subscribe((koPhaseGameGroup) => {
-        let sortedKoPhaseModels = koPhaseGameGroup.sort((a, b) => b.games.length - a.games.length);
+    this.gameService.getKoGames().subscribe((sortedKoPhaseModels) => {
         for (let sortedKoPhaseModel of sortedKoPhaseModels) {
           this.allGames.push(this.getDataObject(sortedKoPhaseModel));
           let openGamesOnly: Game[] = [];
@@ -176,27 +187,27 @@ export class GameComponent implements OnInit {
   private getPhase(phase: string): string {
     switch (phase) {
       case "FINAL": {
-        return "Final";
+        return "AFinal";
       }
 
       case "LITTLE_FINAL": {
-        return "Kleines Final";
+        return "BKleines Final";
       }
 
       case "SEMI_FINAL": {
-        return "Halbfinal";
+        return "CHalbfinal";
       }
 
       case "QUARTER_FINAL": {
-        return "Viertelfinale";
+        return "DViertelfinale";
       }
 
       case "ROUND_OF_16": {
-        return "Achtelfinale";
+        return "EAchtelfinale";
       }
 
       default: {
-        return "phase"
+        return "Fphase"
       }
     }
   }

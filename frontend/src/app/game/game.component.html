@@ -6,9 +6,9 @@
   <mat-slide-toggle class="toggle" (change)="onDisplayGameToggleChange($event)"></mat-slide-toggle>
 </div>
 
-<div class="groups" *ngFor="let dataObject of dataObjects">
+<div class="groups" *ngFor="let dataObject of sortDataObjects(dataObjects)">
   <div class="list">
-    <h2>{{dataObject.phase}}</h2>
+    <h2>{{dataObject.phase.substring(1)}}</h2>
     <table mat-table [dataSource]="dataObject.dataSource">
 
       <ng-container matColumnDef="gameTime">
