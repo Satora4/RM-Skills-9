@@ -1,6 +1,5 @@
 package ch.ergon.lernende.wmtippspiel.backend.group;
 
-import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,19 +31,29 @@ class GroupControllerTest extends TestSetup {
     }
 
     @Test
-    void testGroupDataResponse() {
+    void groupsHave4Teams() {
         ResponseEntity<GroupTO[]> groups = restTemplate.exchange(createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
         List<GroupTO> groupData = List.of(Objects.requireNonNull(groups.getBody()));
 
         assertTrue(groupData.size() >= 1);
 
-        GroupTO group = groupData.get(0);
-        assertEquals(1, group.getId());
-        assertEquals("A", group.getName());
+        groupData.forEach(groupTO -> assertEquals(4, groupTO.getGroupMembers().size()));
+    }
 
-        Team groupMember = group.getGroupMembers().get(0);
-        assertEquals(4, group.getGroupMembers().size());
-        assertEquals("Katar", groupMember.getCountry());
-        assertEquals(16, groupMember.getId());
+    @Test
+    void groupsAreSorted() {
+        ResponseEntity<GroupTO[]> groups = restTemplate.exchange(createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
+        List<GroupTO> groupData = List.of(Objects.requireNonNull(groups.getBody()));
+
+        assertEquals(8, groupData.size());
+
+        assertEquals("A", groupData.get(0).getName());
+        assertEquals("B", groupData.get(1).getName());
+        assertEquals("C", groupData.get(2).getName());
+        assertEquals("D", groupData.get(3).getName());
+        assertEquals("E", groupData.get(4).getName());
+        assertEquals("F", groupData.get(5).getName());
+        assertEquals("G", groupData.get(6).getName());
+        assertEquals("H", groupData.get(7).getName());
     }
 }
