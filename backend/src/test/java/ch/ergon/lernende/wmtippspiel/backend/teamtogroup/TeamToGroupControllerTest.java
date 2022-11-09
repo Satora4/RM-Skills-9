@@ -32,12 +32,12 @@ class TeamToGroupControllerTest extends TestSetup {
 
     @Test
     void testTeamToGroupDataResponse() {
-        ResponseEntity<TeamToGroupTO[]> teamToGroups = restTemplate.exchange(createBaseUrl(port) + "teamToGroup", HttpMethod.GET, entity, TeamToGroupTO[].class);
-        List<TeamToGroupTO> teamToGroupData = List.of(Objects.requireNonNull(teamToGroups.getBody()));
+        ResponseEntity<TeamToGroupTO[]> teamToGroupData = restTemplate.exchange(createBaseUrl(port) + "teamToGroup", HttpMethod.GET, entity, TeamToGroupTO[].class);
+        List<TeamToGroupTO> teamToGroups = List.of(Objects.requireNonNull(teamToGroupData.getBody()));
 
-        assertTrue(teamToGroupData.size() >= 1);
+        assertTrue(teamToGroups.size() >= 1);
 
-        TeamToGroupTO teamToGroup = teamToGroupData.get(0);
+        TeamToGroupTO teamToGroup = teamToGroups.get(0);
         assertEquals(16, teamToGroup.getTeamId());
         assertEquals("Katar", teamToGroup.getTeamCountry());
         assertEquals(1, teamToGroup.getGroupId());

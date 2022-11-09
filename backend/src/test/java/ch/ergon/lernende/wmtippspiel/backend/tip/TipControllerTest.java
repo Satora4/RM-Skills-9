@@ -36,12 +36,12 @@ class TipControllerTest extends TestSetup {
 
     @Test
     void testTipDataResponse() {
-        ResponseEntity<TipTO[]> tips = restTemplate.exchange(createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
-        List<TipTO> tipData = List.of(Objects.requireNonNull(tips.getBody()));
+        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
+        List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
 
-        assertTrue(tipData.size() >= 1);
+        assertTrue(tips.size() >= 1);
 
-        TipTO tip = tipData.get(0);
+        TipTO tip = tips.get(0);
         assertEquals(2, tip.getTipTeam1());
         assertEquals(2, tip.getTipTeam2());
         assertEquals(1, tip.getUserId());
@@ -68,11 +68,11 @@ class TipControllerTest extends TestSetup {
         HttpEntity<TipTO> postEntity = new HttpEntity<>(newTip, httpHeaders);
         restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.POST, postEntity, String.class);
 
-        ResponseEntity<TipTO[]> tips = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
-        List<TipTO> tipData = List.of(Objects.requireNonNull(tips.getBody()));
-        assertTrue(tipData.size() >= 1);
+        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
+        List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
+        assertTrue(tips.size() >= 1);
 
-        Optional<TipTO> tip = tipData.stream().filter(tipTO -> tipTO.getGameId() == newTip.getGameId() && tipTO.getUserId() == newTip.getUserId()).findFirst();
+        Optional<TipTO> tip = tips.stream().filter(tipTO -> tipTO.getGameId() == newTip.getGameId() && tipTO.getUserId() == newTip.getUserId()).findFirst();
         assertTrue(tip.isPresent());
 
         TipTO tipTO = tip.get();

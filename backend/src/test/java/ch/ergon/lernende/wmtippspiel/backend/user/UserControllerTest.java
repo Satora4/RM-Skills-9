@@ -33,12 +33,12 @@ class UserControllerTest extends TestSetup {
 
     @Test
     void testUserDataResponse() {
-        ResponseEntity<UserTO[]> users = restTemplate.exchange(createBaseUrl(port) + "users", HttpMethod.GET, entity, UserTO[].class);
-        List<UserTO> userData = List.of(Objects.requireNonNull(users.getBody()));
+        ResponseEntity<UserTO[]> userData = restTemplate.exchange(createBaseUrl(port) + "users", HttpMethod.GET, entity, UserTO[].class);
+        List<UserTO> users = List.of(Objects.requireNonNull(userData.getBody()));
 
-        assertTrue(userData.size() >= 1);
+        assertTrue(users.size() >= 1);
 
-        Optional<UserTO> user = userData.stream().filter(userTO -> userTO.getUserId() == 1).findFirst();
+        Optional<UserTO> user = users.stream().filter(userTO -> userTO.getUserId() == 1).findFirst();
         assertTrue(user.isPresent());
 
         UserTO userTO = user.get();

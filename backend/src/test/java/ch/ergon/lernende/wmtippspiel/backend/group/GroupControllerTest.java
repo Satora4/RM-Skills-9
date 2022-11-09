@@ -32,28 +32,28 @@ class GroupControllerTest extends TestSetup {
 
     @Test
     void groupsHave4Teams() {
-        ResponseEntity<GroupTO[]> groups = restTemplate.exchange(createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
-        List<GroupTO> groupData = List.of(Objects.requireNonNull(groups.getBody()));
+        ResponseEntity<GroupTO[]> groupData = restTemplate.exchange(createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
+        List<GroupTO> groups = List.of(Objects.requireNonNull(groupData.getBody()));
 
-        assertTrue(groupData.size() >= 1);
+        assertTrue(groups.size() >= 1);
 
-        groupData.forEach(groupTO -> assertEquals(4, groupTO.getGroupMembers().size()));
+        groups.forEach(groupTO -> assertEquals(4, groupTO.getGroupMembers().size()));
     }
 
     @Test
     void groupsAreSorted() {
-        ResponseEntity<GroupTO[]> groups = restTemplate.exchange(createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
-        List<GroupTO> groupData = List.of(Objects.requireNonNull(groups.getBody()));
+        ResponseEntity<GroupTO[]> groupData = restTemplate.exchange(createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
+        List<GroupTO> groups = List.of(Objects.requireNonNull(groupData.getBody()));
 
-        assertEquals(8, groupData.size());
+        assertEquals(8, groups.size());
 
-        assertEquals("A", groupData.get(0).getName());
-        assertEquals("B", groupData.get(1).getName());
-        assertEquals("C", groupData.get(2).getName());
-        assertEquals("D", groupData.get(3).getName());
-        assertEquals("E", groupData.get(4).getName());
-        assertEquals("F", groupData.get(5).getName());
-        assertEquals("G", groupData.get(6).getName());
-        assertEquals("H", groupData.get(7).getName());
+        assertEquals("A", groups.get(0).getName());
+        assertEquals("B", groups.get(1).getName());
+        assertEquals("C", groups.get(2).getName());
+        assertEquals("D", groups.get(3).getName());
+        assertEquals("E", groups.get(4).getName());
+        assertEquals("F", groups.get(5).getName());
+        assertEquals("G", groups.get(6).getName());
+        assertEquals("H", groups.get(7).getName());
     }
 }
