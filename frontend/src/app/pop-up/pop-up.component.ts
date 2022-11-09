@@ -50,7 +50,7 @@ export class PopUpComponent implements OnInit {
   }
 
   public isTipAValidNumber(tipTeam1: string, tipTeam2: string, phase: string): boolean {
-    if (phase == 'GROUP') {
+    if (phase == 'phase') {
       return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
     } else {
       return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2)
