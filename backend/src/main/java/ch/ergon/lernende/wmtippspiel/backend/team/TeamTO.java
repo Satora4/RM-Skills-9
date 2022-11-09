@@ -1,13 +1,10 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
-import ch.ergon.lernenden.wmtippspiel.backend.db.enums.Phase;
-
 public class TeamTO {
-    
+
     private int id;
     private String country;
     private int points;
-    private Phase phase;
     private String flag;
 
     public String getFlag() {
@@ -40,13 +37,5 @@ public class TeamTO {
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public Phase getPhase() {
-        return phase;
-    }
-
-    public void setPhase(Phase phase) {
-        this.phase = phase;
     }
 }
