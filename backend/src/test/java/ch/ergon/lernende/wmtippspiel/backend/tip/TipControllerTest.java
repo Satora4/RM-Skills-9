@@ -1,13 +1,16 @@
 package ch.ergon.lernende.wmtippspiel.backend.tip;
 
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,10 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TipControllerTest {
-
-    public static HttpHeaders httpHeaders = new HttpHeaders();
-    public static HttpEntity<TipTO> entity;
+class TipControllerTest extends TestSetup {
 
     @LocalServerPort
     private int port;
@@ -29,19 +29,16 @@ class TipControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @BeforeAll
-    static void setUp() {
-        httpHeaders.set("X-Forwarded-User", "jvontobe");
-        httpHeaders.set("X-Forwarded-Mail", "joel.vontobel@ergon.ch");
-
-        entity = new HttpEntity<>(null, httpHeaders);
+    @BeforeEach
+    protected void setUp() {
+        super.setUp();
     }
 
     @Test
     void testTipDataResponse() {
-        ResponseEntity<TipTO[]> tips = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
+        ResponseEntity<TipTO[]> tips = restTemplate.exchange(createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
         List<TipTO> tipData = List.of(Objects.requireNonNull(tips.getBody()));
-        
+
         assertTrue(tipData.size() >= 1);
 
         TipTO tip = tipData.get(0);
@@ -95,8 +92,7 @@ class TipControllerTest {
 
         HttpEntity<Integer> deleteEntity = new HttpEntity<>(tip.get().getId(), httpHeaders);
 
-        ResponseEntity<HttpStatus> respons = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.DELETE, deleteEntity, HttpStatus.class);
-        HttpStatus responseData = Objects.requireNonNull(respons.getBody());
+        ResponseEntity<HttpStatus> response = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.DELETE, deleteEntity, HttpStatus.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }

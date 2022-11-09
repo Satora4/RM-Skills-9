@@ -1,15 +1,12 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
-import ch.ergon.lernende.wmtippspiel.backend.tip.TipTO;
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -21,10 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserControllerTest {
-
-    public static HttpHeaders httpHeaders = new HttpHeaders();
-    public static HttpEntity<TipTO> entity;
+class UserControllerTest extends TestSetup {
 
     @LocalServerPort
     private int port;
@@ -32,17 +26,14 @@ class UserControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @BeforeAll
-    static void setUp() {
-        httpHeaders.set("X-Forwarded-User", "jvontobe");
-        httpHeaders.set("X-Forwarded-Mail", "joel.vontobel@ergon.ch");
-
-        entity = new HttpEntity<>(null, httpHeaders);
+    @BeforeEach
+    protected void setUp() {
+        super.setUp();
     }
 
     @Test
     void testUserDataResponse() {
-        ResponseEntity<UserTO[]> users = restTemplate.exchange(TestSetup.createBaseUrl(port) + "users", HttpMethod.GET, entity, UserTO[].class);
+        ResponseEntity<UserTO[]> users = restTemplate.exchange(createBaseUrl(port) + "users", HttpMethod.GET, entity, UserTO[].class);
         List<UserTO> userData = List.of(Objects.requireNonNull(users.getBody()));
 
         assertTrue(userData.size() >= 1);

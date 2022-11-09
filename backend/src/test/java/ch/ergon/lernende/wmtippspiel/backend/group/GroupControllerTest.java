@@ -2,14 +2,12 @@ package ch.ergon.lernende.wmtippspiel.backend.group;
 
 import ch.ergon.lernende.wmtippspiel.backend.team.Team;
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -20,10 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class GroupControllerTest {
-
-    public static HttpHeaders httpHeaders = new HttpHeaders();
-    public static HttpEntity<String> entity;
+class GroupControllerTest extends TestSetup {
 
     @LocalServerPort
     private int port;
@@ -31,17 +26,14 @@ class GroupControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @BeforeAll
-    static void setUp() {
-        httpHeaders.set("X-Forwarded-User", "jvontobe");
-        httpHeaders.set("X-Forwarded-Mail", "joel.vontobel@ergon.ch");
-
-        entity = new HttpEntity<>(null, httpHeaders);
+    @BeforeEach
+    protected void setUp() {
+        super.setUp();
     }
 
     @Test
     void testGroupDataResponse() {
-        ResponseEntity<GroupTO[]> groups = restTemplate.exchange(TestSetup.createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
+        ResponseEntity<GroupTO[]> groups = restTemplate.exchange(createBaseUrl(port) + "groups", HttpMethod.GET, entity, GroupTO[].class);
         List<GroupTO> groupData = List.of(Objects.requireNonNull(groups.getBody()));
 
         assertTrue(groupData.size() >= 1);

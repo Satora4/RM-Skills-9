@@ -1,14 +1,12 @@
 package ch.ergon.lernende.wmtippspiel.backend.team;
 
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -19,10 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TeamControllerTest {
-
-    public static HttpHeaders httpHeaders = new HttpHeaders();
-    public static HttpEntity<String> entity;
+class TeamControllerTest extends TestSetup {
 
     @LocalServerPort
     private int port;
@@ -30,17 +25,14 @@ class TeamControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @BeforeAll
-    static void setUp() {
-        httpHeaders.set("X-Forwarded-User", "jvontobe");
-        httpHeaders.set("X-Forwarded-Mail", "joel.vontobel@ergon.ch");
-
-        entity = new HttpEntity<>(null, httpHeaders);
+    @BeforeEach
+    protected void setUp() {
+        super.setUp();
     }
 
     @Test
     void testTeamDataResponse() {
-        ResponseEntity<TeamTO[]> teams = restTemplate.exchange(TestSetup.createBaseUrl(port) + "team", HttpMethod.GET, entity, TeamTO[].class);
+        ResponseEntity<TeamTO[]> teams = restTemplate.exchange(createBaseUrl(port) + "team", HttpMethod.GET, entity, TeamTO[].class);
         List<TeamTO> teamData = List.of(Objects.requireNonNull(teams.getBody()));
 
         assertTrue(teamData.size() >= 1);

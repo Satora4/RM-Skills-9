@@ -1,14 +1,12 @@
 package ch.ergon.lernende.wmtippspiel.backend.teamtogroup;
 
 import ch.ergon.lernende.wmtippspiel.backend.util.TestSetup;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -19,10 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TeamToGroupControllerTest {
-
-    public static HttpHeaders httpHeaders = new HttpHeaders();
-    public static HttpEntity<String> entity;
+class TeamToGroupControllerTest extends TestSetup {
 
     @LocalServerPort
     private int port;
@@ -30,17 +25,14 @@ class TeamToGroupControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @BeforeAll
-    static void setUp() {
-        httpHeaders.set("X-Forwarded-User", "jvontobe");
-        httpHeaders.set("X-Forwarded-Mail", "joel.vontobel@ergon.ch");
-
-        entity = new HttpEntity<>(null, httpHeaders);
+    @BeforeEach
+    protected void setUp() {
+        super.setUp();
     }
 
     @Test
     void testTeamToGroupDataResponse() {
-        ResponseEntity<TeamToGroupTO[]> teamToGroups = restTemplate.exchange(TestSetup.createBaseUrl(port) + "teamToGroup", HttpMethod.GET, entity, TeamToGroupTO[].class);
+        ResponseEntity<TeamToGroupTO[]> teamToGroups = restTemplate.exchange(createBaseUrl(port) + "teamToGroup", HttpMethod.GET, entity, TeamToGroupTO[].class);
         List<TeamToGroupTO> teamToGroupData = List.of(Objects.requireNonNull(teamToGroups.getBody()));
 
         assertTrue(teamToGroupData.size() >= 1);
