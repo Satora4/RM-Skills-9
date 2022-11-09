@@ -35,7 +35,7 @@ class TipControllerTest extends TestSetup {
     }
 
     @Test
-    void testTipDataResponse() {
+    void getTips() {
         ResponseEntity<TipTO[]> tipData = restTemplate.exchange(createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
         List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
 
@@ -58,7 +58,7 @@ class TipControllerTest extends TestSetup {
     }
 
     @Test
-    void testAddAndDeleteTip() {
+    void addAndDeleteTip() {
         TipTO newTip = new TipTO();
         newTip.setUserId(1);
         newTip.setTipTeam1(50);

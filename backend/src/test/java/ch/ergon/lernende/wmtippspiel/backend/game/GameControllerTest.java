@@ -30,7 +30,7 @@ class GameControllerTest extends TestSetup {
     }
 
     @Test
-    void testGameDataResponse() {
+    void getGames() {
         ResponseEntity<GamesTO[]> games = restTemplate.exchange(createBaseUrl(port) + "game?phase=group", HttpMethod.GET, entity, GamesTO[].class);
         List<GamesTO> gameData = List.of(Objects.requireNonNull(games.getBody()));
 

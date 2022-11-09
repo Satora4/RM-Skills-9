@@ -32,7 +32,7 @@ class UserControllerTest extends TestSetup {
     }
 
     @Test
-    void testUserDataResponse() {
+    void getUsers() {
         ResponseEntity<UserTO[]> userData = restTemplate.exchange(createBaseUrl(port) + "users", HttpMethod.GET, entity, UserTO[].class);
         List<UserTO> users = List.of(Objects.requireNonNull(userData.getBody()));
 

@@ -31,7 +31,7 @@ class TeamToGroupControllerTest extends TestSetup {
     }
 
     @Test
-    void testTeamToGroupDataResponse() {
+    void getTeamToGroups() {
         ResponseEntity<TeamToGroupTO[]> teamToGroupData = restTemplate.exchange(createBaseUrl(port) + "teamToGroup", HttpMethod.GET, entity, TeamToGroupTO[].class);
         List<TeamToGroupTO> teamToGroups = List.of(Objects.requireNonNull(teamToGroupData.getBody()));
 
