@@ -72,7 +72,7 @@ mat-form-field {
   height: 48px !important;
 
   background: #DEE1E2 !important;
-  border-radius: 8px!important;
+  border-radius: 8px !important;
 }
 
 :host /deep/ .mat-stroked-button {
@@ -215,4 +215,12 @@ input[type=number] {
 #goal2 {
   text-align: center;
   font-family: 'AktivGroteskBd', sans-serif;
+}
+
+#allGamesOver {
+  text-align: center;
+  margin-top: 10em;
+  font-family: 'AktivGroteskRg', sans-serif;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 50%);
 }
