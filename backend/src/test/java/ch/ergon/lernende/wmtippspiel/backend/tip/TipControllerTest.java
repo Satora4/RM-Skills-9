@@ -66,7 +66,7 @@ class TipControllerTest extends TestSetup {
         newTip.setGameId(48);
 
         HttpEntity<TipTO> postEntity = new HttpEntity<>(newTip, httpHeaders);
-        restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.POST, postEntity, String.class);
+        restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.POST, postEntity, HttpStatus.class);
 
         ResponseEntity<TipTO[]> tipData = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
         List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
