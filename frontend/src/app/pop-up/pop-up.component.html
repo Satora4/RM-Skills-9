@@ -9,7 +9,7 @@
         class="em {{data.flag1}}"
         aria-role="presentation"></i> </label>
     </div>
-    <input matInput [(ngModel)]="data.tip1" type="number" maxlength="2" min="0" max="99"
+    <input matInput [(ngModel)]="data.tip1" type="number" min="0" max="99"
            [formControl]="formControlTip1" [errorStateMatcher]="matcher">
 
     <br>
@@ -25,7 +25,7 @@
         class="em {{data.flag2}}"
         aria-role="presentation"></i> </label>
     </div>
-    <input matInput [(ngModel)]="data.tip2" type="number" maxlength="2" min="0" max="99"
+    <input matInput [(ngModel)]="data.tip2" type="number" min="0" max="99"
            [formControl]="formControlTip2" [errorStateMatcher]="matcher">
     <br>
     <mat-error
