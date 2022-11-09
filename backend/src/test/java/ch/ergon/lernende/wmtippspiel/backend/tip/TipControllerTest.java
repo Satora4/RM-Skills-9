@@ -98,8 +98,6 @@ class TipControllerTest {
         ResponseEntity<HttpStatus> respons = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.DELETE, deleteEntity, HttpStatus.class);
         HttpStatus responseData = Objects.requireNonNull(respons.getBody());
 
-        System.out.println(responseData);
-
-        assertEquals("200 OK", responseData.toString());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
