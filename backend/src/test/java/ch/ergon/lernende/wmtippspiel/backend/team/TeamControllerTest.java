@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TeamControllerTest extends TestSetup {
@@ -31,15 +30,12 @@ class TeamControllerTest extends TestSetup {
     }
 
     @Test
-    void testTeamDataResponse() {
-        ResponseEntity<TeamTO[]> teams = restTemplate.exchange(createBaseUrl(port) + "team", HttpMethod.GET, entity, TeamTO[].class);
-        List<TeamTO> teamData = List.of(Objects.requireNonNull(teams.getBody()));
+    void teamsHavePointsOf0() {
+        ResponseEntity<TeamTO[]> teamData = restTemplate.exchange(createBaseUrl(port) + "team", HttpMethod.GET, entity, TeamTO[].class);
+        List<TeamTO> teams = List.of(Objects.requireNonNull(teamData.getBody()));
 
-        assertTrue(teamData.size() >= 1);
+        assertEquals(32, teams.size());
 
-        TeamTO team = teamData.get(0);
-        assertEquals(1, team.getId());
-        assertEquals("Argentinien", team.getCountry());
-        assertEquals(0, team.getPoints());
+        teams.forEach(teamTO -> assertEquals(0, teamTO.getPoints()));
     }
 }
