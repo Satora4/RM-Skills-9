@@ -19,19 +19,20 @@ table.center {
 
 .flex-container {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
+  flex-flow: wrap;
+  justify-content: flex-start;
   padding: 0;
-  margin: 0;
+  margin: 0 0 2em 2.5%;
   list-style: none;
+  width: 95%;
 }
 
 /*flex-item*/
-:host /deep/ .ng-star-inserted {
-  width: 40%;
-  margin-right: 5%;
-  margin-left: 5%;
+.ng-star-inserted {
+  width: 300px;
+  margin: 0 5px 0 5px;
 }
+
 
 .list tr td {
   padding-right: 2em;
@@ -55,7 +56,7 @@ table {
 
 h2 {
   text-align: center;
-  margin-top: 5em;
+  margin-top: 2em;
   font-family: 'AktivGroteskBd', sans-serif;
   font-size: 24px;
 }
@@ -104,7 +105,6 @@ i {
 
 :host /deep/ td.mat-cell.ng-star-inserted {
   text-align: left !important;
-
 }
 
 :host /deep/ th.mat-header-cell.ng-star-inserted {
@@ -112,17 +112,15 @@ i {
 
 }
 
-:host /deep/ td.mat-cell.cdk-column-Rang.ng-star-inserted {
-  width: 33.3333333333% !important;
-  min-width: 50px !important;
+.mat-column-Rang {
+  width: 20%;
 }
 
-:host /deep/ td.mat-cell.cdk-column-Name.ng-star-inserted {
-  width: 33.3333333333% !important;
-  min-width: 50px !important;
+.mat-column-Name {
+  width: 70%;
 }
 
-:host /deep/ td.mat-cell.cdk-column-Punkte.ng-star-inserted {
-  width: 33.3333333333% !important;
-  min-width: 50px !important;
+.mat-column-Punkte {
+  width: 10%;
+
 }
