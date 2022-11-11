@@ -41,12 +41,13 @@ public class UserRepository {
         List<Tip> tips = tipRepository.getAllTip();
         List<User> users = getAllUser();
         List<User> userWithTips = new ArrayList<>();
-        for (User user: users){
-            Optional<Tip> optionalTip = tips.stream().filter(tip -> tip.getUser().equals(user)).findFirst();
-            if (optionalTip.isPresent()){
-                userWithTips.add(user);
-            }
-        }
+        users.forEach(user -> {
+            tips.stream()
+                    .filter(tip -> tip.getUser().equals(user))
+                    .findFirst()
+                    .ifPresent(userTip -> userWithTips.add(user));
+        });
+
         return userWithTips;
     }
 
