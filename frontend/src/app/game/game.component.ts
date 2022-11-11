@@ -16,6 +16,7 @@ import {errorMessage} from "../util/errorMessage.util";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {KoPhaseModel, Phase} from "./Ko-Phase.model";
 import {TipUtil} from "../util/tip.util";
+import {showZeroPoints} from "../util/gameTableView.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -114,6 +115,10 @@ export class GameComponent implements OnInit {
     });
   }
 
+  public showZeroPoints(game: Game):string{
+      return showZeroPoints(game);
+  }
+
   private loadGames(): void {
     this.gameService.getKoGames().subscribe((sortedKoPhaseModels) => {
         for (let sortedKoPhaseModel of sortedKoPhaseModels) {
@@ -168,7 +173,7 @@ export class GameComponent implements OnInit {
   }
 
   private static isOpenGame(game: Game): boolean {
-    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+    return TipUtil.isGameNotPlayedYet(game);
   }
 
   loadUser(): void {

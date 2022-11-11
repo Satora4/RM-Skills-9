@@ -16,6 +16,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {GroupPhaseModelForDate} from "../group-phase/group-phase.model";
 import {TipHelper} from "../tip/tip-helper";
 import {UserService} from "../user/user.service";
+import {showZeroPoints} from "../util/gameTableView.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -100,6 +101,10 @@ export class GameSortDateComponent implements OnInit {
     return TipUtil.isSavingNewTipAllowed(game, this.userId, this.tips, tipTeam1, tipTeam2);
   }
 
+  public showZeroPoints(game: Game):string{
+    return showZeroPoints(game);
+  }
+
   public loadGames(): void {
     this.groupPhaseService.getGamesOrderByDate().subscribe((groupPhaseModelsForDate) => {
       for (let groupPhaseModel of groupPhaseModelsForDate) {
@@ -123,7 +128,8 @@ export class GameSortDateComponent implements OnInit {
   }
 
   private isOpenGame(game: Game): boolean {
-    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+
+    return TipUtil.isGameNotPlayedYet(game);
   }
 
   private getDataObject(groupPhaseModel: GroupPhaseModelForDate): DataObject {

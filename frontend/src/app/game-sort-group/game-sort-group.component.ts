@@ -16,6 +16,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {GroupPhaseModel} from "../group-phase/group-phase.model";
 import {TipHelper} from "../tip/tip-helper";
 import {UserService} from "../user/user.service";
+import {showZeroPoints} from "../util/gameTableView.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -133,8 +134,12 @@ export class GameSortGroupComponent implements OnInit {
     return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
   }
 
+  public showZeroPoints(game: Game):string{
+    return showZeroPoints(game);
+  }
+
   private isOpenGame(game: Game): boolean {
-    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+    return TipUtil.isGameNotPlayedYet(game);
   }
 
   private getDataObject(groupPhaseModel: GroupPhaseModel): DataObjectForGroup {
