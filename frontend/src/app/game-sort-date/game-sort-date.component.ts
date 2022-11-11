@@ -16,6 +16,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {GroupPhaseModelForDate} from "../group-phase/group-phase.model";
 import {TipHelper} from "../tip/tip-helper";
 import {UserService} from "../user/user.service";
+import {showZeroPoints} from "../util/gameTableView.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -101,11 +102,7 @@ export class GameSortDateComponent implements OnInit {
   }
 
   public showZeroPoints(game: Game):string{
-    if (game.goalsTeam1 != null && game.goalsTeam2 != null){
-      return "0";
-    } else {
-      return ""
-    }
+    return showZeroPoints(game);
   }
 
   public loadGames(): void {
@@ -131,7 +128,8 @@ export class GameSortDateComponent implements OnInit {
   }
 
   private isOpenGame(game: Game): boolean {
-    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+
+    return TipUtil.isGameNotPlayedYet(game);
   }
 
   private getDataObject(groupPhaseModel: GroupPhaseModelForDate): DataObject {

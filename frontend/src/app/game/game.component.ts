@@ -16,6 +16,7 @@ import {errorMessage} from "../util/errorMessage.util";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {KoPhaseModel, Phase} from "./Ko-Phase.model";
 import {TipUtil} from "../util/tip.util";
+import {showZeroPoints} from "../util/gameTableView.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -115,11 +116,7 @@ export class GameComponent implements OnInit {
   }
 
   public showZeroPoints(game: Game):string{
-    if (game.goalsTeam1 != null && game.goalsTeam2 != null){
-      return "0";
-    } else {
-      return ""
-    }
+      return showZeroPoints(game);
   }
 
   private loadGames(): void {
