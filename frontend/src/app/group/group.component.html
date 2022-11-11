@@ -5,7 +5,7 @@
 <div class="flex-container">
   <div *ngFor="let dataObject of groupDataObjects;">
 
-    <div class="flex-table">
+    <div class="group-table">
       <h2 id="{{dataObject.groupName}}">Gruppe {{dataObject.groupName}}</h2>
       <table mat-table [dataSource]="dataObject.dataSource">
         <ng-container matColumnDef="Rang">
