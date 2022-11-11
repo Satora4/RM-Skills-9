@@ -30,7 +30,6 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.loadAllTips();
     this.loadUser();
     this.getUser();
   }
@@ -44,33 +43,13 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private loadAllTips(): void {
-    this.tipService.getAllTips().subscribe((tips) => {
-      this.allTips = tips;
-    })
-  }
-
   private loadUser(): void {
     this.UserService.getUsers().subscribe((users) => {
-      this.users = this.removePlayersWithZeroTips(users);
+      this.users = users;
       this.computeRanks(this.users);
       this.userDataSource.data = this.users;
       this.calculateUserRank();
     });
-  }
-
-  private removePlayersWithZeroTips(users: User[]): User[] {
-    console.log(this.allTips)
-    let newList: User[] = [];
-    for (let user of users) {
-      for (let tip of this.allTips) {
-          if (tip.userId == user.userId){
-            newList.push(user);
-            break;
-          }
-      }
-    }
-    return newList;
   }
 
   private computeRanks(users: User[]) {

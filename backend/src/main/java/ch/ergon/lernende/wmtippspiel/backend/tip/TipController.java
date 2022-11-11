@@ -39,8 +39,6 @@ public class TipController {
             throw new RuntimeException("no user available");
         } else if (param.equals("currentUser")) {
             return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
-        } else if (param.equals("all")) {
-            return convert(tipRepository.getAllTip());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid param: " + param);
         }

@@ -19,8 +19,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<UserTO> getAllUser() {
-        return userRepository.getAllUser().stream().map(this::convert).collect(Collectors.toList());
+    public List<UserTO> getAllUserWithTips() {
+        return userRepository.getAllUserWithTips().stream().map(this::convert).collect(Collectors.toList());
     }
 
     @GetMapping("/user")
