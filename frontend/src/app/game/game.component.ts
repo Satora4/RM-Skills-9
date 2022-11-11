@@ -173,7 +173,7 @@ export class GameComponent implements OnInit {
   }
 
   private static isOpenGame(game: Game): boolean {
-    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+    return TipUtil.isGameNotPlayedYet(game);
   }
 
   loadUser(): void {
