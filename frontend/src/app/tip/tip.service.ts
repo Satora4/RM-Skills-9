@@ -11,7 +11,7 @@ import { Tip } from "./tip.model";
   providedIn: 'root'
 })
 export class TipService {
-  private tipUrl = 'api/tip?param=currentUser';
+  private tipUrl = 'api/tip?user=currentUser';
 
   constructor(private httpClient: HttpClient) {
   }

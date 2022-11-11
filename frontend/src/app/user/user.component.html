@@ -14,7 +14,7 @@
       <td>{{this.user.points}}</td>
       <td *ngIf="this.user.ranking != null; else showMessage ">{{this.user.ranking}}</td>
       <ng-template #showMessage>
-        <td>Ranking wird berechnet sobald ein Tipp abgegben wird.</td>
+        <td>Noch keine Tipps abgegeben.</td>
       </ng-template>
 
     </tr>

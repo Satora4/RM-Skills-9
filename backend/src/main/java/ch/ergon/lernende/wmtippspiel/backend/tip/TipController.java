@@ -34,13 +34,13 @@ public class TipController {
     }
 
     @GetMapping
-    public List<TipTO> getTips(@RequestParam(name = "param") String param) {
+    public List<TipTO> getTips(@RequestParam(name = "user") String user) {
         if (currentUser == null) {
             throw new RuntimeException("no user available");
-        } else if (param.equals("currentUser")) {
+        } else if (user.equals("currentUser")) {
             return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid param: " + param);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid param: " + user);
         }
     }
 
