@@ -31,8 +31,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class PopUpComponent implements OnInit {
 
-  // ngClass?: string | string[] | Set<string> | { [klass: string]: any; }
-
   formControlTip1 = formControlForTip();
   formControlTip2 = formControlForTip();
   matcher = new MyErrorStateMatcher();
@@ -56,12 +54,4 @@ export class PopUpComponent implements OnInit {
       return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2)
     }
   }
-
-  // public hasError() {
-  //   if (!this.isTipAPositivNumber(this.data.tip1, this.data.tip2)) {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
 }
