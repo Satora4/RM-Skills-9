@@ -8,6 +8,8 @@ import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import ch.ergon.lernende.wmtippspiel.backend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -52,13 +54,13 @@ public class TipController {
     }
 
     @PostMapping
-    public HttpStatus addTip(@RequestBody TipTO tipTO) {
+    public ResponseEntity<String> addTip(@RequestBody TipTO tipTO) {
         tipTO.setUserId(userRepository.getForMail(currentUser.getUser().getEmail()).getUserId());
         if (isValidTip(tipTO)) {
             tipRepository.addTip(convert(tipTO));
-            return HttpStatus.CREATED;
+            return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("tip created");
         } else {
-            return HttpStatus.BAD_REQUEST;
+            return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("game already over");
         }
     }
 
