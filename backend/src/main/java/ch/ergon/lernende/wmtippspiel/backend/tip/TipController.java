@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -35,11 +36,13 @@ public class TipController {
     }
 
     @GetMapping
-    public List<TipTO> getTips() {
-        if (currentUser != null) {
+    public List<TipTO> getTips(@RequestParam(name = "user") String user) {
+        if (currentUser == null) {
+            throw new RuntimeException("no user available");
+        } else if (user.equals("currentUser")) {
             return convert(tipRepository.getTipsByUserMail(currentUser.getUser().getEmail()));
         } else {
-            throw new RuntimeException("no tips available");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid param: " + user);
         }
     }
 

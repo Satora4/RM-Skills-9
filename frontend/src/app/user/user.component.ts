@@ -4,6 +4,8 @@ import {MatTableDataSource} from '@angular/material/table';
 
 import {User} from './user.model';
 import {UserService} from './user.service';
+import {TipService} from "../tip/tip.service";
+import {Tip} from "../tip/tip.model";
 
 @Component({
   selector: 'app-user-list',
@@ -13,16 +15,18 @@ import {UserService} from './user.service';
 export class UserComponent implements OnInit, AfterViewInit {
   public user?: User;
   public users: User[] = [];
+  private allTips: Tip[] = [];
   userDataSource = new MatTableDataSource();
   displayedColumns: string[] = ['ranking', 'points', 'firstName', 'lastName'];
 
   @ViewChild(MatSort) sort = new MatSort();
 
-  constructor(private UserService: UserService) {
+  constructor(private UserService: UserService, private tipService: TipService) {
   }
 
   ngAfterViewInit() {
     this.userDataSource.sort = this.sort;
+    this.calculateUserRank();
   }
 
   ngOnInit(): void {
@@ -44,6 +48,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.users = users;
       this.computeRanks(this.users);
       this.userDataSource.data = this.users;
+      this.calculateUserRank();
     });
   }
 
