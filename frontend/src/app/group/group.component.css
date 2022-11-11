@@ -17,10 +17,21 @@ table.center {
   margin-right: auto;
 }
 
-.list {
-  width: 80%;
-  margin: 0 10% 2em;
+.flex-container {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0 0 2em 2.5%;
+  list-style: none;
+  width: 95%;
 }
+
+.group-table {
+  width: 300px;
+  margin: 0 5px 0 5px;
+}
+
 
 .list tr td {
   padding-right: 2em;
@@ -44,7 +55,7 @@ table {
 
 h2 {
   text-align: center;
-  margin-top: 5em;
+  margin-top: 2em;
   font-family: 'AktivGroteskBd', sans-serif;
   font-size: 24px;
 }
@@ -85,4 +96,30 @@ li a:hover {
   margin-right: 35%;
   width: 30%;
   margin-top: 2em;
+}
+
+i {
+  margin-right: 2em;
+}
+
+:host /deep/ td.mat-cell.ng-star-inserted {
+  text-align: left !important;
+}
+
+:host /deep/ th.mat-header-cell.ng-star-inserted {
+  text-align: left !important;
+
+}
+
+.mat-column-Rang {
+  width: 20%;
+}
+
+.mat-column-Name {
+  width: 70%;
+}
+
+.mat-column-Punkte {
+  width: 10%;
+
 }
