@@ -14,7 +14,7 @@ import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
-import {KoPhaseModel} from "./Ko-Phase.model";
+import {KoPhaseModel, Phase} from "./Ko-Phase.model";
 import {TipUtil} from "../util/tip.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -26,7 +26,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export interface DataObject {
   dataSource: MatTableDataSource<any>;
-  phase: string;
+  phase: Phase;
 }
 
 @Component({
@@ -98,9 +98,9 @@ export class GameComponent implements OnInit {
 
   public onDisplayGameToggleChange(gameStateToggle: MatSlideToggleChange) {
     if (gameStateToggle.checked) {
-      this.dataObjects = this.allGames;
+      this.dataObjects = this.sortDataObjects(this.allGames);
     } else {
-      this.dataObjects = this.allOpenGamesOnly;
+      this.dataObjects = this.sortDataObjects(this.allOpenGamesOnly);
     }
   }
 
@@ -108,9 +108,14 @@ export class GameComponent implements OnInit {
     return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2);
   }
 
+  public sortDataObjects(dataObjects: DataObject[]): DataObject[] {
+    return dataObjects.sort((a, b) => {
+      return (a.phase < b.phase) ? 1 : -1;
+    });
+  }
+
   private loadGames(): void {
-    this.gameService.getKoGames().subscribe((koPhaseGameGroup) => {
-        let sortedKoPhaseModels = koPhaseGameGroup.sort((a, b) => b.games.length - a.games.length);
+    this.gameService.getKoGames().subscribe((sortedKoPhaseModels) => {
         for (let sortedKoPhaseModel of sortedKoPhaseModels) {
           this.allGames.push(this.getDataObject(sortedKoPhaseModel));
           let openGamesOnly: Game[] = [];
@@ -120,7 +125,7 @@ export class GameComponent implements OnInit {
             this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForDateOpenGamesOnly));
           }
         }
-        this.dataObjects = this.allOpenGamesOnly;
+        this.dataObjects = this.sortDataObjects(this.allOpenGamesOnly);
       }
     );
   }
@@ -146,7 +151,7 @@ export class GameComponent implements OnInit {
     dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
     return {
       dataSource: dataSource,
-      phase: this.getPhase(groupPhaseModel.phase.toString())
+      phase: Phase[groupPhaseModel.phase] as unknown as Phase
     };
   }
 
@@ -173,25 +178,25 @@ export class GameComponent implements OnInit {
     })
   }
 
-  private getPhase(phase: string): string {
+  public getPhase(phase: Phase): string {
     switch (phase) {
-      case "FINAL": {
+      case Phase.FINAL: {
         return "Final";
       }
 
-      case "LITTLE_FINAL": {
+      case Phase.LITTLE_FINAL: {
         return "Kleines Final";
       }
 
-      case "SEMI_FINAL": {
+      case Phase.SEMI_FINAL: {
         return "Halbfinal";
       }
 
-      case "QUARTER_FINAL": {
+      case Phase.QUARTER_FINAL: {
         return "Viertelfinale";
       }
 
-      case "ROUND_OF_16": {
+      case Phase.ROUND_OF_16: {
         return "Achtelfinale";
       }
 

@@ -8,7 +8,7 @@
 
 <div class="groups" *ngFor="let dataObject of dataObjects">
   <div class="list">
-    <h2>{{dataObject.phase}}</h2>
+    <h2>{{getPhase(dataObject.phase)}}</h2>
     <table mat-table [dataSource]="dataObject.dataSource">
 
       <ng-container matColumnDef="gameTime">
@@ -138,7 +138,7 @@
             <button
               mat-stroked-button
               *ngIf="editingTipIsAllowed(gameTableModel.game);"
-              (click)="openTipWindow(gameTableModel.game, dataObject.phase)">
+              (click)="openTipWindow(gameTableModel.game, getPhase(dataObject.phase))">
               <span class="material-icons">edit</span>
             </button>
           </ng-template>
