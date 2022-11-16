@@ -32,7 +32,7 @@ export class TipService {
   }
 
   updateTip(tip: Tip): Observable<Tip> {
-    return this.httpClient.patch<Tip>(this.tipUrl, tip, this.httpOptions)
+    return this.httpClient.put<Tip>(this.tipUrl, tip, this.httpOptions)
       .pipe(tap((newTip: Tip) => console.log(`updated tip w/ tip: ${newTip}`)), catchError(handleError<Tip>('updatedTip'))
       );
   }
