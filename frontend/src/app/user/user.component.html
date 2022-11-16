@@ -12,7 +12,11 @@
     <tr>
       <td>{{this.user.firstName}} {{this.user.lastName}}</td>
       <td>{{this.user.points}}</td>
-      <td>{{this.user.ranking}}</td>
+      <td *ngIf="this.user.ranking != null; else showMessage ">{{this.user.ranking}}</td>
+      <ng-template #showMessage>
+        <td>Noch keine Tipps abgegeben.</td>
+      </ng-template>
+
     </tr>
   </table>
 

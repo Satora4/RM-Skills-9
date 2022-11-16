@@ -3,8 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 import {formControlForTip} from "../util/initFormControlForTip.util";
-import { errorMessage } from '../util/errorMessage.util';
 import {TipUtil} from "../util/tip.util";
+import {Game} from "../game/game.model";
 
 
 export interface DialogData {
@@ -13,7 +13,8 @@ export interface DialogData {
   country1: string;
   country2: string;
   flag1: string;
-  flag2:string;
+  flag2: string;
+  phase: string;
 }
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -26,11 +27,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-pop-up',
   templateUrl: './pop-up.component.html',
-  styleUrls: ['./pop-up.component.css']
+  styleUrls: ['./pop-up.component.css'],
 })
 export class PopUpComponent implements OnInit {
 
-  public readonly errorMessage = errorMessage;
   formControlTip1 = formControlForTip();
   formControlTip2 = formControlForTip();
   matcher = new MyErrorStateMatcher();
@@ -47,7 +47,11 @@ export class PopUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public isTipAPositiveNumber(tipTeam1: string, tipTeam2: string): boolean {
-    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string, phase: string): boolean {
+    if (phase == 'GROUP') {
+      return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+    } else {
+      return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2)
+    }
   }
 }

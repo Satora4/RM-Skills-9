@@ -102,6 +102,10 @@
   flex-grow: 0;
 }
 
+#ok:disabled{
+  background: #DEE1E2;
+}
+
 input {
   height: 48px;
   left: 0px;
@@ -110,6 +114,10 @@ input {
   background: #F0F1F2;
   text-align: center;
   font-family: 'AktivGroteskRg', sans-serif;
+}
+
+mat-form-field {
+  margin-left: 1em;
 }
 
 .container {

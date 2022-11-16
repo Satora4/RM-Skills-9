@@ -1,21 +1,26 @@
 package ch.ergon.lernende.wmtippspiel.backend.user;
 
+import ch.ergon.lernende.wmtippspiel.backend.tip.Tip;
+import ch.ergon.lernende.wmtippspiel.backend.tip.TipRepository;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
+import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
 
 @Repository
 public class UserRepository {
-
+    private final TipRepository tipRepository;
     private final DSLContext dslContext;
 
     @Autowired
-    public UserRepository(DSLContext dslContext) {
+    public UserRepository(DSLContext dslContext, TipRepository tipRepository) {
         this.dslContext = dslContext;
+        this.tipRepository = tipRepository;
     }
 
     public List<User> getAllUser() {
@@ -31,6 +36,20 @@ public class UserRepository {
                 .groupBy(USER.USER_ID)
                 .orderBy(USER.POINTS.desc())
                 .fetchInto(User.class);
+    }
+
+    public List<User> getAllUserWithTips() {
+        List<Tip> tips = tipRepository.getAllTip();
+        List<User> users = getAllUser();
+        List<User> userWithTips = new ArrayList<>();
+        users.forEach(user -> {
+            tips.stream()
+                    .filter(tip -> tip.getUser().equals(user))
+                    .findFirst()
+                    .ifPresent(userTip -> userWithTips.add(user));
+        });
+
+        return userWithTips;
     }
 
     public User getForMail(String mail) {

@@ -8,6 +8,6 @@ export interface Game {
   goalsTeam1: number;
   goalsTeam2: number;
   tip: Tip;
-  team1:Team;
-  team2:Team;
+  team1: Team;
+  team2: Team;
 }

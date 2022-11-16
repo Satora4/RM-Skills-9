@@ -14,8 +14,9 @@ import {GameTableModel} from "./game.table.model";
 import {formControlForTip} from "../util/initFormControlForTip.util";
 import {errorMessage} from "../util/errorMessage.util";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
-import {KoPhaseModel} from "./Ko-Phase.model";
+import {KoPhaseModel, Phase} from "./Ko-Phase.model";
 import {TipUtil} from "../util/tip.util";
+import {showZeroPoints} from "../util/gameTableView.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -26,7 +27,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export interface DataObject {
   dataSource: MatTableDataSource<any>;
-  phase: string;
+  phase: Phase;
 }
 
 @Component({
@@ -38,7 +39,7 @@ export class GameComponent implements OnInit {
   allGames: DataObject[] = [];
   allOpenGamesOnly: DataObject[] = [];
   dataObjects: DataObject[] = [];
-  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button','points'];
+  columnsToDisplay = ['gameTime', 'teamCountry1', 'goalsTeam1', 'colon', 'goalsTeam2', 'teamCountry2', 'tipTeam1', 'tipTeam2', 'button', 'points'];
   public tipTeam1: any = {};
   public tipTeam2: any = {};
   public tips: Tip[] = [];
@@ -68,8 +69,12 @@ export class GameComponent implements OnInit {
     });
   }
 
-  public openTipWindow(game: Game): void {
-    this.tipHelper.openTipWindow(this.userId, game, this.tips)
+  public isDisabled(game: Game): boolean {
+    return game.team1.countryFlag == "" && game.team2.countryFlag == "";
+  }
+
+  public openTipWindow(game: Game, phase: string): void {
+    this.tipHelper.openTipWindow(this.userId, game, this.tips, phase)
   }
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
@@ -94,15 +99,28 @@ export class GameComponent implements OnInit {
 
   public onDisplayGameToggleChange(gameStateToggle: MatSlideToggleChange) {
     if (gameStateToggle.checked) {
-      this.dataObjects = this.allGames;
+      this.dataObjects = this.sortDataObjects(this.allGames);
     } else {
-      this.dataObjects = this.allOpenGamesOnly;
+      this.dataObjects = this.sortDataObjects(this.allOpenGamesOnly);
     }
   }
 
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isValidNumberKoPhase(tipTeam1, tipTeam2);
+  }
+
+  public sortDataObjects(dataObjects: DataObject[]): DataObject[] {
+    return dataObjects.sort((a, b) => {
+      return (a.phase < b.phase) ? 1 : -1;
+    });
+  }
+
+  public showZeroPoints(game: Game):string{
+      return showZeroPoints(game);
+  }
+
   private loadGames(): void {
-    this.gameService.getKoGames().subscribe((koPhaseGameGroup) => {
-        let sortedKoPhaseModels = koPhaseGameGroup.sort((a, b) => b.games.length - a.games.length);
+    this.gameService.getKoGames().subscribe((sortedKoPhaseModels) => {
         for (let sortedKoPhaseModel of sortedKoPhaseModels) {
           this.allGames.push(this.getDataObject(sortedKoPhaseModel));
           let openGamesOnly: Game[] = [];
@@ -112,7 +130,7 @@ export class GameComponent implements OnInit {
             this.allOpenGamesOnly.push(this.getDataObject(groupPhaseModelForDateOpenGamesOnly));
           }
         }
-        this.dataObjects = this.allOpenGamesOnly;
+        this.dataObjects = this.sortDataObjects(this.allOpenGamesOnly);
       }
     );
   }
@@ -120,7 +138,7 @@ export class GameComponent implements OnInit {
   private getKoPhaseModel(openGamesOnly: Game[], sortedKoPhaseModel: KoPhaseModel) {
     let groupPhaseModelForDateOpenGamesOnly: KoPhaseModel = {
       games: openGamesOnly,
-      phase: sortedKoPhaseModel.phase.toString()
+      phase: sortedKoPhaseModel.phase
     }
     return groupPhaseModelForDateOpenGamesOnly;
   }
@@ -138,7 +156,7 @@ export class GameComponent implements OnInit {
     dataSource.data = this.mapGamesToGameTableModel(groupPhaseModel.games);
     return {
       dataSource: dataSource,
-      phase: this.getPhase(groupPhaseModel.phase)
+      phase: Phase[groupPhaseModel.phase] as unknown as Phase
     };
   }
 
@@ -155,31 +173,35 @@ export class GameComponent implements OnInit {
   }
 
   private static isOpenGame(game: Game): boolean {
-    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+    return TipUtil.isGameNotPlayedYet(game);
   }
 
-  private loadUser(): void {
+  loadUser(): void {
     this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
       console.log('userId: ' + this.userId);
     })
   }
 
-  private getPhase(phase: string): string {
+  public getPhase(phase: Phase): string {
     switch (phase) {
-      case "FINAL": {
+      case Phase.FINAL: {
         return "Final";
       }
 
-      case "SEMI_FINAL": {
+      case Phase.LITTLE_FINAL: {
+        return "Kleines Final";
+      }
+
+      case Phase.SEMI_FINAL: {
         return "Halbfinal";
       }
 
-      case "QUARTER_FINAL": {
+      case Phase.QUARTER_FINAL: {
         return "Viertelfinale";
       }
 
-      case "ROUND_OF_16": {
+      case Phase.ROUND_OF_16: {
         return "Achtelfinale";
       }
 

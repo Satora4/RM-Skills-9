@@ -11,9 +11,10 @@ import {TipUtil} from "../util/tip.util";
 })
 export class TipHelper {
 
-  constructor(public dialog: MatDialog, public tipService: TipService) {}
+  constructor(public dialog: MatDialog, public tipService: TipService) {
+  }
 
-  public openTipWindow(userId: number, game: Game, tips: Tip[]): void {
+  public openTipWindow(userId: number, game: Game, tips: Tip[], phase: string): void {
     const dialogRef = this.dialog.open(PopUpComponent, {
       width: 'auto',
       data: {
@@ -23,6 +24,7 @@ export class TipHelper {
         country2: game.team2.country,
         flag1: game.team1.countryFlag,
         flag2: game.team2.countryFlag,
+        phase: phase
       }
     });
 

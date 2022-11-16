@@ -3,12 +3,13 @@
 <h1>Tipp bearbeiten</h1>
 <div class="container">
   <mat-form-field>
+    <!--                  [ngClass]="{'tip-error': hasError()}"-->
     <div class="container">
       <label>{{data.country1}} <i
         class="em {{data.flag1}}"
         aria-role="presentation"></i> </label>
     </div>
-    <input matInput [(ngModel)]="data.tip1" type="number" maxlength="2"
+    <input matInput [(ngModel)]="data.tip1" type="number" min="0" max="99"
            [formControl]="formControlTip1" [errorStateMatcher]="matcher">
 
     <br>
@@ -17,13 +18,14 @@
             !formControlTip1.hasError('required')"></mat-error>
 
   </mat-form-field>
-  <mat-form-field style="margin-left: 1em">
+  <mat-form-field>
+    <!--                  [ngClass]="{'tip-error': hasError()}"-->
     <div class="container">
       <label>{{data.country2}} <i
         class="em {{data.flag2}}"
         aria-role="presentation"></i> </label>
     </div>
-    <input matInput [(ngModel)]="data.tip2" type="number" maxlength="2"
+    <input matInput [(ngModel)]="data.tip2" type="number" min="0" max="99"
            [formControl]="formControlTip2" [errorStateMatcher]="matcher">
     <br>
     <mat-error
@@ -35,7 +37,7 @@
 <div mat-dialog-actions>
   <button id="cancel" mat-button (click)="onNoClick()">Abbrechen</button>
   <button id="ok" mat-button [mat-dialog-close]="data" cdkFocusInitial
-          *ngIf="isTipAPositiveNumber(data.tip1, data.tip2)">
+          disabled="{{!isTipAValidNumber(data.tip1, data.tip2, data.phase)}}">
     <p>Speichern</p>
   </button>
 </div>

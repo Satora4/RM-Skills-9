@@ -60,8 +60,36 @@ mat-form-field {
   width: 13%;
 }
 
+:host /deep/ .mat-stroked-button:enabled:hover {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 12px !important;
+  gap: 10px !important;
+  min-width: 0;
+
+  width: 48px !important;
+  height: 48px !important;
+
+  background: #DEE1E2 !important;
+  border-radius: 8px !important;
+}
+
+:host /deep/ .mat-stroked-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  gap: 10px;
+  width: 48px !important;
+  height: 48px !important;
+  border: none;
+  background: white;
+  min-width: 0;
+}
+
 .toggleGroup {
-  margin-left: 20%;
+  margin-left: 15%;
 }
 
 .switch {
@@ -179,13 +207,20 @@ input[type=number] {
   float: right;
 }
 
-
-#goal1{
+#goal1 {
   text-align: center;
   font-family: 'AktivGroteskBd', sans-serif;
 }
 
-#goal2{
+#goal2 {
   text-align: center;
   font-family: 'AktivGroteskBd', sans-serif;
+}
+
+#allGamesOver {
+  text-align: center;
+  margin-top: 10em;
+  font-family: 'AktivGroteskRg', sans-serif;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 50%);
 }

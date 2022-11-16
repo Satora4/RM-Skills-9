@@ -53,7 +53,7 @@
 
       <div>
         <ng-container matColumnDef="tipTeam1">
-          <th mat-header-cell *matHeaderCellDef>Tipp Team1</th>
+          <th mat-header-cell *matHeaderCellDef>Tipp Team 1</th>
           <td mat-cell *matCellDef="let gameTableModel">
 
             <mat-form-field *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam1">
@@ -82,7 +82,7 @@
         </ng-container>
 
         <ng-container matColumnDef="tipTeam2">
-          <th mat-header-cell *matHeaderCellDef>Tipp Team2</th>
+          <th mat-header-cell *matHeaderCellDef>Tipp Team 2</th>
           <td mat-cell *matCellDef="let gameTableModel">
             <mat-form-field *ngIf="insertingTipIsAllowed(gameTableModel.game); else showTipTeam2">
               <input matInput
@@ -114,17 +114,18 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let gameTableModel">
           <button
-            *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
             mat-stroked-button
+            *ngIf="isSavingNewTipAllowed(gameTableModel.game, tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id]); else showEditButton"
+            disabled="{{!isTipAValidNumber(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id])}}"
             (click)="saveTip(tipTeam1[gameTableModel.game.id], tipTeam2[gameTableModel.game.id], gameTableModel.game)">
             <span class="material-icons">save</span>
           </button>
 
           <ng-template #showEditButton>
             <button
-              *ngIf="editingTipIsAllowed(gameTableModel.game);"
               mat-stroked-button
-              (click)="openTipWindow(gameTableModel.game)">
+              *ngIf="editingTipIsAllowed(gameTableModel.game);"
+              (click)="openTipWindow(gameTableModel.game, 'GROUP')">
               <span class="material-icons">edit</span>
             </button>
           </ng-template>
@@ -133,7 +134,8 @@
 
       <ng-container matColumnDef="points">
         <th mat-header-cell *matHeaderCellDef>Punkte</th>
-        <td mat-cell *matCellDef="let gameTableModel" style="text-align: center">{{getTipByGameId(gameTableModel.game.id)?.points}}</td>
+        <td mat-cell *matCellDef="let gameTableModel"
+            style="text-align: center">{{getTipByGameId(gameTableModel.game.id)?.points || showZeroPoints(gameTableModel.game)}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
@@ -142,3 +144,6 @@
     </table>
   </div>
 </div>
+<p *ngIf="dataObjects.length == 0" id="allGamesOver">Alle Spiele der Gruppenphase sind beendet</p>
+
+

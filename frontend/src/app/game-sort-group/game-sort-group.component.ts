@@ -16,6 +16,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {GroupPhaseModel} from "../group-phase/group-phase.model";
 import {TipHelper} from "../tip/tip-helper";
 import {UserService} from "../user/user.service";
+import {showZeroPoints} from "../util/gameTableView.util";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -77,8 +78,8 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
-  public openTipWindow(game: Game): void {
-    this.tipHelper.openTipWindow(this.userId, game, this.tips)
+  public openTipWindow(game: Game, phase: string): void {
+    this.tipHelper.openTipWindow(this.userId, game, this.tips, phase)
   }
 
   public saveTip(tipTeam1: number, tipTeam2: number, game: Game): void {
@@ -129,8 +130,16 @@ export class GameSortGroupComponent implements OnInit {
     });
   }
 
+  public isTipAValidNumber(tipTeam1: string, tipTeam2: string): boolean {
+    return TipUtil.isPositiveNumber(tipTeam1, tipTeam2);
+  }
+
+  public showZeroPoints(game: Game):string{
+    return showZeroPoints(game);
+  }
+
   private isOpenGame(game: Game): boolean {
-    return game.goalsTeam1 === null && game.goalsTeam2 === null;
+    return TipUtil.isGameNotPlayedYet(game);
   }
 
   private getDataObject(groupPhaseModel: GroupPhaseModel): DataObjectForGroup {
@@ -159,7 +168,7 @@ export class GameSortGroupComponent implements OnInit {
   }
 
   private loadUser(): void {
-    this.userService.getUserData().subscribe( (user) => {
+    this.userService.getUserData().subscribe((user) => {
       this.userId = user.userId;
     })
   }

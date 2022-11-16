@@ -7,11 +7,14 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static ch.ergon.lernende.wmtippspiel.backend.game.Games.*;
 import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
@@ -125,7 +128,6 @@ public class GameRepository {
                 .from(GAME)
                 .join(TEAM_ALIAS_1).on(TEAM_ALIAS_1.TEAM_ID.eq(GAME.TEAM1_ID))
                 .join(TEAM_ALIAS_2).on(TEAM_ALIAS_2.TEAM_ID.eq(GAME.TEAM2_ID))
-                .join(TEAM_TO_GROUP).on(TEAM_TO_GROUP.TEAM_ID.eq(GAME.TEAM1_ID))
                 .where(GAME.PHASE.notEqual(Phase.GROUP_PHASE))
                 .collect(groupingBy(record -> record.get(GAME.PHASE), mapping(this::convert, toList())));
 
