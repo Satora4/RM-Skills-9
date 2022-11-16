@@ -46,7 +46,7 @@ public class TipController {
         }
     }
 
-    @PatchMapping
+    @PutMapping
     public HttpStatus updateTip(@RequestBody TipTO tipTO) {
         if (isValidTip(tipTO)) {
             tipRepository.putTip(convert(tipTO));
