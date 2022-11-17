@@ -36,6 +36,10 @@ public class TipRepository {
         return getTips(USER.EMAIL.eq(userMail));
     }
 
+    public List<Tip> getNotCalculatedTipsWherePointsAreNull() {
+        return getTips(TIP.POINTS.isNull().and(GAME.CALCULATED.eq(false).and(GAME.GOALS_TEAM1.isNotNull()).and(GAME.GOALS_TEAM2.isNotNull())));
+    }
+
     private List<Tip> getTips(Condition condition) {
         return getTipsFromDB(condition);
     }

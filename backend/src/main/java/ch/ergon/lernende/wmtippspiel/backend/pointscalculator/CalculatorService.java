@@ -8,6 +8,7 @@ import ch.ergon.lernende.wmtippspiel.backend.tip.Tip;
 import ch.ergon.lernende.wmtippspiel.backend.tip.TipRepository;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import ch.ergon.lernende.wmtippspiel.backend.user.UserRepository;
+import org.jooq.Condition;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class CalculatorService {
         for (Game game : gamesToCalculate) {
             PointsPerGameAndTeam pointsPerGameAndTeam = ruleService.calculateGame(game);
 
-            Team team1 = getTeam(game.getTeam1().getId());
-            Team team2 = getTeam(game.getTeam2().getId());
+            Team team1 = teamRepository.getTeamById(game.getTeam1().getId());
+            Team team2 = teamRepository.getTeamById(game.getTeam2().getId());
 
             teamRepository.updateTeam(game.getTeam1().getId(),
                     team1.getPoints() + pointsPerGameAndTeam.pointsTeam1());
@@ -48,31 +49,13 @@ public class CalculatorService {
         }
     }
 
-    public Team getTeam(int teamId) {
-        List<Team> allTeams = teamRepository.getAllTeams();
-
-        for (Team team : allTeams) {
-            if (team.getId() == teamId) {
-                return team;
-            }
-        }
-        throw new IllegalArgumentException("Team isnt in list`!");
-    }
-
     /**
      * get ready the data to calculate the score for the points of each tip
      */
     public void calculateScore() {
         List<Game> gamesToCalculate = gameRepository.getAllFinishedGamesWithOutCalculation();
 
-        List<Tip> tips = tipRepository.getAllTip();
-        List<Tip> tipsToCalculate = new ArrayList<>();
-
-        for (Tip tip : tips) {
-            if (tip.isTipNotCalculated()) {
-                tipsToCalculate.add(tip);
-            }
-        }
+        List<Tip> tipsToCalculate = tipRepository.getNotCalculatedTipsWherePointsAreNull();
 
         Map<User, List<Tip>> usersWithTips = groupTipsByUser(tipsToCalculate);
         for (var user : usersWithTips.keySet()) {
@@ -83,7 +66,7 @@ public class CalculatorService {
                 int tipTeam2 = tip.getTipTeam2();
                 int gameId = tip.getGame().getId();
 
-                Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
+                Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findAny().orElseThrow();
                 int pointsTeam1 = currentGame.getGoalsTeam1();
                 int pointsTeam2 = currentGame.getGoalsTeam2();
 

@@ -24,10 +24,14 @@ public class TeamRepository {
         return dslContext.selectFrom(TEAM).fetch(teamMapper::map);
     }
 
-    public void updateTeam(int teamId, int points){
-            dslContext.update(TEAM)
-                    .set(TEAM.POINTS, points)
-                    .where(TEAM.TEAM_ID.eq(teamId))
-                    .execute();
-        }
+    public void updateTeam(int teamId, int points) {
+        dslContext.update(TEAM)
+                .set(TEAM.POINTS, points)
+                .where(TEAM.TEAM_ID.eq(teamId))
+                .execute();
+    }
+
+    public Team getTeamById(int teamId) {
+        return dslContext.selectFrom(TEAM).where(TEAM.TEAM_ID.eq(teamId)).fetchOne(teamMapper::map);
+    }
 }
