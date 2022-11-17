@@ -36,7 +36,7 @@ class TipControllerTest extends TestSetup {
 
     @Test
     void getTips() {
-        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
+        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(createBaseUrl(port) + "tip?user=currentUser", HttpMethod.GET, entity, TipTO[].class);
         List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
 
         assertTrue(tips.size() >= 1);
@@ -66,9 +66,9 @@ class TipControllerTest extends TestSetup {
         newTip.setGameId(48);
 
         HttpEntity<TipTO> postEntity = new HttpEntity<>(newTip, httpHeaders);
-        restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.POST, postEntity, HttpStatus.class);
+        restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.POST, postEntity, String.class);
 
-        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
+        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip?user=currentUser", HttpMethod.GET, entity, TipTO[].class);
         List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
         assertTrue(tips.size() >= 1);
 
@@ -97,38 +97,37 @@ class TipControllerTest extends TestSetup {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    // Dieser Test funktioniert erst, wenn der PATCH request zu einem PUT request abgeändert wurde.
-//    @Test
-//    void updateTip() {
-//        TipTO updatedTip = new TipTO();
-//        updatedTip.setUserId(1);
-//        updatedTip.setTipTeam1(1);
-//        updatedTip.setTipTeam2(1);
-//        updatedTip.setGameId(1);
-//
-//        HttpEntity<TipTO> patchEntity = new HttpEntity<>(updatedTip, httpHeaders);
-//        restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.PUT, patchEntity, HttpStatus.class);
-//
-//        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.GET, entity, TipTO[].class);
-//        List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
-//        assertTrue(tips.size() >= 1);
-//
-//        Optional<TipTO> tip = tips.stream().filter(tipTO -> tipTO.getGameId() == updatedTip.getGameId() && tipTO.getUserId() == updatedTip.getUserId()).findFirst();
-//        assertTrue(tip.isPresent());
-//
-//        TipTO tipTO = tip.get();
-//        assertEquals(1, tipTO.getTipTeam1());
-//        assertEquals(1, tipTO.getTipTeam2());
-//        assertEquals(1, tipTO.getUserId());
-//        assertEquals("Joel", tipTO.getFirstName());
-//        assertEquals("Vontobel", tipTO.getLastName());
-//        assertEquals("joel.vontobel@ergon.ch", tipTO.getEmail());
-//        assertEquals(1, tipTO.getGameId());
-//        assertEquals(LocalDateTime.of(2022, 11, 20, 17, 00), tipTO.getGameTime());
-//        assertEquals("Katar", tipTO.getGameLocation());
-//        assertEquals(16, tipTO.getTeamId1());
-//        assertEquals(8, tipTO.getTeamId2());
-//        assertEquals("Katar", tipTO.getTeamCountry1());
-//        assertEquals("Ecuador", tipTO.getTeamCountry2());
-//    }
+    @Test
+    void updateTip() {
+        TipTO updatedTip = new TipTO();
+        updatedTip.setUserId(1);
+        updatedTip.setTipTeam1(2);
+        updatedTip.setTipTeam2(2);
+        updatedTip.setGameId(1);
+
+        HttpEntity<TipTO> putEntity = new HttpEntity<>(updatedTip, httpHeaders);
+        restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.PUT, putEntity, HttpStatus.class);
+
+        ResponseEntity<TipTO[]> tipData = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip?user=currentUser", HttpMethod.GET, entity, TipTO[].class);
+        List<TipTO> tips = List.of(Objects.requireNonNull(tipData.getBody()));
+        assertTrue(tips.size() >= 1);
+
+        Optional<TipTO> tip = tips.stream().filter(tipTO -> tipTO.getGameId() == updatedTip.getGameId() && tipTO.getUserId() == updatedTip.getUserId()).findFirst();
+        assertTrue(tip.isPresent());
+
+        TipTO tipTO = tip.get();
+        assertEquals(2, tipTO.getTipTeam1());
+        assertEquals(2, tipTO.getTipTeam2());
+        assertEquals(1, tipTO.getUserId());
+        assertEquals("Joel", tipTO.getFirstName());
+        assertEquals("Vontobel", tipTO.getLastName());
+        assertEquals("joel.vontobel@ergon.ch", tipTO.getEmail());
+        assertEquals(1, tipTO.getGameId());
+        assertEquals(LocalDateTime.of(2022, 11, 20, 17, 00), tipTO.getGameTime());
+        assertEquals("Katar", tipTO.getGameLocation());
+        assertEquals(16, tipTO.getTeamId1());
+        assertEquals(8, tipTO.getTeamId2());
+        assertEquals("Katar", tipTO.getTeamCountry1());
+        assertEquals("Ecuador", tipTO.getTeamCountry2());
+    }
 }
