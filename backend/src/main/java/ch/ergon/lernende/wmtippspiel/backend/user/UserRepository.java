@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.*;
+import static ch.ergon.lernenden.wmtippspiel.backend.db.Tables.USER;
 
 @Repository
 public class UserRepository {
@@ -44,7 +43,7 @@ public class UserRepository {
         List<User> userWithTips = new ArrayList<>();
         users.forEach(user -> {
             tips.stream()
-                    .filter(tip -> tip.getUser().equals(user))
+                    .filter(tip -> tip.getUser().getUserId() == user.getUserId())
                     .findFirst()
                     .ifPresent(userTip -> userWithTips.add(user));
         });

@@ -50,6 +50,7 @@ public class TipRepository {
                         USER.LAST_NAME,
                         USER.EMAIL,
                         USER.POINTS,
+                        USER.ADMINISTRATOR,
                         GAME.GAME_ID,
                         GAME.GAME_TIME,
                         GAME.GAME_LOCATION,
@@ -113,6 +114,7 @@ public class TipRepository {
         user.setLastName(record.get(USER.LAST_NAME));
         user.setEmail(record.get(USER.EMAIL));
         user.setPoints(record.get(USER.POINTS));
+        user.setAdministrator(record.get(USER.ADMINISTRATOR));
         tip.setUser(user);
 
         Game game = new Game();
