@@ -51,20 +51,17 @@ public class CalculatorService {
      * get ready the data to calculate the score for the points of each tip
      */
     public void calculateScore() {
-        List<Game> gamesToCalculate = gameRepository.getAllFinishedGamesWithOutCalculation();
 
         List<Tip> tipsToCalculate = tipRepository.getNotCalculatedTipsWherePointsAreNull();
 
         Map<User, List<Tip>> usersWithTips = groupTipsByUser(tipsToCalculate);
         for (var user : usersWithTips.keySet()) {
             int userPoints = user.getPoints();
-
             for (Tip tip : usersWithTips.get(user)) {
                 int tipTeam1 = tip.getTipTeam1();
                 int tipTeam2 = tip.getTipTeam2();
-                int gameId = tip.getGame().getId();
 
-                Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
+                Game currentGame = gameRepository.getGame(tip.getGame().getId());
                 int pointsTeam1 = currentGame.getGoalsTeam1();
                 int pointsTeam2 = currentGame.getGoalsTeam2();
 
