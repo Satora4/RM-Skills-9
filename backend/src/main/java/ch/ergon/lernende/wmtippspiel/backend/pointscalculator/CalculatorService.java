@@ -8,7 +8,6 @@ import ch.ergon.lernende.wmtippspiel.backend.tip.Tip;
 import ch.ergon.lernende.wmtippspiel.backend.tip.TipRepository;
 import ch.ergon.lernende.wmtippspiel.backend.user.User;
 import ch.ergon.lernende.wmtippspiel.backend.user.UserRepository;
-import org.jooq.Condition;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ public class CalculatorService {
         this.userRepository = userRepository;
         this.teamRepository = teamRepository;
     }
-
 
     public void calculateGames() {
         List<Game> gamesToCalculate = gameRepository.getAllFinishedGamesWithOutCalculation();
@@ -66,7 +64,7 @@ public class CalculatorService {
                 int tipTeam2 = tip.getTipTeam2();
                 int gameId = tip.getGame().getId();
 
-                Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findAny().orElseThrow();
+                Game currentGame = gamesToCalculate.stream().filter(game -> game.getId() == gameId).findFirst().orElseThrow();
                 int pointsTeam1 = currentGame.getGoalsTeam1();
                 int pointsTeam2 = currentGame.getGoalsTeam2();
 
