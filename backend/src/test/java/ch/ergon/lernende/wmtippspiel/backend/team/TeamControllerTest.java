@@ -34,6 +34,7 @@ class TeamControllerTest extends TestSetup {
         ResponseEntity<TeamTO[]> teamData = restTemplate.exchange(createBaseUrl(port) + "team", HttpMethod.GET, entity, TeamTO[].class);
         List<TeamTO> teams = List.of(Objects.requireNonNull(teamData.getBody()));
 
+        // Es sind 64 Teams wegen den Platzhaltern für die KO-Phase
         assertEquals(64, teams.size());
 
         teams.forEach(teamTO -> assertEquals(0, teamTO.getPoints()));
