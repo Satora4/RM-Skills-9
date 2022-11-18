@@ -8,8 +8,8 @@ public class TipAndGameResult {
 
     private final int tipTeam1;
     private final int tipTeam2;
-    private final int pointsTeam1;
-    private final int pointsTeam2;
+    private final int goalsTeam1;
+    private final int goalsTeam2;
 
     public Game getGame() {
         return game;
@@ -17,7 +17,7 @@ public class TipAndGameResult {
 
     private final Game game;
 
-    public TipAndGameResult(int tipTeam1, int tipTeam2, int pointsTeam1, int pointsTeam2, Game game) {
+    public TipAndGameResult(int tipTeam1, int tipTeam2, int goalsTeam1, int goalsTeam2, Game game) {
         this.game = game;
         if (tipTeam1 < 0 || tipTeam2 < 0) {
             throw new IllegalArgumentException(format("invalid tip value: %d/%d", tipTeam1, tipTeam2));
@@ -26,21 +26,21 @@ public class TipAndGameResult {
             this.tipTeam2 = tipTeam2;
         }
 
-        if (pointsTeam1 < 0 || pointsTeam2 < 0) {
-            throw new IllegalArgumentException(format("invalid point value: %d/%d", pointsTeam1, pointsTeam2));
+        if (goalsTeam1 < 0 || goalsTeam2 < 0) {
+            throw new IllegalArgumentException(format("invalid point value: %d/%d", goalsTeam1, goalsTeam2));
         } else {
-            this.pointsTeam1 = pointsTeam1;
-            this.pointsTeam2 = pointsTeam2;
+            this.goalsTeam1 = goalsTeam1;
+            this.goalsTeam2 = goalsTeam2;
         }
 
     }
 
-    public int getPointsTeam2() {
-        return pointsTeam2;
+    public int goalsTeam2() {
+        return goalsTeam2;
     }
 
-    public int getPointsTeam1() {
-        return pointsTeam1;
+    public int goalsTeam1() {
+        return goalsTeam1;
     }
 
     public int getTipTeam2() {

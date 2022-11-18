@@ -12,8 +12,8 @@ class TipAndGameResultTest {
         var tipAndGameResult = new TipAndGameResult(1,2,3,4, new Game());
         assertEquals(1, tipAndGameResult.getTipTeam1());
         assertEquals(2, tipAndGameResult.getTipTeam2());
-        assertEquals(3, tipAndGameResult.getPointsTeam1());
-        assertEquals(4, tipAndGameResult.getPointsTeam2());
+        assertEquals(3, tipAndGameResult.goalsTeam1());
+        assertEquals(4, tipAndGameResult.goalsTeam2());
     }
 
     @Test

@@ -16,8 +16,8 @@ class RuleServiceTest {
     private static final int USER_TIP_VALUE_3 = 3;
     private static final int GAME_RESULT_VALUE_4 = 4;
     private static final int GAME_RESULT_VALUE_1 = 1;
-    public static final int GAME_RESULT_VALUE_2 = 2;
-    public static final int GAME_RESULT_VALUE_3 = 3;
+    private static final int GAME_RESULT_VALUE_2 = 2;
+    private static final int GAME_RESULT_VALUE_3 = 3;
     private RuleService ruleService;
 
     @BeforeEach
