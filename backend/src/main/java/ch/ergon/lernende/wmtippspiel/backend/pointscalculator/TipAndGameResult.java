@@ -35,11 +35,11 @@ public class TipAndGameResult {
 
     }
 
-    public int getPointsTeam2() {
+    public int goalsTeam2() {
         return pointsTeam2;
     }
 
-    public int getPointsTeam1() {
+    public int goalsTeam1() {
         return pointsTeam1;
     }
 

@@ -57,11 +57,11 @@ public class RuleService {
     }
 
     private static boolean isTipEqualGameResult(TipAndGameResult tipAndGameResult) {
-        return tipAndGameResult.getTipTeam1() == tipAndGameResult.getPointsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.getPointsTeam2();
+        return tipAndGameResult.getTipTeam1() == tipAndGameResult.goalsTeam1() && tipAndGameResult.getTipTeam2() == tipAndGameResult.goalsTeam2();
     }
 
     private static boolean isGoalDifferenceCorrect(TipAndGameResult tipAndGameResult) {
-        return tipAndGameResult.getTipTeam1() - tipAndGameResult.getPointsTeam1() == tipAndGameResult.getTipTeam2() - tipAndGameResult.getPointsTeam2();
+        return tipAndGameResult.getTipTeam1() - tipAndGameResult.getTipTeam2() == tipAndGameResult.goalsTeam1() - tipAndGameResult.goalsTeam2();
     }
 
     private static boolean isDraw(TipAndGameResult tipAndGameResult) {
@@ -69,8 +69,8 @@ public class RuleService {
     }
 
     private static boolean isCorrectTendency(TipAndGameResult tipAndGameResult) {
-        return tipAndGameResult.getTipTeam1() > tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() > tipAndGameResult.getPointsTeam2() ||
-                tipAndGameResult.getTipTeam1() < tipAndGameResult.getTipTeam2() && tipAndGameResult.getPointsTeam1() < tipAndGameResult.getPointsTeam2();
+        return tipAndGameResult.getTipTeam1() > tipAndGameResult.getTipTeam2() && tipAndGameResult.goalsTeam1() > tipAndGameResult.goalsTeam2() ||
+                tipAndGameResult.getTipTeam1() < tipAndGameResult.getTipTeam2() && tipAndGameResult.goalsTeam1() < tipAndGameResult.goalsTeam2();
     }
 
     public PointsPerGameAndTeam calculateGame(Game game) {
