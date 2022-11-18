@@ -37,7 +37,7 @@ public class TipRepository {
     }
 
     public List<Tip> getNotCalculatedTipsWherePointsAreNull() {
-        return getTips(TIP.POINTS.isNull().and(GAME.CALCULATED.eq(false).and(GAME.GOALS_TEAM1.isNotNull()).and(GAME.GOALS_TEAM2.isNotNull())));
+        return getTips(TIP.POINTS.isNull().and(GAME.CALCULATED.isFalse().and(GAME.GOALS_TEAM1.isNotNull()).and(GAME.GOALS_TEAM2.isNotNull())));
     }
 
     private List<Tip> getTips(Condition condition) {
