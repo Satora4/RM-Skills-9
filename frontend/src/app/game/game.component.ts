@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Tip} from "../tip/tip.model";
 import {MatSort} from '@angular/material/sort';
@@ -119,6 +119,11 @@ export class GameComponent implements OnInit {
       return showZeroPoints(game);
   }
 
+  @HostListener('window:resize', ['$event'])
+  getScreenWidth(): number {
+    return window.innerWidth;
+  }
+
   private loadGames(): void {
     this.gameService.getKoGames().subscribe((sortedKoPhaseModels) => {
         for (let sortedKoPhaseModel of sortedKoPhaseModels) {
@@ -131,6 +136,8 @@ export class GameComponent implements OnInit {
           }
         }
         this.dataObjects = this.sortDataObjects(this.allOpenGamesOnly);
+      console.log("this.dataObjects: ");
+      console.log(this.dataObjects);
       }
     );
   }

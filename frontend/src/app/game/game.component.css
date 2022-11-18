@@ -12,43 +12,94 @@
   font-style: normal;
 }
 
+@media all and (max-width: 1113px) {
+  :host /deep/ td.mat-cell.cdk-column-button.ng-star-inserted {
+    width: 11% !important;
+    max-width: 38px !important;
+
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-tipTeam1.ng-star-inserted {
+    width: 11% !important;
+    max-width: none !important;
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-tipTeam2.ng-star-inserted {
+    width: 11% !important;
+    max-width: none !important;
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-goalsTeam1.ng-star-inserted {
+    width: 11% !important;
+    max-width: 38px !important;
+
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-goalsTeam2.ng-star-inserted {
+    width: 11% !important;
+    max-width: 38px !important;
+
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-teamCountry1.ng-star-inserted {
+    width: 11% !important;
+    max-width: 38px !important;
+
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-teamCountry2.ng-star-inserted {
+    width: 11% !important;
+    max-width: 38px !important;
+
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-gameTime.ng-star-inserted {
+    width: 11% !important;
+    max-width: 38px !important;
+
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-colon.ng-star-inserted {
+    width: 1% !important;
+  }
+
+  :host /deep/ td.mat-cell.cdk-column-points.ng-star-inserted {
+    width: 12% !important;
+    max-width: 38px !important;
+  }
+
+  .list {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 2em !important;
+    border: solid rgba(0, 0, 0, 7%) !important;
+  }
+}
+
 table {
   width: 100%;
 }
 
 .list {
-  margin-left: auto;
   width: 70%;
+  margin-left: 15%;
   margin-right: 15%;
+
   margin-top: 2em;
-  border: solid #DEE1E2;
+  border: solid rgba(0, 0, 0, 7%);
 }
 
-.list tr td {
-  padding-right: 2em;
+:host /deep/ .list tr td {
   margin-top: 1em;
   font-family: 'AktivGroteskRg', sans-serif;
 }
 
 .list th {
   font-family: 'AktivGroteskBd', sans-serif;
-  margin-right: 2em;
   color: #404648;
 }
 
-.selected-value {
-  margin: 15px 0;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none !important;
-  margin: 0 !important;
-}
-
-input[type=number] {
-  -moz-appearance: textfield !important;
-}
 
 h2 {
   margin-left: 0.5em;
@@ -57,13 +108,21 @@ h2 {
   font-size: 24px;
 }
 
-h1 {
-  font-family: 'AktivGroteskBd', sans-serif;
-  font-size: 28px;
-}
-
 .groups {
   margin-bottom: 3em;
+}
+
+input {
+  height: 25px;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 30px;
+  background: #F0F1F2;
+}
+
+mat-form-field {
+  width: 24px;
 }
 
 :host /deep/ .mat-stroked-button:enabled:hover {
@@ -78,7 +137,7 @@ h1 {
   height: 48px !important;
 
   background: #DEE1E2 !important;
-  border-radius: 8px!important;
+  border-radius: 8px !important;
 }
 
 :host /deep/ .mat-stroked-button {
@@ -94,29 +153,26 @@ h1 {
   min-width: 0;
 }
 
-input {
-  height: 25px;
-  left: 0;
-  right: 0;
-  top: 0;
-  width: 30px;
-  background: #F0F1F2;
-}
-
-mat-form-field {
-  width: 13%;
-}
-
 .toggleGroup {
   margin-left: 15%;
 }
 
-.toggle {
+.switch {
   margin-left: 15px;
   left: 41.18%;
   right: 0%;
   top: 0%;
   bottom: 0%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 :host /deep/ .mat-slide-toggle-thumb {
@@ -147,59 +203,38 @@ mat-form-field {
   display: none;
 }
 
-.icon {
-  color: #808B8F;
-}
-
-#goal1 {
-  text-align: center;
-  font-family: 'AktivGroteskBd', sans-serif;
-}
-
-#goal2 {
-  text-align: center;
-  font-family: 'AktivGroteskBd', sans-serif;
-}
-
 :host /deep/ td.mat-cell.cdk-column-button.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-tipTeam1.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
+  max-width: none !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-tipTeam2.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
-
+  max-width: none !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-goalsTeam1.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-goalsTeam2.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-teamCountry1.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-teamCountry2.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-gameTime.ng-star-inserted {
   width: 11% !important;
-  min-width: 104px !important;
 }
 
 :host /deep/ td.mat-cell.cdk-column-colon.ng-star-inserted {
@@ -208,11 +243,6 @@ mat-form-field {
 
 :host /deep/ td.mat-cell.cdk-column-points.ng-star-inserted {
   width: 12% !important;
-}
-
-:host /deep/ td.mat-cell.cdk-column-points.ng-star-inserted {
-  width: 12% !important;
-  flex: 0 0 25% !important;
 }
 
 :host /deep/ th.mat-header-cell.ng-star-inserted {
@@ -227,10 +257,32 @@ mat-form-field {
   padding: 0 !important;
 }
 
+:host /deep/ p.ng-star-inserted {
+  margin-top: 10px !important;
+}
+
 #flag2 {
   float: left;
 }
 
 #flag1 {
   float: right;
+}
+
+#goal1 {
+  text-align: center;
+  font-family: 'AktivGroteskBd', sans-serif;
+}
+
+#goal2 {
+  text-align: center;
+  font-family: 'AktivGroteskBd', sans-serif;
+}
+
+#allGamesOver {
+  text-align: center;
+  margin-top: 10em;
+  font-family: 'AktivGroteskRg', sans-serif;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 50%);
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {Tip} from "../tip/tip.model";
 import {MatSort} from "@angular/material/sort";
@@ -136,6 +136,11 @@ export class GameSortGroupComponent implements OnInit {
 
   public showZeroPoints(game: Game):string{
     return showZeroPoints(game);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  getScreenWidth(): number {
+    return window.innerWidth;
   }
 
   private isOpenGame(game: Game): boolean {
