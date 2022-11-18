@@ -68,9 +68,17 @@ public class TipController {
     }
 
     @DeleteMapping
-    public HttpStatus deleteTip(@RequestBody int tipId) {
-        tipRepository.deleteTip(tipId);
-        return HttpStatus.OK;
+    public ResponseEntity<String> deleteTip(@RequestBody TipTO tipTO) {
+        if (isTipFromUser(tipTO.getUserId())) {
+            tipRepository.deleteTip(tipTO.getId());
+            return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("tip deleted");
+        } else {
+            return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("tip is not from user");
+        }
+    }
+
+    private boolean isTipFromUser(int userId) {
+        return userId == currentUser.getUser().getUserId();
     }
 
     private boolean isValidTip(TipTO tipTO) {

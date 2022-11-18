@@ -90,11 +90,11 @@ class TipControllerTest extends TestSetup {
         assertEquals("Kamerun", tipTO.getTeamCountry1());
         assertEquals("Brasilien", tipTO.getTeamCountry2());
 
-        HttpEntity<Integer> deleteEntity = new HttpEntity<>(tip.get().getId(), httpHeaders);
+        HttpEntity<TipTO> deleteEntity = new HttpEntity<>(tip.get(), httpHeaders);
 
-        ResponseEntity<HttpStatus> response = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.DELETE, deleteEntity, HttpStatus.class);
+        ResponseEntity<String> response = restTemplate.exchange(TestSetup.createBaseUrl(port) + "tip", HttpMethod.DELETE, deleteEntity, String.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("tip deleted", response.getBody());
     }
 
     @Test
