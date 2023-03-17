@@ -1,4 +1,4 @@
-package ch.ergon.lernende.wmtippspiel.backend;
+package ch.ergon.lernende.backend;
 
 import org.jooq.conf.Settings;
 import org.springframework.context.annotation.Bean;
