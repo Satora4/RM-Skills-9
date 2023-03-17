@@ -7,7 +7,7 @@
  * in the user manual at https://docs.gradle.org/7.4.2/userguide/multi_project_builds.html
  */
 
-rootProject.name = "wm-tippspiel"
+rootProject.name = "RM-Skills-9"
 
 include("backend")
 include("backend:db-model")

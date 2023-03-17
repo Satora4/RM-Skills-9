@@ -12,7 +12,8 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath(group = "org.postgresql", name = "postgresql", version = "42.4.2")
+        classpath(group = "org.mariadb.jdbc", name = "mariadb-java-client", version = "2.7.4")
+        classpath("org.flywaydb:flyway-mysql:9.16.0")
     }
 }
 
@@ -20,14 +21,14 @@ dependencies {
     api(group = "org.jooq", name = "jooq", version = "3.15.4")
 
     jooqGenerator(project(":backend:jooq-codegen-customization"))
-    jooqGenerator(group = "org.postgresql", name = "postgresql", version = "42.4.2")
+    jooqGenerator(group = "org.mariadb.jdbc", name = "mariadb-java-client", version = "2.7.4")
 }
 
-val dbUsername by extra("wm-tippspiel")
-val dbPassword by extra("TcZvs3AfLKhKJtbkTp")
+val dbUsername by extra("root")
+val dbPassword by extra("password")
 val codegenDirectory = buildDir.resolve("jooqCodeGen")
 val dbDirectory = codegenDirectory.resolve("db")
-val jdbcUrl = "jdbc:postgresql://localhost:5432/wm-tippspiel"
+val jdbcUrl = "jdbc:mariadb://localhost:3306/rm-skills-9"
 
 flyway {
     // allows insertions via migration scripts
@@ -58,7 +59,7 @@ jooq {
             jooqConfiguration {
                 logging = Logging.WARN
                 jdbc {
-                    driver = "org.postgresql.Driver"
+                    driver = "org.mariadb.jdbc.Driver"
                     url = jdbcUrl
                     user = dbUsername
                     password = dbPassword
@@ -67,7 +68,7 @@ jooq {
                 generator {
                     name = "org.jooq.codegen.JavaGenerator"
                     database {
-                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        name = "org.jooq.meta.mariadb.mariadbDatabase"
                         excludes = "(?i)flyway_schema_history"
                         inputSchema = "public"
                     }
@@ -81,11 +82,11 @@ jooq {
                         isRecords = true
                     }
                     target {
-                        packageName = "ch.ergon.lernenden.wmtippspiel.backend.db"
+                        packageName = "ch.ergon.lernenden.backend.db"
                         directory = "$codegenDirectory/src/"
                     }
                     strategy {
-                        name = "ch.ergon.lernende.wmtippspiel.backend.WmTippspielGeneratorStrategy"
+                        name = "ch.ergon.lernende.backend.GeneratorStrategy"
                     }
                 }
             }
