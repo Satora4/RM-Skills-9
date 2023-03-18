@@ -13,7 +13,7 @@ plugins {
 buildscript {
     dependencies {
         classpath(group = "org.mariadb.jdbc", name = "mariadb-java-client", version = "2.7.4")
-        classpath("org.flywaydb:flyway-mysql:9.16.0")
+        classpath("org.flywaydb:flyway-mysql:9.1.6")
     }
 }
 
@@ -68,9 +68,9 @@ jooq {
                 generator {
                     name = "org.jooq.codegen.JavaGenerator"
                     database {
-                        name = "org.jooq.meta.mariadb.mariadbDatabase"
+                        name = "org.jooq.meta.mariadb.MariaDBDatabase"
                         excludes = "(?i)flyway_schema_history"
-                        inputSchema = "public"
+                        inputSchema = "rm-skills-9"
                     }
                     generate {
                         isDeprecated = false
